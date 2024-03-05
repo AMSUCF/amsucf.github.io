@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+  <title>PixelGrrl's Pix</title>
+  <style>
+    body {
+      background-color: black;
+      color: aqua;
+      font-family: "Verdana", sans-serif;
+    }
+    
+    h1 {
+      text-align: center;
+      font-size: 40px;
+      color: aqua;
+      text-shadow: 2px 2px pink;
+      animation: blink 2s infinite;
+    }
+    
+    @keyframes blink {
+      0% { color: aqua; }
+      50% { color: pink; }
+      100% { color: aqua; }
+    }
+    
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 10px;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .gallery img {
+      width: 100%;
+      height: auto;
+      border: 5px solid green;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>PixelGrrl's Pix</h1>
+  <div class="gallery">
+    <img src="pixel1.png" alt="Image 1">
+    <img src="pixel2.png" alt="Image 2">
+    <img src="pixel3.png" alt="Image 3">
+    <img src="pixel4.png" alt="Image 4">
+    <img src="pixel5.png" alt="Image 5">
+    <img src="pixel6.png" alt="Image 6">
+  </div>
+</body>
+</html>

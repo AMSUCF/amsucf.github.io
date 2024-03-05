@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+  <title>Contact Form</title>
+  <style>
+    body {
+      background-color: black;
+      color: lime;
+      font-family: "Courier New", monospace;
+    }
+    
+    h1 {
+      color: lime;
+      text-align: center;
+    }
+    
+    form {
+      margin: 0 auto;
+      width: 300px;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.7);
+      border: 1px solid lime;
+      border-radius: 10px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 5px;
+      margin-bottom: 10px;
+      background-color: rgba(0, 0, 0, 0.5);
+      border: 1px solid lime;
+      color: lime;
+    }
+    
+    input[type="submit"],
+    input[type="reset"] {
+      display: block;
+      width: 100%;
+      padding: 5px;
+      background-color: lime;
+      border: none;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Contact Us</h1>
+  <form method="post" action="mailto:your-email@example.com">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <label for="message">Message:</label>
+    <textarea id="message" name="message" rows="4" cols="30" required></textarea>
+    <input type="submit" value="Submit">
+    <input type="reset" value="Reset">
+  </form>
+</body>
+</html>

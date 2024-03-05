@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Navigation Menu</title>
+  <style>/* Navigation Menu Frame CSS */
+
+    body {
+      margin: 0;
+      background-color: #000000;
+      font-family: "Courier New", Courier, monospace;
+     font-size: 16pt;
+    }
+    
+    a {
+      color: #00ffff;
+      text-decoration: none;
+    }
+    
+    a:hover {
+      color: #ffff00;
+    }
+    
+    #nav {
+      background-color: #ff00ff;
+      padding: 10px;
+      width: 200px;
+      height: 100%;
+      position: fixed;
+      left: 0;
+      top: 0;
+      overflow-y: auto;
+    }
+    
+    #nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    #nav li {
+      margin: 0;
+      padding: 0;
+    }
+    
+    #nav a {
+      display: block;
+      margin: 0;
+      padding: 10px 20px;
+      border-bottom: 1px dotted #00ffff;
+    }
+    
+    #nav a:hover {
+      color: #ffff00;
+      background-color: #00ffff;
+    }
+    
+    #nav .active {
+      background-color: #00ffff;
+    }
+    .home-link {
+  background-color: #00FFFF; /* cyan */
+  border: 1px solid #FFFFFF; /* white */
+  border-radius: 5px;
+  margin-right: 1em;
+  padding: 0.5em 1em;
+}
+
+.home-link a {
+  color: #000000; /* black */
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.home-link a:hover {
+  color: #FFFFFF; /* white */
+}
+    </style>
+</head>
+<body>
+  <ul>
+    <li class="home-link"><a href="maincontent.html" target="maincontent">Spinning Yarns</a></li>
+    <li><a href="about.html" target="maincontent">About Us</a></li>
+    <li><a href="literature.html" target="maincontent">Literature</a></li>
+    <li><a href="events.html" target="maincontent">Events</a></li>
+    <li><a href="contact.html" target="maincontent">Contact Us</a></li>
+  </ul>
+</body>
+</html>

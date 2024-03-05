@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+  <title>WovenWords: Frames</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: "Verdana", sans-serif;
+    }
+    
+    h1 {
+      text-align: center;
+      font-size: 40px;
+      background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 10px;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .gallery img {
+      width: 100%;
+      height: auto;
+      border: 5px solid white;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>WovenWords: Frames</h1>
+  <div class="gallery">
+    <img src="woven1.png" alt="Image 1">
+    <img src="woven2.png" alt="Image 2">
+    <img src="woven5.png" alt="Image 3">
+    <img src="woven4.png" alt="Image 4">
+    <img src="woven3.png" alt="Image 5">
+    <img src="woven6.png" alt="Image 6">
+  </div>
+</body>
+</html>

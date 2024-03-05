@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+  <title>CyberStitch's Seams Gallery</title>
+  <style>
+    body {
+      background-color: #000000;
+      color: #ffffff;
+      font-family: "Verdana", sans-serif;
+    }
+    
+    h1 {
+      text-align: center;
+      font-size: 40px;
+      color: #ff00ff;
+      text-shadow: 2px 2px #00ffff;
+      animation: neonBlink 1.5s infinite;
+    }
+    
+    @keyframes neonBlink {
+      0% { color: #ff00ff; text-shadow: 2px 2px #00ffff; }
+      50% { color: #00ffff; text-shadow: 2px 2px #ff00ff; }
+      100% { color: #ff00ff; text-shadow: 2px 2px #00ffff; }
+    }
+    
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 10px;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .gallery img {
+      width: 100%;
+      height: auto;
+      border: 5px solid #ff00ff;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>CyberStitch's Seams</h1>
+  <div class="gallery">
+    <img src="stitch1.png" alt="Image 1">
+    <img src="stitch2.png" alt="Image 2">
+    <img src="stitch3.png" alt="Image 3">
+    <img src="stitch4.png" alt="Image 4">
+    <img src="stitch5.png" alt="Image 5">
+    <img src="stitch6.png" alt="Image 6">
+  </div>
+</body>
+</html>

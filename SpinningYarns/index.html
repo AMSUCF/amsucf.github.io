@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.title {
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.description {
+  font-size: 20px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #f2f2f2;
+}
+
+.author img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.author-details {
+  flex-grow: 1;
+}
+
+.author-name {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.author-bio {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.image-container:hover .image-overlay {
+  opacity: 1;
+}
+
+.image-overlay-text {
+  font-size: 24px;
+  text-align: center;
+}
+
+.image-overlay-link {
+  color: #ffffff;
+  text-decoration: none;
+  margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 10px;
+  }
+  
+  .title {
+    font-size: 24px;
+  }
+  
+  .author img {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .author-name {
+    font-size: 16px;
+  }
+  
+  .author-bio {
+    font-size: 14px;
+  }
+  
+  .image-overlay-text {
+    font-size: 18px;
+  }
+}
+a {
+  color: #00cc00;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #00ff00;
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">Spinning Yarns</h1>
+    
+    <div class="image-container">
+      <a href="project.html">
+        <img src="cover.png" alt="Project Image">
+        <div class="image-overlay">
+          <div class="image-overlay-text">Enter</div>
+          <a class="image-overlay-link" href="project.html">Launch Spinning Yarns</a>
+        </div>
+      </a>
+    </div>
+    
+    <p class="description">"Spinning Yarns" is a collective of text, technology, and textile authors active from 1994-1998, as imagined with the assistance of ChatGPT and DALL-E, inspired by the missing and vanishing histories of feminist electronic literature. This project is a tribute to that imaginary remembrance: a collective of digital and material artifacts – a speculative design that looks to our lost pasts instead of our hidden futures – envisioning early experiments in spinning an electronic literature tale that could have been.</p> 
+    <p class="description">This imagined hub is inspired by the real works of Deena Larsen, Judy Malloy, and Shirley Jackson, but considers potential pre-histories that could have intersected with their works and traditions. Through this act of imagining and memorializing, we seek to draw attention to the histories we have lost, what could have been, and the lines we draw when we envision histories of electronic literature through a predominantly computational lens. Our methods combine the computational and generative with the feminist and material, and envision an extension of early, often overlooked, experiments with textiles and technology. The results are filled with gaps and glitches and present an incomplete portrait of a collective that could have been, telling a story through fragments and incomplete documentation.</p>
+    <p class="description">This experiment is as much about process as product: to that end, all of the conversations (including frustrations and miscommunications with the machine) that produced the text, html files, stylesheets, and images contained within are documented here:</p>
+    <ul class="description">
+        <li><a href="first.pdf">The First Commit</a></li>
+        <li><a href="pictures.pdf">Profile Pictures</a></li>
+        <li><a href="literature.pdf">Describing Literature</a></li>
+        <li><a href="profiles.pdf">Profile Pages</a></li>
+        <li><a href="screenshots.pdf">Imaginary Screenshots</a></li>
+        <li><a href="gallery.pdf">Gallery and Contact Pages</a></li>
+    </ul>
+    <div class="author">
+      <img src="author1.png" alt="Author 1">
+      <div class="author-details">
+        <div class="author-name">Anne Sullivan</div>
+        <div class="author-bio">Anne Sullivan is an Assistant Professor in the School of Literature, Media, and Communication at Georgia Tech University and Director of the StoryCraft Research Lab. Dr. Sullivan’s award-winning writing in feminist analysis of games and game design, educational interactive experiences, and AI-assisted tools for craft and narratives has appeared in over 35 conferences and journals. Her creative work has been featured in 8 international exhibits, including her loom-controlled game Loominary, which was exhibited at the Smithsonian American Art Museum. </div>
+      </div>
+    </div>
+    
+    <div class="author">
+      <img src="author2.png" alt="Author 2">
+      <div class="author-details">
+        <div class="author-name">Anastasia Salter</div>
+        <div class="author-bio">Anastasia Salter is the Director of Graduate Programs and Texts & Technology for the College of Arts and Humanities at the University of Central Florida, and author most recently of <i>Twining: Critical and Creative Approaches to Hypertext Narratives</i> (Amherst College Press, with Stuart Moulthrop, 2021) and <i>Playful Pedagogy in the Pandemic: Pivoting to Game-Based Learning</i> (Routledge, with Emily K. Johnson, 2022). Currently, Dr. Salter serves on the Electronic Literature Organization Board of Directors as Vice President. </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
