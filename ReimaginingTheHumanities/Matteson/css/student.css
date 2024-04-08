@@ -1,0 +1,91 @@
+/*!
+* IMPORT GOOGLE FONTS - Instructions
+*1- Visit https://fonts.google.com
+*2- Find a font you like -> Click the "+" icon
+*3- At the bottom of the website click the tab "# Family Selected" -> Under Embed Font click "@import"
+*4 - Copy the snipet akin to the line below into this style sheet -> Define a CSS class as demonstrated below */
+@import url('https://fonts.googleapis.com/css?family=Muli');
+
+/* The defined CSS class */
+.muli {
+  font-family: 'Muli', sans-serif;
+}
+
+/* Additional Fonts */
+@import url('https://fonts.googleapis.com/css?family=Khula');
+.khula {
+  font-family: 'Khula', sans-serif;
+}
+
+.khulacaption {font-family: 'Khula', sans-serif;
+font-style: italic;
+font-size: 9pt;
+text-align: center;
+margin-left: 1%;
+margin-bottom: 0.5em
+}
+
+/* Divider style */
+hr.style1{
+	border-top: 1px solid #8c8b8b;
+}
+
+#returnBtn {
+  display: block;
+  position: fixed;
+  bottom: .50rem;
+  left: .50rem;
+
+}
+
+figure {
+  float: right;
+  display: block;
+  text-align: center;
+  font-style: italic;
+  font-size: smaller;
+  text-indent: 0
+  margin: 0.5em;
+  padding: 0.5em;
+}
+
+/*figure {
+  float: right;
+  width: 30%;
+  text-align: center;
+  font-style: italic;
+  font-size: smaller;
+  text-indent: 0;
+  border: thin silver solid;
+  margin: 0.5em;
+  padding: 0.5em;
+}*/
+
+
+@media screen and (max-width: 500px) {
+  /* On small or mobile screens, hide the return button*/
+  #returnBtn {
+    display: none;
+  }
+}
+
+div.figure2 {
+  float: right;
+  text-align: center;
+  font-style: italic;
+  font-size: smaller;
+  text-indent: 0;
+  margin: 0px 0px 0px 10px;
+  background-color: white;
+}
+
+div.figure3 {
+  float: left;
+  text-align: center;
+  font-style: italic;
+  font-size: smaller;
+  text-indent: 0;
+  margin: 0px 10px 0px 0px;
+  background-color: white;
+}
+/* Add new CSS rules after this line! */
