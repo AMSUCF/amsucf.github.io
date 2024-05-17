@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Butterfly Species Checklist - Shenandoah's Big Meadow</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        label {
+            display: flex;
+            align-items: center;
+        }
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Butterfly Go!</h1>
+        <ul>
+            <li>
+                <img src="monarch.jpg" alt="Monarch Butterfly">
+                <label for="species1"><input type="checkbox" id="species1">Monarch</label>
+            </li>
+            <li>
+                <img src="easterntiger.jpg" alt="Eastern Tiger Swallowtail">
+                <label for="species2"><input type="checkbox" id="species2">Eastern Tiger Swallowtail</label>
+            </li>
+            <li>
+                <img src="orangesulphur.jpg" alt="Orange Sulphur Butterfly">
+                <label for="species3"><input type="checkbox" id="species3">Orange Sulphur</label>
+            </li>
+            <li>
+                <img src="cabbagewhite.jpg" alt="Cabbage White Butterfly">
+                <label for="species4"><input type="checkbox" id="species4">Cabbage White</label>
+            </li>
+            <li>
+                <img src="pearlcrescent.jpg" alt="Pearl Crescent">
+                <label for="species5"><input type="checkbox" id="species5">Pearl Crescent</label>
+            </li>
+            <li>
+                <img src="silver.jpg" alt="Silver-spotted Skipper Butterfly">
+                <label for="species8"><input type="checkbox" id="species8">Silver-spotted Skipper</label>
+            </li>
+           
+            <!-- Add more species as needed -->
+        </ul>
+    </div>
+</body>
+</html>
