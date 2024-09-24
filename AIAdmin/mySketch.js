@@ -9,6 +9,7 @@ let currentChallenge = {}; // Holds the current challenge for the interaction
 let challengesCompleted = 0; // Track the number of challenges completed
 let endgameMessage = ""; // Message to display in the endgame screen
 let selectedBook = ""; // Store the selected book description
+let selectedColor; // Store the selected color for the book
 let doorImages = {}; // Store the preloaded images
 let phoneImage;
 
@@ -542,7 +543,7 @@ function displayCoordinates() {
 function displayBookScreen() {
   background(officeImage); // Black background
 	// Book spine on the left side
-  fill(128, 0, 128); // Purple fill for the spine
+  fill(selectedColor); // Purple fill for the spine
   stroke(0);        // Black outline
   strokeWeight(5);
   rect(50, 100, 150, 800); // Spine rectangle
@@ -667,6 +668,7 @@ function startBookInteraction() {
 	if (books.length > 0) {
 		currentRoom = "bookshelf";
 		selectedBook = random(books);
+    selectedColor = color(random(100, 255), random(0, 255), random(100, 255));
 		books = books.filter(c => c !== selectedBook);
 		bookshelfActive = true;
 		effects = { faculty: -1, admin: -1, student: -1 };
@@ -801,12 +803,12 @@ function displayInteraction() {
 		}
 	} else {
 		background(phoneImage);
-		fill(0,0,0,190); // Black background
- 		 rect(125,25,750,450);
+    fill(0,0,0,190); // Black background
+    rect(225,225,550,450);;
   	fill(255); // White text
   	textSize(24);
   	textAlign(LEFT, TOP);
-  	text(dialogueText, 150, 50, 700, 400); // Display the challenge text
+  	text(dialogueText, 250, 250, 525, 400); // Display the challenge text
 		}
 	  	// Display response options
  		displayInteractionOptions();
