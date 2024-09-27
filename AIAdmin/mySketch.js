@@ -12,6 +12,8 @@ let selectedBook = ""; // Store the selected book description
 let selectedColor; // Store the selected color for the book
 let doorImages = {}; // Store the preloaded images
 let phoneImage;
+let feedbackMessage;
+let reputationChangeMessage;
 
 // Reputation scores (start at 5)
 let facultyReputation = 5;
@@ -30,7 +32,17 @@ let initialBooks = [
   "You examine Catherine Knight-Steele’s *Digital Black Feminism.* She suggests AI might either amplify marginalized voices or drown them out with robotic gibberish—either way, there’s bound to be a lot of static.",
   "You flip open Sarah Roberts' *Behind the Screen.* Roberts reminds you that while AI automates everything, there’s still a human somewhere, frantically deleting the things no one should see—like your 3 a.m. Reddit posts.",
   "You pick up Nancy Baym's *Personal Connections in the Digital Age.* Baym argues that AI has changed how we communicate. You wonder if AI will start ghosting us, too, just like our friends do.",
-  "You leaf through Joanna Zylinska’s *AI Art.* Zylinska explores the artistic potential of AI, but you're still waiting for it to explain why it thinks every portrait needs extra fingers."
+  "You leaf through Joanna Zylinska’s *AI Art.* Zylinska explores the artistic potential of AI, but you're still waiting for it to explain why it thinks every portrait needs extra fingers.",
+  "You pick up *How to Chair A Department.* As you flip through the pages, you realize there's no chapter on how to survive when everyone schedules their meetings at the same time. Maybe that’s the sequel?",
+  "You grab *The College Administrator's Survival Guide.* The first tip is 'Invest in comfortable shoes.' By page 10, it's clear this is less about survival and more about 'embracing chaos gracefully.'",
+  "You open *The Art of Delegating.* The advice seems solid until you realize it boils down to 'delegate everything except the stuff no one else wants to do.' You’re already an expert at this.",
+  "You find *Managing Faculty Egos: A Field Guide.* It's surprisingly short, but that's probably because the solution is just 'nod, smile, and never make eye contact during meetings.'",
+  "You glance at *Crisis Management in Higher Education.* The first chapter suggests keeping a large supply of coffee and tissues handy. By chapter three, you're contemplating adding chocolate to that list.",
+  "You flip through *Budgeting for Dummies: University Edition.* It advises cutting 'non-essential spending,' but every example includes things like 'electricity' and 'office supplies.'",
+  "You grab *The Zen of Academic Leadership.* The book claims you can find inner peace as an administrator. Step one: accept that no one reads your emails. Step two: stop sending emails.",
+  "You open *Building Consensus Without Losing Your Mind.* Spoiler alert: you’re going to lose your mind. But at least there’s a flowchart that helps you decide whether to cry or laugh.",
+  "You pause at *Dealing with Difficult Faculty: A How-To Guide.* The main advice is to avoid using phrases like 'That’s not how we do things,' and to always bring snacks to meetings.",
+  "You leaf through *Meetings That Could Have Been Emails.* It’s mostly blank pages, except for the last one, which just says 'You know what you did.'"
 ];
 
 let books = initialBooks;
@@ -359,12 +371,14 @@ function draw() {
   // Display the appropriate screen based on the current room
   if (currentRoom === "splash") {
     displaySplashScreen();
-  } else if (currentRoom === "characterScreen") {
+  } else if (currentRoom === "rulesScreen") {
+		displayRulesScreen();
+	} else if (currentRoom === "characterScreen") {
     displayCharacterScreen(); // New character screen
   } else if (currentRoom === "intro") {
     displayIntroScreen();
-	} else if (currentRoom === "bookshelf" && bookshelfActive === true) {
-		displayBookScreen(); // Show the black screen with the selected book text
+  } else if (currentRoom === "bookshelf" && bookshelfActive === true) {
+    displayBookScreen(); // Show the black screen with the selected book text
   } else if (currentRoom === "office") {
     displayOffice();
   } else if (currentRoom === "monitorInteraction") {
@@ -373,6 +387,8 @@ function draw() {
     displayPhoneInteraction();
   } else if (currentRoom === "doorInteraction") {
     displayDoorInteraction();
+  } else if (currentRoom === "reputationFeedback") {
+    displayReputationFeedback(); // Show the feedback screen for reputation changes
   } else if (currentRoom === "endgame") {
     displayEndgameScreen();
   }
@@ -383,7 +399,18 @@ function displayOffice() {
   displayReputation();
 //	displayCoordinates();
 }
-
+function displayReputationFeedback() {
+  background(officeImage); // Black background for the feedback screen
+    fill(0,0,0,190); // Black background
+    rect(225,225,550,450);;
+  	fill(255); // White text
+  	textSize(24);
+  	textAlign(LEFT, TOP);
+  	text(feedbackMessage, 250, 250, 525, 400); // Display the feedback message
+  textAlign(CENTER, BOTTOM); // Center the reputation change at the bottom
+	fill(31, 204, 195);
+  text(reputationChangeMessage, width / 2, height - 350); // Display the reputation changes
+}
 function displayEndgameScreen() {
  background(campusImage);
 	fill(0,0,0,150); // Black background
@@ -434,6 +461,68 @@ function displaySplashScreen() {
   // Display the smaller "Click to Play" text
   textSize(32); // Smaller text
   text("Click to Begin", width / 2, height / 2 + 50);
+}
+function displayRulesScreen() {
+  background(campusImage);
+	
+	fill(0,0,0,150); // Black background
+  rect(0,0,1000,1000);
+	stroke(230, 183, 14);
+  strokeWeight(3);
+	  // Display the large title text
+	fill(255);
+  textSize(64); // Large pixelated text
+  textAlign(CENTER, CENTER);
+  text("AI: Admin Life.", width / 2, 150);
+	noStroke();
+  // Set neon purple for the headings
+  fill(255, 128, 0); // Neon purple
+  textSize(36);
+  textAlign(CENTER);
+  
+  // Display "How to Play" heading
+  text("How to Play", width / 2, 250);
+  
+  // Set white color for the instructions
+  fill(255);
+  textSize(20);
+  textAlign(LEFT);
+  
+  // Instructions text
+  let howToPlayText = "In this game, you occupy the chair—literally—of a new department chair.\n\n" +
+    "Your job is to navigate the endless meetings, emails, phone calls, and office drop-ins, " +
+    "while balancing the needs and opinions of faculty, administrators, and students.\n\n" +
+    "Mouseover different zones in the office to see what tasks await you, and click to engage. " +
+    "Your decisions will gain or lose the approval of everyone else, depending on how well " +
+    "you manage each situation.\n\n" +
+    "Pay attention to reputation feedback after each action to see how well you're doing—" +
+    "but be warned, it’s hard to keep everyone happy!\n\n" +
+		"Click to begin!";
+  
+  // Display the instructions text
+  text(howToPlayText, 100, 50, width - 200, height - 200);
+  
+  // Display "Credits" heading
+  fill(31, 204, 195); // Neon purple for the "Credits" heading
+  textSize(36);
+  textAlign(CENTER);
+  text("Credits", width / 2, height - 315);
+  
+  // Set white color for the credits text
+  fill(255);
+  textSize(20);
+  textAlign(LEFT);
+  
+  // Credits text
+  let creditsText = "AI Version - Designed by Anastasia Salter\n\n" +
+    "Text, code, and image generation using:\n" +
+    "- ChatGPT 4\n" +
+    "- DALL-E\n" +
+    "- Adobe Firefly\n\n" +
+    "for the 2024 CCCC Fall Virtual Institute.";
+  
+  // Display the credits text
+  text(creditsText, 200, 700, 600, 250);
 }
 
 // Display reputation with a transparent box behind the text
@@ -594,13 +683,24 @@ function checkMouseOverZones() {
   let message = ""; // Message to display in the black bar
 	noStroke();
 	  // Bookshelf zone
-  if (mouseX > 11 && mouseX < 223 && mouseY > 135 && mouseY < 365) {
+  if (mouseX > 852 && mouseX < 1000 && mouseY > 257 && mouseY < 595) {
     fill(200, 104, 237, 150); // Red highlight
-    rect(11,135,202,142); // Monitor dimensions
+    rect(852,257,148,338); // Bookshelf dimensions - right
     currentZone = "bookshelf";
     message = books.length > 0 ? "You need more time to just read." : "You really don't have time to read.";
   }
-
+  if (mouseX > 11 && mouseX < 223 && mouseY > 135 && mouseY < 595) {
+    fill(200, 104, 237, 150); // Red highlight
+    rect(11,135,212,460); // Bookshelf dimensions - left
+    currentZone = "bookshelf";
+    message = books.length > 0 ? "You need more time to just read." : "You really don't have time to read.";
+  }
+  // Writing zone
+	if (mouseX > 827 && mouseX < 931 && mouseY > 662 && mouseY < 814) {
+    fill(255, 147, 0, 150); // Orange highlight
+    rect(827,662,104,152); // Pencil cup dimensions
+    message = "Remember when you had time for your own writing?";
+  }
   // Monitor zone
   if (mouseX > 400 && mouseX < 625 && mouseY > 569 && mouseY < 709) {
     fill(20, 245, 233, 150); // Red highlight
@@ -612,7 +712,7 @@ function checkMouseOverZones() {
   // Door zone (adjust x, y, width, and height based on actual position)
   if (mouseX > 400 && mouseX < 648 && mouseY > 128 && mouseY < 531) {
     fill(245, 66, 233, 150); // Red highlight
-    rect(403, 128, 250, 403); // Door dimensions
+    rect(403, 128, 250, 406); // Door dimensions
     currentZone = "door";
     message = doorChallenges.length > 0 ? "There's people waiting outside the office." : "There's no one outside...for now.";
   }
@@ -639,6 +739,8 @@ function checkMouseOverZones() {
 function mousePressed() {
   // Handle mouse clicks on different rooms
   if (currentRoom === "splash") {
+		currentRoom = "rulesScreen"; 
+	} else if (currentRoom === "rulesScreen") {
     currentRoom = "characterScreen"; // Switch to the character screen after the splash screen
   } else if (currentRoom === "characterScreen") {
  //   currentRoom = "intro"; // Switch to the intro screen after the character screen
@@ -661,8 +763,22 @@ function mousePressed() {
     resetGame();
   } else if (interactionActive) {
     checkInteractionOptions(); // Check if the player clicked on an interaction response option
+  } else if (currentRoom === "reputationFeedback") {
+    currentRoom = "office"; // Return to the office after viewing feedback
   }
 }
+const bookshelfMessages = [
+  "While you were lost in that thrilling academic tome, your inbox overflowed, and now everyone's wondering if you've gone off-grid.",
+  "Turns out, reading isn't a viable excuse for missing three back-to-back meetings. Faculty, admin, and students are all grumbling about your sudden 'unavailability.'",
+  "The complaints have been piling up while you were flipping through those pages. Everyone's growing more impatient by the minute.",
+  "You were deep into that book, but meanwhile, the faculty, admin, and students were deep into wondering where you've been. They're not happy.",
+  "Turns out your temporary escape into academic reading didn’t go unnoticed. Everyone's been tapping their fingers waiting for you to return to reality.",
+  "You took some time to read, but now it seems like the whole department has been simmering in your absence. You might want to check those emails.",
+  "Sure, that book was enlightening, but now the faculty, admin, and students are all a little less enlightened about your priorities.",
+  "That quiet time you spent reading? Not so quiet in the rest of the office. There’s some serious side-eye happening now.",
+  "While you were learning new strategies, the old ones—like answering emails—got neglected. No one seems too thrilled about that.",
+  "You took a deep dive into the bookshelf, and now it feels like everyone else is about to dive into your office, demanding answers."
+];
 
 function startBookInteraction() {
 	if (books.length > 0) {
@@ -677,7 +793,8 @@ function startBookInteraction() {
         return; // Endgame triggered, stop further actions
       }
 	}
-	
+	feedbackMessage = random(bookshelfMessages);
+	currentRoom = "reputationFeedback";
 }
 
 function startMonitorInteraction() {
@@ -824,7 +941,7 @@ function displayInteractionOptions() {
       fill(100); // Light gray boxes when not hovered
     }
 		
-    rect(50, 400 + i * 50, 700, 40); // Create a box for each option
+    rect(50, 400 + i * 50, 700, 40); // Create a box for each option	
     fill(255);
     text(options[i], 60, 410 + i * 50); // Display option text inside the box
     fill(100); // Reset the fill color for the next box
@@ -895,7 +1012,7 @@ function checkInteractionOptions() {
         return; // Endgame triggered, stop further actions
       }
 
-      currentRoom = "office"; // Return to the office
+		currentRoom = "reputationFeedback";
     }
   }
 }
@@ -944,9 +1061,97 @@ function checkReputationLimits() {
 }
 // Function to adjust reputation scores
 function adjustReputation(effects) {
-  facultyReputation = constrain(facultyReputation + effects.faculty, 0, 10);
-  adminReputation = constrain(adminReputation + effects.admin, 0, 10);
-  studentReputation = constrain(studentReputation + effects.student, 0, 10);
+	feedbackMessage = "";
+  reputationChangeMessage = "";
+
+  // Arrays of possible feedback messages for faculty reputation changes
+  const facultyPositiveMessages = [
+    "Your faculty can't believe it—they actually like your decision. That's a first.",
+    "The faculty are praising your decision in the break room. Someone even bought donuts.",
+    "Faculty members are actually smiling in your direction. This feels weird.",
+    "Faculty approval is through the roof. They’re even saying nice things about you in emails!",
+    "Your faculty loved that decision. They've started drafting a memo about it—voluntarily."
+  ];
+  
+  const facultyNegativeMessages = [
+    "Your faculty heard about that response, and they're not impressed. Expect some pointed questions at the next meeting.",
+    "The faculty aren’t exactly thrilled with that one. Someone's already crafting a strongly worded email.",
+    "Faculty members are grumbling in the hallways. Looks like your inbox is about to explode.",
+    "Your faculty didn’t like that response. Brace yourself for some extra 'constructive feedback.'",
+    "Your decision didn't sit well with the faculty. There's talk of forming a subcommittee to complain about it."
+  ];
+
+  // Arrays for admin reputation changes
+  const adminPositiveMessages = [
+    "The administration is pleased. They’ve even bumped you up in the email CC hierarchy!",
+    "Congrats! The administration is considering giving you a special parking spot.",
+    "The admins are impressed! They might actually show up to your next meeting.",
+    "The administration just sent you a 'Great job!' email. They didn’t even use Comic Sans.",
+    "Your decision made the admins happy. Expect a mysterious gift card in your mailbox."
+  ];
+
+  const adminNegativeMessages = [
+    "The administration is confused by your decision. Prepare for an emergency meeting—probably with PowerPoints.",
+    "Admin HQ isn’t too pleased. You can feel the passive-aggressive emails coming.",
+    "The administration didn’t like that. Someone in the Provost's office is probably already writing a memo.",
+    "The admin team looks concerned. They’ve scheduled a meeting with the word 'urgent' in the subject line.",
+    "The administration is sending a 'we need to talk' email. Looks like you're getting some bonus paperwork."
+  ];
+
+  // Arrays for student reputation changes
+  const studentPositiveMessages = [
+    "The students are hyped. Someone’s already designing a meme in your honor.",
+    "Your students loved that decision. Rumor has it, you’re trending on campus social media.",
+    "Students are thrilled. Someone just started a fan page for you on their class group chat.",
+    "The student body is buzzing with excitement. A few of them even sent a thank-you note.",
+    "Your students are ecstatic. They’re debating whether to throw a party or make a viral TikTok."
+  ];
+
+  const studentNegativeMessages = [
+    "The students aren’t impressed. There’s already a petition circulating to 'overthrow the AI policies.'",
+    "Your decision didn’t sit well with the students. Someone’s organizing a sit-in. Again.",
+    "The students are not happy. You can hear the faint rustling of protest signs being made.",
+    "Students are grumbling about 'unfair AI policies.' Expect some angry tweets to start rolling in.",
+    "Your decision has students upset. They’re planning a walkout... or maybe just skipping class. It’s hard to tell."
+  ];
+
+  // Adjust faculty reputation and give feedback
+  if (effects.faculty > 0) {
+    facultyReputation = constrain(facultyReputation + effects.faculty, 0, 10);
+    feedbackMessage += random(facultyPositiveMessages) + " ";
+    reputationChangeMessage += `Faculty Reputation: +${effects.faculty} `;
+		reputationChangeMessage += '\n';
+  } else if (effects.faculty < 0) {
+    facultyReputation = constrain(facultyReputation + effects.faculty, 0, 10);
+    feedbackMessage += random(facultyNegativeMessages) + " ";
+    reputationChangeMessage += `Faculty Reputation: ${effects.faculty} `;
+		reputationChangeMessage += '\n';
+  }
+
+  // Adjust admin reputation and give feedback
+  if (effects.admin > 0) {
+    adminReputation = constrain(adminReputation + effects.admin, 0, 10);
+    feedbackMessage += random(adminPositiveMessages) + " ";
+    reputationChangeMessage += `Admin Reputation: +${effects.admin} `;
+		reputationChangeMessage += '\n';
+  } else if (effects.admin < 0) {
+    adminReputation = constrain(adminReputation + effects.admin, 0, 10);
+    feedbackMessage += random(adminNegativeMessages) + " ";
+    reputationChangeMessage += `Admin Reputation: ${effects.admin} `;
+		reputationChangeMessage += '\n';
+  }
+
+  // Adjust student reputation and give feedback
+  if (effects.student > 0) {
+    studentReputation = constrain(studentReputation + effects.student, 0, 10);
+    feedbackMessage += random(studentPositiveMessages) + " ";
+    reputationChangeMessage += `Student Reputation: +${effects.student} `;
+  } else if (effects.student < 0) {
+    studentReputation = constrain(studentReputation + effects.student, 0, 10);
+    feedbackMessage += random(studentNegativeMessages) + " ";
+    reputationChangeMessage += `Student Reputation: ${effects.student} `;
+  }
+
 }
 
 function resetGame() {
