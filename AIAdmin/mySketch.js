@@ -757,7 +757,7 @@ function mousePressed() {
 			startBookInteraction();
 		}
   } else if (currentRoom === "bookshelf") {
-		currentRoom = "office";
+			currentRoom = "reputationFeedback";
 	}else if (currentRoom === "endgame") {
     // Reset the game when clicking in the endgame screen
     resetGame();
@@ -794,7 +794,7 @@ function startBookInteraction() {
       }
 	}
 	feedbackMessage = random(bookshelfMessages);
-	currentRoom = "reputationFeedback";
+
 }
 
 function startMonitorInteraction() {
