@@ -20,6 +20,7 @@
       font-family: 'Press Start 2P', cursive;
       color: #ffcc00;
       text-shadow: 2px 2px 5px #000;
+      margin-top: 40px;
       margin-bottom: 20px;
       font-size: 3em;
     }
@@ -43,16 +44,15 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 80%;
-      max-width: 1000px;
-      height: 80vh;
-      max-height: 1000px;
+      width: 1000px;
+      height: 1000px;
       border: 5px solid #000;
       box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
     }
 
     .card {
       width: 80%;
+      max-width: 800px;
       margin: 10px 0;
       border: 2px solid #ff00ff;
       box-shadow: 0px 0px 10px rgba(255, 105, 180, 0.5);
@@ -92,7 +92,9 @@
     <div class="card" id="designCard">
       <div class="card-header" onclick="toggleCardContent('designCardContent')">Design</div>
       <div class="card-content" id="designCardContent">
-        Credits: ChatGPT 4.0 and 4.0 with Canvas, DALL-E, Adobe Firefly
+        AI Admin was originally developed for the <a href="https://cccc.ncte.org/cccc/2024-cccc-fvi-program/" target="_blank">2024 CCCC Fall Virtual Institute: Machine Writing and the Work of Rhetoric and Composition Program</a> for a roundtable on Administration and generative AI facilitated by Sherry Rankins-Robertson, University of Central Florida; Aurora Matzke, Chapman University; Angela Clark-Oates, California State University, Sacramento; Kyle Jensen, Arizona State University; Priscila Santa Rosa, University of Central Florida; and myself, Anastasia Salter, University of Central Florida.
+        <br><br>
+        Given the levels of frustration and burn-out that frequently accompany such conversations, we decided to approach our initial discussion through play. To facilitate that dialogue, I developed this simple visual novel focused on the experiences of a hypothetical chair navigating a day while trying to balance the concerns of students, faculty, and upper administration. It is in conversation with the approach Ian Bogost, Simon Ferrari, and Bobby Schweizer discuss in <i><a href="https://bogost.com/books/newsgamesbook/">Newsgames: Journalism at Play</a></i>: thus, it is intended more as a timely provocation than a true simulation.
       </div>
     </div>
 
@@ -120,14 +122,6 @@
         } else {
           content.style.display = "none";
         }
-      }
-
-      window.addEventListener('resize', adjustGameContainerPosition);
-      window.addEventListener('load', adjustGameContainerPosition);
-
-      function adjustGameContainerPosition() {
-        const gameContainer = document.getElementById('gameContainer');
-        gameContainer.style.marginTop = document.getElementById('title').offsetHeight + 'px';
       }
     </script>
   </body>
