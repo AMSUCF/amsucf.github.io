@@ -357,13 +357,15 @@ function preload() {
 }
 
 function setup() {
-  // Create a canvas of size 1000 by 1000 pixels
-  createCanvas(1000, 1000);
-	
-  // Set up text properties for pixelated look
-  textFont('monospace'); // Using a monospace font for a pixelated effect
-  noStroke();
-}
+    // Create a canvas of size 1000 by 1000 pixels
+    createCanvas(1000, 1000);
+    
+    // Set up text properties for pixelated look
+    textFont('monospace'); // Using a monospace font for a pixelated effect
+    noStroke();
+  }
+  
+ 
 
 let bookshelfActive = false;
 
