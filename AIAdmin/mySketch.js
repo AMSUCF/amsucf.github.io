@@ -740,33 +740,34 @@ function checkMouseOverZones() {
 
 function mousePressed() {
   // Handle mouse clicks on different rooms
-  if (currentRoom === "splash") {
-		currentRoom = "rulesScreen"; 
-	} else if (currentRoom === "rulesScreen") {
-    currentRoom = "characterScreen"; // Switch to the character screen after the splash screen
-  } else if (currentRoom === "characterScreen") {
- //   currentRoom = "intro"; // Switch to the intro screen after the character screen
- // } else if (currentRoom === "intro") {
-    currentRoom = "office"; // Switch to office scene after the intro screen
-  } else if (currentRoom === "office") {
-    if (currentZone === "monitor" && emailChallenges.length > 0) {
-      startMonitorInteraction();
-    } else if (currentZone === "phone" && phoneChallenges.length > 0) {
-      startPhoneInteraction();
-    } else if (currentZone === "door" && doorChallenges.length > 0) {
-      startDoorInteraction();
-    } else if (currentZone === "bookshelf" && books.length > 0) {
-			startBookInteraction();
-		}
-  } else if (currentRoom === "bookshelf") {
-			currentRoom = "reputationFeedback";
-	}else if (currentRoom === "endgame") {
-    // Reset the game when clicking in the endgame screen
-    resetGame();
-  } else if (interactionActive) {
-    checkInteractionOptions(); // Check if the player clicked on an interaction response option
-  } else if (currentRoom === "reputationFeedback") {
-    currentRoom = "office"; // Return to the office after viewing feedback
+  if (mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height) {
+      // Handle mouse clicks on different rooms
+      if (currentRoom === "splash") {
+        currentRoom = "rulesScreen";
+      } else if (currentRoom === "rulesScreen") {
+        currentRoom = "characterScreen"; // Switch to the character screen after the rules screen
+      } else if (currentRoom === "characterScreen") {
+        currentRoom = "office"; // Switch to office scene after the character screen
+      } else if (currentRoom === "office") {
+      if (currentZone === "monitor" && emailChallenges.length > 0) {
+        startMonitorInteraction();
+      } else if (currentZone === "phone" && phoneChallenges.length > 0) {
+        startPhoneInteraction();
+      } else if (currentZone === "door" && doorChallenges.length > 0) {
+        startDoorInteraction();
+      } else if (currentZone === "bookshelf" && books.length > 0) {
+        startBookInteraction();
+      }
+    } else if (currentRoom === "bookshelf") {
+        currentRoom = "reputationFeedback";
+    }else if (currentRoom === "endgame") {
+      // Reset the game when clicking in the endgame screen
+      resetGame();
+    } else if (interactionActive) {
+      checkInteractionOptions(); // Check if the player clicked on an interaction response option
+    } else if (currentRoom === "reputationFeedback") {
+      currentRoom = "office"; // Return to the office after viewing feedback
+    }
   }
 }
 const bookshelfMessages = [
