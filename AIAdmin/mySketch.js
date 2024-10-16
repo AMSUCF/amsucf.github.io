@@ -358,8 +358,8 @@ function preload() {
 
 function setup() {
     // Create a canvas of size 1000 by 1000 pixels
-    createCanvas(1000, 1000);
-    
+    let canvas = createCanvas(1000, 1000);
+   canvas.parent('gameContainer'); // Attach the canvas to the #gameContainer div
     // Set up text properties for pixelated look
     textFont('monospace'); // Using a monospace font for a pixelated effect
     noStroke();
