@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anastasia Salter | Electronic Literature, Media Studies, and Feminist DH</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f8f9fa;
+        }
+        header {
+            position: relative;
+            width: 100%;
+            height: 60vh;
+            overflow: hidden;
+        }
+        #headerCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .header-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: white;
+            padding-top: 15vh;
+        }
+        .header-content h1 {
+            font-size: 4em;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateX(-50%);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+        .container:nth-child(odd) {
+            transform: translateX(-50%);
+        }
+        .container:nth-child(even) {
+            transform: translateX(50%);
+        }
+        .container.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .container h2 {
+            color: #333;
+            text-align: center;
+        }
+        .container p {
+            line-height: 1.6;
+            color: #555;
+        }
+        .carousel {
+            display: flex;
+            overflow-x: auto;
+            gap: 1rem;
+            padding: 1rem 0;
+        }
+        .book-card {
+            width: 200px;
+            height: 300px;
+            perspective: 1000px;
+        }
+        .book-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        .book-card:hover .book-card-inner {
+            transform: rotateY(180deg);
+        }
+        .book-card-front, .book-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .book-card-front {
+            background-size: cover;
+            background-position: center;
+        }
+        .book-card-back {
+            background-color: #fff;
+            color: #333;
+            transform: rotateY(180deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        footer {
+            margin-top: 2rem;
+            color: #666;
+            text-align: center;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.0/lib/p5.min.js"></script>
+</head>
+<body>
+    <header>
+        <div id="headerCanvas"></div>
+        <div class="header-content">
+            <h1>Anastasia Salter - Professor of English, UCF</h1>
+        </div>
+    </header>
+    
+    <div class="container">
+        <h2>Books</h2>
+        <div class="carousel">
+            <div class="book-card">
+                <div class="book-card-inner">
+                    <div class="book-card-front" style="background-image: url('cover1.jpg');"></div>
+                    <div class="book-card-back">
+                        <p><i>Critical Making in the Age of AI</i> (forthcoming 2025) - Exploring critical perspectives on making in an AI-driven world.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="book-card">
+                <div class="book-card-inner">
+                    <div class="book-card-front" style="background-image: url('cover2.jpg');"></div>
+                    <div class="book-card-back">
+                        <p><i>Playful Pedagogy in the Pandemic</i> (2022) - Insights into adapting playful learning strategies during challenging times.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="book-card">
+                <div class="book-card-inner">
+                    <div class="book-card-front" style="background-image: url('cover3.jpg');"></div>
+                    <div class="book-card-back">
+                        <p><i>Twining: Critical and Creative Approaches to Hypertext Narratives</i> (2021) - A deep dive into the art and theory of hypertext narratives.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Add more book cards similarly -->
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Course Materials</h2>
+        <p>Explore a collection of course materials, syllabi, and instructional guides for graduate-level courses in Texts & Technology, including "Humanities in the Age of AI" and "Critical Making for Humanist Scholarship." These materials are designed to foster practical and theoretical exploration of digital tools in the humanities.</p>
+    </div>
+
+    <div class="container">
+        <h2>Recent Articles</h2>
+        <p>Recent articles include writings on playful learning, digital storytelling, and reflections on the role of AI in humanities scholarship. Dr. Salter also previously contributed to ProfHacker, a blog on technology and pedagogy hosted by the Chronicle of Higher Education.</p>
+    </div>
+
+    <div class="container">
+        <h2>Electronic Literature</h2>
+        <p>Dr. Salter is currently Vice President of the international Electronic Literature Organization and has a long history of creating, curating, and analyzing electronic literature. Explore selected projects, including interactive narratives and playable texts, that showcase the potential of digital storytelling.</p>
+    </div>
+
+    <div class="container">
+        <h2>CV</h2>
+        <p>Access a comprehensive CV outlining academic positions, publications, speaking engagements, and ongoing research projects. This CV reflects Dr. Salter's interdisciplinary work at the intersection of technology, culture, and education.</p>
+    </div>
+
+    <footer>
+        &copy; 2024 Anastasia Salter
+    </footer>
+
+    <script>
+        // Existing header animation script
+        let nodes = [];
+        let tileImage, bugImage;
+        let maxSpeed = 0.5;
+        let spawnInterval;
+
+        function preload() {
+            tileImage = loadImage('tile.jpg');
+            bugImage = loadImage('bug.png');
+        }
+
+        function setup() {
+            let canvas = createCanvas(windowWidth, windowHeight * 0.6);
+            canvas.parent(document.getElementById('headerCanvas'));
+
+            // Start spawning bugs over time
+            spawnInterval = setInterval(() => {
+                spawnBug();
+            }, random(1500, 3000)); // Slowed down spawn rate to intervals between 1500ms to 3000ms
+        }
+
+        function draw() {
+            // Draw the tiled background
+            for (let x = 0; x < width; x += tileImage.width) {
+                for (let y = 0; y < height; y += tileImage.height) {
+                    image(tileImage, x, y);
+                }
+            }
+
+            for (let i = nodes.length - 1; i >= 0; i--) {
+                nodes[i].update();
+                nodes[i].display();
+                if (nodes[i].isOutOfBounds()) {
+                    nodes.splice(i, 1); // Remove bug if out of bounds
+                }
+            }
+        }
+
+        function spawnBug() {
+            let edge = floor(random(4));
+            let x, y;
+            if (edge === 0) { // Top edge
+                x = random(width);
+                y = 0;
+            } else if (edge === 1) { // Right edge
+                x = width;
+                y = random(height);
+            } else if (edge === 2) { // Bottom edge
+                x = random(width);
+                y = height;
+            } else { // Left edge
+                x = 0;
+                y = random(height);
+            }
+            nodes.push(new Node(x, y));
+        }
+
+        class Node {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = random(60, 90); // Larger size range for bug images
+                this.xSpeed = random(-maxSpeed, maxSpeed);
+                this.ySpeed = random(-maxSpeed, maxSpeed);
+            }
+
+            update() {
+                let angleToTarget = atan2(mouseY - this.y, mouseX - this.x);
+                this.xSpeed = cos(angleToTarget) * maxSpeed;
+                this.ySpeed = sin(angleToTarget) * maxSpeed;
+                this.x += this.xSpeed;
+                this.y += this.ySpeed;
+            }
+
+            display() {
+                push();
+                translate(this.x, this.y);
+                let angle = atan2(this.ySpeed, this.xSpeed) + HALF_PI; // Rotate to correctly face direction of movement
+                rotate(angle);
+                imageMode(CENTER);
+                image(bugImage, 0, 0, this.size, this.size); // Draw the bug image
+                pop();
+            }
+
+            isOutOfBounds() {
+                return (this.x < 0 || this.x > width || this.y < 0 || this.y > height);
+            }
+        }
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight * 0.6);
+        }
+
+        // Intersection Observer to trigger animations when in view
+        document.addEventListener("DOMContentLoaded", function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: "0px",
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const containers = document.querySelectorAll(".container");
+            containers.forEach(container => {
+                observer.observe(container);
+            });
+        });
+    </script>
+</body>
+</html>
