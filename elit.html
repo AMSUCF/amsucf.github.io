@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>🎮 E-lit: Anastasia Salter</title>
+    <title>🎮 E-lit - Anastasia Salter</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -128,8 +128,7 @@
         z-index: 1000;
         border-bottom: 2px solid var(--neon-cyan);
       }
-      
-      .navbar-brand {
+        .navbar-brand {
         font-family: 'Press Start 2P', cursive;
         font-size: 1.2rem;
         color: var(--neon-pink);
@@ -137,53 +136,215 @@
         text-shadow: 0 0 10px var(--neon-pink);
       }
       
+      .navbar-brand:hover {
+        color: var(--neon-cyan);
+        text-shadow: 0 0 15px var(--neon-cyan);
+      }
+      
+      .navbar-toggler {
+        border: none;
+        padding: 0.25rem 0.5rem;
+      }
+      
+      .navbar-toggler:focus {
+        box-shadow: none;
+      }
+      
+      .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23fff' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        width: 1.5em;
+        height: 1.5em;
+      }
+
       .nav-link {
-        color: #fff;
+        color: #fff !important;
         font-weight: 600;
-        margin: 0 1rem;
+        margin: 0 0.5rem;
         position: relative;
         transition: all 0.3s ease;
         text-decoration: none;
       }
-      
+
       .nav-link:hover {
-        color: var(--neon-cyan);
+        color: var(--neon-cyan) !important;
         text-shadow: 0 0 10px var(--neon-cyan);
+        transform: translateY(-2px);
+      }
+
+      .nav-link.active {
+        color: var(--neon-yellow) !important;
+        text-shadow: 0 0 15px var(--neon-yellow);
       }
       
-      .nav-link.active {
-        color: var(--neon-yellow);
-        text-shadow: 0 0 15px var(--neon-yellow);
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan));
+        transition: width 0.3s ease;
+      }
+
+      .nav-link:hover::after {
+        width: 100%;
       }
       
       .hero-section {
         padding: 120px 0 80px;
         text-align: center;
-        background: var(--dark-gradient);
         position: relative;
+        overflow: hidden;
+        background: #ff69b4;
+      }
+      
+      .quilt-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+          repeating-linear-gradient(
+            45deg,
+            #ffb3da 0px,
+            #ffb3da 40px,
+            #b3f0ff 40px,
+            #b3f0ff 80px,
+            #ffffb3 80px,
+            #ffffb3 120px,
+            #ffccf2 120px,
+            #ffccf2 160px,
+            #ccffcc 160px,
+            #ccffcc 200px,
+            #dab3ff 200px,
+            #dab3ff 240px
+          ),
+          repeating-linear-gradient(
+            -45deg,
+            #ffccb3 0px,
+            #ffccb3 30px,
+            #ccffdb 30px,
+            #ccffdb 60px,
+            #ffb3da 60px,
+            #ffb3da 90px,
+            #b3d9ff 90px,
+            #b3d9ff 120px,
+            #fff2b3 120px,
+            #fff2b3 150px,
+            #f2ccff 150px,
+            #f2ccff 180px
+          );
+        opacity: 0.6;
+        animation: quiltShift 15s ease-in-out infinite;
+        mix-blend-mode: normal;
+      }
+      
+      .quilt-background::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+          radial-gradient(circle at 25% 25%, rgba(255, 179, 218, 0.4) 0%, transparent 50%),
+          radial-gradient(circle at 75% 25%, rgba(179, 240, 255, 0.4) 0%, transparent 50%),
+          radial-gradient(circle at 25% 75%, rgba(255, 255, 179, 0.4) 0%, transparent 50%),
+          radial-gradient(circle at 75% 75%, rgba(204, 255, 204, 0.4) 0%, transparent 50%);
+        animation: colorPulse 8s ease-in-out infinite;
+      }
+      
+      .quilt-background::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+          repeating-conic-gradient(
+            from 0deg at 50% 50%,
+            #ffb3da 0deg 45deg,
+            #b3f0ff 45deg 90deg,
+            #ffffb3 90deg 135deg,
+            #ccffcc 135deg 180deg,
+            #dab3ff 180deg 225deg,
+            #ffccb3 225deg 270deg,
+            #b3d9ff 270deg 315deg,
+            #fff2b3 315deg 360deg
+          );
+        opacity: 0.4;
+        animation: quiltRotate 20s linear infinite;
+      }
+      
+      @keyframes quiltShift {
+        0%, 100% { 
+          filter: hue-rotate(0deg) saturate(0.8);
+          transform: scale(1);
+        }
+        25% { 
+          filter: hue-rotate(15deg) saturate(1.0);
+          transform: scale(1.02);
+        }
+        50% { 
+          filter: hue-rotate(30deg) saturate(1.2);
+          transform: scale(1.01);
+        }
+        75% { 
+          filter: hue-rotate(45deg) saturate(0.9);
+          transform: scale(1.03);
+        }
+      }
+      
+      @keyframes colorPulse {
+        0%, 100% { opacity: 0.4; }
+        50% { opacity: 0.6; }
+      }
+      
+      @keyframes quiltRotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      
+      .hero-content {
+        position: relative;
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.85);
+        padding: 2.5rem;
+        border-radius: 20px;
+        backdrop-filter: blur(8px);
+        margin: 0 auto;
+        max-width: 600px;
+        border: 3px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
       }
       
       .hero-title {
         font-family: 'Audiowide', cursive;
         font-size: 3.5rem;
         margin-bottom: 1rem;
-        background: linear-gradient(45deg, var(--neon-pink), var(--neon-cyan), var(--neon-yellow));
+        background: linear-gradient(45deg, #8a2be2, #ff1493, #00bfff, #ffd700);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         animation: glow 2s ease-in-out infinite alternate;
+        text-shadow: none;
+        font-weight: 700;
       }
       
       .hero-subtitle {
         font-size: 1.5rem;
-        color: var(--neon-cyan);
+        color: #2c3e50;
         margin-bottom: 2rem;
-        text-shadow: 0 0 20px var(--neon-cyan);
+        text-shadow: none;
+        font-weight: 600;
       }
       
       @keyframes glow {
-        from { filter: drop-shadow(0 0 20px var(--neon-pink)); }
-        to { filter: drop-shadow(0 0 30px var(--neon-cyan)); }
+        from { filter: drop-shadow(0 0 10px rgba(138, 43, 226, 0.3)); }
+        to { filter: drop-shadow(0 0 15px rgba(255, 20, 147, 0.4)); }
       }
       
       .section-title {
@@ -291,19 +452,25 @@
         text-decoration: none;
       }
       
+      /* Footer */
       .footer {
-        background: rgba(0, 0, 0, 0.9);
-        padding: 3rem 0;
+        background: linear-gradient(45deg, var(--neon-purple), var(--neon-pink));
+        color: white;
+        padding: 2rem 0;
         text-align: center;
-        border-top: 2px solid var(--neon-cyan);
         margin-top: 4rem;
       }
-      
-      .footer-email {
-        color: var(--neon-pink);
-        font-size: 1.2rem;
-        text-decoration: none;
-        text-shadow: 0 0 10px var(--neon-pink);
+
+      .social-links a {
+        color: white;
+        font-size: 1.5rem;
+        margin: 0 10px;
+        transition: all 0.3s ease;
+      }
+
+      .social-links a:hover {
+        transform: translateY(-3px);
+        color: var(--neon-yellow);
       }
       
       @media (max-width: 768px) {
@@ -332,28 +499,47 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar navbar-expand-lg fixed-top">
       <div class="container">
-        <div class="d-flex justify-content-between align-items-center w-100">
-          <a class="navbar-brand" href="index.html">🎮 ANASTASIA SALTER</a>
-          <div class="d-flex">
-            <a class="nav-link" href="index.html">🏠 Home</a>
-            <a class="nav-link" href="about.html">📄 CV</a>
-            <a class="nav-link" href="research.html">🔬 Research</a>
-            <a class="nav-link active" href="elit.html">💻 E-lit</a>
-          </div>
+        <a class="navbar-brand" href="index.html">🎮 ANASTASIA SALTER</a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">👩‍💻 About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="books.html">📚 Books</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="research.html">🎮 Research</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="elit.html">💻 E-lit</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="teaching.html">🎓 Teaching</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="CV.pdf" target="_blank">📄 CV</a>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
 
     <!-- Hero Section -->
     <section class="hero-section">
+      <div class="quilt-background"></div>
       <div class="container">
-        <h1 class="hero-title">🎨 electronic literature</h1>
-        <p class="hero-subtitle">text × tech × textile 🧵</p>
-        <a href="index.html" class="back-button">
-          <i class="fas fa-arrow-left"></i> Back to Main Hub
-        </a>
+        <div class="hero-content">
+          <h1 class="hero-title">🎨 electronic literature</h1>
+          <p class="hero-subtitle">text × tech × textile 🧵</p>
+        </div>
       </div>
     </section>
 
@@ -362,6 +548,18 @@
       <h2 class="section-title">🌟 Works</h2>
       
       <div class="row">
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-image" style="background-image: url('AIAdmin/campus.jpg');"></div>
+            <div class="project-content">
+              <h3><a href="AIAdmin/" class="project-title">AI Admin</a></h3>
+              <div class="project-author"><strong>Anastasia Salter</strong></div>
+              <div class="project-venue">CCCC Fall Virtual Institute: Machine Writing and the Work of Rhetoric and Composition Program </div>
+              <div class="project-year">2024 🤖</div>
+            </div>
+          </div>
+        </div>
+        
         <div class="col-md-4">
           <div class="project-card">
             <div class="project-image" style="background-image: url('yarns.jpg');"></div>
@@ -589,13 +787,74 @@
 
     <!-- Footer -->
     <footer class="footer">
-      <div class="container">
-        <h3 style="color: var(--neon-cyan); margin-bottom: 1rem;">🚀 Contact</h3>
-        <a href="mailto:anastasia@ucf.edu" class="footer-email">anastasia@ucf.edu</a>
-        <p style="margin-top: 2rem; color: #888;">✨ Powered by retro vibes and digital dreams ✨</p>
-      </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h4 class="mb-3" style="font-family: 'Audiowide', cursive; color: var(--neon-cyan); text-shadow: 0 0 15px var(--neon-cyan);">✨ Let's Connect! ✨</h4>
+                    <p class="mb-3">
+                        <a href="mailto:anastasia@ucf.edu" style="color: white; text-decoration: none;">
+                            📧 anastasia@ucf.edu
+                        </a>
+                    </p>
+                    <div class="social-links mb-4">
+                        <a href="https://bsky.app/profile/anasalter.bsky.social"><i class="fas fa-cloud"></i></a>
+                        <a href="https://www.instagram.com/anasalter/"><i class="fab fa-instagram"></i></a>
+                        <a href="CV.pdf"><i class="fas fa-file-pdf"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Add sparkle cursor effect
+        document.addEventListener('mousemove', function(e) {
+            if (Math.random() < 0.1) {
+                createSparkle(e.clientX, e.clientY);
+            }
+        });
+
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.innerHTML = '✨';
+            sparkle.style.position = 'fixed';
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.fontSize = '12px';
+            sparkle.style.zIndex = '9999';
+            sparkle.style.animation = 'sparkleAnimation 1s ease-out forwards';
+            
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                if (sparkle.parentNode) {
+                    sparkle.parentNode.removeChild(sparkle);
+                }
+            }, 1000);
+        }
+
+        // Add CSS for sparkle animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes sparkleAnimation {
+                0% { 
+                    opacity: 1; 
+                    transform: scale(0) rotate(0deg); 
+                }
+                50% { 
+                    opacity: 1; 
+                    transform: scale(1) rotate(180deg); 
+                }
+                100% { 
+                    opacity: 0; 
+                    transform: scale(0) rotate(360deg); 
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
   </body>
 </html>

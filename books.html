@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books - Anastasia Salter</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Audiowide:wght@400&family=Comic+Neue:wght@300;400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-pink: #ff69b4;
+            --primary-purple: #9966cc;
+            --primary-blue: #00bfff;
+            --primary-green: #00ff7f;
+            --primary-yellow: #ffd700;
+            --primary-orange: #ff6347;
+            --secondary-pink: #ffb6c1;
+            --secondary-purple: #dda0dd;
+            --secondary-blue: #87ceeb;
+            --secondary-green: #98fb98;
+            --dark-text: #2c3e50;
+            --light-text: #ffffff;
+            --neon-pink: #ff00ff;
+            --neon-cyan: #00ffff;
+            --neon-yellow: #ffff00;
+            --neon-green: #00ff00;
+            --neon-purple: #8a2be2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Orbitron', 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            overflow-x: hidden;
+            padding-top: 80px;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, 
+                var(--primary-pink), 
+                var(--primary-purple), 
+                var(--primary-blue), 
+                var(--primary-green));
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating shapes animation */
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.15;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+            color: var(--primary-yellow);
+        }
+
+        .shape:nth-child(2) {
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+            color: var(--primary-pink);
+        }
+
+        .shape:nth-child(3) {
+            top: 80%;
+            left: 20%;
+            animation-delay: 4s;
+            color: var(--primary-green);
+        }
+
+        .shape:nth-child(4) {
+            top: 40%;
+            left: 70%;
+            animation-delay: 1s;
+            color: var(--primary-blue);
+        }
+
+        .shape:nth-child(5) {
+            top: 30%;
+            left: 50%;
+            animation-delay: 3s;
+            color: var(--primary-orange);
+        }
+
+        .shape:nth-child(6) {
+            top: 70%;
+            left: 60%;
+            animation-delay: 5s;
+            color: var(--primary-purple);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Header Styles */
+        .navbar {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--neon-cyan);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-family: 'Press Start 2P', cursive;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink);
+            text-decoration: none;
+        }
+
+        .navbar-brand:hover {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        .nav-link {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            color: #fff !important;
+            position: relative;
+            transition: all 0.3s ease;
+            margin: 0 0.5rem;
+        }
+
+        .nav-link:hover {
+            color: var(--neon-cyan) !important;
+            text-shadow: 0 0 10px var(--neon-cyan);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            color: var(--neon-yellow) !important;
+            text-shadow: 0 0 15px var(--neon-yellow);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan));
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-family: 'Audiowide', 'Comic Neue', cursive;
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-cyan), var(--neon-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px var(--neon-pink);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px var(--neon-pink)); }
+            to { filter: drop-shadow(0 0 30px var(--neon-cyan)); }
+        }
+
+        .page-header .subtitle {
+            font-size: 1.3rem;
+            color: var(--light-text);
+            margin-bottom: 1.5rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Buttons */
+        .btn-rainbow {
+            background: linear-gradient(45deg, var(--primary-pink), var(--primary-purple), var(--primary-blue));
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn-rainbow:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+
+        /* Book Cards */
+        .book-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 1rem 0;
+            border: 2px solid transparent;
+            border-image: linear-gradient(45deg, var(--primary-blue), var(--primary-green)) 1;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .book-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-img {
+            width: 100%;
+            height: 250px;
+            object-fit: contain;
+            background: linear-gradient(45deg, var(--secondary-pink), var(--secondary-purple));
+        }
+
+        /* Featured book styling */
+        .featured-book {
+            position: relative;
+            border-image: linear-gradient(45deg, var(--primary-yellow), var(--primary-orange)) 1 !important;
+            animation: bookGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes bookGlow {
+            from { box-shadow: 0 20px 40px rgba(255, 215, 0, 0.3); }
+            to { box-shadow: 0 25px 50px rgba(255, 215, 0, 0.5); }
+        }
+
+        /* Section Headers */
+        .section-header {
+            text-align: center;
+            margin: 3rem 0 2rem 0;
+        }
+
+        .section-header h2 {
+            font-family: 'Press Start 2P', cursive;
+            color: var(--neon-yellow);
+            text-shadow: 0 0 20px var(--neon-yellow);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan);
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(45deg, var(--primary-purple), var(--primary-pink));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-3px);
+            color: var(--primary-yellow);
+        }
+
+        /* Library Shelf Styles */
+        .library-shelf-container {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .shelf-background {
+            position: relative;
+            height: 280px;
+            background: linear-gradient(to bottom, #8B4513 0%, #A0522D 50%, #8B4513 100%);
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .shelf-wood {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 40px;
+            background: linear-gradient(to bottom, #D2B48C 0%, #8B7355 50%, #654321 100%);
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .book-collection {
+            position: absolute;
+            bottom: 40px;
+            left: 20px;
+            right: 20px;
+            height: 220px;
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .book-spine {
+            width: 50px;
+            height: 160px;
+            border-radius: 3px 3px 0 0;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            box-shadow: 
+                2px 0 5px rgba(0, 0, 0, 0.3),
+                inset -2px 0 3px rgba(255, 255, 255, 0.2);
+        }
+
+        .book-spine:hover {
+            transform: translateY(-20px) scale(1.1);
+            z-index: 10;
+            box-shadow: 
+                0 20px 30px rgba(0, 0, 0, 0.4),
+                2px 0 5px rgba(0, 0, 0, 0.3),
+                inset -2px 0 3px rgba(255, 255, 255, 0.3);
+        }
+
+        .book-text {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 8px;
+            text-align: center;
+            line-height: 1.2;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            writing-mode: horizontal-tb;
+            transform: rotate(90deg);
+            white-space: nowrap;
+        }
+
+        /* Individual book colors */
+        .book-1 {
+            background: linear-gradient(to right, #FF6B9D, #FF8E9B);
+            height: 140px;
+        }
+
+        .book-2 {
+            background: linear-gradient(to right, #4ECDC4, #44A08D);
+            height: 160px;
+        }
+
+        .book-3 {
+            background: linear-gradient(to right, #FFD93D, #FF9F1C);
+            height: 130px;
+        }
+
+        .book-4 {
+            background: linear-gradient(to right, #A8E6CF, #7FCDCD);
+            height: 145px;
+        }
+
+        .book-5 {
+            background: linear-gradient(to right, #FF8C94, #FF6B9D);
+            height: 165px;
+        }
+
+        .book-6 {
+            background: linear-gradient(to right, #C7CEEA, #A8B2D1);
+            height: 135px;
+        }
+
+        .book-7 {
+            background: linear-gradient(to right, #98FB98, #90EE90);
+            height: 150px;
+        }
+
+        .book-8 {
+            background: linear-gradient(to right, #DDA0DD, #DA70D6);
+            height: 138px;
+        }
+
+        .book-9 {
+            background: linear-gradient(to right, #87CEEB, #4682B4);
+            height: 148px;
+        }
+
+        .book-10 {
+            background: linear-gradient(to right, #FFA07A, #FF6347);
+            height: 142px;
+        }
+
+        .shelf-shadow {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 15px;
+            background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.4));
+            border-radius: 0 0 15px 15px;
+        }
+
+        .shelf-title {
+            text-align: center;
+        }
+
+        .shelf-title h1 {
+            font-family: 'Audiowide', cursive;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-cyan), var(--neon-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px var(--neon-pink);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .shelf-title .subtitle {
+            font-size: 1.3rem;
+            color: var(--light-text);
+            margin-bottom: 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .page-header {
+                padding: 2rem;
+            }
+
+            .book-collection {
+                gap: 3px;
+                left: 10px;
+                right: 10px;
+            }
+            
+            .book-spine {
+                width: 28px;
+                height: 90px;
+            }
+            
+            .book-text {
+                font-size: 4px;
+            }
+            
+            .shelf-title h1 {
+                font-size: 2rem;
+            }
+            
+            .book-1, .book-2, .book-3, .book-4, .book-5, .book-6, .book-7, .book-8, .book-9, .book-10 {
+                height: 75px;
+            }
+            
+            .book-2 { height: 80px; }
+            .book-5 { height: 85px; }
+            .book-9 { height: 82px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+    
+    <!-- Floating Shapes -->
+    <div class="floating-shapes">
+        <i class="fas fa-book shape" style="font-size: 2rem;"></i>
+        <i class="fas fa-star shape" style="font-size: 1.5rem;"></i>
+        <i class="fas fa-bookmark shape" style="font-size: 2.5rem;"></i>
+        <i class="fas fa-pen-fancy shape" style="font-size: 2rem;"></i>
+        <i class="fas fa-scroll shape" style="font-size: 2rem;"></i>
+        <i class="fas fa-feather shape" style="font-size: 1.8rem;"></i>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">🎮 ANASTASIA SALTER</a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">👩‍💻 About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="books.html">📚 Books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="research.html">🎮 Research</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="elit.html">💻 E-lit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="teaching.html">🎓 Teaching</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="CV.pdf" target="_blank">📄 CV</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Library Shelf Header -->
+    <section class="container">
+        <div class="library-shelf-container" data-aos="fade-up">
+            <div class="shelf-background">
+                <div class="shelf-wood"></div>
+                <div class="book-collection">
+                    <div class="book-spine book-1">
+                        <div class="book-text">UNDERTALE</div>
+                    </div>
+                    <div class="book-spine book-2">
+                        <div class="book-text">CRITICAL<br>MAKING</div>
+                    </div>
+                    <div class="book-spine book-3">
+                        <div class="book-text">PLAYFUL<br>PEDAGOGY</div>
+                    </div>
+                    <div class="book-spine book-4">
+                        <div class="book-text">TWINING</div>
+                    </div>
+                    <div class="book-spine book-5">
+                        <div class="book-text">FANBOY<br>AUTEUR</div>
+                    </div>
+                    <div class="book-spine book-6">
+                        <div class="book-text">ADVENTURE<br>GAMES</div>
+                    </div>
+                    <div class="book-spine book-7">
+                        <div class="book-text">TOXIC<br>GEEK</div>
+                    </div>
+                    <div class="book-spine book-8">
+                        <div class="book-text">JANE<br>JENSEN</div>
+                    </div>
+                    <div class="book-spine book-9">
+                        <div class="book-text">QUEST</div>
+                    </div>
+                    <div class="book-spine book-10">
+                        <div class="book-text">FLASH</div>
+                    </div>
+                </div>
+                <div class="shelf-shadow"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Books Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>🆕 Latest Books</h2>
+                <p>Recent publications pushing the boundaries of digital humanities</p>
+            </div>
+            
+            <div class="row">
+                <!-- Undertale Book - Latest -->
+                <div class="col-lg-6 mb-4" data-aos="fade-right">
+                    <div class="book-card featured-book">
+                        <img src="undertale.jpg" alt="Undertale: Can a Game Give Hope?" class="book-img">
+                        <div class="p-4">
+                            <div class="badge bg-success mb-2">🆕 Newest Release!</div>
+                            <h5>Undertale: Can a Game Give Hope? 🎮</h5>
+                            <p class="text-muted">Anastasia Salter</p>
+                            <p>A profound exploration of the 2015 indie game sensation that invited players to rethink their relationship with gaming through empathy, choice, and intentional human design in a post-GamerGate world.</p>
+                            <a href="https://press.uchicago.edu/ucp/books/book/chicago/U/bo249661280.html" class="btn-rainbow">🛒 Order from University of Chicago Press</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Critical Making Book -->
+                <div class="col-lg-6 mb-4" data-aos="fade-left">
+                    <div class="book-card">
+                        <img src="making.jpg" alt="Critical Making in the Age of AI" class="book-img">
+                        <div class="p-4">
+                            <h5>Critical Making in the Age of AI 🤖</h5>
+                            <p class="text-muted">Emily K. Johnson and Anastasia Salter</p>
+                            <p>A guide to digital methods that combines craft traditions with scholarly communication, featuring patterns for making comics, games, and AI-generated content.</p>
+                            <a href="https://services.publishing.umich.edu/Books/C/Critical-Making-in-the-Age-of-AI3" class="btn-rainbow">📖 Read Open Access</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Previous Titles Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>📖 Previous Titles</h2>
+                <p>Foundational works in digital humanities and game studies</p>
+            </div>
+            
+            <div class="row">
+                <!-- Playful Pedagogy Book -->
+                <div class="col-lg-6 mb-4" data-aos="fade-right">
+                    <div class="book-card">
+                        <img src="pivoting.jpg" alt="Playful Pedagogy in the Pandemic" class="book-img">
+                        <div class="p-4">
+                            <h5>Playful Pedagogy in the Pandemic 🎲</h5>
+                            <p class="text-muted">Emily K. Johnson and Anastasia Salter</p>
+                            <p>Exploring game-based learning in higher education and creating spaces for playful engagement beyond corporate gamification.</p>
+                            <a href="https://www.routledge.com/Playful-Pedagogy-in-the-Pandemic-Pivoting-to-Games-Based-Learning/Johnson-Salter/p/book/9781032251264" class="btn-rainbow">🛒 Order from Routledge</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Twining Book -->
+                <div class="col-lg-6 mb-4" data-aos="fade-left">
+                    <div class="book-card">
+                        <img src="twining.png" alt="Twining" class="book-img">
+                        <div class="p-4">
+                            <h5>Twining: Critical and Creative Approaches to Hypertext Narratives 🔗</h5>
+                            <p class="text-muted">Anastasia Salter and Stuart Moulthrop</p>
+                            <p>A journey through Twine as a platform for digital storytelling, combining technical discussion with critical commentary.</p>
+                            <a href="https://www.fulcrum.org/concern/monographs/ms35tb924" class="btn-rainbow">📖 Read Open Access</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Fanboy Auteur Book -->
+                <div class="col-lg-6 mb-4" data-aos="fade-right">
+                    <div class="book-card">
+                        <img src="fanboy.jpg" alt="A Portrait of the Auteur as Fanboy" class="book-img">
+                        <div class="p-4">
+                            <h5>A Portrait of the Auteur as Fanboy 🎬</h5>
+                            <p class="text-muted">Anastasia Salter and Mel Stanfill</p>
+                            <p>Examining how fan credentials in media production intersect with authorship and the exclusionary practices of geek culture.</p>
+                            <a href="https://www.upress.state.ms.us/Books/A/A-Portrait-of-the-Auteur-as-Fanboy" class="btn-rainbow">🛒 Order from Mississippi Press</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Playing the Outsider Book -->
+                <div class="col-lg-6 mb-4" data-aos="fade-left">
+                    <div class="book-card">
+                        <img src="outsider.jpg" alt="Playing the Outsider" class="book-img">
+                        <div class="p-4">
+                            <h5>Adventure Games: Playing the Outsider 🎭</h5>
+                            <p class="text-muted">Anastasia Salter</p>
+                            <p>Exploring the cultural significance of adventure games and their role in challenging traditional gaming narratives through outsider perspectives.</p>
+                            <a href="https://www.bloomsbury.com/us/adventure-games-9781501385827/" class="btn-rainbow">🛒 Order from Bloomsbury</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Toxic Geek Masculinity Book -->
+                <div class="col-lg-6 mb-4" data-aos="fade-right">
+                    <div class="book-card">
+                        <img src="geek.jpg" alt="Toxic Geek Masculinity in Media" class="book-img">
+                        <div class="p-4">
+                            <h5>Toxic Geek Masculinity in Media 🚫</h5>
+                            <p class="text-muted">Anastasia Salter and Bridget Blodgett</p>
+                            <p>A critical examination of how toxic masculinity manifests in geek culture and its impact on media representation and community dynamics.</p>
+                            <a href="https://books.google.com/books/about/Toxic_Geek_Masculinity_in_Media.html?id=ccI9DwAAQBAJ" class="btn-rainbow">📖 View on Google Books</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Jane Jensen Book -->
+                <div class="col-lg-6 mb-4" data-aos="fade-left">
+                    <div class="book-card">
+                        <img src="jensen.jpg" alt="Jane Jensen: Gabriel Knight, Adventure Games, Hidden Objects" class="book-img">
+                        <div class="p-4">
+                            <h5>Jane Jensen: Gabriel Knight, Adventure Games, Hidden Objects 🔍</h5>
+                            <p class="text-muted">Anastasia Salter</p>
+                            <p>An in-depth look at game designer Jane Jensen's contributions to adventure gaming and interactive storytelling.</p>
+                            <a href="https://www.bloomsbury.com/us/jane-jensen-9781501327469/" class="btn-rainbow">🛒 Order from Bloomsbury</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- What is Your Quest Book -->
+                <div class="col-lg-6 mb-4" data-aos="fade-right">
+                    <div class="book-card">
+                        <img src="quest.jpg" alt="What is Your Quest?" class="book-img">
+                        <div class="p-4">
+                            <h5>What is Your Quest?: From Adventure Games to Interactive Books 📚</h5>
+                            <p class="text-muted">Anastasia Salter and John Murray</p>
+                            <p>Tracing the evolution from text-based adventure games to modern interactive fiction and digital storytelling.</p>
+                            <a href="https://www.amazon.com/What-Your-Quest-Adventure-Interactive/dp/1609382757" class="btn-rainbow">🛒 Order from Amazon</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flash Book -->
+                <div class="col-lg-6 mb-4" data-aos="fade-left">
+                    <div class="book-card">
+                        <img src="flash.jpg" alt="Flash: Building the Interactive Web" class="book-img">
+                        <div class="p-4">
+                            <h5>Flash: Building the Interactive Web ⚡</h5>
+                            <p class="text-muted">Anastasia Salter and John Murray</p>
+                            <p>A comprehensive history of Adobe Flash and its transformative role in shaping the interactive web and digital media.</p>
+                            <a href="https://direct.mit.edu/books/book/3067/FlashBuilding-the-Interactive-Web" class="btn-rainbow">🛒 Order from MIT Press</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h4 class="mb-3" style="font-family: 'Audiowide', cursive; color: var(--neon-cyan); text-shadow: 0 0 15px var(--neon-cyan);">✨ Let's Connect! ✨</h4>
+                    <p class="mb-3">
+                        <a href="mailto:anastasia@ucf.edu" style="color: white; text-decoration: none;">
+                            📧 anastasia@ucf.edu
+                        </a>
+                    </p>
+                    <div class="social-links mb-4">
+                        <a href="https://bsky.app/profile/anasalter.bsky.social"><i class="fas fa-cloud"></i></a>
+                        <a href="https://www.instagram.com/anasalter/"><i class="fab fa-instagram"></i></a>
+                        <a href="CV.pdf"><i class="fas fa-file-pdf"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Add sparkle cursor effect
+        document.addEventListener('mousemove', function(e) {
+            if (Math.random() < 0.1) {
+                createSparkle(e.clientX, e.clientY);
+            }
+        });
+
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.innerHTML = '✨';
+            sparkle.style.position = 'fixed';
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.fontSize = '12px';
+            sparkle.style.zIndex = '9999';
+            sparkle.style.animation = 'sparkleAnimation 1s ease-out forwards';
+            
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                if (sparkle.parentNode) {
+                    sparkle.parentNode.removeChild(sparkle);
+                }
+            }, 1000);
+        }
+
+        // Add CSS for sparkle animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes sparkleAnimation {
+                0% { 
+                    opacity: 1; 
+                    transform: scale(0) rotate(0deg); 
+                }
+                50% { 
+                    opacity: 1; 
+                    transform: scale(1) rotate(180deg); 
+                }
+                100% { 
+                    opacity: 0; 
+                    transform: scale(0) rotate(360deg); 
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
