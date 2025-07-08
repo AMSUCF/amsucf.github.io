@@ -1,299 +1,995 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Anastasia Salter</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anastasia Salter - Digital Humanities Scholar</title>
     
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,700" rel="stylesheet">
-
-    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
-    <link rel="stylesheet" href="css/animate.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Audiowide:wght@400&family=Comic+Neue:wght@300;400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="css/magnific-popup.css">
-
-    <link rel="stylesheet" href="css/aos.css">
-
-    <link rel="stylesheet" href="css/ionicons.min.css">
-
-    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
-    <link rel="stylesheet" href="css/jquery.timepicker.css">
-
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <link rel="stylesheet" href="css/flaticon.css">
-    <link rel="stylesheet" href="css/icomoon.css">
-    <link rel="stylesheet" href="css/style.css">
-  </head>
-  <body>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- p5.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-pink: #ff69b4;
+            --primary-purple: #9966cc;
+            --primary-blue: #00bfff;
+            --primary-green: #00ff7f;
+            --primary-yellow: #ffd700;
+            --primary-orange: #ff6347;
+            --secondary-pink: #ffb6c1;
+            --secondary-purple: #dda0dd;
+            --secondary-blue: #87ceeb;
+            --secondary-green: #98fb98;
+            --dark-text: #2c3e50;
+            --light-text: #ffffff;
+            --neon-pink: #ff00ff;
+            --neon-cyan: #00ffff;
+            --neon-yellow: #ffff00;
+            --neon-green: #00ff00;
+            --neon-purple: #8a2be2;
+        }
 
-    <div class="KW_progressContainer">
-      <div class="KW_progressBar">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-      </div>
+        body {
+            font-family: 'Orbitron', 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, 
+                var(--primary-pink), 
+                var(--primary-purple), 
+                var(--primary-blue), 
+                var(--primary-green));
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating shapes animation */
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.15;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+            color: var(--primary-yellow);
+        }
+
+        .shape:nth-child(2) {
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+            color: var(--primary-pink);
+        }
+
+        .shape:nth-child(3) {
+            top: 80%;
+            left: 20%;
+            animation-delay: 4s;
+            color: var(--primary-green);
+        }
+
+        .shape:nth-child(4) {
+            top: 40%;
+            left: 70%;
+            animation-delay: 1s;
+            color: var(--primary-blue);
+        }
+
+        .shape:nth-child(5) {
+            top: 30%;
+            left: 50%;
+            animation-delay: 3s;
+            color: var(--primary-orange);
+        }
+
+        .shape:nth-child(6) {
+            top: 70%;
+            left: 60%;
+            animation-delay: 5s;
+            color: var(--primary-purple);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Header Styles */
+        .navbar {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--neon-cyan);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-family: 'Press Start 2P', cursive;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink);
+            text-decoration: none;
+        }
+
+        .navbar-brand:hover {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        .nav-link {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            color: #fff !important;
+            position: relative;
+            transition: all 0.3s ease;
+            margin: 0 0.5rem;
+        }
+
+        .nav-link:hover {
+            color: var(--neon-cyan) !important;
+            text-shadow: 0 0 10px var(--neon-cyan);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            color: var(--neon-yellow) !important;
+            text-shadow: 0 0 15px var(--neon-yellow);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan));
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .sunset-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .hero-content-overlay {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero h1 {
+            font-family: 'Audiowide', 'Comic Neue', cursive;
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-cyan), var(--neon-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px var(--neon-pink);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px var(--neon-pink)); }
+            to { filter: drop-shadow(0 0 30px var(--neon-cyan)); }
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            color: var(--light-text);
+            margin-bottom: 1.5rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero .description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            color: var(--light-text);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Buttons */
+        .btn-rainbow {
+            background: linear-gradient(45deg, var(--primary-pink), var(--primary-purple), var(--primary-blue));
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn-rainbow:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+
+        /* Profile Animation Container */
+        .profile-animation {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 5px solid transparent;
+            border-image: linear-gradient(45deg, var(--primary-pink), var(--primary-purple), var(--primary-blue)) 1;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            background: #000;
+        }
+
+        /* Featured book styling */
+        .featured-book {
+            position: relative;
+            border-image: linear-gradient(45deg, var(--primary-yellow), var(--primary-orange)) 1 !important;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 20px 40px rgba(255, 215, 0, 0.3); }
+            to { box-shadow: 0 25px 50px rgba(255, 215, 0, 0.5); }
+        }
+
+        /* Research Cards */
+        .research-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem 0;
+            border: 2px solid transparent;
+            border-image: linear-gradient(45deg, var(--primary-pink), var(--primary-purple)) 1;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .research-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .research-icon {
+            font-size: 3rem;
+            background: linear-gradient(45deg, var(--primary-pink), var(--primary-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        /* Book Cards */
+        .book-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 1rem 0;
+            border: 2px solid transparent;
+            border-image: linear-gradient(45deg, var(--primary-blue), var(--primary-green)) 1;
+            transition: all 0.3s ease;
+        }
+
+        .book-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-img {
+            width: 100%;
+            height: 250px;
+            object-fit: contain;
+            background: linear-gradient(45deg, var(--secondary-pink), var(--secondary-purple));
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(45deg, var(--primary-purple), var(--primary-pink));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-3px);
+            color: var(--primary-yellow);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content-overlay {
+                padding: 2rem;
+            }
+            
+            .sunset-container {
+                height: 100vh;
+            }
+        }
+
+        /* Sticker-like elements */
+        .sticker {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.7;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .sticker:nth-child(1) {
+            top: 10%;
+            right: 10%;
+            animation-delay: 0.5s;
+        }
+
+        .sticker:nth-child(2) {
+            bottom: 20%;
+            left: 5%;
+            animation-delay: 1s;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+    
+    <!-- Floating Shapes -->
+    <div class="floating-shapes">
+        <i class="fas fa-gamepad shape" style="font-size: 2rem;"></i>
+        <i class="fas fa-heart shape" style="font-size: 1.5rem;"></i>
+        <i class="fas fa-star shape" style="font-size: 2.5rem;"></i>
+        <i class="fas fa-dice-d20 shape" style="font-size: 2rem;"></i>
+        <i class="fas fa-trophy shape" style="font-size: 2rem;"></i>
+        <i class="fas fa-rocket shape" style="font-size: 1.8rem;"></i>
     </div>
-    <div class="page">
-    <nav id="colorlib-main-nav" role="navigation">
-      <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle active"><i></i></a>
-      <div class="js-fullheight colorlib-table">
-        <div class="img" style="background-image: url(images/author-2.jpg);"></div>
-        <div class="colorlib-table-cell js-fullheight">
-          <div class="row no-gutters">
-            <div class="col-md-12 text-center">
-              <h1 class="mb-4"><a href="index.html" class="logo">Anastasia Salter</a></h1>
-              <ul>
-                <li class="active"><a href="index.html"><span><small>01</small>Home</span></a></li>
-                <li><a href="about.html"><span><small>02</small>CV</span></a></li>
-                <li><a href="books.html"><span><small>03</small>Books</span></a></li>
-                <li><a href="elit.html"><span><small>04</small>E-lit</span></a></li>
-                <li><a href="research.html"><span><small>05</small>Research</span></a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-    
-    <div id="colorlib-page">
-      <header>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="colorlib-navbar-brand">
-                <a class="colorlib-logo" href="index.html"><span class="logo-img" style="background-image: url(images/person_1.jpg);"></span>Anastasia Salter</a>
-              </div>
-              <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
-            </div>
-          </div>
-        </div>
-      </header>
-    
-      <section class="home-slider owl-carousel js-fullheight">
-        <div class="slider-item js-fullheight">
-          <div class="overlay"></div>
-          <div class="container">
-            <div class="row slider-text align-items-center text-center justify-content-center" data-scrollax-parent="true">
-              <div class="col-md-12 ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
-                <p><a href="#" class="scroll">Hello! I'm</a></p>
-                <h1 class="mb-3" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Anastasia Salter</h1>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="slider-item js-fullheight">
-          <div class="overlay"></div>
-          <div class="container">
-            <div class="row slider-text align-items-center text-center justify-content-center" data-scrollax-parent="true">
-              <div class="col-md-12 ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
-                <p><a href="#" class="scroll">Professor of English at UCF</a></p>
-                <h1 class="mb-3" data-scrollax="properties: {translateY: '30%', opacity: 1.6}">Electronic Literature<br>Digital Humanities<br>Media Studies</h1>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- END slider -->
-
-      <section class="ftco-section about-section">
-        <div class="container">
-          <div class="row d-flex" data-scrollax-parent="true">
-            <div class="col-md-4 author-img" style="background-image: url(images/author-1.jpg);" data-scrollax=" properties: { translateY: '-70%'}"></div>
-            <div class="col-md-2"></div>
-            <div class="col-md-6 wrap ftco-animate">
-              <div class="about-desc">
-                <h1 class="bold-text">About</h1>
-                <div class="p-5">
-                  <h2 class="mb-5">Anastasia Salter</h2>
-                  <p>Anastasia Salter is a Professor of English and Director of Graduate Programs and Texts & Technology for the College of Arts and Humanities at the University of Central Florida. Their most recent books include <i><a href="https://www.routledge.com/Playful-Pedagogy-in-the-Pandemic-Pivoting-to-Games-Based-Learning/Johnson-Salter/p/book/9781032251264">Playful Pedagogy in the Pandemic: Pivoting to Game-Based Learning</a></i> with Emily K. Johnson (Routledge 2022) and <i><a href="https://www.fulcrum.org/concern/monographs/ms35tb924">Twining: Critical and Creative Approaches to Hypertext Narratives</a></i> with Stuart Moulthrop (Amherst 2021). Currently, Dr. Salter serves as Vice President of the Electronic Literature Organization Board of Directors.</p>
-                  <p></a></p>
-                  <ul class="ftco-footer-social list-unstyled mt-4">
-                    <li><a href="https://www.instagram.com/anasalter/"><span class="icon-instagram"></span></a></li>
-                    <li><a href="CV.pdf"><span class="icon-person"</span></a></li>
-                  </ul>
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="ftco-section">
-        <div class="container">
-          <div class="row justify-content-center mb-5 pb-5">
-            <div class="col-md-7 text-center heading-section ftco-animate">
-              <span>Transdisciplinary Scholarship</span>
-              <h2>My Research</h2>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 d-flex align-self-stretch ftco-animate">
-              <div class="media block-6 services p-3 py-4 d-block text-center">
-                <div class="icon mb-3"><span class="icon-desktop"></span></div>
-                <div class="media-body">
-                  <h3 class="heading">Electronic Literature</h3>
-                  <h3 class="heading">Adventure Games</h3>
-                  <h3 class="heading">Platform Studies</h3>
-                </div>
-              </div>      
-            </div>
-            <div class="col-md-4 d-flex align-self-stretch ftco-animate">
-              <div class="media block-6 services p-3 py-4 d-block text-center">
-                <div class="icon mb-3"><span class="icon-book"></span></div>
-                <div class="media-body">
-                  <h3 class="heading">Digital Humanities</h3>
-                  <h3 class="heading">Children's Literature</h3>
-                  <h3 class="heading">Comic Books</h3>
-                </div>
-              </div>      
-            </div>
-            <div class="col-md-4 d-flex align-self-stretch ftco-animate">
-              <div class="media block-6 services p-3 py-4 d-block text-center">
-                <div class="icon mb-3"><span class="icon-transgender-alt"></span></div>
-                <div class="media-body">
-                  <h3 class="heading">Media Studies</h3>
-                  <h3 class="heading">Digital Culture</h3>
-                  <h3 class="heading">Geek Identity</h3>
-                </div>
-              </div>    
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="ftco-section">
-        <div class="container">
-          <div class="row justify-content-center mb-5 pb-5">
-            <div class="col-md-7 text-center heading-section ftco-animate">
-              <span>Latest Books</span>
-              <h2>Recent Collaborations</h2>
-            </div>
-          </div>
-          <div class="row no-gutters">
-            <div class="block-3 d-md-flex ftco-animate" data-scrollax-parent="true">
-	            <a href="https://services.publishing.umich.edu/Books/C/Critical-Making-in-the-Age-of-AI3" class="image d-flex justify-content-center align-items-center" style="background-image: url('making.jpg'); background-size: contain;" data-scrollax=" properties: { translateY: '-30%'}">
-	              <div class="icon d-flex text-center justify-content-center align-items-center">
-	                <span class="icon-search"></span>
-	              </div>
-	            </a>
-	            <div class="text">
-	              <h4 class="subheading">Emily K. Johnson and Anastasia Salter</h4>
-	              <h2 class="heading">Critical Making in the Age of AI</h2><p><i>Critical Making in the Age of AI</i> invites students, teachers, learners, and digital humanists to explore making as scholarship. Inspired by the craft traditions of textile arts, this book combines a survey of forms of alternative scholarly communication—such as comics, GIFs, maps, games, and generative AI—and a pattern book, where patterns serve as starting points that makers can reimagine and remix. Firmly grounded in the humanities and utilizing free tools and platforms (including Twine, Voyant, and Tracery) wherever possible, this engaging and accessible guide to digital methods introduces and puts into practice concepts that are essential to preparing students to navigate a changing landscape of media and information without investing in proprietary software, dedicated lab space, or expensive creative tools. The book’s eight patterns are especially appropriate for those just beginning to explore digital scholarly methods, and the book’s goal is to provide structure for work that is both meaningful and achievable with limited resources and time. By centering critical making through a design-justice and feminist lens, the coauthors model how inclusive and expansive approaches to making in research and teaching are vital to shaping the humanities of the future.</p>
-	              <p><a href="https://services.publishing.umich.edu/Books/C/Critical-Making-in-the-Age-of-AI3">Open Access from Amherst - April 2025</a></p>
-	            </div>
-	          </div>
-              <div class="block-3 d-md-flex ftco-animate" data-scrollax-parent="true">
-	            <a href="https://www.routledge.com/Playful-Pedagogy-in-the-Pandemic-Pivoting-to-Games-Based-Learning/Johnson-Salter/p/book/9781032251264" class="image d-flex justify-content-center align-items-center" style="background-image: url('pivoting.jpg'); background-size: contain;" data-scrollax=" properties: { translateY: '-30%'}">
-	              <div class="icon d-flex text-center justify-content-center align-items-center">
-	                <span class="icon-search"></span>
-	              </div>
-	            </a>
-	            <div class="text">
-	              <h4 class="subheading">Emily K. Johnson and Anastasia Salter</h4>
-	              <h2 class="heading">Playful Pedagogy in the Pandemic:
-Pivoting to Game-Based Learning</h2><p>Educational technology adoption is more widespread than ever in the wake of COVID-19, as corporations have commodified student engagement in makeshift packages marketed as gamification. This book seeks to create a space for playful learning in higher education, asserting the need for a pedagogy of care and engagement as well as collaboration with students to help us reimagine education outside of prescriptive educational technology.</p><p>Virtual learning has turned the course management system into the classroom, and business platforms for streaming video have become awkward substitutions for lecture and discussion. Gaming, once heralded as a potential tool for rethinking our relationship with educational technology, is now inextricably linked in our collective understanding to challenges of misogyny, white supremacy, and the circulation of misinformation. The initial promise of games-based learning seems to linger only as gamification, a form of structuring that creates mechanisms and incentives but limits opportunity for play. As higher education teeters on the brink of unprecedented crisis, this book proclaims the urgent need to find a space for playful learning and to find new inspiration in the platforms and interventions of personal gaming, and in turn restructure the corporatized, surveilling classroom of a gamified world. </p><p>Through an in-depth analysis of the challenges and opportunities presented by pandemic pedagogy, this book reveals the conditions that led to the widespread failure of adoption of games-based learning and offers a model of hope for a future driven by new tools and platforms for personal, experimental game-making as intellectual inquiry.</p>
-	              <p><a href="https://www.routledge.com/Playful-Pedagogy-in-the-Pandemic-Pivoting-to-Games-Based-Learning/Johnson-Salter/p/book/9781032251264">Order from Routledge</a></p>
-	            </div>
-	          </div>
-               <div class="block-3 d-md-flex ftco-animate" data-scrollax-parent="true">
-	            <a href="https://www.fulcrum.org/concern/monographs/ms35tb924" class="image order-2 d-flex justify-content-center align-items-center" style="background-image: url('twining.png'); background-size: contain;" data-scrollax=" properties: { translateY: '-30%'}">
-	              <div class="icon d-flex text-center justify-content-center align-items-center">
-	                <span class="icon-search"></span>
-	              </div>
-	            </a>
-	            <div class="text order-1">
-	              <h4 class="subheading">Anastasia Salter and Stuart Moulthrop</h4>
-	              <h2 class="heading">Twining: Critical and Creative Approaches to Hypertext Narratives</h2><p>Hypertext is now commonplace: links and linking structure nearly all of our experiences online. Yet the literary, as opposed to commercial, potential of hypertext has receded. One of the few tools still focused on hypertext as a means for digital storytelling is Twine, a platform for building choice-driven stories without relying heavily on code. In <i>Twining</i>, Anastasia Salter and Stuart Moulthrop lead readers on a journey at once technical, critical, contextual, and personal. The book’s chapters alternate careful, stepwise discussion of adaptable Twine projects, offer commentary on exemplary Twine works, and discuss Twine’s technological and cultural background. Beyond telling the story of Twine and how to make Twine stories, <i>Twining</i> reflects on the ongoing process of making.</p>
-	              <p><a href="https://www.fulcrum.org/concern/monographs/ms35tb924">Available Open Access from Amherst / Fulcrum</a></p>
-	            </div>
-	          </div>
-            <div class="block-3 d-md-flex ftco-animate" data-scrollax-parent="true">
-	            <a href="https://www.upress.state.ms.us/Books/A/A-Portrait-of-the-Auteur-as-Fanboy" class="image d-flex justify-content-center align-items-center" style="background-image: url('fanboy.jpg'); background-size: contain;" data-scrollax=" properties: { translateY: '-30%'}">
-	              <div class="icon d-flex text-center justify-content-center align-items-center">
-	                <span class="icon-search"></span>
-	              </div>
-	            </a>
-	            <div class="text">
-	              <h4 class="subheading">Anastasia Salter and Mel Stanfill</h4>
-	              <h2 class="heading">A Portrait of the Auteur as Fanboy</h2><p>Increasingly over the past decade, fan credentials on the part of writers, directors, and producers have come to be seen as a guarantee of quality media making—the “fanboy auteur. ” Figures like Joss Whedon are both one of “us” and one of “them. ” This is a strategy of marketing and branding—it is a claim from the auteur himself or industry PR machines that the presence of an auteur who is also a fan means the product is worth consuming. Such claims that fan credentials guarantee quality are often contested, with fans and critics alike rejecting various auteur figures as the true leader of their respective franchises. That split, between assertions of fan and auteur status and acceptance (or not) of that status, is key to unravelling the fan auteur.</p><p>
-
-                  In <i>A Portrait of the Auteur as Fanboy: The Construction of Authorship in Transmedia Franchises</i>, authors Anastasia Salter and Mel Stanfill examine this phenomenon through a series of case studies featuring fanboys. The volume discusses both popular fanboys, such as J. J. Abrams, Kevin Smith, and Joss Whedon, as well as fangirls like J. K. Rowling, E L James, and Patty Jenkins, and dissects how the fanboy-fangirl auteur dichotomy is constructed and defended by popular media and fans in online spaces, and how this discourse has played in maintaining the exclusionary status quo of geek culture.</p>
-	              <p><a href="https://www.upress.state.ms.us/Books/A/A-Portrait-of-the-Auteur-as-Fanboy">Order from Mississippi Press</a></p>
-	            </div>
-	          </div>
-	          <div class="block-3 d-md-flex ftco-animate" data-scrollax-parent="true">
-	            <a href="https://www.bloomsbury.com/us/adventure-games-9781501346545/" class="image order-2 d-flex justify-content-center align-items-center" style="background-image: url('outsider.jpg'); background-size: contain;" data-scrollax=" properties: { translateY: '-30%'}">
-	              <div class="icon d-flex text-center justify-content-center align-items-center">
-	                <span class="icon-search"></span>
-	              </div>
-	            </a>
-	            <div class="text order-1">
-	              <h4 class="subheading">Aaron A. Reed, John T. Murray, and Anastasia Salter</h4>
-	              <h2 class="heading">Adventure Games: Playing the Outsider</h2>
-	              <p>The genre of adventure games is frequently overlooked. Lacking the constantly-evolving graphics and graphic violence of their counterparts in first-person and third-person shooters or role-playing games, they are often marketed to and beloved by players outside of mainstream game communities. While often forgotten by both the industry and academia, adventure games have had (and continue to have) a surprisingly wide influence on contemporary games, in categories including walking simulators, hidden object games, visual novels, and bestselling titles from companies like Telltale and Campo Santo.
-                </p><p>
-                  In this examination of heirs to the genre's legacy, the authors examine the genre from multiple perspectives, connecting technical analysis with critical commentary and social context. This will be the first book to consider this important genre from a comprehensive and transdisciplinary perspective. Drawing upon methods from platform studies, software studies, media studies, and literary studies, they reveal the genre's ludic and narrative origins and patterns, where character (and the player's embodiment of a character) is essential to the experience of play and the choices within a game. A deep structural analysis of adventure games also uncovers an unsteady balance between sometimes contradictory elements of story, exploration, and puzzles: with different games and creators employing a multitude of different solutions to resolving this tension.</p>
-	              <p><a href="https://www.bloomsbury.com/us/adventure-games-9781501346545/">Order from Bloomsbury</a></p>
-	            </div>
-	          </div>
-          </div>
-      
-
-      <footer class="ftco-footer ftco-bg-dark ftco-section">
-        <div class="container">
-          <div class="row mb-5 justify-content-center">
-            <div class="col-md-5 text-center">
-              <div class="ftco-footer-widget mb-5">
-                <ul class="ftco-footer-social list-unstyled">
-                  <li class="ftco-animate"><a href="http://twitter.com/anasalter"><span class="icon-twitter"></span></a></li>
-                  <li class="ftco-animate"><a href="https://www.instagram.com/anasalter/"><span class="icon-instagram"></span></a></li>
-                  <li class="ftco-animate"><a href="CV.pdf"><span class="icon-person"</span></a></li>
+            <a class="navbar-brand" href="#home">🎮 ANASTASIA SALTER</a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">🏠 Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="elit.html">💻 E-lit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">👩‍💻 About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#research">🎮 Research</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#books">📚 Books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="CV.pdf" target="_blank">📄 CV</a>
+                    </li>
                 </ul>
-              </div>
-              <div class="ftco-footer-widget">
-                <h2 class="mb-3">Contact Me</h2>
-                <p class="h3 email"><a href="#">anastasia@ucf.edu</a></p>
-              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12 text-center">
-
-              <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-      Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true" style="color: red;"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-      <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-            </div>
-          </div>
         </div>
-      </footer>
+    </nav>
 
-      <!-- loader -->
-      <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container-fluid p-0">
+            <div class="row no-gutters align-items-center">
+                <div class="col-12">
+                    <div id="sunsetCanvas" class="sunset-container"></div>
+                    <div class="hero-overlay">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8 text-center" data-aos="fade-up">
+                                    <div class="hero-content-overlay">
+                                        <h1>Anastasia Salter</h1>
+                                        <p class="subtitle">Professor of English</p>
+                                        <div class="d-flex flex-wrap justify-content-center">
+                                            <a href="#research" class="btn-rainbow">🎯 Explore Research</a>
+                                            <a href="#books" class="btn-rainbow">📚 Latest Books</a>
+                                            <a href="mailto:anastasia@ucf.edu" class="btn-rainbow">💌 Contact</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-      </div>
+    <!-- Electronic Literature Featured Section -->
+    <section class="py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center" data-aos="fade-up">
+                    <h2 class="mb-4 text-white" style="font-family: 'Press Start 2P', cursive; text-shadow: 0 0 20px #00ffff;">
+                        💻 Electronic Literature Portfolio 🎨
+                    </h2>
+                    <p class="lead text-white mb-4">
+                        Explore my creative works spanning text × tech × textile - from interactive narratives to digital exhibitions
+                    </p>
+                    <a href="elit.html" class="btn btn-lg" style="
+                        background: linear-gradient(45deg, #ff00ff, #00ffff);
+                        border: none;
+                        color: white;
+                        padding: 15px 40px;
+                        border-radius: 25px;
+                        font-weight: 600;
+                        text-decoration: none;
+                        transition: all 0.3s ease;
+                        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+                        box-shadow: 0 10px 20px rgba(255, 0, 255, 0.3);
+                    " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 15px 30px rgba(255, 0, 255, 0.5)'" 
+                       onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='0 10px 20px rgba(255, 0, 255, 0.3)'">
+                        🚀 Enter the E-lit Universe
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    </div>
+    <!-- About Section -->
+    <section id="about" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12" data-aos="fade-up">
+                    <div class="research-card text-center">
+                    <h2 class="mb-4" style="font-family: 'Audiowide', cursive; color: var(--neon-cyan); text-shadow: 0 0 15px var(--neon-cyan);">✨ About Me ✨</h2>
+                        <p class="lead">
+                            Anastasia Salter is a Professor of English and Director of Graduate Programs and Texts & Technology 
+                            for the College of Arts and Humanities at the University of Central Florida. Their most recent books include 
+                            <em><a href="https://www.routledge.com/Playful-Pedagogy-in-the-Pandemic-Pivoting-to-Games-Based-Learning/Johnson-Salter/p/book/9781032251264">
+                            Playful Pedagogy in the Pandemic: Pivoting to Game-Based Learning</a></em> with Emily K. Johnson (Routledge 2022) 
+                            and <em><a href="https://www.fulcrum.org/concern/monographs/ms35tb924">
+                            Twining: Critical and Creative Approaches to Hypertext Narratives</a></em> with Stuart Moulthrop (Amherst 2021).
+                        </p>
+                        <p>
+                            Currently, Dr. Salter serves as Vice President of the Electronic Literature Organization Board of Directors.
+                        </p>
+                        <div class="social-links mt-4">
+                            <a href="http://twitter.com/anasalter"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.instagram.com/anasalter/"><i class="fab fa-instagram"></i></a>
+                            <a href="CV.pdf"><i class="fas fa-file-pdf"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- Research Section -->
+    <section id="research" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="display-4 mb-3" style="font-family: 'Press Start 2P', cursive; color: var(--neon-yellow); text-shadow: 0 0 20px var(--neon-yellow);">🌈 Transdisciplinary Scholarship 🌈</h2>
+                <p class="lead" style="color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan);">My Research Adventures</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="research-card text-center">
+                        <div class="research-icon">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <h4>Digital Storytelling 🎮</h4>
+                        <ul class="list-unstyled mt-3">
+                            <li>📖 <a href="elit.html" style="color: #ff6b9d; text-decoration: none;">Electronic Literature</a></li>
+                            <li>🎮 Adventure Games</li>
+                            <li>💻 Platform Studies</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="research-card text-center">
+                        <div class="research-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h4>Literary Studies 📚</h4>
+                        <ul class="list-unstyled mt-3">
+                            <li>🔍 Digital Humanities</li>
+                            <li>👶 Children's Literature</li>
+                            <li>💥 Comic Books</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="research-card text-center">
+                        <div class="research-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>Cultural Studies 🌐</h4>
+                        <ul class="list-unstyled mt-3">
+                            <li>📺 Media Studies</li>
+                            <li>🌐 Digital Culture</li>
+                            <li>🤓 Geek Identity</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/jquery-migrate-3.0.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.easing.1.3.js"></script>
-    <script src="js/jquery.waypoints.min.js"></script>
-    <script src="js/jquery.stellar.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/aos.js"></script>
-    <script src="js/jquery.animateNumber.min.js"></script>
-    <script src="js/scrollax.min.js"></script>
-    <script src="js/bootstrap-datepicker.js"></script>
-    <script src="js/jquery.timepicker.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-    <script src="js/google-map.js"></script>
-    <script src="js/main.js"></script>
+    <!-- Books Section -->
+    <section id="books" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="display-4 mb-3" style="font-family: 'Press Start 2P', cursive; color: var(--neon-yellow); text-shadow: 0 0 20px var(--neon-yellow);">📚✨ Latest Books ✨📚</h2>
+                <p class="lead" style="color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan);">Recent Collaborative Adventures</p>
+            </div>
+            
+            <div class="row">
+                <!-- Undertale Book - Latest -->
+                <div class="col-lg-6 mb-4" data-aos="fade-right">
+                    <div class="book-card featured-book">
+                        <img src="undertale.jpg" alt="Undertale: Can a Game Give Hope?" class="book-img">
+                        <div class="p-4">
+                            <div class="badge bg-success mb-2">🆕 Latest Book!</div>
+                            <h5>Undertale: Can a Game Give Hope? 🎮</h5>
+                            <p class="text-muted">Anastasia Salter</p>
+                            <p>A profound exploration of the 2015 indie game sensation that invited players to rethink their relationship with gaming through empathy, choice, and intentional human design in a post-GamerGate world.</p>
+                            <a href="https://press.uchicago.edu/ucp/books/book/chicago/U/bo249661280.html" class="btn-rainbow">🛒 Order from University of Chicago Press</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Critical Making Book -->
+                <div class="col-lg-6 mb-4" data-aos="fade-left">
+                    <div class="book-card">
+                        <img src="making.jpg" alt="Critical Making in the Age of AI" class="book-img">
+                        <div class="p-4">
+                            <h5>Critical Making in the Age of AI 🤖</h5>
+                            <p class="text-muted">Emily K. Johnson and Anastasia Salter</p>
+                            <p>A guide to digital methods that combines craft traditions with scholarly communication, featuring patterns for making comics, games, and AI-generated content.</p>
+                            <a href="https://services.publishing.umich.edu/Books/C/Critical-Making-in-the-Age-of-AI3" class="btn-rainbow">📖 Read Open Access</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Playful Pedagogy Book -->
+                <div class="col-lg-6 mb-4" data-aos="fade-right">
+                    <div class="book-card">
+                        <img src="pivoting.jpg" alt="Playful Pedagogy in the Pandemic" class="book-img">
+                        <div class="p-4">
+                            <h5>Playful Pedagogy in the Pandemic 🎲</h5>
+                            <p class="text-muted">Emily K. Johnson and Anastasia Salter</p>
+                            <p>Exploring game-based learning in higher education and creating spaces for playful engagement beyond corporate gamification.</p>
+                            <a href="https://www.routledge.com/Playful-Pedagogy-in-the-Pandemic-Pivoting-to-Games-Based-Learning/Johnson-Salter/p/book/9781032251264" class="btn-rainbow">🛒 Order from Routledge</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Twining Book -->
+                <div class="col-lg-6 mb-4" data-aos="fade-left">
+                    <div class="book-card">
+                        <img src="twining.png" alt="Twining" class="book-img">
+                        <div class="p-4">
+                            <h5>Twining: Critical and Creative Approaches to Hypertext Narratives 🔗</h5>
+                            <p class="text-muted">Anastasia Salter and Stuart Moulthrop</p>
+                            <p>A journey through Twine as a platform for digital storytelling, combining technical discussion with critical commentary.</p>
+                            <a href="https://www.fulcrum.org/concern/monographs/ms35tb924" class="btn-rainbow">📖 Read Open Access</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Fanboy Auteur Book -->
+                <div class="col-lg-6 mb-4" data-aos="fade-right">
+                    <div class="book-card">
+                        <img src="fanboy.jpg" alt="A Portrait of the Auteur as Fanboy" class="book-img">
+                        <div class="p-4">
+                            <h5>A Portrait of the Auteur as Fanboy 🎬</h5>
+                            <p class="text-muted">Anastasia Salter and Mel Stanfill</p>
+                            <p>Examining how fan credentials in media production intersect with authorship and the exclusionary practices of geek culture.</p>
+                            <a href="https://www.upress.state.ms.us/Books/A/A-Portrait-of-the-Auteur-as-Fanboy" class="btn-rainbow">🛒 Order from Mississippi Press</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h4 class="mb-3" style="font-family: 'Audiowide', cursive; color: var(--neon-cyan); text-shadow: 0 0 15px var(--neon-cyan);">✨ Let's Connect! ✨</h4>
+                    <p class="mb-3">
+                        <a href="mailto:anastasia@ucf.edu" style="color: white; text-decoration: none;">
+                            📧 anastasia@ucf.edu
+                        </a>
+                    </p>
+                    <div class="social-links mb-4">
+                        <a href="http://twitter.com/anasalter"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/anasalter/"><i class="fab fa-instagram"></i></a>
+                        <a href="CV.pdf"><i class="fas fa-file-pdf"></i></a>
+                    </div>
+                    <p class="small">
+                        Made with 💖 and lots of ✨ digital magic ✨
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-  </body>
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add sparkle cursor effect
+        document.addEventListener('mousemove', function(e) {
+            if (Math.random() < 0.1) {
+                createSparkle(e.clientX, e.clientY);
+            }
+        });
+
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.innerHTML = '✨';
+            sparkle.style.position = 'fixed';
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.fontSize = '12px';
+            sparkle.style.zIndex = '9999';
+            sparkle.style.animation = 'sparkleAnimation 1s ease-out forwards';
+            
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                if (sparkle.parentNode) {
+                    sparkle.parentNode.removeChild(sparkle);
+                }
+            }, 1000);
+        }
+
+        // Add CSS for sparkle animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes sparkleAnimation {
+                0% { 
+                    opacity: 1; 
+                    transform: scale(0) rotate(0deg); 
+                }
+                50% { 
+                    opacity: 1; 
+                    transform: scale(1) rotate(180deg); 
+                }
+                100% { 
+                    opacity: 0; 
+                    transform: scale(0) rotate(360deg); 
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Retro Sunset p5.js Animation
+        let sunsetSketch = function(p) {
+            let time = 0;
+            let stars = [];
+            let clouds = [];
+            let mountains = [];
+            let sunY;
+            let canvasWidth, canvasHeight;
+            
+            p.setup = function() {
+                canvasWidth = p.windowWidth;
+                canvasHeight = p.windowHeight;
+                let canvas = p.createCanvas(canvasWidth, canvasHeight);
+                canvas.parent('sunsetCanvas');
+                
+                sunY = canvasHeight * 0.3;
+                
+                // Initialize stars
+                for(let i = 0; i < 50; i++) {
+                    stars.push({
+                        x: p.random(canvasWidth),
+                        y: p.random(canvasHeight * 0.4),
+                        size: p.random(1, 3),
+                        twinkle: p.random(0, p.TWO_PI)
+                    });
+                }
+                
+                // Initialize clouds
+                for(let i = 0; i < 8; i++) {
+                    clouds.push({
+                        x: p.random(-100, canvasWidth + 100),
+                        y: p.random(canvasHeight * 0.1, canvasHeight * 0.4),
+                        size: p.random(80, 150),
+                        speed: p.random(0.2, 0.8)
+                    });
+                }
+                
+                // Initialize mountains
+                for(let i = 0; i < canvasWidth + 100; i += 20) {
+                    mountains.push({
+                        x: i,
+                        height: p.random(canvasHeight * 0.6, canvasHeight * 0.8)
+                    });
+                }
+            };
+            
+            p.draw = function() {
+                time += 0.01;
+                
+                // Animated gradient sky
+                for(let y = 0; y < canvasHeight; y++) {
+                    let inter = p.map(y, 0, canvasHeight, 0, 1);
+                    let sunsetTop = p.color(255, 94, 77);    // Red-orange
+                    let sunsetMid = p.color(255, 154, 0);    // Orange
+                    let sunsetBot = p.color(255, 206, 84);   // Yellow
+                    let nightTop = p.color(25, 25, 112);     // Midnight blue
+                    let nightBot = p.color(72, 61, 139);     // Dark slate blue
+                    
+                    let dayColor, nightColor;
+                    
+                    if(inter < 0.3) {
+                        dayColor = p.lerpColor(sunsetTop, sunsetMid, inter / 0.3);
+                        nightColor = p.lerpColor(nightTop, nightTop, inter / 0.3);
+                    } else if(inter < 0.7) {
+                        dayColor = p.lerpColor(sunsetMid, sunsetBot, (inter - 0.3) / 0.4);
+                        nightColor = p.lerpColor(nightTop, nightBot, (inter - 0.3) / 0.4);
+                    } else {
+                        dayColor = sunsetBot;
+                        nightColor = nightBot;
+                    }
+                    
+                    // Blend between day and night based on time
+                    let timeBlend = 0.5 + 0.5 * p.sin(time * 0.5);
+                    let c = p.lerpColor(dayColor, nightColor, timeBlend);
+                    p.stroke(c);
+                    p.line(0, y, canvasWidth, y);
+                }
+                
+                // Draw stars (more visible at night)
+                let starAlpha = p.map(p.sin(time * 0.5), -1, 1, 50, 255);
+                for(let star of stars) {
+                    let twinkle = p.sin(star.twinkle + time * 3) * 0.5 + 0.5;
+                    p.fill(255, 255, 255, starAlpha * twinkle);
+                    p.noStroke();
+                    p.circle(star.x, star.y, star.size);
+                    star.twinkle += 0.1;
+                }
+                
+                // Draw animated sun/moon
+                let sunSize = 80 + 20 * p.sin(time * 2);
+                let currentSunY = sunY + 50 * p.sin(time * 0.3);
+                let sunAlpha = p.map(p.sin(time * 0.5), -1, 1, 100, 255);
+                
+                // Sun glow
+                for(let r = sunSize * 2; r > 0; r -= 5) {
+                    let alpha = p.map(r, 0, sunSize * 2, sunAlpha, 0);
+                    p.fill(255, 150, 0, alpha * 0.3);
+                    p.noStroke();
+                    p.circle(canvasWidth * 0.8, currentSunY, r);
+                }
+                
+                // Main sun
+                p.fill(255, 200, 0, sunAlpha);
+                p.noStroke();
+                p.circle(canvasWidth * 0.8, currentSunY, sunSize);
+                
+                // Sun rays
+                p.stroke(255, 255, 100, sunAlpha * 0.7);
+                p.strokeWeight(3);
+                for(let angle = 0; angle < p.TWO_PI; angle += p.PI/8) {
+                    let rayLength = 40 + 20 * p.sin(time * 3 + angle);
+                    let x1 = canvasWidth * 0.8 + p.cos(angle) * (sunSize/2 + 10);
+                    let y1 = currentSunY + p.sin(angle) * (sunSize/2 + 10);
+                    let x2 = canvasWidth * 0.8 + p.cos(angle) * (sunSize/2 + rayLength);
+                    let y2 = currentSunY + p.sin(angle) * (sunSize/2 + rayLength);
+                    p.line(x1, y1, x2, y2);
+                }
+                
+                // Draw clouds
+                for(let cloud of clouds) {
+                    drawCloud(p, cloud.x, cloud.y, cloud.size);
+                    cloud.x += cloud.speed;
+                    if(cloud.x > canvasWidth + cloud.size) {
+                        cloud.x = -cloud.size;
+                    }
+                }
+                
+                // Draw mountains (silhouette)
+                p.fill(30, 20, 60, 200);
+                p.noStroke();
+                p.beginShape();
+                p.vertex(0, canvasHeight);
+                for(let mountain of mountains) {
+                    p.vertex(mountain.x, mountain.height);
+                }
+                p.vertex(canvasWidth, canvasHeight);
+                p.endShape(p.CLOSE);
+                
+                // Add some retro grid lines (optional)
+                drawRetroGrid(p);
+                
+                // Floating game elements
+                drawFloatingElements(p);
+            };
+            
+            function drawCloud(p, x, y, size) {
+                p.fill(255, 255, 255, 150);
+                p.noStroke();
+                // Cloud made of circles
+                p.circle(x, y, size * 0.6);
+                p.circle(x + size * 0.3, y, size * 0.5);
+                p.circle(x - size * 0.3, y, size * 0.5);
+                p.circle(x + size * 0.15, y - size * 0.2, size * 0.4);
+                p.circle(x - size * 0.15, y - size * 0.2, size * 0.4);
+            }
+            
+            function drawRetroGrid(p) {
+                p.stroke(255, 100, 255, 80);
+                p.strokeWeight(1);
+                
+                // Perspective grid on ground
+                let groundY = canvasHeight * 0.85;
+                for(let i = 0; i < 20; i++) {
+                    let lineY = groundY + i * 20;
+                    if(lineY < canvasHeight) {
+                        p.line(0, lineY, canvasWidth, lineY);
+                    }
+                }
+                
+                // Vertical lines
+                for(let i = 0; i < canvasWidth; i += 50) {
+                    p.line(i, groundY, i, canvasHeight);
+                }
+            }
+            
+            function drawFloatingElements(p) {
+                // Floating pixels/gems
+                let pixelSize = 8;
+                for(let i = 0; i < 10; i++) {
+                    let x = (i * 80 + time * 20) % canvasWidth;
+                    let y = canvasHeight * 0.7 + 30 * p.sin(time * 2 + i);
+                    let hue = (time * 50 + i * 36) % 360;
+                    
+                    p.fill(p.color(`hsl(${hue}, 80%, 60%)`));
+                    p.noStroke();
+                    p.rect(x, y, pixelSize, pixelSize);
+                    
+                    // Pixel glow
+                    p.fill(p.color(`hsl(${hue}, 80%, 80%)`));
+                    p.rect(x + 2, y + 2, pixelSize - 4, pixelSize - 4);
+                }
+            }
+            
+            p.windowResized = function() {
+                canvasWidth = p.windowWidth;
+                canvasHeight = p.windowHeight;
+                p.resizeCanvas(canvasWidth, canvasHeight);
+            };
+        };
+        
+        new p5(sunsetSketch);
+    </script>
+</body>
 </html>

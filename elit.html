@@ -1,417 +1,601 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>E-lit: Anastasia Salter</title>
+    <title>🎮 E-lit: Anastasia Salter</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,700" rel="stylesheet">
-
-    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
-    <link rel="stylesheet" href="css/animate.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Audiowide:wght@400&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="css/magnific-popup.css">
-
-    <link rel="stylesheet" href="css/aos.css">
-
-    <link rel="stylesheet" href="css/ionicons.min.css">
-
-    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
-    <link rel="stylesheet" href="css/jquery.timepicker.css">
-
-    
-    <link rel="stylesheet" href="css/flaticon.css">
-    <link rel="stylesheet" href="css/icomoon.css">
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+      :root {
+        --neon-pink: #ff00ff;
+        --neon-cyan: #00ffff;
+        --neon-yellow: #ffff00;
+        --neon-green: #00ff00;
+        --neon-purple: #8a2be2;
+        --electric-blue: #007fff;
+        --hot-pink: #ff1493;
+        --lime-green: #32cd32;
+        --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --dark-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      }
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Orbitron', sans-serif;
+        background: var(--gradient-bg);
+        color: #fff;
+        overflow-x: hidden;
+        position: relative;
+      }
+      
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+          radial-gradient(circle at 20% 20%, rgba(255, 0, 255, 0.3) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(0, 255, 255, 0.3) 0%, transparent 50%),
+          radial-gradient(circle at 40% 60%, rgba(255, 255, 0, 0.2) 0%, transparent 50%);
+        animation: colorShift 10s ease-in-out infinite;
+        z-index: -2;
+      }
+      
+      @keyframes colorShift {
+        0%, 100% { opacity: 0.7; }
+        50% { opacity: 1; }
+      }
+      
+      .floating-shapes {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+      }
+      
+      .shape {
+        position: absolute;
+        opacity: 0.6;
+        animation: float 6s ease-in-out infinite;
+      }
+      
+      .shape:nth-child(1) {
+        top: 10%;
+        left: 10%;
+        width: 60px;
+        height: 60px;
+        background: var(--neon-pink);
+        border-radius: 50%;
+        animation-delay: 0s;
+      }
+      
+      .shape:nth-child(2) {
+        top: 20%;
+        right: 10%;
+        width: 40px;
+        height: 40px;
+        background: var(--neon-cyan);
+        transform: rotate(45deg);
+        animation-delay: 1s;
+      }
+      
+      .shape:nth-child(3) {
+        bottom: 20%;
+        left: 15%;
+        width: 50px;
+        height: 50px;
+        background: var(--neon-yellow);
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        animation-delay: 2s;
+      }
+      
+      .shape:nth-child(4) {
+        bottom: 30%;
+        right: 20%;
+        width: 35px;
+        height: 35px;
+        background: var(--neon-green);
+        border-radius: 50%;
+        animation-delay: 3s;
+      }
+      
+      @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(180deg); }
+      }
+      
+      .navbar {
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+        padding: 1rem 0;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        border-bottom: 2px solid var(--neon-cyan);
+      }
+      
+      .navbar-brand {
+        font-family: 'Press Start 2P', cursive;
+        font-size: 1.2rem;
+        color: var(--neon-pink);
+        text-decoration: none;
+        text-shadow: 0 0 10px var(--neon-pink);
+      }
+      
+      .nav-link {
+        color: #fff;
+        font-weight: 600;
+        margin: 0 1rem;
+        position: relative;
+        transition: all 0.3s ease;
+        text-decoration: none;
+      }
+      
+      .nav-link:hover {
+        color: var(--neon-cyan);
+        text-shadow: 0 0 10px var(--neon-cyan);
+      }
+      
+      .nav-link.active {
+        color: var(--neon-yellow);
+        text-shadow: 0 0 15px var(--neon-yellow);
+      }
+      
+      .hero-section {
+        padding: 120px 0 80px;
+        text-align: center;
+        background: var(--dark-gradient);
+        position: relative;
+      }
+      
+      .hero-title {
+        font-family: 'Audiowide', cursive;
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(45deg, var(--neon-pink), var(--neon-cyan), var(--neon-yellow));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: glow 2s ease-in-out infinite alternate;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.5rem;
+        color: var(--neon-cyan);
+        margin-bottom: 2rem;
+        text-shadow: 0 0 20px var(--neon-cyan);
+      }
+      
+      @keyframes glow {
+        from { filter: drop-shadow(0 0 20px var(--neon-pink)); }
+        to { filter: drop-shadow(0 0 30px var(--neon-cyan)); }
+      }
+      
+      .section-title {
+        font-family: 'Press Start 2P', cursive;
+        font-size: 2rem;
+        text-align: center;
+        margin: 4rem 0 3rem;
+        color: var(--neon-yellow);
+        text-shadow: 0 0 20px var(--neon-yellow);
+      }
+      
+      .project-card {
+        background: rgba(0, 0, 0, 0.7);
+        border-radius: 15px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+        border: 2px solid var(--neon-cyan);
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+      
+      .project-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--neon-pink);
+        box-shadow: 0 20px 40px rgba(255, 0, 255, 0.3);
+      }
+      
+      .project-image {
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .project-image::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, rgba(255, 0, 255, 0.3), rgba(0, 255, 255, 0.3));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      
+      .project-card:hover .project-image::before {
+        opacity: 1;
+      }
+      
+      .project-content {
+        padding: 1.5rem;
+      }
+      
+      .project-title {
+        font-size: 1.2rem;
+        color: var(--neon-cyan);
+        margin-bottom: 0.5rem;
+        text-decoration: none;
+      }
+      
+      .project-title:hover {
+        color: var(--neon-pink);
+        text-shadow: 0 0 10px var(--neon-pink);
+      }
+      
+      .project-author {
+        color: var(--neon-yellow);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+      
+      .project-venue {
+        color: #fff;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+      }
+      
+      .project-year {
+        color: var(--neon-green);
+        font-weight: 600;
+      }
+      
+      .back-button {
+        display: inline-block;
+        background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple));
+        color: #fff;
+        padding: 12px 30px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        margin: 2rem 0;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      }
+      
+      .back-button:hover {
+        background: linear-gradient(45deg, var(--neon-purple), var(--neon-pink));
+        border-color: var(--neon-cyan);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(255, 0, 255, 0.3);
+        color: #fff;
+        text-decoration: none;
+      }
+      
+      .footer {
+        background: rgba(0, 0, 0, 0.9);
+        padding: 3rem 0;
+        text-align: center;
+        border-top: 2px solid var(--neon-cyan);
+        margin-top: 4rem;
+      }
+      
+      .footer-email {
+        color: var(--neon-pink);
+        font-size: 1.2rem;
+        text-decoration: none;
+        text-shadow: 0 0 10px var(--neon-pink);
+      }
+      
+      @media (max-width: 768px) {
+        .hero-title {
+          font-size: 2.5rem;
+        }
+        
+        .section-title {
+          font-size: 1.5rem;
+        }
+        
+        .navbar-brand {
+          font-size: 1rem;
+        }
+      }
+    </style>
   </head>
   <body>
 
-    <div class="KW_progressContainer">
-      <div class="KW_progressBar">
-
-      </div>
+    <!-- Floating Shapes Animation -->
+    <div class="floating-shapes">
+      <div class="shape"></div>
+      <div class="shape"></div>
+      <div class="shape"></div>
+      <div class="shape"></div>
     </div>
-    <div class="page">
-    <nav id="colorlib-main-nav" role="navigation">
-      <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle active"><i></i></a>
-      <div class="js-fullheight colorlib-table">
-      	<div class="img" style="background-image: url(images/author-2.jpg);"></div>
-        <div class="colorlib-table-cell js-fullheight">
-          <div class="row no-gutters">
-            <div class="col-md-12 text-center">
-              <h1 class="mb-4"><a href="index.html" class="logo">Anastasia Salter</a></h1>
-              <ul>
-                <li class="active"><a href="index.html"><span><small>01</small>Home</span></a></li>
-                <li><a href="about.html"><span><small>02</small>CV</span></a></li>
-                <li><a href="books.html"><span><small>03</small>Books</span></a></li>
-                <li><a href="elit.html"><span><small>04</small>E-lit</span></a></li>
-                <li><a href="research.html"><span><small>05</small>Research</span></a></li>
-              </ul>
-            </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <a class="navbar-brand" href="index.html">🎮 ANASTASIA SALTER</a>
+          <div class="d-flex">
+            <a class="nav-link" href="index.html">🏠 Home</a>
+            <a class="nav-link" href="about.html">📄 CV</a>
+            <a class="nav-link" href="research.html">🔬 Research</a>
+            <a class="nav-link active" href="elit.html">💻 E-lit</a>
           </div>
         </div>
       </div>
     </nav>
-    
-    <div id="colorlib-page">
-      <header>
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="colorlib-navbar-brand">
-                <a class="colorlib-logo" href="index.html"><span class="logo-img" style="background-image: url(images/person_1.jpg);"></span>Anastasia Salter</a>
-              </div>
-              <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
-            </div>
-          </div>
-        </div>
-      </header>
 
-      <section class="ftco-section">
-	      <div class="container mt-5">
-	      	<div class="row justify-content-center mb-5 pb-5">
-            <div class="col-md-7 text-center heading-section ftco-animate">
-              <span>Electronic Literature</span>
-              <h2>text - tech - textile</h2>
-            </div>
-          </div>
-	        <div class="row">
-	            <div class="col-md-4 ftco-animate">
-	            <div class="blog-entry">
-	              <a href="https://anastasiasalter.net/SpinningYarns/" class="block-20" style="background-image: url('yarns.jpg');">
-	              </a>
-	              <div class="text p-4 d-block">
-                  <h3 class="heading text-center"><a href="https://selfloud.net/SpinningYarns/">Spinning Yarns: Speculative Pasts of Electronic Literature</a></h3>
-                  <div class="meta mb-3 text-center">
-                    <div><strong>Anne Sullivan and Anastasia Salter</strong></div>
-                    <div><a href="Resistance">Electronic Literature Organization Exhibition: Portugal</a></div>
-	                  <div><a href="https://eloconference2023exhibitions.wordpress.com/exhibition2_resistance/spinning-yarns-speculative-pasts-of-electronic-literature//">2023</a></div>
-	                </div>
-	                
-	              </div>
-	            </div>
-	          </div>
-	            <div class="col-md-4 ftco-animate">
-	            <div class="blog-entry">
-	              <a href="https://anastasiasalter.net/post_anthropocene/" class="block-20" style="background-image: url('poetics.jpg');">
-	              </a>
-	              <div class="text p-4 d-block">
-                  <h3 class="heading text-center"><a href="https://selfloud.net/post_anthropocene/">Post-Anthropocene Poetics [De]Fused</a></h3>
-                  <div class="meta mb-3 text-center">
-                    <div><strong>Anne Sullivan and Anastasia Salter</strong></div>
-                    <div><a href="Post-Anthropocene Poetics [De]Fused">Electronic Literature Organization Exhibition: Italy</a></div>
-	                  <div><a href="https://www.elo2022.com/portfolio/salter-sullivan/">2022</a></div>
-	                </div>
-	                
-	              </div>
-	            </div>
-	          </div>
-	            <div class="col-md-4 ftco-animate">
-	            <div class="blog-entry">
-	              <a href="https://eliterature.org/elo2021/covid/" class="block-20" style="background-image: url('mask.jpg');">
-	              </a>
-	              <div class="text p-4 d-block">
-                  <h3 class="heading text-center"><a href="https://eliterature.org/elo2021/covid/">Masked Making</a></h3>
-                  <div class="meta mb-3 text-center">
-                    <div><strong>Lai-Tze Fan, Anne Sullivan, and Anastasia Salter</strong></div>
-                    <div><a href="https://eliterature.org/elo2021/covid/">Electronic Literature Organization Exhibition: Covid E-Lit </a> + <a href="https://collection.eliterature.org/4/masked-making">The Electronic Literature Collection Volume 4</a></div>
-	                  <div><a href="https://eliterature.org/elo2021/covid/">2021</a></div>
-	                </div>
-	                
-	              </div>
-	            </div>
-	          </div>
-	            <div class="col-md-4 ftco-animate">
-	            <div class="blog-entry">
-	              <a href="https://projects.cah.ucf.edu/mediaartsexhibits/uncontinuity/Murray/murray.html" class="block-20" style="background-image: url('tension.png');">
-	              </a>
-	              <div class="text p-4 d-block">
-                  <h3 class="heading text-center"><a href="https://projects.cah.ucf.edu/mediaartsexhibits/uncontinuity/Murray/murray.html">Tension Assembly</a></h3>
-                  <div class="meta mb-3 text-center">
-                    <div><strong>John Murray and Anastasia Salter</strong></div>
-                    <div><a href="https://projects.cah.ucf.edu/mediaartsexhibits/uncontinuity/Murray/murray.html">Electronic Literature Organization Exhibition: (un)continuity</a></div>
-	                  <div><a href="https://projects.cah.ucf.edu/mediaartsexhibits/uncontinuity/Murray/murray.html">2020</a></div>
-	                </div>
-	                
-	              </div>
-	            </div>
-	          </div>
-	          
-            <div class="col-md-4 ftco-animate">
-	            <div class="blog-entry">
-	              <a href="https://electronicbookreview.com/essay/retraced-threads-generating-feminist-textile-art-with-tracery/" class="block-20" style="background-image: url('threads.jpg');">
-	              </a>
-	              <div class="text p-4 d-block">
-                  <h3 class="heading text-center"><a href="https://electronicbookreview.com/essay/retraced-threads-generating-feminist-textile-art-with-tracery/">Re:Traced Threads</a></h3>
-                  <div class="meta mb-3 text-center">
-                    <div><strong>Anastasia Salter</strong></div>
-                    <div><a href="https://electronicbookreview.com/essay/retraced-threads-generating-feminist-textile-art-with-tracery/">Electronic Literature Organization Exhibition at the Glucksman, Ireland</a></div>
-	                  <div><a href="https://electronicbookreview.com/essay/retraced-threads-generating-feminist-textile-art-with-tracery/">2019</a></div>
-	                </div>
-	                
-	              </div>
-	            </div>
-            </div>
-            <div class="col-md-4 ftco-animate">
-            <div class="blog-entry">
-              <a href="http://hyperrhiz.io/hyperrhiz21/games/5-blocked-in.html" class="block-20" style="background-image: url('blocked.jpg');">
-              </a>
-              <div class="text p-4 d-block">
-                <h3 class="heading text-center"><a href="http://hyperrhiz.io/hyperrhiz21/games/5-blocked-in.html">Blocked In</a></h3>
-                <div class="meta mb-3 text-center">
-                  <div><strong>Anastasia Salter and John Murray</strong></div>
-                  <div><a href="http://hyperrhiz.io/hyperrhiz21/games/5-blocked-in.html"><i>Hyperrhiz: New Media Cultures 21</i> The Buzzademia Special Issue</a></div>
-                  <div><a href="http://hyperrhiz.io/hyperrhiz21/games/5-blocked-in.html">2019</a></div>
-                </div>
-                
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 ftco-animate">
-            <div class="blog-entry">
-              <a href="http://hyperrhiz.io/hyperrhiz21/list-explain-think/8-being-mii.html" class="block-20" style="background-image: url('mii.jpg');">
-              </a>
-              <div class="text p-4 d-block">
-                <h3 class="heading text-center"><a href="http://hyperrhiz.io/hyperrhiz21/list-explain-think/8-being-mii.html">Being Mii</a></h3>
-                <div class="meta mb-3 text-center">
-                  <div><strong>Anastasia Salter</strong></div>
-                  <div><a href="http://hyperrhiz.io/hyperrhiz21/list-explain-think/8-being-mii.html"><i>Hyperrhiz: New Media Cultures 21</i> The Buzzademia Special Issue</a></div>
-                  <div><a href="http://hyperrhiz.io/hyperrhiz21/list-explain-think/8-being-mii.html">2019</a></div>
-                </div>
-                
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 ftco-animate">
-            <div class="blog-entry">
-              <a href="https://never-here.neocities.org/" class="block-20" style="background-image: url('codes.jpg');">
-              </a>
-              <div class="text p-4 d-block">
-                <h3 class="heading text-center"><a href="https://never-here.neocities.org/">Blocked Connections</a></h3>
-                <div class="meta mb-3 text-center">
-                  <div><strong>Anastasia Salter and Anne Sullivan</strong></div>
-                  <div><a href="https://never-here.neocities.org/">Electronic Literature Organization Exhibition in Montreal</a></div>
-                  <div><a href="https://never-here.neocities.org/">2018</a></div>
-                </div>
-                
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 ftco-animate">
-            <div class="blog-entry">
-              <a href="https://adanewmedia.org/2018/05/issue13-kuchera/" class="block-20" style="background-image: url('spiderweb.jpg');">
-              </a>
-              <div class="text p-4 d-block">
-                <h3 class="heading text-center"><a href="https://adanewmedia.org/2018/05/issue13-kuchera/">The Spider's Web</a></h3>
-                <div class="meta mb-3 text-center">
-                  <div><strong>Collaboration led by Carly Kocurek</strong></div>
-                  <div><a href="https://adanewmedia.org/2018/05/issue13-kuchera/">Alternate Reality Game published in <i>Ada: A Journal of Gender, New Media, and Technology</i></a></div>
-                  <div><a href="https://adanewmedia.org/2018/05/issue13-kuchera/">2018</a></div>
-                </div>
-                
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 ftco-animate">
-            <div class="blog-entry">
-              <a href="https://ojs.deakin.edu.au/index.php/ps/article/view/656" class="block-20" style="background-image: url('ctrlalt.png');">
-              </a>
-              <div class="text p-4 d-block">
-                <h3 class="heading text-center"><a href="https://ojs.deakin.edu.au/index.php/ps/article/view/656">Alt-Right: Ctrl+A; Del</a></h3>
-                <div class="meta mb-3 text-center">
-                  <div><strong>Anastasia Salter and Bridget Blodgett</strong></div>
-                  <div><a href="https://ojs.deakin.edu.au/index.php/ps/article/view/656">Hypertext published in <i>Persona Studies</i></a></div>
-                  <div><a href="https://ojs.deakin.edu.au/index.php/ps/article/view/656">2017</a></div>
-                </div>
-                
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 ftco-animate">
-            <div class="blog-entry">
-              <a href="http://anastasiasalter.net/ElizaAndAndromeda/" class="block-20" style="background-image: url('eliza.png');">
-              </a>
-              <div class="text p-4 d-block">
-                <h3 class="heading text-center"><a href="http://selfloud.net/ElizaAndAndromeda/">Eliza and Andromeda</a></h3>
-                <div class="meta mb-3 text-center">
-                  <div><strong>Anastasia Salter and Deena Larsen</strong></div>
-                  <div><a href="http://anastasiasalter.net/ElizaAndAndromeda/">Electronic Literature Organization Exhibition in Porto</a></div>
-                  <div><a href="http://anastasiasalter.net/ElizaAndAndromeda/">2017</a></div>
-                </div>
-                
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 ftco-animate">
-            <div class="blog-entry">
-              <a href="http://kairos.technorhetoric.net/20.1/inventio/salter/index.html" class="block-20" style="background-image: url('alice.jpg');">
-              </a>
-              <div class="text p-4 d-block">
-                <h3 class="heading text-center"><a href="http://kairos.technorhetoric.net/20.1/inventio/salter/index.html">Alice in Dataland 2.0</a></h3>
-                <div class="meta mb-3 text-center">
-                  <div><strong>Anastasia Salter</strong></div>
-                  <div><a href="http://kairos.technorhetoric.net/20.1/inventio/salter/index.html">Hypertext published in <i>Kairos: A Journal of Rhetoric, Technology, and Pedagogy 20.1</i></a></div>
-                  <div><a href="http://kairos.technorhetoric.net/20.1/inventio/salter/index.html">2015</a></div>
-                </div>
-                
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 ftco-animate">
-            <div class="blog-entry">
-              <a href="http://aco.booktype.pro/elo-2015-the-ends-of-electronic-literature/john-murray-and-anastasia-salter-from-beyond-hybridity-ouija-board-project/" class="block-20" style="background-image: url('beyond.png');">
-              </a>
-              <div class="text p-4 d-block">
-                <h3 class="heading text-center"><a href="http://aco.booktype.pro/elo-2015-the-ends-of-electronic-literature/john-murray-and-anastasia-salter-from-beyond-hybridity-ouija-board-project/">From Beyond</a></h3>
-                <div class="meta mb-3 text-center">
-                  <div><strong>John Murray and Anastasia Salter</strong></div>
-                  <div><a href="http://aco.booktype.pro/elo-2015-the-ends-of-electronic-literature/john-murray-and-anastasia-salter-from-beyond-hybridity-ouija-board-project/">The End(s) of Electronic Literature Exhibition in Bergen, Norway</a></div>
-                  <div><a href="http://aco.booktype.pro/elo-2015-the-ends-of-electronic-literature/john-murray-and-anastasia-salter-from-beyond-hybridity-ouija-board-project/">2015</a></div>
-                </div>
-                
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 ftco-animate">
-            <div class="blog-entry">
-              <a href="https://www.unlikelystories.org/ethan/ethan-salter.shtml" class="block-20" style="background-image: url('nowhere.png');">
-              </a>
-              <div class="text p-4 d-block">
-                <h3 class="heading text-center"><a href="https://www.unlikelystories.org/ethan/ethan-salter.shtml">Nowhere</a></h3>
-                <div class="meta mb-3 text-center">
-                  <div><strong>Anastasia Salter from Jeremy Hight's text</strong></div>
-                  <div><a href="https://www.unlikelystories.org/ethan/ethan-salter.shtml">Unlikely Stories: Episode IV</a></div>
-                  <div><a href="https://www.unlikelystories.org/ethan/ethan-salter.shtml">2014</a></div>
-                </div>
-                
-              </div>
-            </div>
-          </div>
-        </div>
-        </div>
-        <div class="container mt-5">
-	      	<div class="row justify-content-center mb-5 pb-5">
-            <div class="col-md-7 text-center heading-section ftco-animate">
-              <span>Electronic Literature</span>
-              <h2>Curation</h2>
-            </div>
-          </div>
-	        <div class="row">
-	            <div class="col-md-4 ftco-animate">
-	            <div class="blog-entry">
-	              <a href="https://projects.cah.ucf.edu/mediaartsexhibits/cp2022/" class="block-20" style="background-image: url('arcade.jpg');">
-	              </a>
-	              <div class="text p-4 d-block">
-                  <h3 class="heading text-center"><a href="https://projects.cah.ucf.edu/mediaartsexhibits/cp2022/">CP Arcade: Reinvention</a></h3>
-                  <div class="meta mb-3 text-center">
-                    <div><strong>Anastasia Salter, with graphic design by PS Berge and web development by John Murray</strong></div>
-                    <div><a href="https://projects.cah.ucf.edu/mediaartsexhibits/cp2022/">Console-ing Passions Conference</a></div>
-	                  <div><a href="https://projects.cah.ucf.edu/mediaartsexhibits/cp2022/">2022</a></div>
-	                </div>
-	                
-	              </div>
-	            </div>
-	          </div>
-	          <div class="col-md-4 ftco-animate">
-	            <div class="blog-entry">
-	              <a href="https://projects.cah.ucf.edu/mediaartsexhibits/uncontinuity/" class="block-20" style="background-image: url('uncontinuity.png');">
-	              </a>
-	              <div class="text p-4 d-block">
-                  <h3 class="heading text-center"><a href="https://projects.cah.ucf.edu/mediaartsexhibits/uncontinuity/">(un)continuity</a></h3>
-                  <div class="meta mb-3 text-center">
-                    <div><strong>Shannon Lindsay, Ha'ani Hogan, and Anastasia Salter</strong></div>
-                    <div><a href="https://projects.cah.ucf.edu/mediaartsexhibits/uncontinuity/">Electronic Literature Organization Virtual Exhibition</a></div>
-	                  <div><a href="https://projects.cah.ucf.edu/mediaartsexhibits/uncontinuity/">2020</a></div>
-	                </div>
-	                
-	              </div>
-	            </div>
-	          </div>
-            <div class="col-md-4 ftco-animate">
-	            <div class="blog-entry">
-	              <a href="https://projects.cah.ucf.edu/mediaartsexhibits/ClimatesOfChange/" class="block-20" style="background-image: url('change.png');">
-	              </a>
-	              <div class="text p-4 d-block">
-                  <h3 class="heading text-center"><a href="https://projects.cah.ucf.edu/mediaartsexhibits/ClimatesOfChange/">Climates of Change</a></h3>
-                  <div class="meta mb-3 text-center">
-                    <div><strong>Jason Nelson and Anastasia Salter</strong></div>
-                    <div><a href="https://projects.cah.ucf.edu/mediaartsexhibits/ClimatesOfChange/">A Virtual Exhibit of ACM Hypertext and Social Media 2020</a></div>
-	                  <div><a href="https://projects.cah.ucf.edu/mediaartsexhibits/ClimatesOfChange/">2020</a></div>
-	                </div>
-	                
-	              </div>
-	            </div>
-            </div>
-            <div class="col-md-4 ftco-animate">
-            <div class="blog-entry">
-              <a href="http://collection.eliterature.org/3/" class="block-20" style="background-image: url('elc.png');">
-              </a>
-              <div class="text p-4 d-block">
-                <h3 class="heading text-center"><a href="http://collection.eliterature.org/3/">Electronic Literature Collection Volume 3</a></h3>
-                <div class="meta mb-3 text-center">
-                  <div><strong>Stephanie Boluk, Leonardo Flores, Jacob Garbe, and Anastasia Salter</strong></div>
-                  <div><a href="http://collection.eliterature.org/3/">The Electronic Literature Organization</a></div>
-                  <div><a href="http://collection.eliterature.org/3/">2016</a></div>
-                </div>
-                
-              </div>
-            </div>
-          </div>
-	    </section>
-      
-      <footer class="ftco-footer ftco-bg-dark ftco-section">
-        <div class="container">
-          <div class="row mb-5 justify-content-center">
-            <div class="col-md-5 text-center">
-              <div class="ftco-footer-widget mb-5">
-                <ul class="ftco-footer-social list-unstyled">
-                  <li class="ftco-animate"><a href="https://www.instagram.com/anasalter/"><span class="icon-instagram"></span></a></li>
-                </ul>
-              </div>
-              <div class="ftco-footer-widget">
-                <h2 class="mb-3">Contact Me</h2>
-                <p class="h3 email"><a href="#">anastasia@ucf.edu</a></p>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12 text-center">
-
-              <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-      Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true" style="color: red;"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-      <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-            </div>
-          </div>
-        </div>
-      </footer>
-
-      <!-- loader -->
-      <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
-
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <h1 class="hero-title">🎨 electronic literature</h1>
+        <p class="hero-subtitle">text × tech × textile 🧵</p>
+        <a href="index.html" class="back-button">
+          <i class="fas fa-arrow-left"></i> Back to Main Hub
+        </a>
       </div>
+    </section>
 
-    </div>
+    <!-- Electronic Literature Works Section -->
+    <section class="container">
+      <h2 class="section-title">🌟 Works</h2>
+      
+      <div class="row">
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-image" style="background-image: url('yarns.jpg');"></div>
+            <div class="project-content">
+              <h3><a href="https://anastasiasalter.net/SpinningYarns/" class="project-title">Spinning Yarns: Speculative Pasts of Electronic Literature</a></h3>
+              <div class="project-author"><strong>Anne Sullivan and Anastasia Salter</strong></div>
+              <div class="project-venue">Electronic Literature Organization Exhibition: Portugal</div>
+              <div class="project-year">2023 🏆</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-image" style="background-image: url('poetics.jpg');"></div>
+            <div class="project-content">
+              <h3><a href="https://anastasiasalter.net/post_anthropocene/" class="project-title">Post-Anthropocene Poetics [De]Fused</a></h3>
+              <div class="project-author"><strong>Anne Sullivan and Anastasia Salter</strong></div>
+              <div class="project-venue">Electronic Literature Organization Exhibition: Italy</div>
+              <div class="project-year">2022 🌍</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-image" style="background-image: url('mask.jpg');"></div>
+            <div class="project-content">
+              <h3><a href="https://eliterature.org/elo2021/covid/" class="project-title">Masked Making</a></h3>
+              <div class="project-author"><strong>Lai-Tze Fan, Anne Sullivan, and Anastasia Salter</strong></div>
+              <div class="project-venue">Electronic Literature Organization Exhibition: Covid E-Lit + ELC Volume 4</div>
+              <div class="project-year">2021 😷</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-image" style="background-image: url('tension.png');"></div>
+            <div class="project-content">
+              <h3><a href="https://projects.cah.ucf.edu/mediaartsexhibits/uncontinuity/Murray/murray.html" class="project-title">Tension Assembly</a></h3>
+              <div class="project-author"><strong>John Murray and Anastasia Salter</strong></div>
+              <div class="project-venue">Electronic Literature Organization Exhibition: (un)continuity</div>
+              <div class="project-year">2020 🔧</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-image" style="background-image: url('threads.jpg');"></div>
+            <div class="project-content">
+              <h3><a href="https://electronicbookreview.com/essay/retraced-threads-generating-feminist-textile-art-with-tracery/" class="project-title">Re:Traced Threads</a></h3>
+              <div class="project-author"><strong>Anastasia Salter</strong></div>
+              <div class="project-venue">Electronic Literature Organization Exhibition at the Glucksman, Ireland</div>
+              <div class="project-year">2019 🧵</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-image" style="background-image: url('blocked.jpg');"></div>
+            <div class="project-content">
+              <h3><a href="http://hyperrhiz.io/hyperrhiz21/games/5-blocked-in.html" class="project-title">Blocked In</a></h3>
+              <div class="project-author"><strong>Anastasia Salter and John Murray</strong></div>
+              <div class="project-venue"><i>Hyperrhiz: New Media Cultures 21</i> The Buzzademia Special Issue</div>
+              <div class="project-year">2019 🚫</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-image" style="background-image: url('mii.jpg');"></div>
+            <div class="project-content">
+              <h3><a href="http://hyperrhiz.io/hyperrhiz21/list-explain-think/8-being-mii.html" class="project-title">Being Mii</a></h3>
+              <div class="project-author"><strong>Anastasia Salter</strong></div>
+              <div class="project-venue"><i>Hyperrhiz: New Media Cultures 21</i> The Buzzademia Special Issue</div>
+              <div class="project-year">2019 👤</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-image" style="background-image: url('codes.jpg');"></div>
+            <div class="project-content">
+              <h3><a href="https://never-here.neocities.org/" class="project-title">Blocked Connections</a></h3>
+              <div class="project-author"><strong>Anastasia Salter and Anne Sullivan</strong></div>
+              <div class="project-venue">Electronic Literature Organization Exhibition in Montreal</div>
+              <div class="project-year">2018 🔗</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-image" style="background-image: url('spiderweb.jpg');"></div>
+            <div class="project-content">
+              <h3><a href="https://adanewmedia.org/2018/05/issue13-kuchera/" class="project-title">The Spider's Web</a></h3>
+              <div class="project-author"><strong>Collaboration led by Carly Kocurek</strong></div>
+              <div class="project-venue">Alternate Reality Game published in <i>Ada: A Journal of Gender, New Media, and Technology</i></div>
+              <div class="project-year">2018 🕷️</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-image" style="background-image: url('ctrlalt.png');"></div>
+            <div class="project-content">
+              <h3><a href="https://ojs.deakin.edu.au/index.php/ps/article/view/656" class="project-title">Alt-Right: Ctrl+A; Del</a></h3>
+              <div class="project-author"><strong>Anastasia Salter and Bridget Blodgett</strong></div>
+              <div class="project-venue">Hypertext published in <i>Persona Studies</i></div>
+              <div class="project-year">2017 ⌨️</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-image" style="background-image: url('eliza.png');"></div>
+            <div class="project-content">
+              <h3><a href="http://anastasiasalter.net/ElizaAndAndromeda/" class="project-title">Eliza and Andromeda</a></h3>
+              <div class="project-author"><strong>Anastasia Salter and Deena Larsen</strong></div>
+              <div class="project-venue">Electronic Literature Organization Exhibition in Porto</div>
+              <div class="project-year">2017 🤖</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-image" style="background-image: url('alice.jpg');"></div>
+            <div class="project-content">
+              <h3><a href="http://kairos.technorhetoric.net/20.1/inventio/salter/index.html" class="project-title">Alice in Dataland 2.0</a></h3>
+              <div class="project-author"><strong>Anastasia Salter</strong></div>
+              <div class="project-venue">Hypertext published in <i>Kairos: A Journal of Rhetoric, Technology, and Pedagogy 20.1</i></div>
+              <div class="project-year">2015 🐰</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-image" style="background-image: url('beyond.png');"></div>
+            <div class="project-content">
+              <h3><a href="http://aco.booktype.pro/elo-2015-the-ends-of-electronic-literature/john-murray-and-anastasia-salter-from-beyond-hybridity-ouija-board-project/" class="project-title">From Beyond</a></h3>
+              <div class="project-author"><strong>John Murray and Anastasia Salter</strong></div>
+              <div class="project-venue">The End(s) of Electronic Literature Exhibition in Bergen, Norway</div>
+              <div class="project-year">2015 👻</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-image" style="background-image: url('nowhere.png');"></div>
+            <div class="project-content">
+              <h3><a href="https://www.unlikelystories.org/ethan/ethan-salter.shtml" class="project-title">Nowhere</a></h3>
+              <div class="project-author"><strong>Anastasia Salter from Jeremy Hight's text</strong></div>
+              <div class="project-venue">Unlikely Stories: Episode IV</div>
+              <div class="project-year">2014 🌌</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <!-- Curation Section -->
+    <section class="container">
+      <h2 class="section-title">🎪 Curation & Exhibitions</h2>
+      
+      <div class="row">
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-image" style="background-image: url('arcade.jpg');"></div>
+            <div class="project-content">
+              <h3><a href="https://projects.cah.ucf.edu/mediaartsexhibits/cp2022/" class="project-title">CP Arcade: Reinvention</a></h3>
+              <div class="project-author"><strong>Anastasia Salter, with graphic design by PS Berge and web development by John Murray</strong></div>
+              <div class="project-venue">Console-ing Passions Conference</div>
+              <div class="project-year">2022 🕹️</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-image" style="background-image: url('uncontinuity.png');"></div>
+            <div class="project-content">
+              <h3><a href="https://projects.cah.ucf.edu/mediaartsexhibits/uncontinuity/" class="project-title">(un)continuity</a></h3>
+              <div class="project-author"><strong>Shannon Lindsay, Ha'ani Hogan, and Anastasia Salter</strong></div>
+              <div class="project-venue">Electronic Literature Organization Virtual Exhibition</div>
+              <div class="project-year">2020 🔄</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-image" style="background-image: url('change.png');"></div>
+            <div class="project-content">
+              <h3><a href="https://projects.cah.ucf.edu/mediaartsexhibits/ClimatesOfChange/" class="project-title">Climates of Change</a></h3>
+              <div class="project-author"><strong>Jason Nelson and Anastasia Salter</strong></div>
+              <div class="project-venue">A Virtual Exhibit of ACM Hypertext and Social Media 2020</div>
+              <div class="project-year">2020 🌡️</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-image" style="background-image: url('elc.png');"></div>
+            <div class="project-content">
+              <h3><a href="http://collection.eliterature.org/3/" class="project-title">Electronic Literature Collection Volume 3</a></h3>
+              <div class="project-author"><strong>Stephanie Boluk, Leonardo Flores, Jacob Garbe, and Anastasia Salter</strong></div>
+              <div class="project-venue">The Electronic Literature Organization</div>
+              <div class="project-year">2016 📚</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/jquery-migrate-3.0.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.easing.1.3.js"></script>
-    <script src="js/jquery.waypoints.min.js"></script>
-    <script src="js/jquery.stellar.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/aos.js"></script>
-    <script src="js/jquery.animateNumber.min.js"></script>
-    <script src="js/scrollax.min.js"></script>
-    <script src="js/bootstrap-datepicker.js"></script>
-    <script src="js/jquery.timepicker.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-    <script src="js/google-map.js"></script>
-    <script src="js/main.js"></script>
-    
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <h3 style="color: var(--neon-cyan); margin-bottom: 1rem;">🚀 Contact</h3>
+        <a href="mailto:anastasia@ucf.edu" class="footer-email">anastasia@ucf.edu</a>
+        <p style="margin-top: 2rem; color: #888;">✨ Powered by retro vibes and digital dreams ✨</p>
+      </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
