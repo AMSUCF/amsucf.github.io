@@ -385,18 +385,96 @@
             justify-content: center;
             writing-mode: vertical-lr;
             text-orientation: mixed;
+            transform-style: preserve-3d;
+            perspective: 1000px;
             box-shadow: 
-                2px 0 5px rgba(0, 0, 0, 0.3),
-                inset -2px 0 3px rgba(255, 255, 255, 0.2);
+                4px 0 12px rgba(0, 0, 0, 0.5),
+                inset -4px 0 8px rgba(255, 255, 255, 0.4),
+                inset 4px 0 8px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.15),
+                0 2px 4px rgba(0, 0, 0, 0.2);
+            /* Add subtle embossed effect */
+            border-left: 1px solid rgba(255, 255, 255, 0.3);
+            border-right: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        /* Add subtle texture and spine lines for realism */
+        .book-spine {
+            /* Add some subtle texture */
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 1px,
+                    rgba(0, 0, 0, 0.03) 1px,
+                    rgba(0, 0, 0, 0.03) 2px
+                );
+        }
+
+        /* Add spine center line effect */
+        .book-spine:hover::before {
+            background: linear-gradient(to right, 
+                rgba(0, 0, 0, 0.5) 0%,
+                rgba(0, 0, 0, 0.3) 30%,
+                rgba(0, 0, 0, 0.1) 70%,
+                rgba(255, 255, 255, 0.2) 100%);
+        }
+
+        /* Add subtle raised lettering effect */
+        .book-text {
+            position: relative;
+            z-index: 2;
+            /* Enhanced text shadow for depth */
+            text-shadow: 
+                1px 1px 2px rgba(0, 0, 0, 0.8),
+                2px 2px 4px rgba(0, 0, 0, 0.5),
+                1px 1px 0px rgba(0, 0, 0, 0.9);
+        }
+
+        .book-spine::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -6px;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(to right, 
+                rgba(0, 0, 0, 0.4) 0%,
+                rgba(0, 0, 0, 0.2) 30%,
+                rgba(0, 0, 0, 0.1) 70%,
+                rgba(255, 255, 255, 0.1) 100%);
+            border-radius: 0 2px 0 0;
+            transform: skewY(-3deg);
+            z-index: -1;
+        }
+
+        .book-spine::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, 
+                rgba(0, 0, 0, 0.5) 0%,
+                rgba(0, 0, 0, 0.3) 30%,
+                rgba(0, 0, 0, 0.2) 70%,
+                rgba(0, 0, 0, 0.5) 100%);
+            border-radius: 0 0 2px 2px;
+            transform: skewX(-5deg);
+            z-index: -1;
         }
 
         .book-spine:hover {
-            transform: translateY(-20px) scale(1.1);
+            transform: translateY(-20px) scale(1.1) rotateX(5deg) rotateY(-5deg);
             z-index: 10;
             box-shadow: 
-                0 20px 30px rgba(0, 0, 0, 0.4),
-                2px 0 5px rgba(0, 0, 0, 0.3),
-                inset -2px 0 3px rgba(255, 255, 255, 0.3);
+                0 25px 40px rgba(0, 0, 0, 0.5),
+                6px 0 15px rgba(0, 0, 0, 0.4),
+                inset -6px 0 10px rgba(255, 255, 255, 0.5),
+                inset 6px 0 10px rgba(0, 0, 0, 0.2),
+                0 0 0 2px rgba(255, 255, 255, 0.2),
+                0 5px 10px rgba(0, 0, 0, 0.3);
         }
 
         .book-text {
@@ -405,10 +483,15 @@
             text-align: center;
             line-height: 1.2;
             color: white;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            text-shadow: 
+                1px 1px 2px rgba(0, 0, 0, 0.8),
+                2px 2px 4px rgba(0, 0, 0, 0.5),
+                1px 1px 0px rgba(0, 0, 0, 0.9);
             writing-mode: horizontal-tb;
             transform: rotate(90deg);
             white-space: nowrap;
+            position: relative;
+            z-index: 2;
         }
 
         /* Individual book colors */
@@ -589,35 +672,35 @@
             <div class="shelf-background">
                 <div class="shelf-wood"></div>
                 <div class="book-collection">
-                    <div class="book-spine book-1">
-                        <div class="book-text">UNDERTALE</div>
+                    <div class="book-spine book-1" data-book="undertale">
+                        <div class="book-text" data-title="UNDERTALE">UNDERTALE</div>
                     </div>
-                    <div class="book-spine book-2">
-                        <div class="book-text">CRITICAL<br>MAKING</div>
+                    <div class="book-spine book-2" data-book="critical-making">
+                        <div class="book-text" data-title="CRITICAL MAKING">CRITICAL<br>MAKING</div>
                     </div>
-                    <div class="book-spine book-3">
-                        <div class="book-text">PLAYFUL<br>PEDAGOGY</div>
+                    <div class="book-spine book-3" data-book="playful-pedagogy">
+                        <div class="book-text" data-title="PLAYFUL PEDAGOGY">PLAYFUL<br>PEDAGOGY</div>
                     </div>
-                    <div class="book-spine book-4">
-                        <div class="book-text">TWINING</div>
+                    <div class="book-spine book-4" data-book="twining">
+                        <div class="book-text" data-title="TWINING">TWINING</div>
                     </div>
-                    <div class="book-spine book-5">
-                        <div class="book-text">FANBOY<br>AUTEUR</div>
+                    <div class="book-spine book-5" data-book="fanboy-auteur">
+                        <div class="book-text" data-title="FANBOY AUTEUR">FANBOY<br>AUTEUR</div>
                     </div>
-                    <div class="book-spine book-6">
-                        <div class="book-text">ADVENTURE<br>GAMES</div>
+                    <div class="book-spine book-6" data-book="adventure-games">
+                        <div class="book-text" data-title="ADVENTURE GAMES">ADVENTURE<br>GAMES</div>
                     </div>
-                    <div class="book-spine book-7">
-                        <div class="book-text">TOXIC<br>GEEK</div>
+                    <div class="book-spine book-7" data-book="toxic-geek">
+                        <div class="book-text" data-title="TOXIC GEEK">TOXIC<br>GEEK</div>
                     </div>
-                    <div class="book-spine book-8">
-                        <div class="book-text">JANE<br>JENSEN</div>
+                    <div class="book-spine book-8" data-book="jane-jensen">
+                        <div class="book-text" data-title="JANE JENSEN">JANE<br>JENSEN</div>
                     </div>
-                    <div class="book-spine book-9">
-                        <div class="book-text">QUEST</div>
+                    <div class="book-spine book-9" data-book="quest">
+                        <div class="book-text" data-title="QUEST">QUEST</div>
                     </div>
-                    <div class="book-spine book-10">
-                        <div class="book-text">FLASH</div>
+                    <div class="book-spine book-10" data-book="flash">
+                        <div class="book-text" data-title="FLASH">FLASH</div>
                     </div>
                 </div>
                 <div class="shelf-shadow"></div>
@@ -636,7 +719,7 @@
             <div class="row">
                 <!-- Undertale Book - Latest -->
                 <div class="col-lg-6 mb-4" data-aos="fade-right">
-                    <div class="book-card featured-book">
+                    <div class="book-card featured-book" id="undertale">
                         <img src="undertale.jpg" alt="Undertale: Can a Game Give Hope?" class="book-img">
                         <div class="p-4">
                             <div class="badge bg-success mb-2">🆕 Newest Release!</div>
@@ -650,7 +733,7 @@
                 
                 <!-- Critical Making Book -->
                 <div class="col-lg-6 mb-4" data-aos="fade-left">
-                    <div class="book-card">
+                    <div class="book-card" id="critical-making">
                         <img src="making.jpg" alt="Critical Making in the Age of AI" class="book-img">
                         <div class="p-4">
                             <h5>Critical Making in the Age of AI 🤖</h5>
@@ -675,7 +758,7 @@
             <div class="row">
                 <!-- Playful Pedagogy Book -->
                 <div class="col-lg-6 mb-4" data-aos="fade-right">
-                    <div class="book-card">
+                    <div class="book-card" id="playful-pedagogy">
                         <img src="pivoting.jpg" alt="Playful Pedagogy in the Pandemic" class="book-img">
                         <div class="p-4">
                             <h5>Playful Pedagogy in the Pandemic 🎲</h5>
@@ -688,7 +771,7 @@
                 
                 <!-- Twining Book -->
                 <div class="col-lg-6 mb-4" data-aos="fade-left">
-                    <div class="book-card">
+                    <div class="book-card" id="twining">
                         <img src="twining.png" alt="Twining" class="book-img">
                         <div class="p-4">
                             <h5>Twining: Critical and Creative Approaches to Hypertext Narratives 🔗</h5>
@@ -701,7 +784,7 @@
                 
                 <!-- Fanboy Auteur Book -->
                 <div class="col-lg-6 mb-4" data-aos="fade-right">
-                    <div class="book-card">
+                    <div class="book-card" id="fanboy-auteur">
                         <img src="fanboy.jpg" alt="A Portrait of the Auteur as Fanboy" class="book-img">
                         <div class="p-4">
                             <h5>A Portrait of the Auteur as Fanboy 🎬</h5>
@@ -714,7 +797,7 @@
 
                 <!-- Playing the Outsider Book -->
                 <div class="col-lg-6 mb-4" data-aos="fade-left">
-                    <div class="book-card">
+                    <div class="book-card" id="adventure-games">
                         <img src="outsider.jpg" alt="Playing the Outsider" class="book-img">
                         <div class="p-4">
                             <h5>Adventure Games: Playing the Outsider 🎭</h5>
@@ -727,7 +810,7 @@
 
                 <!-- Toxic Geek Masculinity Book -->
                 <div class="col-lg-6 mb-4" data-aos="fade-right">
-                    <div class="book-card">
+                    <div class="book-card" id="toxic-geek">
                         <img src="geek.jpg" alt="Toxic Geek Masculinity in Media" class="book-img">
                         <div class="p-4">
                             <h5>Toxic Geek Masculinity in Media 🚫</h5>
@@ -740,7 +823,7 @@
 
                 <!-- Jane Jensen Book -->
                 <div class="col-lg-6 mb-4" data-aos="fade-left">
-                    <div class="book-card">
+                    <div class="book-card" id="jane-jensen">
                         <img src="jensen.jpg" alt="Jane Jensen: Gabriel Knight, Adventure Games, Hidden Objects" class="book-img">
                         <div class="p-4">
                             <h5>Jane Jensen: Gabriel Knight, Adventure Games, Hidden Objects 🔍</h5>
@@ -753,7 +836,7 @@
 
                 <!-- What is Your Quest Book -->
                 <div class="col-lg-6 mb-4" data-aos="fade-right">
-                    <div class="book-card">
+                    <div class="book-card" id="quest">
                         <img src="quest.jpg" alt="What is Your Quest?" class="book-img">
                         <div class="p-4">
                             <h5>What is Your Quest?: From Adventure Games to Interactive Books 📚</h5>
@@ -766,7 +849,7 @@
 
                 <!-- Flash Book -->
                 <div class="col-lg-6 mb-4" data-aos="fade-left">
-                    <div class="book-card">
+                    <div class="book-card" id="flash">
                         <img src="flash.jpg" alt="Flash: Building the Interactive Web" class="book-img">
                         <div class="p-4">
                             <h5>Flash: Building the Interactive Web ⚡</h5>
@@ -812,6 +895,44 @@
         AOS.init({
             duration: 1000,
             once: true
+        });
+
+        // Book spine click functionality
+        document.querySelectorAll('.book-spine').forEach(spine => {
+            spine.addEventListener('click', function() {
+                const bookId = this.getAttribute('data-book');
+                const targetBook = document.getElementById(bookId);
+                
+                if (targetBook) {
+                    // Add a visual feedback before scrolling
+                    this.style.transform = 'translateY(-30px) scale(1.2)';
+                    this.style.transition = 'transform 0.3s ease';
+                    
+                    // Reset the transform after animation
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 300);
+                    
+                    // Scroll to the target book with smooth animation
+                    targetBook.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                    
+                    // Add a brief highlight effect to the target book
+                    setTimeout(() => {
+                        targetBook.style.transition = 'transform 0.5s ease, box-shadow 0.5s ease';
+                        targetBook.style.transform = 'scale(1.05)';
+                        targetBook.style.boxShadow = '0 25px 50px rgba(255, 215, 0, 0.6)';
+                        
+                        // Reset the highlight after 2 seconds
+                        setTimeout(() => {
+                            targetBook.style.transform = '';
+                            targetBook.style.boxShadow = '';
+                        }, 2000);
+                    }, 500);
+                }
+            });
         });
 
         // Add sparkle cursor effect
