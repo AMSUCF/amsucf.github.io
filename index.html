@@ -82,7 +82,7 @@
             height: 100vh;
         }
 
-        /* Animated Background */
+        /* Animated Background - Mouse Responsive */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -90,19 +90,35 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: linear-gradient(45deg, 
-                var(--primary-pink), 
-                var(--primary-purple), 
-                var(--primary-blue), 
+            background: linear-gradient(
+                calc(45deg + var(--mouse-x-percent, 50%) * 0.5),
+                var(--primary-pink),
+                var(--primary-purple),
+                var(--primary-blue),
                 var(--primary-green));
             background-size: 400% 400%;
+            background-position: var(--mouse-x-percent, 50%) var(--mouse-y-percent, 50%);
             animation: gradientShift 8s ease infinite;
+            transition: background-position 0.3s ease-out;
+            will-change: background-position;
         }
 
         @keyframes gradientShift {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
+        }
+
+        /* Override animation when mouse is active */
+        .animated-bg.mouse-active {
+            animation: none;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .animated-bg {
+                animation: none;
+                transition: none;
+            }
         }
 
         /* Floating shapes animation */
@@ -449,6 +465,59 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
+
+        /* Animation Toggle Button */
+        .animation-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-pink), var(--primary-purple));
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .animation-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .animation-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .animation-toggle.disabled {
+            background: linear-gradient(45deg, #666, #999);
+            opacity: 0.6;
+        }
+
+        .animation-toggle i {
+            transition: transform 0.3s ease;
+        }
+
+        .animation-toggle:hover i {
+            transform: rotate(20deg);
+        }
+
+        @media (max-width: 768px) {
+            .animation-toggle {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -499,6 +568,11 @@
         </div>
     </nav>
 
+    <!-- Animation Toggle Button -->
+    <button id="animationToggle" class="animation-toggle" aria-label="Toggle interactive animations" title="Toggle interactive animations">
+        <i class="fas fa-magic"></i>
+    </button>
+
     <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="container-fluid p-0">
@@ -540,6 +614,270 @@
             once: true
         });
 
+        // ======================================
+        // INTERACTIVE ANIMATION SYSTEM
+        // ======================================
+
+        // Mouse state tracking
+        const mouseState = {
+            x: window.innerWidth / 2,
+            y: window.innerHeight / 2,
+            prevX: window.innerWidth / 2,
+            prevY: window.innerHeight / 2,
+            velocity: 0,
+            isMoving: false,
+            lastMoveTime: Date.now()
+        };
+
+        // Utility Functions
+        function distance(x1, y1, x2, y2) {
+            const dx = x2 - x1;
+            const dy = y2 - y1;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        function lerp(start, end, amount) {
+            return start + (end - start) * amount;
+        }
+
+        function easeInOutQuad(t) {
+            return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        }
+
+        function easeOutCubic(t) {
+            return (--t) * t * t + 1;
+        }
+
+        function easeOutQuart(t) {
+            return 1 - (--t) * t * t * t;
+        }
+
+        function normalize(x, y) {
+            const mag = Math.sqrt(x * x + y * y);
+            if (mag === 0) return { x: 0, y: 0 };
+            return { x: x / mag, y: y / mag };
+        }
+
+        function magnitude(x, y) {
+            return Math.sqrt(x * x + y * y);
+        }
+
+        function map(value, start1, stop1, start2, stop2) {
+            return start2 + (stop2 - start2) * ((value - start1) / (stop1 - start1));
+        }
+
+        function constrain(value, min, max) {
+            return Math.min(Math.max(value, min), max);
+        }
+
+        // Throttle function for performance
+        function throttle(func, limit) {
+            let inThrottle;
+            return function(...args) {
+                if (!inThrottle) {
+                    func.apply(this, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            };
+        }
+
+        // Check for reduced motion preference
+        let prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // Animation state (can be toggled by user)
+        let animationsEnabled = !prefersReducedMotion;
+
+        // Animation toggle button functionality
+        const toggleButton = document.getElementById('animationToggle');
+
+        if (toggleButton) {
+            // Set initial state
+            if (!animationsEnabled) {
+                toggleButton.classList.add('disabled');
+                toggleButton.setAttribute('aria-pressed', 'false');
+            } else {
+                toggleButton.setAttribute('aria-pressed', 'true');
+            }
+
+            toggleButton.addEventListener('click', function() {
+                animationsEnabled = !animationsEnabled;
+
+                if (animationsEnabled) {
+                    toggleButton.classList.remove('disabled');
+                    toggleButton.setAttribute('aria-pressed', 'true');
+                    toggleButton.title = 'Disable interactive animations';
+
+                    // Restart animation loop if it was stopped
+                    if (!prefersReducedMotion) {
+                        updateFloatingShapes();
+                    }
+                } else {
+                    toggleButton.classList.add('disabled');
+                    toggleButton.setAttribute('aria-pressed', 'false');
+                    toggleButton.title = 'Enable interactive animations';
+                }
+            });
+        }
+
+        // Mouse tracking event listeners
+        let animationFrameId;
+
+        document.addEventListener('mousemove', function(e) {
+            mouseState.prevX = mouseState.x;
+            mouseState.prevY = mouseState.y;
+            mouseState.x = e.clientX;
+            mouseState.y = e.clientY;
+
+            // Calculate velocity
+            const dx = mouseState.x - mouseState.prevX;
+            const dy = mouseState.y - mouseState.prevY;
+            mouseState.velocity = Math.sqrt(dx * dx + dy * dy);
+
+            mouseState.isMoving = true;
+            mouseState.lastMoveTime = Date.now();
+
+            // Update CSS custom properties for background
+            document.documentElement.style.setProperty('--mouse-x', mouseState.x + 'px');
+            document.documentElement.style.setProperty('--mouse-y', mouseState.y + 'px');
+            document.documentElement.style.setProperty('--mouse-x-percent', (mouseState.x / window.innerWidth * 100) + '%');
+            document.documentElement.style.setProperty('--mouse-y-percent', (mouseState.y / window.innerHeight * 100) + '%');
+        });
+
+        // Track when mouse stops moving
+        setInterval(() => {
+            if (Date.now() - mouseState.lastMoveTime > 100) {
+                mouseState.isMoving = false;
+                mouseState.velocity = 0;
+            }
+        }, 100);
+
+        // Touch support
+        document.addEventListener('touchmove', function(e) {
+            if (e.touches.length > 0) {
+                const touch = e.touches[0];
+                mouseState.prevX = mouseState.x;
+                mouseState.prevY = mouseState.y;
+                mouseState.x = touch.clientX;
+                mouseState.y = touch.clientY;
+                mouseState.isMoving = true;
+                mouseState.lastMoveTime = Date.now();
+            }
+        });
+
+        document.addEventListener('touchend', function() {
+            mouseState.isMoving = false;
+        });
+
+        // Interactive background control
+        const animatedBg = document.querySelector('.animated-bg');
+        let bgTimeout;
+
+        document.addEventListener('mousemove', function() {
+            if (animationsEnabled && animatedBg) {
+                animatedBg.classList.add('mouse-active');
+                clearTimeout(bgTimeout);
+                bgTimeout = setTimeout(() => {
+                    animatedBg.classList.remove('mouse-active');
+                }, 2000);
+            }
+        });
+
+        // ======================================
+        // INTERACTIVE FLOATING SHAPES
+        // ======================================
+
+        const shapes = document.querySelectorAll('.shape');
+        const shapeData = [];
+        const DETECTION_RADIUS = 200;
+        const REPULSION_FORCE = 0.5;
+
+        // Store original positions
+        shapes.forEach((shape, index) => {
+            const rect = shape.getBoundingClientRect();
+            shapeData.push({
+                element: shape,
+                originalX: rect.left + rect.width / 2,
+                originalY: rect.top + rect.height / 2,
+                currentX: 0,
+                currentY: 0,
+                targetX: 0,
+                targetY: 0,
+                scale: 1,
+                targetScale: 1,
+                opacity: 0.15,
+                targetOpacity: 0.15,
+                rotation: 0,
+                targetRotation: 0
+            });
+        });
+
+        function updateFloatingShapes() {
+            if (!animationsEnabled) return;
+
+            shapeData.forEach(data => {
+                // Calculate distance from mouse to shape center
+                const dist = distance(
+                    data.originalX,
+                    data.originalY,
+                    mouseState.x,
+                    mouseState.y
+                );
+
+                if (dist < DETECTION_RADIUS) {
+                    // Mouse is near - calculate repulsion
+                    const influence = 1 - (dist / DETECTION_RADIUS);
+                    const angle = Math.atan2(
+                        data.originalY - mouseState.y,
+                        data.originalX - mouseState.x
+                    );
+
+                    // Repulsion effect
+                    const repulsionDist = influence * REPULSION_FORCE * 100;
+                    data.targetX = Math.cos(angle) * repulsionDist;
+                    data.targetY = Math.sin(angle) * repulsionDist;
+
+                    // Scale up
+                    data.targetScale = 1 + (influence * 0.5);
+
+                    // Increase opacity
+                    data.targetOpacity = 0.15 + (influence * 0.35);
+
+                    // Rotate based on angle
+                    data.targetRotation = angle * (180 / Math.PI) + (influence * 45);
+                } else {
+                    // Return to normal
+                    data.targetX = 0;
+                    data.targetY = 0;
+                    data.targetScale = 1;
+                    data.targetOpacity = 0.15;
+                    data.targetRotation = 0;
+                }
+
+                // Smooth interpolation
+                data.currentX = lerp(data.currentX, data.targetX, 0.1);
+                data.currentY = lerp(data.currentY, data.targetY, 0.1);
+                data.scale = lerp(data.scale, data.targetScale, 0.1);
+                data.opacity = lerp(data.opacity, data.targetOpacity, 0.1);
+                data.rotation = lerp(data.rotation, data.targetRotation, 0.1);
+
+                // Apply transforms
+                data.element.style.transform = `
+                    translate(${data.currentX}px, ${data.currentY}px)
+                    scale(${data.scale})
+                    rotate(${data.rotation}deg)
+                `;
+                data.element.style.opacity = data.opacity;
+            });
+
+            requestAnimationFrame(updateFloatingShapes);
+        }
+
+        // Start animation loop
+        if (animationsEnabled) {
+            updateFloatingShapes();
+        }
+
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -554,26 +892,66 @@
             });
         });
 
-        // Add sparkle cursor effect
+        // ======================================
+        // ADVANCED CURSOR EFFECTS
+        // ======================================
+
+        // Cursor trail particles
+        const trailParticles = [];
+        const MAX_TRAIL_PARTICLES = 15;
+
+        // Click ripples
+        const ripples = [];
+
+        // Enhanced sparkle cursor effect with velocity and position-based variations
         document.addEventListener('mousemove', function(e) {
-            if (Math.random() < 0.1) {
-                createSparkle(e.clientX, e.clientY);
+            if (!animationsEnabled) return;
+
+            // Sparkle probability based on velocity
+            const sparkleChance = Math.min(0.05 + (mouseState.velocity / 100), 0.3);
+
+            if (Math.random() < sparkleChance) {
+                createEnhancedSparkle(e.clientX, e.clientY);
+            }
+
+            // Add trail particle
+            if (mouseState.velocity > 2) {
+                addTrailParticle(e.clientX, e.clientY);
             }
         });
 
-        function createSparkle(x, y) {
+        function createEnhancedSparkle(x, y) {
             const sparkle = document.createElement('div');
-            sparkle.innerHTML = '✨';
+
+            // Determine sparkle type based on screen position
+            const screenQuadrant = getScreenQuadrant(x, y);
+            const sparkleTypes = {
+                topLeft: ['⭐', '✨', '💫'],
+                topRight: ['❤️', '💕', '💖'],
+                bottomLeft: ['▪️', '◆', '●'],
+                bottomRight: ['💎', '🔷', '🔶']
+            };
+
+            const sparkleType = sparkleTypes[screenQuadrant][Math.floor(Math.random() * 3)];
+            sparkle.innerHTML = sparkleType;
+
+            // Color based on position (rainbow gradient)
+            const hue = (x / window.innerWidth) * 360;
+            sparkle.style.filter = `hue-rotate(${hue}deg)`;
+
+            // Size based on velocity
+            const size = 10 + (mouseState.velocity / 10);
+
             sparkle.style.position = 'fixed';
             sparkle.style.left = x + 'px';
             sparkle.style.top = y + 'px';
             sparkle.style.pointerEvents = 'none';
-            sparkle.style.fontSize = '12px';
+            sparkle.style.fontSize = size + 'px';
             sparkle.style.zIndex = '9999';
             sparkle.style.animation = 'sparkleAnimation 1s ease-out forwards';
-            
+
             document.body.appendChild(sparkle);
-            
+
             setTimeout(() => {
                 if (sparkle.parentNode) {
                     sparkle.parentNode.removeChild(sparkle);
@@ -581,21 +959,141 @@
             }, 1000);
         }
 
-        // Add CSS for sparkle animation
+        function getScreenQuadrant(x, y) {
+            const midX = window.innerWidth / 2;
+            const midY = window.innerHeight / 2;
+
+            if (x < midX && y < midY) return 'topLeft';
+            if (x >= midX && y < midY) return 'topRight';
+            if (x < midX && y >= midY) return 'bottomLeft';
+            return 'bottomRight';
+        }
+
+        function addTrailParticle(x, y) {
+            if (!animationsEnabled) return;
+
+            const particle = document.createElement('div');
+            particle.className = 'trail-particle';
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+
+            const hue = (x / window.innerWidth) * 360;
+            particle.style.background = `hsl(${hue}, 80%, 60%)`;
+
+            document.body.appendChild(particle);
+            trailParticles.push({ element: particle, time: Date.now() });
+
+            // Cleanup old particles
+            if (trailParticles.length > MAX_TRAIL_PARTICLES) {
+                const old = trailParticles.shift();
+                if (old.element.parentNode) {
+                    old.element.parentNode.removeChild(old.element);
+                }
+            }
+
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+                const index = trailParticles.findIndex(p => p.element === particle);
+                if (index > -1) trailParticles.splice(index, 1);
+            }, 800);
+        }
+
+        // Click ripple effect
+        document.addEventListener('click', function(e) {
+            if (!animationsEnabled) return;
+            createRipple(e.clientX, e.clientY);
+        });
+
+        function createRipple(x, y) {
+            const ripple = document.createElement('div');
+            ripple.className = 'click-ripple';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+
+            const hue = (x / window.innerWidth) * 360;
+            ripple.style.borderColor = `hsl(${hue}, 80%, 60%)`;
+
+            document.body.appendChild(ripple);
+
+            setTimeout(() => {
+                if (ripple.parentNode) {
+                    ripple.parentNode.removeChild(ripple);
+                }
+            }, 1500);
+        }
+
+        // Add CSS for animations
         const style = document.createElement('style');
         style.textContent = `
             @keyframes sparkleAnimation {
-                0% { 
-                    opacity: 1; 
-                    transform: scale(0) rotate(0deg); 
+                0% {
+                    opacity: 1;
+                    transform: scale(0) rotate(0deg);
                 }
-                50% { 
-                    opacity: 1; 
-                    transform: scale(1) rotate(180deg); 
+                50% {
+                    opacity: 1;
+                    transform: scale(1) rotate(180deg);
                 }
-                100% { 
-                    opacity: 0; 
-                    transform: scale(0) rotate(360deg); 
+                100% {
+                    opacity: 0;
+                    transform: scale(0) rotate(360deg);
+                }
+            }
+
+            .trail-particle {
+                position: fixed;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9998;
+                animation: trailFade 0.8s ease-out forwards;
+                box-shadow: 0 0 10px currentColor;
+            }
+
+            @keyframes trailFade {
+                0% {
+                    opacity: 0.8;
+                    transform: scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    transform: scale(0.3);
+                }
+            }
+
+            .click-ripple {
+                position: fixed;
+                width: 20px;
+                height: 20px;
+                border: 2px solid;
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9997;
+                transform: translate(-50%, -50%);
+                animation: rippleExpand 1.5s ease-out forwards;
+            }
+
+            @keyframes rippleExpand {
+                0% {
+                    opacity: 1;
+                    transform: translate(-50%, -50%) scale(0);
+                }
+                50% {
+                    opacity: 0.6;
+                }
+                100% {
+                    opacity: 0;
+                    transform: translate(-50%, -50%) scale(20);
+                }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .trail-particle,
+                .click-ripple {
+                    display: none;
                 }
             }
         `;
@@ -608,7 +1106,14 @@
             let clouds = [];
             let mountains = [];
             let sunY;
+            let targetSunY;
             let canvasWidth, canvasHeight;
+
+            // Mouse influence variables
+            let mouseInfluenceX = 0.5; // 0 = day, 1 = night
+            let mouseInfluenceY = 0.3; // Controls sun/moon Y position
+            let targetMouseInfluenceX = 0.5;
+            let targetMouseInfluenceY = 0.3;
             
             p.setup = function() {
                 canvasWidth = p.windowWidth;
@@ -649,7 +1154,16 @@
             
             p.draw = function() {
                 time += 0.01;
-                
+
+                // Update mouse influence with smooth interpolation
+                targetMouseInfluenceX = mouseState.x / canvasWidth;
+                targetMouseInfluenceY = mouseState.y / canvasHeight;
+                mouseInfluenceX = p.lerp(mouseInfluenceX, targetMouseInfluenceX, 0.05);
+                mouseInfluenceY = p.lerp(mouseInfluenceY, targetMouseInfluenceY, 0.05);
+
+                // Use mouse influence for day/night cycle instead of time
+                let timeBlend = mouseInfluenceX;
+
                 // Animated gradient sky
                 for(let y = 0; y < canvasHeight; y++) {
                     let inter = p.map(y, 0, canvasHeight, 0, 1);
@@ -671,33 +1185,42 @@
                         dayColor = sunsetBot;
                         nightColor = nightBot;
                     }
-                    
-                    // Blend between day and night based on time
-                    let timeBlend = 0.5 + 0.5 * p.sin(time * 0.5);
+
+                    // Blend between day and night controlled by mouse X position
                     let c = p.lerpColor(dayColor, nightColor, timeBlend);
                     p.stroke(c);
                     p.line(0, y, canvasWidth, y);
                 }
                 
-                // Draw stars (more visible at night)
-                let starAlpha = p.map(p.sin(time * 0.5), -1, 1, 50, 255);
+                // Draw stars (more visible at night) - brighten near mouse
+                let starAlpha = p.map(timeBlend, 0, 1, 50, 255);
                 for(let star of stars) {
-                    let twinkle = p.sin(star.twinkle + time * 3) * 0.5 + 0.5;
-                    p.fill(255, 255, 255, starAlpha * twinkle);
+                    // Calculate distance from mouse to star
+                    let distToMouse = p.dist(mouseState.x, mouseState.y, star.x, star.y);
+                    let mouseProximity = p.constrain(p.map(distToMouse, 0, 150, 1, 0), 0, 1);
+
+                    // Faster twinkling and brighter near mouse
+                    let twinkleSpeed = 3 + (mouseProximity * 5);
+                    let twinkle = p.sin(star.twinkle + time * twinkleSpeed) * 0.5 + 0.5;
+                    let brightness = starAlpha * twinkle * (1 + mouseProximity * 0.8);
+                    let starSize = star.size * (1 + mouseProximity * 0.5);
+
+                    p.fill(255, 255, 255, brightness);
                     p.noStroke();
-                    p.circle(star.x, star.y, star.size);
+                    p.circle(star.x, star.y, starSize);
                     star.twinkle += 0.1;
                 }
-                
-                // Draw animated sun/moon
+
+                // Draw animated sun/moon - follows mouse Y position
                 let sunSize = 80 + 20 * p.sin(time * 2);
-                let currentSunY = sunY + 50 * p.sin(time * 0.3);
-                let timeBlend = 0.5 + 0.5 * p.sin(time * 0.5);
+                targetSunY = canvasHeight * 0.2 + (mouseInfluenceY * canvasHeight * 0.5);
+                sunY = p.lerp(sunY || targetSunY, targetSunY, 0.05);
+                let currentSunY = sunY + 15 * p.sin(time * 0.3); // Keep subtle bobbing
                 
-                // Calculate sun properties based on day/night cycle
-                let sunAlpha = p.map(p.sin(time * 0.5), -1, 1, 100, 255);
+                // Calculate sun properties based on day/night cycle (mouse-controlled)
+                let sunAlpha = p.map(timeBlend, 0, 1, 255, 150);
                 let isNight = timeBlend > 0.6; // When sky is darkest
-                let nightIntensity = p.map(timeBlend, 0.6, 1, 0, 1); // How deep into night
+                let nightIntensity = p.constrain(p.map(timeBlend, 0.6, 1, 0, 1), 0, 1); // How deep into night
                 
                 // Sun color shifts from golden to silver during night
                 let sunR, sunG, sunB, glowR, glowG, glowB;
@@ -748,22 +1271,31 @@
                     }
                 }
                 
-                // Draw clouds
+                // Draw clouds - speed up near mouse
                 for(let cloud of clouds) {
+                    // Calculate distance from mouse to cloud
+                    let distToMouse = p.dist(mouseState.x, mouseState.y, cloud.x, cloud.y);
+                    let mouseInfluence = p.constrain(p.map(distToMouse, 0, 200, 2.5, 1), 1, 2.5);
+
                     drawCloud(p, cloud.x, cloud.y, cloud.size, timeBlend);
-                    cloud.x += cloud.speed;
+                    cloud.x += cloud.speed * mouseInfluence;
                     if(cloud.x > canvasWidth + cloud.size) {
                         cloud.x = -cloud.size;
                     }
                 }
                 
-                // Draw mountains (silhouette)
+                // Draw mountains (silhouette) - with parallax
                 p.fill(30, 20, 60, 200);
                 p.noStroke();
                 p.beginShape();
                 p.vertex(0, canvasHeight);
+
+                // Parallax offset based on mouse position
+                let parallaxX = (mouseInfluenceX - 0.5) * 30;
+                let parallaxY = (mouseInfluenceY - 0.5) * 20;
+
                 for(let mountain of mountains) {
-                    p.vertex(mountain.x, mountain.height);
+                    p.vertex(mountain.x + parallaxX, mountain.height + parallaxY);
                 }
                 p.vertex(canvasWidth, canvasHeight);
                 p.endShape(p.CLOSE);
@@ -789,39 +1321,84 @@
             }
             
             function drawRetroGrid(p) {
-                p.stroke(255, 100, 255, 80);
-                p.strokeWeight(1);
-                
-                // Perspective grid on ground
                 let groundY = canvasHeight * 0.85;
+
+                // Horizontal lines - glow near mouse
                 for(let i = 0; i < 20; i++) {
                     let lineY = groundY + i * 20;
                     if(lineY < canvasHeight) {
+                        let distToMouse = Math.abs(mouseState.y - lineY);
+                        let glowIntensity = p.constrain(p.map(distToMouse, 0, 100, 255, 80), 80, 255);
+
+                        p.stroke(255, 100, 255, glowIntensity);
+                        p.strokeWeight(distToMouse < 50 ? 2 : 1);
                         p.line(0, lineY, canvasWidth, lineY);
                     }
                 }
-                
-                // Vertical lines
+
+                // Vertical lines - glow near mouse
                 for(let i = 0; i < canvasWidth; i += 50) {
+                    let distToMouse = Math.abs(mouseState.x - i);
+                    let glowIntensity = p.constrain(p.map(distToMouse, 0, 100, 255, 80), 80, 255);
+
+                    p.stroke(255, 100, 255, glowIntensity);
+                    p.strokeWeight(distToMouse < 50 ? 2 : 1);
                     p.line(i, groundY, i, canvasHeight);
                 }
             }
             
             function drawFloatingElements(p) {
-                // Floating pixels/gems
+                // Floating pixels/gems - with mouse attraction and orbital behavior
                 let pixelSize = 8;
+
                 for(let i = 0; i < 10; i++) {
-                    let x = (i * 80 + time * 20) % canvasWidth;
-                    let y = canvasHeight * 0.7 + 30 * p.sin(time * 2 + i);
-                    let hue = (time * 50 + i * 36) % 360;
-                    
+                    // Base position (normal floating behavior)
+                    let baseX = (i * 80 + time * 20) % canvasWidth;
+                    let baseY = canvasHeight * 0.7 + 30 * p.sin(time * 2 + i);
+
+                    // Calculate distance from mouse
+                    let distToMouse = p.dist(mouseState.x, mouseState.y, baseX, baseY);
+                    let attraction = p.constrain(p.map(distToMouse, 0, 150, 1, 0), 0, 1);
+
+                    let x = baseX;
+                    let y = baseY;
+
+                    // If mouse is nearby, apply attraction and orbital behavior
+                    if (attraction > 0.1) {
+                        let angle = p.atan2(mouseState.y - baseY, mouseState.x - baseX);
+                        let orbitAngle = angle + (time * 2 + i) * attraction;
+
+                        // Orbit radius decreases as attraction increases
+                        let orbitRadius = p.lerp(0, 80, 1 - attraction);
+
+                        // Move toward mouse with orbital motion
+                        x = p.lerp(baseX, mouseState.x + p.cos(orbitAngle) * orbitRadius, attraction);
+                        y = p.lerp(baseY, mouseState.y + p.sin(orbitAngle) * orbitRadius, attraction);
+                    }
+
+                    // Color changes based on distance from mouse
+                    let baseHue = (time * 50 + i * 36) % 360;
+                    let mouseHue = (mouseState.x / canvasWidth) * 360;
+                    let hue = p.lerp(baseHue, mouseHue, attraction);
+
+                    // Size increases when near mouse
+                    let size = pixelSize * (1 + attraction * 0.5);
+
+                    // Rotation based on attraction
+                    p.push();
+                    p.translate(x + size / 2, y + size / 2);
+                    p.rotate(attraction * time * 3);
+                    p.translate(-size / 2, -size / 2);
+
                     p.fill(p.color(`hsl(${hue}, 80%, 60%)`));
                     p.noStroke();
-                    p.rect(x, y, pixelSize, pixelSize);
-                    
-                    // Pixel glow
-                    p.fill(p.color(`hsl(${hue}, 80%, 80%)`));
-                    p.rect(x + 2, y + 2, pixelSize - 4, pixelSize - 4);
+                    p.rect(0, 0, size, size);
+
+                    // Pixel glow - brighter when attracted
+                    p.fill(p.color(`hsl(${hue}, 80%, ${60 + attraction * 20}%)`));
+                    p.rect(2, 2, size - 4, size - 4);
+
+                    p.pop();
                 }
             }
             
