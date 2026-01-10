@@ -16,7 +16,10 @@
     
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+
+    <!-- Chaos Mode CSS Override -->
+    <link rel="stylesheet" href="css/chaos.css">
+
     <style>
         :root {
             --primary-pink: #ff69b4;
@@ -170,32 +173,6 @@
             margin: 0 0.5rem;
         }
 
-        .nav-link:hover {
-            color: var(--neon-cyan) !important;
-            text-shadow: 0 0 10px var(--neon-cyan);
-            transform: translateY(-2px);
-        }
-
-        .nav-link.active {
-            color: var(--neon-yellow) !important;
-            text-shadow: 0 0 15px var(--neon-yellow);
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan));
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
         /* Page Header */
         .page-header {
             background: rgba(0, 0, 0, 0.7);
@@ -275,7 +252,30 @@
             width: 100%;
             height: 250px;
             object-fit: contain;
-            background: linear-gradient(45deg, var(--secondary-pink), var(--secondary-purple));
+            /* FLORIDA WETLAND ABSTRACT - Unconventional gradient angles */
+            background: linear-gradient(127deg,
+                #00a8cc 0%,        /* Water blue */
+                #6b8e4e 23%,       /* Sawgrass */
+                #f5e6d3 47%,       /* Sand/shell */
+                #ff6b35 71%,       /* Sunset orange */
+                #c71585 100%       /* Tropical magenta */
+            );
+            /* Add noise texture for organic feel */
+            background-image:
+                linear-gradient(127deg,
+                    #00a8cc 0%,
+                    #6b8e4e 23%,
+                    #f5e6d3 47%,
+                    #ff6b35 71%,
+                    #c71585 100%
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 0, 0, 0.03) 2px,
+                    rgba(0, 0, 0, 0.03) 4px
+                );
         }
 
         /* Featured book styling */
@@ -344,11 +344,28 @@
         .shelf-background {
             position: relative;
             height: 280px;
-            background: linear-gradient(to bottom, #8B4513 0%, #A0522D 50%, #8B4513 100%);
-            border-radius: 15px;
+            /* FLORIDA WETLAND BACKDROP - Sawgrass field to water gradient */
+            background: linear-gradient(to bottom,
+                #5a7247 0%,        /* Sawgrass green */
+                #6b8e4e 25%,       /* Lighter sawgrass */
+                #2e5266 50%,       /* Wetland blue */
+                #0092ca 75%,       /* Spring blue */
+                #00a8cc 100%       /* Water blue */
+            );
+            border-radius: 0; /* Reject curves - angular Florida */
             margin-bottom: 1rem;
             overflow: hidden;
-            box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: inset 0 15px 30px rgba(0, 0, 0, 0.4), 0 8px 0 #4a6741;
+            /* Add texture like marsh grass */
+            background-image:
+                repeating-linear-gradient(
+                    92deg,
+                    transparent,
+                    transparent 3px,
+                    rgba(139, 157, 119, 0.15) 3px,
+                    rgba(139, 157, 119, 0.15) 4px
+                );
+            border: 3px solid #6d5843; /* Mangrove brown edge */
         }
 
         .shelf-wood {
@@ -356,9 +373,35 @@
             bottom: 0;
             width: 100%;
             height: 40px;
-            background: linear-gradient(to bottom, #D2B48C 0%, #8B7355 50%, #654321 100%);
-            border-radius: 0 0 15px 15px;
-            box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.3);
+            /* WEATHERED CYPRESS DRIFTWOOD - Florida native tree */
+            background: linear-gradient(to right,
+                #5d4037 0%,        /* Cypress brown */
+                #6d4c41 15%,       /* Lighter cypress */
+                #a8af8e 30%,       /* Driftwood gray-green */
+                #b5baa0 50%,       /* Spanish moss tone */
+                #a8af8e 70%,       /* Back to driftwood */
+                #6d4c41 85%,       /* Cypress */
+                #5d4037 100%       /* Dark cypress */
+            );
+            border-radius: 0; /* No curves - raw wood */
+            box-shadow: 0 -8px 15px rgba(0, 0, 0, 0.5), inset 0 3px 6px rgba(245, 230, 211, 0.3);
+            /* Add wood grain texture */
+            background-image:
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 12px,
+                    rgba(0, 0, 0, 0.1) 12px,
+                    rgba(0, 0, 0, 0.1) 14px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 0, 0, 0.05) 2px,
+                    rgba(0, 0, 0, 0.05) 3px
+                );
+            border-top: 2px solid #f5e6d3; /* Sand highlight */
         }
 
         .book-collection {
@@ -494,54 +537,64 @@
             z-index: 2;
         }
 
-        /* Individual book colors */
+        /* Individual book colors - FLORIDA NATIVE PALETTE */
         .book-1 {
-            background: linear-gradient(to right, #FF6B9D, #FF8E9B);
+            /* UNDERTALE - Tropical sunset magenta to orange */
+            background: linear-gradient(to right, #c71585, #ff6b35);
             height: 140px;
         }
 
         .book-2 {
-            background: linear-gradient(to right, #4ECDC4, #44A08D);
+            /* CRITICAL MAKING - Deep wetland to spring blue */
+            background: linear-gradient(to right, #2e5266, #00a8cc);
             height: 160px;
         }
 
         .book-3 {
-            background: linear-gradient(to right, #FFD93D, #FF9F1C);
+            /* PLAYFUL PEDAGOGY - Sawgrass greens */
+            background: linear-gradient(to right, #5a7247, #8b9d77);
             height: 130px;
         }
 
         .book-4 {
-            background: linear-gradient(to right, #A8E6CF, #7FCDCD);
+            /* TWINING - Spanish moss gray-green to driftwood */
+            background: linear-gradient(to right, #a8af8e, #b5baa0);
             height: 145px;
         }
 
         .book-5 {
-            background: linear-gradient(to right, #FF8C94, #FF6B9D);
+            /* FANBOY AUTEUR - Mangrove browns with green undertone */
+            background: linear-gradient(to right, #4a6741, #6d5843);
             height: 165px;
         }
 
         .book-6 {
-            background: linear-gradient(to right, #C7CEEA, #A8B2D1);
+            /* ADVENTURE GAMES - Bright spring water to tropical blue */
+            background: linear-gradient(to right, #0092ca, #00a8cc);
             height: 135px;
         }
 
         .book-7 {
-            background: linear-gradient(to right, #98FB98, #90EE90);
+            /* TOXIC GEEK - Vibrant sawgrass to lime */
+            background: linear-gradient(to right, #6b8e4e, #8b9d77);
             height: 150px;
         }
 
         .book-8 {
-            background: linear-gradient(to right, #DDA0DD, #DA70D6);
+            /* JANE JENSEN - Sunset orange to warm amber */
+            background: linear-gradient(to right, #ff6b35, #f7931e);
             height: 138px;
         }
 
         .book-9 {
-            background: linear-gradient(to right, #87CEEB, #4682B4);
+            /* QUEST - Cypress brown to weathered wood */
+            background: linear-gradient(to right, #5d4037, #6d4c41);
             height: 148px;
         }
 
         .book-10 {
-            background: linear-gradient(to right, #FFA07A, #FF6347);
+            /* FLASH - Electric sunset to magenta */
+            background: linear-gradient(to right, #f7931e, #c71585);
             height: 142px;
         }
 
@@ -863,33 +916,51 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <h4 class="mb-3" style="font-family: 'Audiowide', cursive; color: var(--neon-cyan); text-shadow: 0 0 15px var(--neon-cyan);">✨ Let's Connect! ✨</h4>
-                    <p class="mb-3">
-                        <a href="mailto:anastasia@ucf.edu" style="color: white; text-decoration: none;">
-                            📧 anastasia@ucf.edu
-                        </a>
-                    </p>
-                    <div class="social-links mb-4">
-                        <a href="https://bsky.app/profile/anasalter.bsky.social"><i class="fas fa-cloud"></i></a>
-                        <a href="https://www.instagram.com/anasalter/"><i class="fab fa-instagram"></i></a>
-                        <a href="CV.pdf"><i class="fas fa-file-pdf"></i></a>
-                    </div>
-                </div>
-            </div>
+    <!-- Motion Toggle Button - Top Left -->
+    <div class="chaos-motion-toggle" id="motionToggle">
+        <div class="chaos-motion-toggle-inner">
+            <span class="chaos-motion-toggle-icon">▶</span>
+            <span class="chaos-motion-toggle-text">MOTION ON</span>
         </div>
-    </footer>
+    </div>
+
+    <!-- Floating Contact Cluster - Chaos Style -->
+    <div class="chaos-contact-cluster">
+        <div class="chaos-contact-item contact-email">
+            <a href="mailto:anastasia@ucf.edu" class="chaos-contact-link">
+                <span class="chaos-contact-icon">@</span>
+                <span class="chaos-contact-text">EMAIL</span>
+            </a>
+        </div>
+        <div class="chaos-contact-item">
+            <a href="https://bsky.app/profile/anasalter.bsky.social" class="chaos-contact-link" target="_blank" rel="noopener noreferrer">
+                <span class="chaos-contact-icon"><i class="fas fa-cloud"></i></span>
+                <span class="chaos-contact-text">BLUESKY</span>
+            </a>
+        </div>
+        <div class="chaos-contact-item">
+            <a href="https://www.instagram.com/anasalter/" class="chaos-contact-link" target="_blank" rel="noopener noreferrer">
+                <span class="chaos-contact-icon"><i class="fab fa-instagram"></i></span>
+                <span class="chaos-contact-text">INSTA</span>
+            </a>
+        </div>
+        <div class="chaos-contact-item">
+            <a href="CV.pdf" class="chaos-contact-link" target="_blank">
+                <span class="chaos-contact-icon"><i class="fas fa-file-pdf"></i></span>
+                <span class="chaos-contact-text">CV</span>
+            </a>
+        </div>
+    </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- AOS Animation Library -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
+
+    <!-- Chaos Effects -->
+    <script src="js/chaos-effects.js"></script>
+
     <script>
         // Initialize AOS
         AOS.init({

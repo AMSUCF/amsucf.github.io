@@ -42,26 +42,25 @@
     
     <!-- p5.js Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
-    
+
+    <!-- Chaos CSS -->
+    <link rel="stylesheet" href="css/chaos.css">
+
     <style>
         :root {
-            --primary-pink: #ff69b4;
-            --primary-purple: #9966cc;
-            --primary-blue: #00bfff;
-            --primary-green: #00ff7f;
-            --primary-yellow: #ffd700;
-            --primary-orange: #ff6347;
-            --secondary-pink: #ffb6c1;
-            --secondary-purple: #dda0dd;
-            --secondary-blue: #87ceeb;
-            --secondary-green: #98fb98;
-            --dark-text: #2c3e50;
-            --light-text: #ffffff;
-            --neon-pink: #ff00ff;
-            --neon-cyan: #00ffff;
-            --neon-yellow: #ffff00;
-            --neon-green: #00ff00;
-            --neon-purple: #8a2be2;
+            /* Provocative color rebellion: burnt sienna + acid green + rust + slate */
+            --burn-orange: #d4520a;
+            --acid-lime: #c1ff00;
+            --rust-brown: #8b4000;
+            --slate-grey: #536872;
+            --toxic-yellow: #e8ff00;
+            --blood-red: #8b0000;
+            --moss-green: #5a7247;
+            --bruise-purple: #5e3a5e;
+            --tar-black: #1a1a1a;
+            --bone-white: #f5f1e8;
+            --bile-green: #9acd32;
+            --clay-red: #a0522d;
         }
 
         * {
@@ -75,14 +74,15 @@
         }
 
         body {
-            font-family: 'Orbitron', 'Poppins', sans-serif;
-            line-height: 1.6;
-            color: var(--dark-text);
+            font-family: 'Orbitron', 'Courier New', monospace;
+            line-height: 1.37; /* Uncomfortable but intentional */
+            color: var(--tar-black);
             overflow: hidden;
             height: 100vh;
+            letter-spacing: -0.03em; /* Slight crunch */
         }
 
-        /* Animated Background - Mouse Responsive */
+        /* Chaotic Background - reject gradient smoothness */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -90,23 +90,21 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: linear-gradient(
-                calc(45deg + var(--mouse-x-percent, 50%) * 0.5),
-                var(--primary-pink),
-                var(--primary-purple),
-                var(--primary-blue),
-                var(--primary-green));
-            background-size: 400% 400%;
-            background-position: var(--mouse-x-percent, 50%) var(--mouse-y-percent, 50%);
-            animation: gradientShift 8s ease infinite;
-            transition: background-position 0.3s ease-out;
-            will-change: background-position;
+            background: linear-gradient(137deg,
+                var(--burn-orange) 0%,
+                var(--acid-lime) 31%,
+                var(--rust-brown) 57%,
+                var(--slate-grey) 73%,
+                var(--toxic-yellow) 100%);
+            background-size: 300% 300%;
+            animation: chaoticShift 13s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        @keyframes chaoticShift {
+            0% { background-position: 0% 0%; }
+            33% { background-position: 100% 50%; }
+            66% { background-position: 50% 100%; }
+            100% { background-position: 0% 0%; }
         }
 
         /* Override animation when mouse is active */
@@ -181,65 +179,62 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
+            0% { transform: translateY(0px) rotate(0deg) scale(1); }
+            17% { transform: translateY(-30px) rotate(47deg) scale(1.3); }
+            34% { transform: translateY(15px) rotate(-93deg) scale(0.7); }
+            51% { transform: translateY(-45px) rotate(167deg) scale(1.5); }
+            68% { transform: translateY(25px) rotate(-210deg) scale(0.9); }
+            85% { transform: translateY(-15px) rotate(300deg) scale(1.2); }
+            100% { transform: translateY(0px) rotate(360deg) scale(1); }
         }
 
-        /* Header Styles */
+        /* Unconventional Navigation - bottom placement */
         .navbar {
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--neon-cyan);
-            transition: all 0.3s ease;
+            position: fixed;
+            bottom: 0 !important;
+            top: auto !important;
+            left: 0;
+            right: 0;
+            background: var(--rust-brown);
+            backdrop-filter: blur(5px);
+            border-top: 7px solid var(--acid-lime);
+            border-bottom: none;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transform-origin: bottom;
+        }
+
+        .navbar:hover {
+            transform: scaleY(1.1);
+            border-top-width: 11px;
         }
 
         .navbar-brand {
             font-family: 'Press Start 2P', cursive;
             font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--neon-pink);
-            text-shadow: 0 0 10px var(--neon-pink);
+            font-size: 0.9rem;
+            color: var(--toxic-yellow);
+            text-shadow: 3px 3px 0 var(--blood-red);
             text-decoration: none;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
         }
 
         .navbar-brand:hover {
-            color: var(--neon-cyan);
-            text-shadow: 0 0 15px var(--neon-cyan);
+            color: var(--acid-lime);
+            text-shadow: -3px -3px 0 var(--burn-orange);
+            transform: rotate(-2deg);
         }
 
         .nav-link {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 600;
-            color: #fff !important;
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            color: var(--bone-white) !important;
             position: relative;
-            transition: all 0.3s ease;
-            margin: 0 0.5rem;
-        }
-
-        .nav-link:hover {
-            color: var(--neon-cyan) !important;
-            text-shadow: 0 0 10px var(--neon-cyan);
-            transform: translateY(-2px);
-        }
-
-        .nav-link.active {
-            color: var(--neon-yellow) !important;
-            text-shadow: 0 0 15px var(--neon-yellow);
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan));
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            margin: 0 0.3rem;
+            font-size: 0.85rem;
+            border: 2px solid transparent;
+            padding: 0.5rem 1rem !important;
         }
 
         /* Hero Section */
@@ -256,6 +251,11 @@
             width: 100%;
             height: 100vh;
             position: relative;
+            z-index: 1;
+        }
+
+        .sunset-container canvas {
+            pointer-events: none;
         }
 
         .hero-overlay {
@@ -270,65 +270,133 @@
         }
 
         .hero-content-overlay {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
-            border-radius: 20px;
+            background: rgba(139, 64, 0, 0.88); /* Rust transparency */
+            backdrop-filter: blur(2px);
+            border-radius: 0; /* No curves */
             padding: 3rem;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 15px 15px 0 var(--tar-black);
+            border: 6px solid var(--acid-lime);
+            border-right-width: 12px;
+            border-bottom-width: 12px;
+            transform: rotate(-1deg);
+            clip-path: polygon(0 0, 98% 0, 100% 2%, 100% 100%, 2% 100%, 0 98%);
+        }
+
+        .hero-content-overlay h1 {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 7rem;
+            font-weight: 900;
+            color: var(--bone-white);
+            margin-bottom: 1rem;
+            text-shadow:
+                4px 4px 0 var(--tar-black),
+                8px 8px 0 var(--tar-black),
+                12px 12px 0 var(--tar-black),
+                16px 16px 0 var(--tar-black),
+                20px 20px 0 var(--burn-orange),
+                24px 24px 0 var(--tar-black),
+                28px 28px 0 var(--tar-black);
+            animation: textQuake 3.7s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+            letter-spacing: 0.1em;
+            line-height: 1.15;
+            transform: rotate(-2deg);
         }
 
         .hero h1 {
-            font-family: 'Audiowide', 'Comic Neue', cursive;
-            font-size: 3.5rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--neon-pink), var(--neon-cyan), var(--neon-yellow));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 7rem;
+            font-weight: 900;
+            color: var(--bone-white);
             margin-bottom: 1rem;
-            text-shadow: 0 0 20px var(--neon-pink);
-            animation: glow 2s ease-in-out infinite alternate;
+            text-shadow:
+                4px 4px 0 var(--tar-black),
+                8px 8px 0 var(--tar-black),
+                12px 12px 0 var(--tar-black),
+                16px 16px 0 var(--tar-black),
+                20px 20px 0 var(--burn-orange),
+                24px 24px 0 var(--tar-black),
+                28px 28px 0 var(--tar-black);
+            animation: textQuake 3.7s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+            letter-spacing: 0.1em;
+            line-height: 1.15;
+            transform: rotate(-2deg);
         }
 
-        @keyframes glow {
-            from { filter: drop-shadow(0 0 20px var(--neon-pink)); }
-            to { filter: drop-shadow(0 0 30px var(--neon-cyan)); }
+        @keyframes textQuake {
+            0%, 100% {
+                transform: rotate(-2deg) translateX(0) translateY(0);
+                text-shadow: 4px 4px 0 var(--tar-black), 8px 8px 0 var(--tar-black), 12px 12px 0 var(--tar-black), 16px 16px 0 var(--tar-black), 20px 20px 0 var(--burn-orange), 24px 24px 0 var(--tar-black), 28px 28px 0 var(--tar-black);
+            }
+            25% {
+                transform: rotate(1deg) translateX(-3px) translateY(2px);
+                text-shadow: 4px 4px 0 var(--tar-black), 8px 8px 0 var(--tar-black), 12px 12px 0 var(--tar-black), 16px 16px 0 var(--tar-black), 20px 20px 0 var(--blood-red), 24px 24px 0 var(--tar-black), 28px 28px 0 var(--tar-black);
+            }
+            50% {
+                transform: rotate(-1deg) translateX(2px) translateY(-3px);
+                text-shadow: 4px 4px 0 var(--tar-black), 8px 8px 0 var(--tar-black), 12px 12px 0 var(--tar-black), 16px 16px 0 var(--tar-black), 20px 20px 0 var(--burn-orange), 24px 24px 0 var(--tar-black), 28px 28px 0 var(--tar-black);
+            }
+            75% {
+                transform: rotate(2deg) translateX(-2px) translateY(3px);
+                text-shadow: 4px 4px 0 var(--tar-black), 8px 8px 0 var(--tar-black), 12px 12px 0 var(--tar-black), 16px 16px 0 var(--tar-black), 20px 20px 0 var(--toxic-yellow), 24px 24px 0 var(--tar-black), 28px 28px 0 var(--tar-black);
+            }
         }
 
         .hero .subtitle {
-            font-size: 1.3rem;
-            color: var(--light-text);
+            font-size: 2.1rem;
+            color: var(--acid-lime);
             margin-bottom: 1.5rem;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+            text-shadow:
+                3px 3px 0 var(--tar-black),
+                6px 6px 0 var(--tar-black),
+                1px 1px 8px var(--tar-black);
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            transform: rotate(1deg);
         }
 
         .hero .description {
             font-size: 1.1rem;
-            line-height: 1.8;
+            line-height: 1.37;
             margin-bottom: 2rem;
-            color: var(--light-text);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+            color: var(--bone-white);
+            text-shadow: 2px 2px 4px var(--tar-black);
+            max-width: 73%; /* Asymmetric constraint */
+            margin-left: auto;
+            margin-right: 0;
         }
 
-        /* Buttons */
+        /* Buttons - reject rounded corners */
         .btn-rainbow {
-            background: linear-gradient(45deg, var(--primary-pink), var(--primary-purple), var(--primary-blue));
-            border: none;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: 600;
+            background: var(--bile-green);
+            border: 4px solid var(--burn-orange);
+            color: var(--tar-black);
+            padding: 15px 35px;
+            border-radius: 0; /* No curves */
+            font-weight: 900;
             text-decoration: none;
             display: inline-block;
-            transition: all 0.3s ease;
-            margin: 5px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            margin: 7px;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            box-shadow: 7px 7px 0 var(--blood-red);
+            position: relative;
+            clip-path: polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%);
         }
 
         .btn-rainbow:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            color: white;
+            transform: translateY(-5px) translateX(-5px) rotate(-3deg);
+            box-shadow: 12px 12px 0 var(--rust-brown);
+            background: var(--toxic-yellow);
+            border-color: var(--slate-grey);
+            color: var(--tar-black);
+        }
+
+        .btn-rainbow:active {
+            transform: translateY(2px) translateX(2px);
+            box-shadow: 3px 3px 0 var(--burn-orange);
         }
 
         /* Profile Animation Container */
@@ -892,524 +960,342 @@
             });
         });
 
-        // ======================================
-        // ADVANCED CURSOR EFFECTS
-        // ======================================
-
-        // Cursor trail particles
-        const trailParticles = [];
-        const MAX_TRAIL_PARTICLES = 15;
-
-        // Click ripples
-        const ripples = [];
-
-        // Enhanced sparkle cursor effect with velocity and position-based variations
-        document.addEventListener('mousemove', function(e) {
-            if (!animationsEnabled) return;
-
-            // Sparkle probability based on velocity
-            const sparkleChance = Math.min(0.05 + (mouseState.velocity / 100), 0.3);
-
-            if (Math.random() < sparkleChance) {
-                createEnhancedSparkle(e.clientX, e.clientY);
-            }
-
-            // Add trail particle
-            if (mouseState.velocity > 2) {
-                addTrailParticle(e.clientX, e.clientY);
-            }
-        });
-
-        function createEnhancedSparkle(x, y) {
-            const sparkle = document.createElement('div');
-
-            // Determine sparkle type based on screen position
-            const screenQuadrant = getScreenQuadrant(x, y);
-            const sparkleTypes = {
-                topLeft: ['⭐', '✨', '💫'],
-                topRight: ['❤️', '💕', '💖'],
-                bottomLeft: ['▪️', '◆', '●'],
-                bottomRight: ['💎', '🔷', '🔶']
-            };
-
-            const sparkleType = sparkleTypes[screenQuadrant][Math.floor(Math.random() * 3)];
-            sparkle.innerHTML = sparkleType;
-
-            // Color based on position (rainbow gradient)
-            const hue = (x / window.innerWidth) * 360;
-            sparkle.style.filter = `hue-rotate(${hue}deg)`;
-
-            // Size based on velocity
-            const size = 10 + (mouseState.velocity / 10);
-
-            sparkle.style.position = 'fixed';
-            sparkle.style.left = x + 'px';
-            sparkle.style.top = y + 'px';
-            sparkle.style.pointerEvents = 'none';
-            sparkle.style.fontSize = size + 'px';
-            sparkle.style.zIndex = '9999';
-            sparkle.style.animation = 'sparkleAnimation 1s ease-out forwards';
-
-            document.body.appendChild(sparkle);
-
-            setTimeout(() => {
-                if (sparkle.parentNode) {
-                    sparkle.parentNode.removeChild(sparkle);
-                }
-            }, 1000);
-        }
-
-        function getScreenQuadrant(x, y) {
-            const midX = window.innerWidth / 2;
-            const midY = window.innerHeight / 2;
-
-            if (x < midX && y < midY) return 'topLeft';
-            if (x >= midX && y < midY) return 'topRight';
-            if (x < midX && y >= midY) return 'bottomLeft';
-            return 'bottomRight';
-        }
-
-        function addTrailParticle(x, y) {
-            if (!animationsEnabled) return;
-
-            const particle = document.createElement('div');
-            particle.className = 'trail-particle';
-            particle.style.left = x + 'px';
-            particle.style.top = y + 'px';
-
-            const hue = (x / window.innerWidth) * 360;
-            particle.style.background = `hsl(${hue}, 80%, 60%)`;
-
-            document.body.appendChild(particle);
-            trailParticles.push({ element: particle, time: Date.now() });
-
-            // Cleanup old particles
-            if (trailParticles.length > MAX_TRAIL_PARTICLES) {
-                const old = trailParticles.shift();
-                if (old.element.parentNode) {
-                    old.element.parentNode.removeChild(old.element);
-                }
-            }
-
-            setTimeout(() => {
-                if (particle.parentNode) {
-                    particle.parentNode.removeChild(particle);
-                }
-                const index = trailParticles.findIndex(p => p.element === particle);
-                if (index > -1) trailParticles.splice(index, 1);
-            }, 800);
-        }
-
-        // Click ripple effect
-        document.addEventListener('click', function(e) {
-            if (!animationsEnabled) return;
-            createRipple(e.clientX, e.clientY);
-        });
-
-        function createRipple(x, y) {
-            const ripple = document.createElement('div');
-            ripple.className = 'click-ripple';
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-
-            const hue = (x / window.innerWidth) * 360;
-            ripple.style.borderColor = `hsl(${hue}, 80%, 60%)`;
-
-            document.body.appendChild(ripple);
-
-            setTimeout(() => {
-                if (ripple.parentNode) {
-                    ripple.parentNode.removeChild(ripple);
-                }
-            }, 1500);
-        }
-
-        // Add CSS for animations
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes sparkleAnimation {
-                0% {
-                    opacity: 1;
-                    transform: scale(0) rotate(0deg);
-                }
-                50% {
-                    opacity: 1;
-                    transform: scale(1) rotate(180deg);
-                }
-                100% {
-                    opacity: 0;
-                    transform: scale(0) rotate(360deg);
-                }
-            }
-
-            .trail-particle {
-                position: fixed;
-                width: 8px;
-                height: 8px;
-                border-radius: 50%;
-                pointer-events: none;
-                z-index: 9998;
-                animation: trailFade 0.8s ease-out forwards;
-                box-shadow: 0 0 10px currentColor;
-            }
-
-            @keyframes trailFade {
-                0% {
-                    opacity: 0.8;
-                    transform: scale(1);
-                }
-                100% {
-                    opacity: 0;
-                    transform: scale(0.3);
-                }
-            }
-
-            .click-ripple {
-                position: fixed;
-                width: 20px;
-                height: 20px;
-                border: 2px solid;
-                border-radius: 50%;
-                pointer-events: none;
-                z-index: 9997;
-                transform: translate(-50%, -50%);
-                animation: rippleExpand 1.5s ease-out forwards;
-            }
-
-            @keyframes rippleExpand {
-                0% {
-                    opacity: 1;
-                    transform: translate(-50%, -50%) scale(0);
-                }
-                50% {
-                    opacity: 0.6;
-                }
-                100% {
-                    opacity: 0;
-                    transform: translate(-50%, -50%) scale(20);
-                }
-            }
-
-            @media (prefers-reduced-motion: reduce) {
-                .trail-particle,
-                .click-ripple {
-                    display: none;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-        
-        // Retro Sunset p5.js Animation
-        let sunsetSketch = function(p) {
+        // ABSTRACT FLORIDA NATIVE LANDSCAPE - No Mountains Allowed
+        let floridaSketch = function(p) {
             let time = 0;
-            let stars = [];
-            let clouds = [];
-            let mountains = [];
-            let sunY;
-            let targetSunY;
+            let verticalBars = [];
+            let angularBirds = [];
+            let driftingShapes = [];
+            let glitchLines = [];
+            let rotatingRects = [];
+            let colorBands = [];
             let canvasWidth, canvasHeight;
 
-            // Mouse influence variables
-            let mouseInfluenceX = 0.5; // 0 = day, 1 = night
-            let mouseInfluenceY = 0.3; // Controls sun/moon Y position
-            let targetMouseInfluenceX = 0.5;
-            let targetMouseInfluenceY = 0.3;
-            
+            // CHAOS COLOR PALETTE - geometric abstraction
+            const palette = {
+                burnOrange: [212, 82, 10],      // #d4520a
+                acidLime: [193, 255, 0],        // #c1ff00
+                toxicYellow: [232, 255, 0],     // #e8ff00
+                rustBrown: [139, 64, 0],        // #8b4000
+                tarBlack: [26, 26, 26],         // #1a1a1a
+                boneWhite: [245, 241, 232],     // #f5f1e8
+                mossGreen: [90, 114, 71],       // #5a7247
+                slateGrey: [83, 104, 114],      // #536872
+                bloodRed: [139, 0, 0],          // #8b0000
+                bruisePurple: [94, 58, 94]      // #5e3a5e
+            };
+
             p.setup = function() {
                 canvasWidth = p.windowWidth;
                 canvasHeight = p.windowHeight;
                 let canvas = p.createCanvas(canvasWidth, canvasHeight);
                 canvas.parent('sunsetCanvas');
-                
-                sunY = canvasHeight * 0.3;
-                
-                // Initialize stars
-                for(let i = 0; i < 50; i++) {
-                    stars.push({
+
+                // Initialize horizontal color bands (abstract horizon)
+                for(let i = 0; i < 7; i++) {
+                    colorBands.push({
+                        y: canvasHeight * (0.1 + i * 0.13),
+                        height: p.random(canvasHeight * 0.08, canvasHeight * 0.18),
+                        colorIndex: p.floor(p.random(0, 6)),
+                        shift: p.random(-2, 2),
+                        speed: p.random(0.0003, 0.001)
+                    });
+                }
+
+                // Vertical bars (abstracted vegetation/grass)
+                for(let i = 0; i < 45; i++) {
+                    verticalBars.push({
                         x: p.random(canvasWidth),
-                        y: p.random(canvasHeight * 0.4),
-                        size: p.random(1, 3),
-                        twinkle: p.random(0, p.TWO_PI)
+                        y: p.random(canvasHeight * 0.5, canvasHeight),
+                        width: p.random(3, 15),
+                        height: p.random(40, 180),
+                        rotation: p.random(-0.3, 0.3),
+                        rotationSpeed: p.random(-0.01, 0.01),
+                        colorIndex: p.floor(p.random(0, 4))
                     });
                 }
-                
-                // Initialize clouds
+
+                // Angular bird shapes (geometric triangular forms)
+                for(let i = 0; i < 8; i++) {
+                    angularBirds.push({
+                        x: p.random(canvasWidth),
+                        y: p.random(canvasHeight * 0.2, canvasHeight * 0.6),
+                        size: p.random(20, 60),
+                        angle: p.random(0, p.TWO_PI),
+                        speed: p.random(0.3, 0.8),
+                        wobble: p.random(0, p.TWO_PI),
+                        wobbleSpeed: p.random(0.02, 0.05)
+                    });
+                }
+
+                // Drifting angular shapes (abstract clouds/atmosphere)
                 for(let i = 0; i < 12; i++) {
-                    clouds.push({
+                    driftingShapes.push({
                         x: p.random(-100, canvasWidth + 100),
-                        y: p.random(canvasHeight * 0.05, canvasHeight * 0.5),
-                        size: p.random(80, 200),
-                        speed: p.random(0.2, 0.8)
+                        y: p.random(canvasHeight * 0.05, canvasHeight * 0.4),
+                        size: p.random(60, 200),
+                        sides: p.floor(p.random(3, 6)),
+                        rotation: p.random(0, p.TWO_PI),
+                        rotationSpeed: p.random(-0.005, 0.005),
+                        speed: p.random(0.1, 0.5),
+                        opacity: p.random(0.3, 0.7)
                     });
                 }
-                
-                // Initialize mountains
-                for(let i = 0; i < canvasWidth + 100; i += 20) {
-                    mountains.push({
-                        x: i,
-                        height: p.random(canvasHeight * 0.6, canvasHeight * 0.8)
+
+                // Rotating rectangles (digital artifacts)
+                for(let i = 0; i < 15; i++) {
+                    rotatingRects.push({
+                        x: p.random(canvasWidth),
+                        y: p.random(canvasHeight),
+                        w: p.random(10, 60),
+                        h: p.random(10, 60),
+                        rotation: p.random(0, p.TWO_PI),
+                        rotationSpeed: p.random(-0.03, 0.03),
+                        colorIndex: p.floor(p.random(0, 5)),
+                        pulsePhase: p.random(0, p.TWO_PI)
+                    });
+                }
+
+                // Glitch lines (digital disruption)
+                for(let i = 0; i < 25; i++) {
+                    glitchLines.push({
+                        x1: p.random(canvasWidth),
+                        y1: p.random(canvasHeight),
+                        length: p.random(20, 150),
+                        angle: p.random(0, p.TWO_PI),
+                        thickness: p.random(1, 5),
+                        flickerPhase: p.random(0, p.TWO_PI),
+                        colorIndex: p.floor(p.random(0, 4))
                     });
                 }
             };
-            
+
             p.draw = function() {
                 time += 0.01;
 
-                // Update mouse influence with smooth interpolation
-                targetMouseInfluenceX = mouseState.x / canvasWidth;
-                targetMouseInfluenceY = mouseState.y / canvasHeight;
-                mouseInfluenceX = p.lerp(mouseInfluenceX, targetMouseInfluenceX, 0.05);
-                mouseInfluenceY = p.lerp(mouseInfluenceY, targetMouseInfluenceY, 0.05);
+                // ABSTRACT SKY - Shifting horizontal color bands
+                let colors = [
+                    palette.burnOrange,
+                    palette.rustBrown,
+                    palette.acidLime,
+                    palette.mossGreen,
+                    palette.slateGrey,
+                    palette.tarBlack,
+                    palette.bruisePurple
+                ];
 
-                // Use mouse influence for day/night cycle instead of time
-                let timeBlend = mouseInfluenceX;
+                // Draw shifting color bands
+                for(let band of colorBands) {
+                    band.shift += band.speed;
 
-                // Animated gradient sky
-                for(let y = 0; y < canvasHeight; y++) {
-                    let inter = p.map(y, 0, canvasHeight, 0, 1);
-                    let sunsetTop = p.color(255, 94, 77);    // Red-orange
-                    let sunsetMid = p.color(255, 154, 0);    // Orange
-                    let sunsetBot = p.color(255, 206, 84);   // Yellow
-                    let nightTop = p.color(25, 25, 112);     // Midnight blue
-                    let nightBot = p.color(72, 61, 139);     // Dark slate blue
-                    
-                    let dayColor, nightColor;
-                    
-                    if(inter < 0.3) {
-                        dayColor = p.lerpColor(sunsetTop, sunsetMid, inter / 0.3);
-                        nightColor = p.lerpColor(nightTop, nightTop, inter / 0.3);
-                    } else if(inter < 0.7) {
-                        dayColor = p.lerpColor(sunsetMid, sunsetBot, (inter - 0.3) / 0.4);
-                        nightColor = p.lerpColor(nightTop, nightBot, (inter - 0.3) / 0.4);
-                    } else {
-                        dayColor = sunsetBot;
-                        nightColor = nightBot;
-                    }
-
-                    // Blend between day and night controlled by mouse X position
-                    let c = p.lerpColor(dayColor, nightColor, timeBlend);
-                    p.stroke(c);
-                    p.line(0, y, canvasWidth, y);
-                }
-                
-                // Draw stars (more visible at night) - brighten near mouse
-                let starAlpha = p.map(timeBlend, 0, 1, 50, 255);
-                for(let star of stars) {
-                    // Calculate distance from mouse to star
-                    let distToMouse = p.dist(mouseState.x, mouseState.y, star.x, star.y);
-                    let mouseProximity = p.constrain(p.map(distToMouse, 0, 150, 1, 0), 0, 1);
-
-                    // Faster twinkling and brighter near mouse
-                    let twinkleSpeed = 3 + (mouseProximity * 5);
-                    let twinkle = p.sin(star.twinkle + time * twinkleSpeed) * 0.5 + 0.5;
-                    let brightness = starAlpha * twinkle * (1 + mouseProximity * 0.8);
-                    let starSize = star.size * (1 + mouseProximity * 0.5);
-
-                    p.fill(255, 255, 255, brightness);
+                    let currentColor = colors[band.colorIndex];
                     p.noStroke();
-                    p.circle(star.x, star.y, starSize);
-                    star.twinkle += 0.1;
+                    p.fill(...currentColor, 180 + p.sin(time + band.shift) * 75);
+
+                    // Add digital glitch offset
+                    let glitchOffset = p.sin(time * 3.7 + band.y) * 5;
+                    p.rect(glitchOffset, band.y, canvasWidth, band.height);
                 }
 
-                // Draw animated sun/moon - follows mouse Y position
-                let sunSize = 80 + 20 * p.sin(time * 2);
-                targetSunY = canvasHeight * 0.2 + (mouseInfluenceY * canvasHeight * 0.5);
-                sunY = p.lerp(sunY || targetSunY, targetSunY, 0.05);
-                let currentSunY = sunY + 15 * p.sin(time * 0.3); // Keep subtle bobbing
-                
-                // Calculate sun properties based on day/night cycle (mouse-controlled)
-                let sunAlpha = p.map(timeBlend, 0, 1, 255, 150);
-                let isNight = timeBlend > 0.6; // When sky is darkest
-                let nightIntensity = p.constrain(p.map(timeBlend, 0.6, 1, 0, 1), 0, 1); // How deep into night
-                
-                // Sun color shifts from golden to silver during night
-                let sunR, sunG, sunB, glowR, glowG, glowB;
-                if (isNight) {
-                    // Silver moon colors
-                    sunR = p.lerp(255, 200, nightIntensity);
-                    sunG = p.lerp(200, 200, nightIntensity); 
-                    sunB = p.lerp(0, 220, nightIntensity);
-                    glowR = p.lerp(255, 150, nightIntensity);
-                    glowG = p.lerp(150, 150, nightIntensity);
-                    glowB = p.lerp(0, 200, nightIntensity);
-                } else {
-                    // Golden sun colors
-                    sunR = 255;
-                    sunG = 200;
-                    sunB = 0;
-                    glowR = 255;
-                    glowG = 150;
-                    glowB = 0;
-                }
-                
-                // Sun glow - reduced during night
-                let glowIntensity = isNight ? 0.1 * (1 - nightIntensity) : 0.3;
-                for(let r = sunSize * 2; r > 0; r -= 5) {
-                    let alpha = p.map(r, 0, sunSize * 2, sunAlpha, 0);
-                    p.fill(glowR, glowG, glowB, alpha * glowIntensity);
-                    p.noStroke();
-                    p.circle(canvasWidth * 0.8, currentSunY, r);
-                }
-                
-                // Main sun/moon
-                p.fill(sunR, sunG, sunB, sunAlpha);
-                p.noStroke();
-                p.circle(canvasWidth * 0.8, currentSunY, sunSize);
-                
-                // Sun rays - fade out during night
-                let rayAlpha = isNight ? sunAlpha * 0.1 * (1 - nightIntensity) : sunAlpha * 0.7;
-                if (rayAlpha > 10) { // Only draw rays if they're visible enough
-                    p.stroke(255, 255, 100, rayAlpha);
-                    p.strokeWeight(3);
-                    for(let angle = 0; angle < p.TWO_PI; angle += p.PI/8) {
-                        let rayLength = 40 + 20 * p.sin(time * 3 + angle);
-                        let x1 = canvasWidth * 0.8 + p.cos(angle) * (sunSize/2 + 10);
-                        let y1 = currentSunY + p.sin(angle) * (sunSize/2 + 10);
-                        let x2 = canvasWidth * 0.8 + p.cos(angle) * (sunSize/2 + rayLength);
-                        let y2 = currentSunY + p.sin(angle) * (sunSize/2 + rayLength);
-                        p.line(x1, y1, x2, y2);
-                    }
-                }
-                
-                // Draw clouds - speed up near mouse
-                for(let cloud of clouds) {
-                    // Calculate distance from mouse to cloud
-                    let distToMouse = p.dist(mouseState.x, mouseState.y, cloud.x, cloud.y);
-                    let mouseInfluence = p.constrain(p.map(distToMouse, 0, 200, 2.5, 1), 1, 2.5);
+                // Draw drifting angular shapes (abstract atmosphere)
+                for(let shape of driftingShapes) {
+                    shape.x += shape.speed;
+                    shape.rotation += shape.rotationSpeed;
 
-                    drawCloud(p, cloud.x, cloud.y, cloud.size, timeBlend);
-                    cloud.x += cloud.speed * mouseInfluence;
-                    if(cloud.x > canvasWidth + cloud.size) {
-                        cloud.x = -cloud.size;
-                    }
-                }
-                
-                // Draw mountains (silhouette) - with parallax
-                p.fill(30, 20, 60, 200);
-                p.noStroke();
-                p.beginShape();
-                p.vertex(0, canvasHeight);
-
-                // Parallax offset based on mouse position
-                let parallaxX = (mouseInfluenceX - 0.5) * 30;
-                let parallaxY = (mouseInfluenceY - 0.5) * 20;
-
-                for(let mountain of mountains) {
-                    p.vertex(mountain.x + parallaxX, mountain.height + parallaxY);
-                }
-                p.vertex(canvasWidth, canvasHeight);
-                p.endShape(p.CLOSE);
-                
-                // Add some retro grid lines (optional)
-                drawRetroGrid(p);
-                
-                // Floating game elements
-                drawFloatingElements(p);
-            };
-            
-            function drawCloud(p, x, y, size, timeBlend) {
-                // Fade clouds during night - more visible during day
-                let cloudAlpha = p.map(timeBlend, 0, 1, 200, 80); // Fade from 200 to 80 alpha
-                p.fill(255, 255, 255, cloudAlpha);
-                p.noStroke();
-                // Cloud made of circles
-                p.circle(x, y, size * 0.6);
-                p.circle(x + size * 0.3, y, size * 0.5);
-                p.circle(x - size * 0.3, y, size * 0.5);
-                p.circle(x + size * 0.15, y - size * 0.2, size * 0.4);
-                p.circle(x - size * 0.15, y - size * 0.2, size * 0.4);
-            }
-            
-            function drawRetroGrid(p) {
-                let groundY = canvasHeight * 0.85;
-
-                // Horizontal lines - glow near mouse
-                for(let i = 0; i < 20; i++) {
-                    let lineY = groundY + i * 20;
-                    if(lineY < canvasHeight) {
-                        let distToMouse = Math.abs(mouseState.y - lineY);
-                        let glowIntensity = p.constrain(p.map(distToMouse, 0, 100, 255, 80), 80, 255);
-
-                        p.stroke(255, 100, 255, glowIntensity);
-                        p.strokeWeight(distToMouse < 50 ? 2 : 1);
-                        p.line(0, lineY, canvasWidth, lineY);
-                    }
-                }
-
-                // Vertical lines - glow near mouse
-                for(let i = 0; i < canvasWidth; i += 50) {
-                    let distToMouse = Math.abs(mouseState.x - i);
-                    let glowIntensity = p.constrain(p.map(distToMouse, 0, 100, 255, 80), 80, 255);
-
-                    p.stroke(255, 100, 255, glowIntensity);
-                    p.strokeWeight(distToMouse < 50 ? 2 : 1);
-                    p.line(i, groundY, i, canvasHeight);
-                }
-            }
-            
-            function drawFloatingElements(p) {
-                // Floating pixels/gems - with mouse attraction and orbital behavior
-                let pixelSize = 8;
-
-                for(let i = 0; i < 10; i++) {
-                    // Base position (normal floating behavior)
-                    let baseX = (i * 80 + time * 20) % canvasWidth;
-                    let baseY = canvasHeight * 0.7 + 30 * p.sin(time * 2 + i);
-
-                    // Calculate distance from mouse
-                    let distToMouse = p.dist(mouseState.x, mouseState.y, baseX, baseY);
-                    let attraction = p.constrain(p.map(distToMouse, 0, 150, 1, 0), 0, 1);
-
-                    let x = baseX;
-                    let y = baseY;
-
-                    // If mouse is nearby, apply attraction and orbital behavior
-                    if (attraction > 0.1) {
-                        let angle = p.atan2(mouseState.y - baseY, mouseState.x - baseX);
-                        let orbitAngle = angle + (time * 2 + i) * attraction;
-
-                        // Orbit radius decreases as attraction increases
-                        let orbitRadius = p.lerp(0, 80, 1 - attraction);
-
-                        // Move toward mouse with orbital motion
-                        x = p.lerp(baseX, mouseState.x + p.cos(orbitAngle) * orbitRadius, attraction);
-                        y = p.lerp(baseY, mouseState.y + p.sin(orbitAngle) * orbitRadius, attraction);
+                    if(shape.x > canvasWidth + 200) {
+                        shape.x = -200;
                     }
 
-                    // Color changes based on distance from mouse
-                    let baseHue = (time * 50 + i * 36) % 360;
-                    let mouseHue = (mouseState.x / canvasWidth) * 360;
-                    let hue = p.lerp(baseHue, mouseHue, attraction);
-
-                    // Size increases when near mouse
-                    let size = pixelSize * (1 + attraction * 0.5);
-
-                    // Rotation based on attraction
                     p.push();
-                    p.translate(x + size / 2, y + size / 2);
-                    p.rotate(attraction * time * 3);
-                    p.translate(-size / 2, -size / 2);
+                    p.translate(shape.x, shape.y);
+                    p.rotate(shape.rotation);
 
-                    p.fill(p.color(`hsl(${hue}, 80%, 60%)`));
+                    p.fill(...palette.tarBlack, shape.opacity * 255 * 0.5);
                     p.noStroke();
-                    p.rect(0, 0, size, size);
 
-                    // Pixel glow - brighter when attracted
-                    p.fill(p.color(`hsl(${hue}, 80%, ${60 + attraction * 20}%)`));
-                    p.rect(2, 2, size - 4, size - 4);
+                    // Draw polygon
+                    p.beginShape();
+                    for(let i = 0; i < shape.sides; i++) {
+                        let angle = (i / shape.sides) * p.TWO_PI;
+                        let x = p.cos(angle) * shape.size;
+                        let y = p.sin(angle) * shape.size;
+                        p.vertex(x, y);
+                    }
+                    p.endShape(p.CLOSE);
+                    p.pop();
+                }
+
+                // Draw rotating rectangles (digital artifacts)
+                for(let rect of rotatingRects) {
+                    rect.rotation += rect.rotationSpeed;
+                    rect.pulsePhase += 0.02;
+
+                    let rectColors = [
+                        palette.burnOrange,
+                        palette.acidLime,
+                        palette.toxicYellow,
+                        palette.bloodRed,
+                        palette.boneWhite
+                    ];
+
+                    p.push();
+                    p.translate(rect.x, rect.y);
+                    p.rotate(rect.rotation);
+
+                    let pulse = 0.5 + 0.5 * p.sin(rect.pulsePhase);
+                    p.fill(...rectColors[rect.colorIndex], pulse * 200);
+                    p.noStroke();
+                    p.rect(-rect.w/2, -rect.h/2, rect.w, rect.h);
+                    p.pop();
+                }
+
+                // Draw glitch lines
+                for(let line of glitchLines) {
+                    line.flickerPhase += 0.08;
+
+                    let lineColors = [
+                        palette.toxicYellow,
+                        palette.acidLime,
+                        palette.burnOrange,
+                        palette.bloodRed
+                    ];
+
+                    let flicker = p.abs(p.sin(line.flickerPhase));
+                    if(flicker > 0.3) {
+                        p.stroke(...lineColors[line.colorIndex], flicker * 255);
+                        p.strokeWeight(line.thickness);
+
+                        let x2 = line.x1 + p.cos(line.angle) * line.length;
+                        let y2 = line.y1 + p.sin(line.angle) * line.length;
+                        p.line(line.x1, line.y1, x2, y2);
+                    }
+                }
+
+                // Draw vertical bars (abstracted vegetation)
+                for(let bar of verticalBars) {
+                    bar.rotation += bar.rotationSpeed;
+
+                    let barColors = [
+                        palette.mossGreen,
+                        palette.slateGrey,
+                        palette.rustBrown,
+                        palette.tarBlack
+                    ];
+
+                    p.push();
+                    p.translate(bar.x, bar.y);
+                    p.rotate(bar.rotation);
+
+                    p.fill(...barColors[bar.colorIndex], 200);
+                    p.noStroke();
+                    p.rect(-bar.width/2, -bar.height, bar.width, bar.height);
+                    p.pop();
+                }
+
+                // Draw angular birds (geometric triangular forms)
+                for(let bird of angularBirds) {
+                    bird.x += bird.speed;
+                    bird.wobble += bird.wobbleSpeed;
+
+                    // Wrap around
+                    if(bird.x > canvasWidth + 100) {
+                        bird.x = -100;
+                        bird.y = p.random(canvasHeight * 0.2, canvasHeight * 0.6);
+                    }
+
+                    p.push();
+                    p.translate(bird.x, bird.y + p.sin(bird.wobble) * 10);
+                    p.rotate(bird.angle);
+
+                    p.fill(...palette.tarBlack, 220);
+                    p.noStroke();
+
+                    // Draw angular bird as asymmetric triangle cluster
+                    p.triangle(
+                        0, -bird.size * 0.3,
+                        -bird.size * 0.6, bird.size * 0.2,
+                        -bird.size * 0.2, bird.size * 0.1
+                    );
+                    p.triangle(
+                        0, -bird.size * 0.3,
+                        bird.size * 0.6, bird.size * 0.2,
+                        bird.size * 0.2, bird.size * 0.1
+                    );
 
                     p.pop();
                 }
-            }
-            
+            };
+
             p.windowResized = function() {
                 canvasWidth = p.windowWidth;
                 canvasHeight = p.windowHeight;
                 p.resizeCanvas(canvasWidth, canvasHeight);
             };
         };
-        
-        new p5(sunsetSketch);
+
+        let p5Instance = new p5(floridaSketch);
+
+        // Check initial state immediately
+        if (document.body.classList.contains('motion-disabled')) {
+            p5Instance.noLoop();
+        }
+
+        // Listen for motion toggle changes
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.attributeName === 'class') {
+                    const isMotionDisabled = document.body.classList.contains('motion-disabled');
+                    if (isMotionDisabled) {
+                        p5Instance.noLoop();
+                        console.log('%c[P5 PAUSED]', 'color: #8b0000; font-weight: 900;');
+                    } else {
+                        p5Instance.loop();
+                        console.log('%c[P5 RESUMED]', 'color: #c1ff00; font-weight: 900;');
+                    }
+                }
+            });
+        });
+
+        observer.observe(document.body, { attributes: true });
     </script>
+
+    <!-- Motion Toggle Button - Top Left -->
+    <div class="chaos-motion-toggle" id="motionToggle">
+        <div class="chaos-motion-toggle-inner">
+            <span class="chaos-motion-toggle-icon">▶</span>
+            <span class="chaos-motion-toggle-text">MOTION ON</span>
+        </div>
+    </div>
+
+    <!-- Floating Contact Cluster - Chaos Style -->
+    <div class="chaos-contact-cluster">
+        <div class="chaos-contact-item contact-email">
+            <a href="mailto:anastasia@ucf.edu" class="chaos-contact-link">
+                <span class="chaos-contact-icon">@</span>
+                <span class="chaos-contact-text">EMAIL</span>
+            </a>
+        </div>
+        <div class="chaos-contact-item">
+            <a href="https://bsky.app/profile/anasalter.bsky.social" class="chaos-contact-link" target="_blank" rel="noopener noreferrer">
+                <span class="chaos-contact-icon"><i class="fas fa-cloud"></i></span>
+                <span class="chaos-contact-text">BLUESKY</span>
+            </a>
+        </div>
+        <div class="chaos-contact-item">
+            <a href="https://www.instagram.com/anasalter/" class="chaos-contact-link" target="_blank" rel="noopener noreferrer">
+                <span class="chaos-contact-icon"><i class="fab fa-instagram"></i></span>
+                <span class="chaos-contact-text">INSTA</span>
+            </a>
+        </div>
+        <div class="chaos-contact-item">
+            <a href="CV.pdf" class="chaos-contact-link" target="_blank">
+                <span class="chaos-contact-icon"><i class="fas fa-file-pdf"></i></span>
+                <span class="chaos-contact-text">CV</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Chaos Effects -->
+    <script src="js/chaos-effects.js"></script>
 </body>
 </html>

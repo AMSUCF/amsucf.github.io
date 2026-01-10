@@ -1,0 +1,731 @@
+/* CHAOS.CSS - Radical Design System Override */
+/* Reject convention. Embrace weirdness. */
+
+:root {
+    /* Provocative color rebellion: burnt sienna + acid green + rust + slate */
+    --burn-orange: #d4520a;
+    --acid-lime: #c1ff00;
+    --rust-brown: #8b4000;
+    --slate-grey: #536872;
+    --toxic-yellow: #e8ff00;
+    --blood-red: #8b0000;
+    --moss-green: #5a7247;
+    --bruise-purple: #5e3a5e;
+    --tar-black: #1a1a1a;
+    --bone-white: #f5f1e8;
+    --bile-green: #9acd32;
+    --clay-red: #a0522d;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Orbitron', 'Courier New', monospace;
+    line-height: 1.37; /* Uncomfortable but intentional */
+    color: var(--tar-black);
+    letter-spacing: -0.03em; /* Slight crunch */
+    background: linear-gradient(137deg,
+        var(--burn-orange) 0%,
+        var(--acid-lime) 31%,
+        var(--rust-brown) 57%,
+        var(--slate-grey) 73%,
+        var(--toxic-yellow) 100%);
+    background-size: 300% 300%;
+    background-attachment: fixed;
+    animation: chaoticShift 13s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+}
+
+@keyframes chaoticShift {
+    0% { background-position: 0% 0%; }
+    33% { background-position: 100% 50%; }
+    66% { background-position: 50% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+/* Unconventional Navigation - bottom placement */
+.navbar,
+nav.navbar {
+    position: fixed !important;
+    bottom: 0 !important;
+    top: auto !important;
+    left: 0;
+    right: 0;
+    background: var(--rust-brown) !important;
+    backdrop-filter: blur(5px);
+    border-top: 7px solid var(--acid-lime);
+    border-bottom: none !important;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    transform-origin: bottom;
+    border-radius: 0 !important;
+}
+
+.navbar:hover,
+nav.navbar:hover {
+    transform: scaleY(1.1);
+    border-top-width: 11px;
+}
+
+.navbar-brand {
+    font-family: 'Press Start 2P', cursive !important;
+    font-weight: 700 !important;
+    font-size: 0.9rem !important;
+    color: var(--toxic-yellow) !important;
+    text-shadow: 2px 2px 0 var(--tar-black) !important;
+    text-decoration: none !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+}
+
+.navbar-brand:hover {
+    color: var(--tar-black) !important;
+    background: var(--toxic-yellow) !important;
+    text-shadow: none !important;
+    transform: none !important;
+    padding: 0.25rem 0.5rem !important;
+}
+
+.nav-link {
+    font-family: 'Courier New', monospace !important;
+    font-weight: 700 !important;
+    color: var(--bone-white) !important;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    margin: 0 0.3rem !important;
+    font-size: 0.85rem !important;
+    border: 2px solid transparent !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 0 !important;
+    text-shadow: 1px 1px 0 var(--tar-black) !important;
+}
+
+.nav-link:hover {
+    color: var(--tar-black) !important;
+    background: var(--toxic-yellow) !important;
+    border: 2px solid var(--tar-black) !important;
+    transform: translateY(-5px) scale(1.05) !important;
+    box-shadow: 3px 3px 0 var(--tar-black) !important;
+    text-shadow: none !important;
+}
+
+.nav-link.active {
+    color: var(--tar-black) !important;
+    background: var(--toxic-yellow) !important;
+    border: 2px solid var(--tar-black) !important;
+    transform: none !important;
+    text-shadow: none !important;
+}
+
+.nav-link::after {
+    display: none !important; /* Reject predictable underlines */
+}
+
+/* Buttons - reject rounded corners */
+.btn-rainbow,
+.btn {
+    background: var(--bile-green) !important;
+    border: 4px solid var(--burn-orange) !important;
+    color: var(--tar-black) !important;
+    padding: 15px 35px !important;
+    border-radius: 0 !important; /* No curves */
+    font-weight: 900 !important;
+    text-decoration: none !important;
+    display: inline-block;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55) !important;
+    margin: 7px !important;
+    font-family: 'Courier New', monospace !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.1em !important;
+    box-shadow: 7px 7px 0 var(--blood-red) !important;
+    position: relative;
+    clip-path: polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%);
+}
+
+.btn-rainbow:hover,
+.btn:hover {
+    transform: translateY(-5px) translateX(-5px) rotate(-3deg) !important;
+    box-shadow: 12px 12px 0 var(--rust-brown) !important;
+    background: var(--toxic-yellow) !important;
+    border-color: var(--slate-grey) !important;
+    color: var(--tar-black) !important;
+}
+
+.btn-rainbow:active,
+.btn:active {
+    transform: translateY(2px) translateX(2px) !important;
+    box-shadow: 3px 3px 0 var(--burn-orange) !important;
+}
+
+/* Headings - dramatic impact */
+h1 {
+    font-family: 'Impact', 'Arial Black', sans-serif !important;
+    font-weight: 900 !important;
+    color: var(--bone-white) !important;
+    text-shadow:
+        3px 3px 0 var(--tar-black),
+        6px 6px 0 var(--rust-brown) !important;
+    letter-spacing: -0.05em !important;
+    line-height: 0.85 !important;
+    transform: rotate(-2deg);
+    animation: textQuake 3.7s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+}
+
+@keyframes textQuake {
+    0%, 100% {
+        transform: rotate(-2deg) translateX(0) translateY(0);
+        text-shadow: 3px 3px 0 var(--tar-black), 6px 6px 0 var(--rust-brown);
+    }
+    25% {
+        transform: rotate(1deg) translateX(-3px) translateY(2px);
+        text-shadow: 3px 3px 0 var(--tar-black), 6px 6px 0 var(--blood-red);
+    }
+    50% {
+        transform: rotate(-1deg) translateX(2px) translateY(-3px);
+        text-shadow: 3px 3px 0 var(--tar-black), 6px 6px 0 var(--burn-orange);
+    }
+    75% {
+        transform: rotate(2deg) translateX(-2px) translateY(3px);
+        text-shadow: 3px 3px 0 var(--tar-black), 6px 6px 0 var(--rust-brown);
+    }
+}
+
+h2 {
+    font-family: 'Press Start 2P', cursive !important;
+    color: var(--toxic-yellow) !important;
+    text-shadow: 2px 2px 0 var(--tar-black) !important;
+    letter-spacing: 0.05em !important;
+    transform: rotate(-1deg);
+}
+
+h3, h4, h5, h6 {
+    font-family: 'Courier New', monospace !important;
+    color: var(--tar-black) !important;
+    text-shadow: none !important;
+    font-weight: 900 !important;
+}
+
+/* Cards - no rounded corners */
+.card,
+.content-card,
+.research-card,
+.book-card {
+    background: rgba(245, 241, 232, 0.93) !important;
+    backdrop-filter: blur(3px);
+    border-radius: 0 !important; /* Reject curves */
+    border: 5px solid var(--burn-orange) !important;
+    border-right-width: 9px !important;
+    border-bottom-width: 9px !important;
+    box-shadow: 12px 12px 0 var(--tar-black) !important;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55) !important;
+    transform: rotate(0.5deg);
+    clip-path: polygon(0 0, 99% 0, 100% 1%, 100% 100%, 1% 100%, 0 99%);
+}
+
+.card:hover,
+.content-card:hover,
+.research-card:hover,
+.book-card:hover {
+    transform: translateY(-12px) translateX(-8px) rotate(-2deg) !important;
+    box-shadow: 20px 20px 0 var(--rust-brown) !important;
+    border-color: var(--acid-lime) !important;
+}
+
+/* Floating shapes - more chaotic */
+.shape {
+    opacity: 0.25 !important;
+    animation: float 7.3s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite !important;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px) rotate(0deg) scale(1); }
+    17% { transform: translateY(-30px) rotate(47deg) scale(1.3); }
+    34% { transform: translateY(15px) rotate(-93deg) scale(0.7); }
+    51% { transform: translateY(-45px) rotate(167deg) scale(1.5); }
+    68% { transform: translateY(25px) rotate(-210deg) scale(0.9); }
+    85% { transform: translateY(-15px) rotate(300deg) scale(1.2); }
+    100% { transform: translateY(0px) rotate(360deg) scale(1); }
+}
+
+/* Footer styling */
+.footer,
+footer {
+    background: var(--tar-black) !important;
+    color: var(--bone-white) !important;
+    border-top: 8px solid var(--acid-lime) !important;
+    padding: 3rem 0 6rem 0 !important; /* Extra padding for bottom nav */
+    margin-top: 4rem;
+}
+
+/* Social links */
+.social-links a {
+    color: var(--toxic-yellow) !important;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.social-links a:hover {
+    transform: translateY(-5px) rotate(12deg) scale(1.3) !important;
+    color: var(--acid-lime) !important;
+    text-shadow: 3px 3px 0 var(--blood-red) !important;
+}
+
+/* Remove AOS generic animations */
+[data-aos] {
+    transition-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55) !important;
+}
+
+/* Page spacing adjustments for bottom nav */
+main,
+.main-content {
+    padding-bottom: 120px !important;
+}
+
+body {
+    padding-top: 0 !important;
+    padding-bottom: 80px;
+}
+
+/* Research items */
+.research-item {
+    background: rgba(193, 255, 0, 0.15) !important;
+    border-left: 8px solid var(--burn-orange) !important;
+    border-bottom: 4px solid var(--rust-brown) !important;
+    border-radius: 0 !important;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.research-item:hover {
+    transform: translateX(15px) rotate(0.5deg) !important;
+    box-shadow: 8px 8px 0 var(--slate-grey) !important;
+    border-left-color: var(--toxic-yellow) !important;
+}
+
+.research-item h5 {
+    text-shadow: none !important;
+    color: var(--tar-black) !important;
+}
+
+/* Links - exclude nav-links and contact cluster links */
+a:not(.nav-link):not(.navbar-brand):not(.chaos-contact-link) {
+    color: var(--burn-orange) !important;
+    text-decoration: underline;
+    text-decoration-color: var(--acid-lime);
+    text-decoration-thickness: 2px;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+a:not(.nav-link):not(.navbar-brand):not(.chaos-contact-link):hover {
+    color: var(--toxic-yellow) !important;
+    text-decoration-color: var(--blood-red);
+    text-shadow: 1px 1px 0 var(--tar-black);
+}
+
+/* Animated background override */
+.animated-bg {
+    display: none; /* Using body background instead */
+}
+
+/* Book spines and special elements */
+.book-spine {
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) !important;
+}
+
+.book-spine:hover {
+    transform: translateY(-25px) scale(1.15) rotateX(8deg) rotateY(-8deg) rotate(3deg) !important;
+}
+
+/* Badges and labels */
+.badge {
+    border-radius: 0 !important;
+    padding: 0.5em 1em !important;
+    border: 2px solid var(--tar-black) !important;
+    font-family: 'Courier New', monospace !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.1em !important;
+}
+
+.badge.bg-success {
+    background: var(--acid-lime) !important;
+    color: var(--tar-black) !important;
+}
+
+/* Contrast adjustments */
+.text-muted {
+    color: var(--slate-grey) !important;
+    font-weight: 700 !important;
+}
+
+/* Pixel landscape adjustments */
+.pixel-landscape {
+    border: 6px solid var(--burn-orange) !important;
+    border-radius: 0 !important;
+    box-shadow: 10px 10px 0 var(--tar-black) !important;
+}
+
+/* FLOATING CONTACT CLUSTER - Top Right Chaos */
+.chaos-contact-cluster {
+    position: fixed;
+    top: 17px;
+    right: 23px;
+    z-index: 9998;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    animation: clusterFloat 7s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+}
+
+@keyframes clusterFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-8px) rotate(1deg);
+    }
+    50% {
+        transform: translateY(3px) rotate(-1deg);
+    }
+    75% {
+        transform: translateY(-5px) rotate(0.5deg);
+    }
+}
+
+.chaos-contact-item {
+    background: var(--rust-brown);
+    border: 3px solid var(--acid-lime);
+    border-left-width: 6px;
+    border-bottom-width: 6px;
+    padding: 10px 14px;
+    margin-bottom: -3px; /* Overlapping effect */
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    position: relative;
+    clip-path: polygon(0 0, 97% 0, 100% 3%, 100% 100%, 3% 100%, 0 97%);
+}
+
+.chaos-contact-item:hover {
+    transform: translateX(-12px) scale(1.08) rotate(-2deg);
+    background: var(--toxic-yellow);
+    border-color: var(--blood-red);
+    z-index: 10;
+    box-shadow: 8px 8px 0 var(--tar-black);
+}
+
+.chaos-contact-item:nth-child(2) {
+    transform: rotate(1deg);
+    margin-left: 8px;
+}
+
+.chaos-contact-item:nth-child(3) {
+    transform: rotate(-1deg);
+    margin-right: 5px;
+}
+
+.chaos-contact-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--bone-white) !important;
+    text-decoration: none !important;
+    font-family: 'Courier New', monospace;
+    font-weight: 900;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-shadow: 1px 1px 0 var(--tar-black);
+}
+
+.chaos-contact-item:hover .chaos-contact-link {
+    color: var(--tar-black) !important;
+    text-shadow: none;
+}
+
+.chaos-contact-icon {
+    font-size: 1.1rem;
+    min-width: 20px;
+    text-align: center;
+}
+
+.chaos-contact-text {
+    white-space: nowrap;
+    text-transform: uppercase;
+}
+
+/* Email gets special treatment - largest */
+.chaos-contact-item.contact-email {
+    background: var(--burn-orange);
+    border-color: var(--toxic-yellow);
+    padding: 12px 16px;
+}
+
+.chaos-contact-item.contact-email .chaos-contact-link {
+    font-size: 0.8rem;
+}
+
+.chaos-contact-item.contact-email:hover {
+    background: var(--acid-lime);
+    transform: translateX(-15px) scale(1.12) rotate(-3deg);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .chaos-contact-cluster {
+        top: 10px;
+        right: 10px;
+        scale: 0.85;
+    }
+
+    .chaos-contact-text {
+        display: none; /* Icon only on mobile */
+    }
+
+    .chaos-contact-item {
+        padding: 12px;
+    }
+}
+
+/* Make text visible only on hover on smaller screens */
+@media (max-width: 1024px) {
+    .chaos-contact-text {
+        max-width: 0;
+        overflow: hidden;
+        transition: max-width 0.3s ease;
+    }
+
+    .chaos-contact-item:hover .chaos-contact-text {
+        max-width: 200px;
+    }
+}
+
+/* MOTION TOGGLE BUTTON - Top Left Chaos Control */
+.chaos-motion-toggle {
+    position: fixed;
+    top: 17px;
+    left: 23px;
+    z-index: 9998;
+    background: var(--rust-brown);
+    border: 3px solid var(--acid-lime);
+    border-right-width: 6px;
+    border-bottom-width: 6px;
+    padding: 12px 16px;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    clip-path: polygon(0 0, 97% 0, 100% 3%, 100% 100%, 3% 100%, 0 97%);
+    cursor: pointer;
+    user-select: none;
+}
+
+.chaos-motion-toggle:hover {
+    transform: translateX(12px) scale(1.08) rotate(2deg);
+    background: var(--toxic-yellow);
+    border-color: var(--blood-red);
+    box-shadow: -8px 8px 0 var(--tar-black);
+}
+
+.chaos-motion-toggle-inner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--bone-white);
+    font-family: 'Courier New', monospace;
+    font-weight: 900;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-shadow: 1px 1px 0 var(--tar-black);
+    text-transform: uppercase;
+}
+
+.chaos-motion-toggle:hover .chaos-motion-toggle-inner {
+    color: var(--tar-black);
+    text-shadow: none;
+}
+
+.chaos-motion-toggle-icon {
+    font-size: 1.1rem;
+    min-width: 20px;
+    text-align: center;
+}
+
+.chaos-motion-toggle-text {
+    white-space: nowrap;
+}
+
+/* When motion is off */
+.chaos-motion-toggle.motion-off {
+    background: var(--tar-black);
+    border-color: var(--rust-brown);
+}
+
+.chaos-motion-toggle.motion-off:hover {
+    background: var(--burn-orange);
+    border-color: var(--acid-lime);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .chaos-motion-toggle {
+        top: 10px;
+        left: 10px;
+        scale: 0.85;
+    }
+
+    .chaos-motion-toggle-text {
+        display: none; /* Icon only on mobile */
+    }
+
+    .chaos-motion-toggle {
+        padding: 12px;
+    }
+}
+
+/* Make text visible only on hover on smaller screens */
+@media (max-width: 1024px) {
+    .chaos-motion-toggle-text {
+        max-width: 0;
+        overflow: hidden;
+        transition: max-width 0.3s ease;
+    }
+
+    .chaos-motion-toggle:hover .chaos-motion-toggle-text {
+        max-width: 150px;
+    }
+}
+
+/* Section headers */
+.section-header h2,
+.page-header h1 {
+    animation: textQuake 3.7s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+}
+
+/* Override container max-widths for asymmetry */
+.container {
+    max-width: 93% !important; /* Slightly off */
+}
+
+/* Text alignment chaos */
+.text-center:nth-of-type(3n) {
+    text-align: right !important;
+}
+
+.text-center:nth-of-type(5n) {
+    text-align: left !important;
+}
+
+/* Override outdated pink/purple color scheme */
+:root {
+    --primary-pink: var(--burn-orange) !important;
+    --primary-purple: var(--rust-brown) !important;
+    --primary-blue: var(--slate-grey) !important;
+    --primary-green: var(--moss-green) !important;
+    --primary-yellow: var(--toxic-yellow) !important;
+    --primary-orange: var(--burn-orange) !important;
+    --secondary-pink: var(--clay-red) !important;
+    --secondary-purple: var(--bruise-purple) !important;
+    --neon-pink: var(--burn-orange) !important;
+    --neon-cyan: var(--acid-lime) !important;
+    --neon-yellow: var(--toxic-yellow) !important;
+    --neon-green: var(--moss-green) !important;
+    --neon-purple: var(--bruise-purple) !important;
+}
+
+/* Hero section overrides for elit.html */
+.hero-section {
+    background: var(--burn-orange) !important;
+}
+
+/* Remove problematic text shadows from hero content */
+.hero-title {
+    text-shadow: 3px 3px 0 var(--tar-black) !important;
+}
+
+.hero-subtitle {
+    text-shadow: none !important;
+    color: var(--tar-black) !important;
+}
+
+/* Section title readability */
+.section-title {
+    color: var(--bone-white) !important;
+    text-shadow: 2px 2px 0 var(--tar-black) !important;
+}
+
+/* Page header improvements */
+.page-header h1 {
+    color: var(--bone-white) !important;
+    text-shadow: 3px 3px 0 var(--tar-black), 6px 6px 0 var(--rust-brown) !important;
+}
+
+.page-header .subtitle {
+    color: var(--bone-white) !important;
+    text-shadow: 2px 2px 0 var(--tar-black) !important;
+}
+
+/* Project card text improvements */
+.project-title {
+    text-shadow: none !important;
+}
+
+.project-author,
+.project-venue,
+.project-year {
+    text-shadow: none !important;
+}
+
+/* MOTION OFF STATE - Disable all animations when toggled */
+body.motion-disabled * {
+    animation: none !important;
+    transition: none !important;
+}
+
+/* Disable background gradient animation */
+body.motion-disabled {
+    animation: none !important;
+    background-size: 100% 100% !important;
+    background-position: 0% 0% !important;
+}
+
+/* Disable all hover transforms and rotations */
+body.motion-disabled *:hover {
+    transform: none !important;
+}
+
+body.motion-disabled .animated-bg {
+    animation: none !important;
+}
+
+body.motion-disabled .shape {
+    animation: none !important;
+}
+
+body.motion-disabled h1 {
+    animation: none !important;
+}
+
+body.motion-disabled .chaos-contact-cluster {
+    animation: none !important;
+}
+
+body.motion-disabled .florida-moss {
+    animation: none !important;
+}
+
+body.motion-disabled .pixel-bird {
+    animation: none !important;
+}
+
+body.motion-disabled .pixel-bird::after {
+    animation: none !important;
+}
+
+/* Disable card/button hover transforms */
+body.motion-disabled .card:hover,
+body.motion-disabled .content-card:hover,
+body.motion-disabled .research-card:hover,
+body.motion-disabled .book-card:hover,
+body.motion-disabled .project-card:hover,
+body.motion-disabled .btn:hover,
+body.motion-disabled .btn-rainbow:hover,
+body.motion-disabled .book-spine:hover,
+body.motion-disabled .nav-link:hover,
+body.motion-disabled .chaos-contact-item:hover,
+body.motion-disabled .chaos-motion-toggle:hover {
+    transform: none !important;
+}
