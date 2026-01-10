@@ -107,6 +107,18 @@
             100% { background-position: 0% 0%; }
         }
 
+        /* Override animation when mouse is active */
+        .animated-bg.mouse-active {
+            animation: none;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .animated-bg {
+                animation: none;
+                transition: none;
+            }
+        }
+
         /* Floating shapes animation */
         .floating-shapes {
             position: fixed;
@@ -521,6 +533,59 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
+
+        /* Animation Toggle Button */
+        .animation-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-pink), var(--primary-purple));
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .animation-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .animation-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .animation-toggle.disabled {
+            background: linear-gradient(45deg, #666, #999);
+            opacity: 0.6;
+        }
+
+        .animation-toggle i {
+            transition: transform 0.3s ease;
+        }
+
+        .animation-toggle:hover i {
+            transform: rotate(20deg);
+        }
+
+        @media (max-width: 768px) {
+            .animation-toggle {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -571,6 +636,11 @@
         </div>
     </nav>
 
+    <!-- Animation Toggle Button -->
+    <button id="animationToggle" class="animation-toggle" aria-label="Toggle interactive animations" title="Toggle interactive animations">
+        <i class="fas fa-magic"></i>
+    </button>
+
     <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="container-fluid p-0">
@@ -611,6 +681,270 @@
             duration: 1000,
             once: true
         });
+
+        // ======================================
+        // INTERACTIVE ANIMATION SYSTEM
+        // ======================================
+
+        // Mouse state tracking
+        const mouseState = {
+            x: window.innerWidth / 2,
+            y: window.innerHeight / 2,
+            prevX: window.innerWidth / 2,
+            prevY: window.innerHeight / 2,
+            velocity: 0,
+            isMoving: false,
+            lastMoveTime: Date.now()
+        };
+
+        // Utility Functions
+        function distance(x1, y1, x2, y2) {
+            const dx = x2 - x1;
+            const dy = y2 - y1;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        function lerp(start, end, amount) {
+            return start + (end - start) * amount;
+        }
+
+        function easeInOutQuad(t) {
+            return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        }
+
+        function easeOutCubic(t) {
+            return (--t) * t * t + 1;
+        }
+
+        function easeOutQuart(t) {
+            return 1 - (--t) * t * t * t;
+        }
+
+        function normalize(x, y) {
+            const mag = Math.sqrt(x * x + y * y);
+            if (mag === 0) return { x: 0, y: 0 };
+            return { x: x / mag, y: y / mag };
+        }
+
+        function magnitude(x, y) {
+            return Math.sqrt(x * x + y * y);
+        }
+
+        function map(value, start1, stop1, start2, stop2) {
+            return start2 + (stop2 - start2) * ((value - start1) / (stop1 - start1));
+        }
+
+        function constrain(value, min, max) {
+            return Math.min(Math.max(value, min), max);
+        }
+
+        // Throttle function for performance
+        function throttle(func, limit) {
+            let inThrottle;
+            return function(...args) {
+                if (!inThrottle) {
+                    func.apply(this, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            };
+        }
+
+        // Check for reduced motion preference
+        let prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // Animation state (can be toggled by user)
+        let animationsEnabled = !prefersReducedMotion;
+
+        // Animation toggle button functionality
+        const toggleButton = document.getElementById('animationToggle');
+
+        if (toggleButton) {
+            // Set initial state
+            if (!animationsEnabled) {
+                toggleButton.classList.add('disabled');
+                toggleButton.setAttribute('aria-pressed', 'false');
+            } else {
+                toggleButton.setAttribute('aria-pressed', 'true');
+            }
+
+            toggleButton.addEventListener('click', function() {
+                animationsEnabled = !animationsEnabled;
+
+                if (animationsEnabled) {
+                    toggleButton.classList.remove('disabled');
+                    toggleButton.setAttribute('aria-pressed', 'true');
+                    toggleButton.title = 'Disable interactive animations';
+
+                    // Restart animation loop if it was stopped
+                    if (!prefersReducedMotion) {
+                        updateFloatingShapes();
+                    }
+                } else {
+                    toggleButton.classList.add('disabled');
+                    toggleButton.setAttribute('aria-pressed', 'false');
+                    toggleButton.title = 'Enable interactive animations';
+                }
+            });
+        }
+
+        // Mouse tracking event listeners
+        let animationFrameId;
+
+        document.addEventListener('mousemove', function(e) {
+            mouseState.prevX = mouseState.x;
+            mouseState.prevY = mouseState.y;
+            mouseState.x = e.clientX;
+            mouseState.y = e.clientY;
+
+            // Calculate velocity
+            const dx = mouseState.x - mouseState.prevX;
+            const dy = mouseState.y - mouseState.prevY;
+            mouseState.velocity = Math.sqrt(dx * dx + dy * dy);
+
+            mouseState.isMoving = true;
+            mouseState.lastMoveTime = Date.now();
+
+            // Update CSS custom properties for background
+            document.documentElement.style.setProperty('--mouse-x', mouseState.x + 'px');
+            document.documentElement.style.setProperty('--mouse-y', mouseState.y + 'px');
+            document.documentElement.style.setProperty('--mouse-x-percent', (mouseState.x / window.innerWidth * 100) + '%');
+            document.documentElement.style.setProperty('--mouse-y-percent', (mouseState.y / window.innerHeight * 100) + '%');
+        });
+
+        // Track when mouse stops moving
+        setInterval(() => {
+            if (Date.now() - mouseState.lastMoveTime > 100) {
+                mouseState.isMoving = false;
+                mouseState.velocity = 0;
+            }
+        }, 100);
+
+        // Touch support
+        document.addEventListener('touchmove', function(e) {
+            if (e.touches.length > 0) {
+                const touch = e.touches[0];
+                mouseState.prevX = mouseState.x;
+                mouseState.prevY = mouseState.y;
+                mouseState.x = touch.clientX;
+                mouseState.y = touch.clientY;
+                mouseState.isMoving = true;
+                mouseState.lastMoveTime = Date.now();
+            }
+        });
+
+        document.addEventListener('touchend', function() {
+            mouseState.isMoving = false;
+        });
+
+        // Interactive background control
+        const animatedBg = document.querySelector('.animated-bg');
+        let bgTimeout;
+
+        document.addEventListener('mousemove', function() {
+            if (animationsEnabled && animatedBg) {
+                animatedBg.classList.add('mouse-active');
+                clearTimeout(bgTimeout);
+                bgTimeout = setTimeout(() => {
+                    animatedBg.classList.remove('mouse-active');
+                }, 2000);
+            }
+        });
+
+        // ======================================
+        // INTERACTIVE FLOATING SHAPES
+        // ======================================
+
+        const shapes = document.querySelectorAll('.shape');
+        const shapeData = [];
+        const DETECTION_RADIUS = 200;
+        const REPULSION_FORCE = 0.5;
+
+        // Store original positions
+        shapes.forEach((shape, index) => {
+            const rect = shape.getBoundingClientRect();
+            shapeData.push({
+                element: shape,
+                originalX: rect.left + rect.width / 2,
+                originalY: rect.top + rect.height / 2,
+                currentX: 0,
+                currentY: 0,
+                targetX: 0,
+                targetY: 0,
+                scale: 1,
+                targetScale: 1,
+                opacity: 0.15,
+                targetOpacity: 0.15,
+                rotation: 0,
+                targetRotation: 0
+            });
+        });
+
+        function updateFloatingShapes() {
+            if (!animationsEnabled) return;
+
+            shapeData.forEach(data => {
+                // Calculate distance from mouse to shape center
+                const dist = distance(
+                    data.originalX,
+                    data.originalY,
+                    mouseState.x,
+                    mouseState.y
+                );
+
+                if (dist < DETECTION_RADIUS) {
+                    // Mouse is near - calculate repulsion
+                    const influence = 1 - (dist / DETECTION_RADIUS);
+                    const angle = Math.atan2(
+                        data.originalY - mouseState.y,
+                        data.originalX - mouseState.x
+                    );
+
+                    // Repulsion effect
+                    const repulsionDist = influence * REPULSION_FORCE * 100;
+                    data.targetX = Math.cos(angle) * repulsionDist;
+                    data.targetY = Math.sin(angle) * repulsionDist;
+
+                    // Scale up
+                    data.targetScale = 1 + (influence * 0.5);
+
+                    // Increase opacity
+                    data.targetOpacity = 0.15 + (influence * 0.35);
+
+                    // Rotate based on angle
+                    data.targetRotation = angle * (180 / Math.PI) + (influence * 45);
+                } else {
+                    // Return to normal
+                    data.targetX = 0;
+                    data.targetY = 0;
+                    data.targetScale = 1;
+                    data.targetOpacity = 0.15;
+                    data.targetRotation = 0;
+                }
+
+                // Smooth interpolation
+                data.currentX = lerp(data.currentX, data.targetX, 0.1);
+                data.currentY = lerp(data.currentY, data.targetY, 0.1);
+                data.scale = lerp(data.scale, data.targetScale, 0.1);
+                data.opacity = lerp(data.opacity, data.targetOpacity, 0.1);
+                data.rotation = lerp(data.rotation, data.targetRotation, 0.1);
+
+                // Apply transforms
+                data.element.style.transform = `
+                    translate(${data.currentX}px, ${data.currentY}px)
+                    scale(${data.scale})
+                    rotate(${data.rotation}deg)
+                `;
+                data.element.style.opacity = data.opacity;
+            });
+
+            requestAnimationFrame(updateFloatingShapes);
+        }
+
+        // Start animation loop
+        if (animationsEnabled) {
+            updateFloatingShapes();
+        }
 
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
