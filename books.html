@@ -166,6 +166,226 @@
             filter: invert(1) !important;
         }
 
+        /* ===== GAME SCREEN — Library Shelf ===== */
+        .game-screen {
+            position: relative;
+            margin: 0 20px 0;
+            border: 4px solid var(--ega-light-gray);
+            overflow: hidden;
+        }
+
+        /* Scanline overlay */
+        .game-screen::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.1) 2px,
+                rgba(0, 0, 0, 0.1) 4px
+            );
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        /* Status Bar — Sierra style */
+        .status-bar {
+            width: 100%;
+            background: var(--ega-dark-gray);
+            border-bottom: 2px solid var(--ega-light-gray);
+            padding: 4px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.55rem;
+            color: var(--ega-white);
+        }
+
+        .status-bar-score {
+            color: var(--ega-yellow);
+        }
+
+        .status-bar-location {
+            color: var(--ega-bright-cyan);
+        }
+
+        /* Stone wall background */
+        .shelf-scene {
+            background: var(--ega-dark-gray);
+            position: relative;
+            padding: 16px 20px 0;
+        }
+
+        /* Stone wall texture via repeating pattern */
+        .shelf-scene::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 24px,
+                    var(--ega-black) 24px,
+                    var(--ega-black) 26px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 48px,
+                    var(--ega-black) 48px,
+                    var(--ega-black) 50px
+                );
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* Title plaque */
+        .shelf-plaque {
+            text-align: center;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .shelf-plaque h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--ega-yellow);
+            text-shadow: 2px 2px 0 var(--ega-black);
+            margin: 0;
+            display: inline-block;
+            background: var(--ega-blue);
+            border: 3px solid var(--ega-white);
+            padding: 8px 20px;
+        }
+
+        /* Wooden shelf */
+        .shelf-wood {
+            background: var(--ega-brown);
+            border-top: 4px solid var(--ega-yellow);
+            border-bottom: 4px solid #553300;
+            height: 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Book collection row */
+        .book-collection {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 4px;
+            padding: 0 10px;
+            min-height: 180px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Book spines — chunky pixel art style */
+        .book-spine {
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            border: 3px solid var(--ega-black);
+            image-rendering: pixelated;
+            transition: none;
+        }
+
+        .book-spine:hover {
+            outline: 3px solid var(--ega-yellow);
+            outline-offset: 0;
+            z-index: 10;
+        }
+
+        .book-spine::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .book-text {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 6px;
+            text-align: center;
+            line-height: 1.3;
+            color: var(--ega-white);
+            text-shadow: 1px 1px 0 var(--ega-black);
+            writing-mode: horizontal-tb;
+            transform: rotate(90deg);
+            white-space: nowrap;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Individual book spine colors & heights — EGA palette, pixel widths */
+        .book-1 { background: var(--ega-bright-red); height: 130px; width: 40px; }
+        .book-2 { background: var(--ega-blue); height: 150px; width: 44px; }
+        .book-3 { background: var(--ega-green); height: 120px; width: 38px; }
+        .book-4 { background: var(--ega-light-gray); height: 135px; width: 36px; }
+        .book-5 { background: var(--ega-dark-gray); height: 155px; width: 42px; border-color: var(--ega-light-gray); }
+        .book-6 { background: var(--ega-cyan); height: 125px; width: 44px; }
+        .book-7 { background: var(--ega-bright-green); height: 140px; width: 38px; }
+        .book-8 { background: var(--ega-brown); height: 128px; width: 36px; }
+        .book-9 { background: var(--ega-red); height: 138px; width: 40px; }
+        .book-10 { background: var(--ega-yellow); height: 132px; width: 42px; }
+        .book-10 .book-text { color: var(--ega-black); text-shadow: none; }
+
+        /* Decorative elements on shelf */
+        .shelf-candle {
+            width: 8px;
+            height: 24px;
+            background: var(--ega-white);
+            border: 2px solid var(--ega-light-gray);
+            position: relative;
+            flex-shrink: 0;
+            align-self: flex-end;
+        }
+        .shelf-candle::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 1px;
+            width: 4px;
+            height: 6px;
+            background: var(--ega-yellow);
+            border: 1px solid var(--ega-brown);
+        }
+
+        /* Dialog box below shelf */
+        .shelf-dialog {
+            background: var(--ega-blue);
+            border: 3px solid var(--ega-white);
+            padding: 10px 16px;
+            margin: 0;
+            text-align: center;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.5rem;
+            color: var(--ega-white);
+            line-height: 2;
+        }
+        .shelf-dialog .hint {
+            color: var(--ega-bright-green);
+        }
+
         /* Section Headers */
         .section-header {
             text-align: center;
@@ -183,154 +403,6 @@
         .section-header p {
             color: var(--ega-bright-cyan);
             font-size: 0.6rem;
-        }
-
-        /* Library Shelf Styles */
-        .library-shelf-container {
-            background: var(--ega-dark-gray);
-            border: 4px solid var(--ega-light-gray);
-            padding: 2rem;
-            margin: 2rem 0;
-        }
-
-        .shelf-background {
-            position: relative;
-            height: 280px;
-            background: var(--ega-dark-gray);
-            margin-bottom: 1rem;
-            overflow: hidden;
-            box-shadow: inset 0 8px 16px rgba(0, 0, 0, 0.6);
-            border: 3px solid var(--ega-brown);
-        }
-
-        .shelf-wood {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 40px;
-            background: var(--ega-brown);
-            border-top: 2px solid var(--ega-yellow);
-            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.5);
-        }
-
-        .book-collection {
-            position: absolute;
-            bottom: 40px;
-            left: 20px;
-            right: 20px;
-            height: 220px;
-            display: flex;
-            align-items: flex-end;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .book-spine {
-            width: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            writing-mode: vertical-lr;
-            text-orientation: mixed;
-            box-shadow: 3px 0 6px rgba(0, 0, 0, 0.5);
-        }
-
-        .book-spine:hover {
-            transform: translateY(-15px);
-            z-index: 10;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
-        }
-
-        .book-text {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 8px;
-            text-align: center;
-            line-height: 1.2;
-            color: white;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
-            writing-mode: horizontal-tb;
-            transform: rotate(90deg);
-            white-space: nowrap;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Individual book spine colors - EGA palette */
-        .book-1 {
-            background: var(--ega-bright-red);
-            height: 140px;
-        }
-        .book-2 {
-            background: var(--ega-blue);
-            height: 160px;
-        }
-        .book-3 {
-            background: var(--ega-green);
-            height: 130px;
-        }
-        .book-4 {
-            background: var(--ega-light-gray);
-            height: 145px;
-        }
-        .book-5 {
-            background: var(--ega-dark-gray);
-            height: 165px;
-        }
-        .book-6 {
-            background: var(--ega-cyan);
-            height: 135px;
-        }
-        .book-7 {
-            background: var(--ega-bright-green);
-            height: 150px;
-        }
-        .book-8 {
-            background: var(--ega-brown);
-            height: 138px;
-        }
-        .book-9 {
-            background: var(--ega-red);
-            height: 148px;
-        }
-        .book-10 {
-            background: var(--ega-yellow);
-            height: 142px;
-        }
-        .book-10 .book-text {
-            color: var(--ega-black);
-            text-shadow: none;
-        }
-
-        .shelf-shadow {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 15px;
-            background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.4));
-        }
-
-        .shelf-title {
-            text-align: center;
-        }
-
-        .shelf-title h1 {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 1.8rem;
-            font-weight: 400;
-            color: var(--ega-yellow);
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 0 var(--ega-black);
-        }
-
-        .shelf-title .subtitle {
-            font-size: 0.6rem;
-            color: var(--ega-white);
-            margin-bottom: 0;
         }
 
         /* Book Cards */
@@ -516,38 +588,47 @@
 
         /* Mobile */
         @media (max-width: 767px) {
+            .game-screen {
+                margin: 0 8px;
+            }
+
+            .shelf-plaque h1 {
+                font-size: 0.7rem;
+                padding: 6px 12px;
+            }
+
             .book-collection {
-                gap: 3px;
-                left: 10px;
-                right: 10px;
+                gap: 2px;
+                min-height: 100px;
+                padding: 0 4px;
             }
 
             .book-spine {
-                width: 28px;
+                width: 24px !important;
+                border-width: 2px;
             }
+
+            .book-1, .book-2, .book-3, .book-4, .book-5,
+            .book-6, .book-7, .book-8, .book-9, .book-10 {
+                height: 80px !important;
+            }
+            .book-2 { height: 88px !important; }
+            .book-5 { height: 92px !important; }
 
             .book-text {
                 font-size: 4px;
             }
 
-            .shelf-title h1 {
-                font-size: 1.2rem;
+            .shelf-candle {
+                display: none;
             }
 
-            .book-1, .book-2, .book-3, .book-4, .book-5, .book-6, .book-7, .book-8, .book-9, .book-10 {
-                height: 75px;
+            .shelf-dialog {
+                font-size: 0.4rem;
             }
 
-            .book-2 { height: 80px; }
-            .book-5 { height: 85px; }
-            .book-9 { height: 82px; }
-
-            .shelf-background {
-                height: 180px;
-            }
-
-            .book-collection {
-                height: 130px;
+            .status-bar {
+                font-size: 0.4rem;
             }
 
             .section-header h2 {
@@ -635,61 +716,72 @@
                 min-height: 44px !important;
                 min-width: 44px !important;
             }
-
-            .book-spine {
-                min-width: 32px;
-            }
         }
 
         /* Reduced motion preference */
         @media (prefers-reduced-motion: reduce) {
-            .book-spine {
-                transition: none;
+            * {
+                animation: none !important;
+                transition: none !important;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Library Shelf Header -->
-    <section class="container">
-        <div class="library-shelf-container">
-            <div class="shelf-background">
-                <div class="shelf-wood"></div>
-                <div class="book-collection">
-                    <div class="book-spine book-1" data-book="undertale">
-                        <div class="book-text" data-title="UNDERTALE">UNDERTALE</div>
-                    </div>
-                    <div class="book-spine book-2" data-book="critical-making">
-                        <div class="book-text" data-title="CRITICAL MAKING">CRITICAL<br>MAKING</div>
-                    </div>
-                    <div class="book-spine book-3" data-book="playful-pedagogy">
-                        <div class="book-text" data-title="PLAYFUL PEDAGOGY">PLAYFUL<br>PEDAGOGY</div>
-                    </div>
-                    <div class="book-spine book-4" data-book="twining">
-                        <div class="book-text" data-title="TWINING">TWINING</div>
-                    </div>
-                    <div class="book-spine book-5" data-book="fanboy-auteur">
-                        <div class="book-text" data-title="FANBOY AUTEUR">FANBOY<br>AUTEUR</div>
-                    </div>
-                    <div class="book-spine book-6" data-book="adventure-games">
-                        <div class="book-text" data-title="ADVENTURE GAMES">ADVENTURE<br>GAMES</div>
-                    </div>
-                    <div class="book-spine book-7" data-book="toxic-geek">
-                        <div class="book-text" data-title="TOXIC GEEK">TOXIC<br>GEEK</div>
-                    </div>
-                    <div class="book-spine book-8" data-book="jane-jensen">
-                        <div class="book-text" data-title="JANE JENSEN">JANE<br>JENSEN</div>
-                    </div>
-                    <div class="book-spine book-9" data-book="quest">
-                        <div class="book-text" data-title="QUEST">QUEST</div>
-                    </div>
-                    <div class="book-spine book-10" data-book="flash">
-                        <div class="book-text" data-title="FLASH">FLASH</div>
-                    </div>
+    <!-- Game Screen — Library Shelf -->
+    <section class="game-screen">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span class="status-bar-score">Score: 58 of 100</span>
+            <span class="status-bar-location">The Royal Library</span>
+        </div>
+
+        <!-- Shelf Scene -->
+        <div class="shelf-scene">
+            <div class="shelf-plaque"><h1>Books</h1></div>
+
+            <div class="book-collection">
+                <div class="shelf-candle"></div>
+                <div class="book-spine book-1" data-book="undertale">
+                    <div class="book-text">UNDERTALE</div>
                 </div>
-                <div class="shelf-shadow"></div>
+                <div class="book-spine book-2" data-book="critical-making">
+                    <div class="book-text">CRITICAL MAKING</div>
+                </div>
+                <div class="book-spine book-3" data-book="playful-pedagogy">
+                    <div class="book-text">PLAYFUL PEDAGOGY</div>
+                </div>
+                <div class="book-spine book-4" data-book="twining">
+                    <div class="book-text">TWINING</div>
+                </div>
+                <div class="book-spine book-5" data-book="fanboy-auteur">
+                    <div class="book-text">FANBOY AUTEUR</div>
+                </div>
+                <div class="book-spine book-6" data-book="adventure-games">
+                    <div class="book-text">ADVENTURE GAMES</div>
+                </div>
+                <div class="book-spine book-7" data-book="toxic-geek">
+                    <div class="book-text">TOXIC GEEK</div>
+                </div>
+                <div class="book-spine book-8" data-book="jane-jensen">
+                    <div class="book-text">JANE JENSEN</div>
+                </div>
+                <div class="book-spine book-9" data-book="quest">
+                    <div class="book-text">QUEST</div>
+                </div>
+                <div class="book-spine book-10" data-book="flash">
+                    <div class="book-text">FLASH</div>
+                </div>
+                <div class="shelf-candle"></div>
             </div>
+
+            <div class="shelf-wood"></div>
+        </div>
+
+        <!-- Dialog prompt -->
+        <div class="shelf-dialog">
+            <span class="hint">&gt;</span> Click a book spine to read more about it
         </div>
     </section>
 
@@ -969,14 +1061,13 @@
                 var targetBook = document.getElementById(bookId);
 
                 if (targetBook) {
-                    // Visual feedback
-                    this.style.transform = 'translateY(-30px)';
-                    this.style.transition = 'transform 0.3s ease';
-
+                    // Pixel-style visual feedback — flash the spine yellow
+                    var origBg = this.style.background;
+                    this.style.background = 'var(--ega-yellow)';
                     var self = this;
                     setTimeout(function() {
-                        self.style.transform = '';
-                    }, 300);
+                        self.style.background = origBg || '';
+                    }, 200);
 
                     // Scroll to the target book
                     targetBook.scrollIntoView({
@@ -984,13 +1075,14 @@
                         block: 'center'
                     });
 
-                    // Brief highlight effect
+                    // Pixel highlight — yellow border flash
                     setTimeout(function() {
-                        targetBook.style.transition = 'box-shadow 0.3s ease';
-                        targetBook.style.boxShadow = '0 0 0 4px var(--ega-yellow), 0 0 0 8px var(--ega-bright-blue)';
+                        targetBook.style.borderColor = 'var(--ega-yellow)';
+                        targetBook.style.outline = '4px solid var(--ega-bright-blue)';
 
                         setTimeout(function() {
-                            targetBook.style.boxShadow = '';
+                            targetBook.style.borderColor = '';
+                            targetBook.style.outline = '';
                         }, 2000);
                     }, 500);
                 }
