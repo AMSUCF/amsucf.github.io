@@ -4,41 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Books - Anastasia Salter</title>
-    
+
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Audiowide:wght@400&family=Comic+Neue:wght@300;400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- AOS Animation Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-    <!-- Chaos Mode CSS Override -->
-    <link rel="stylesheet" href="css/chaos.css">
 
     <style>
         :root {
-            --primary-pink: #ff69b4;
-            --primary-purple: #9966cc;
-            --primary-blue: #00bfff;
-            --primary-green: #00ff7f;
-            --primary-yellow: #ffd700;
-            --primary-orange: #ff6347;
-            --secondary-pink: #ffb6c1;
-            --secondary-purple: #dda0dd;
-            --secondary-blue: #87ceeb;
-            --secondary-green: #98fb98;
-            --dark-text: #2c3e50;
-            --light-text: #ffffff;
-            --neon-pink: #ff00ff;
-            --neon-cyan: #00ffff;
-            --neon-yellow: #ffff00;
-            --neon-green: #00ff00;
-            --neon-purple: #8a2be2;
+            /* EGA 16-color palette */
+            --ega-black: #000000;
+            --ega-blue: #0000AA;
+            --ega-green: #00AA00;
+            --ega-cyan: #00AAAA;
+            --ega-red: #AA0000;
+            --ega-brown: #AA5500;
+            --ega-light-gray: #AAAAAA;
+            --ega-dark-gray: #555555;
+            --ega-bright-blue: #5555FF;
+            --ega-bright-green: #55FF55;
+            --ega-bright-cyan: #55FFFF;
+            --ega-bright-red: #FF5555;
+            --ega-magenta: #FF55FF;
+            --ega-yellow: #FFFF55;
+            --ega-white: #FFFFFF;
+
+            /* Remap chaos variables to EGA equivalents */
+            --burn-orange: #AA5500;
+            --acid-lime: #55FF55;
+            --rust-brown: #0000AA;
+            --slate-grey: #555555;
+            --toxic-yellow: #FFFF55;
+            --blood-red: #AA0000;
+            --moss-green: #00AA00;
+            --bruise-purple: #5555FF;
+            --tar-black: #000000;
+            --bone-white: #FFFFFF;
+            --bile-green: #00AA00;
+            --clay-red: #AA0000;
         }
 
         * {
@@ -48,246 +55,115 @@
         }
 
         body {
-            font-family: 'Orbitron', 'Poppins', sans-serif;
-            line-height: 1.6;
-            color: var(--dark-text);
-            overflow-x: hidden;
-            padding-top: 80px;
-        }
-
-        /* Animated Background */
-        .animated-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(45deg, 
-                var(--primary-pink), 
-                var(--primary-purple), 
-                var(--primary-blue), 
-                var(--primary-green));
-            background-size: 400% 400%;
-            animation: gradientShift 8s ease infinite;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Floating shapes animation */
-        .floating-shapes {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .shape {
-            position: absolute;
-            opacity: 0.15;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .shape:nth-child(1) {
-            top: 20%;
-            left: 10%;
-            animation-delay: 0s;
-            color: var(--primary-yellow);
-        }
-
-        .shape:nth-child(2) {
-            top: 60%;
-            left: 80%;
-            animation-delay: 2s;
-            color: var(--primary-pink);
-        }
-
-        .shape:nth-child(3) {
-            top: 80%;
-            left: 20%;
-            animation-delay: 4s;
-            color: var(--primary-green);
-        }
-
-        .shape:nth-child(4) {
-            top: 40%;
-            left: 70%;
-            animation-delay: 1s;
-            color: var(--primary-blue);
-        }
-
-        .shape:nth-child(5) {
-            top: 30%;
-            left: 50%;
-            animation-delay: 3s;
-            color: var(--primary-orange);
-        }
-
-        .shape:nth-child(6) {
-            top: 70%;
-            left: 60%;
-            animation-delay: 5s;
-            color: var(--primary-purple);
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
-
-        /* Header Styles */
-        .navbar {
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--neon-cyan);
-            transition: all 0.3s ease;
-        }
-
-        .navbar-brand {
             font-family: 'Press Start 2P', cursive;
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--neon-pink);
-            text-shadow: 0 0 10px var(--neon-pink);
-            text-decoration: none;
+            line-height: 1.6;
+            color: var(--ega-white);
+            background: var(--ega-black);
+            overflow-x: hidden;
+            padding-top: 20px;
+            padding-bottom: 60px;
+            /* Pixel cursor - crosshair style */
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M7 0h2v6h6v2h-6v6h-2v-6h-2v6h0v-8h-4v-2h4v-4h2z' fill='%2355FFFF'/%3E%3C/svg%3E") 8 8, crosshair;
         }
 
-        .navbar-brand:hover {
-            color: var(--neon-cyan);
-            text-shadow: 0 0 15px var(--neon-cyan);
+        a, button {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M2 2h4v2h2v2h2v-2h2v-2h2v8h-2v2h-2v2h-2v-2h-2v-2h-2v2h-2z' fill='%23FFFF55'/%3E%3C/svg%3E") 8 8, pointer;
         }
 
-        .nav-link {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 600;
-            color: #fff !important;
-            position: relative;
-            transition: all 0.3s ease;
-            margin: 0 0.5rem;
+        /* Disable custom cursor on touch devices */
+        @media (pointer: coarse) {
+            body, a, button {
+                cursor: auto;
+            }
         }
 
-        /* Page Header */
-        .page-header {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 3rem;
-            margin: 2rem 0;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            text-align: center;
+        /* Adventure Verb Bar Navigation — high specificity to override chaos.css */
+        .navbar.adventure-verb-bar,
+        nav.navbar.adventure-verb-bar {
+            position: fixed !important;
+            bottom: 0 !important;
+            top: auto !important;
+            left: 0 !important;
+            right: 0 !important;
+            background: var(--ega-dark-gray) !important;
+            backdrop-filter: none !important;
+            border-top: 4px solid var(--ega-light-gray) !important;
+            border-bottom: none !important;
+            transition: none !important;
+            transform: none !important;
+            z-index: 1000 !important;
+            padding: 4px 0 !important;
+            border-radius: 0 !important;
         }
 
-        .page-header h1 {
-            font-family: 'Audiowide', 'Comic Neue', cursive;
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--neon-pink), var(--neon-cyan), var(--neon-yellow));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 20px var(--neon-pink);
-            animation: glow 2s ease-in-out infinite alternate;
+        .navbar.adventure-verb-bar:hover,
+        nav.navbar.adventure-verb-bar:hover {
+            transform: none !important;
+            border-top-width: 4px !important;
         }
 
-        @keyframes glow {
-            from { filter: drop-shadow(0 0 20px var(--neon-pink)); }
-            to { filter: drop-shadow(0 0 30px var(--neon-cyan)); }
+        .navbar.adventure-verb-bar .navbar-brand {
+            font-family: 'Press Start 2P', cursive !important;
+            font-weight: 400 !important;
+            font-size: 0.7rem !important;
+            color: var(--ega-yellow) !important;
+            text-shadow: none !important;
+            text-decoration: none !important;
+            letter-spacing: 0 !important;
+            text-transform: uppercase !important;
+            background: none !important;
+            padding: 0.25rem 0.5rem !important;
         }
 
-        .page-header .subtitle {
-            font-size: 1.3rem;
-            color: var(--light-text);
-            margin-bottom: 1.5rem;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        .navbar.adventure-verb-bar .navbar-brand:hover {
+            color: var(--ega-bright-green) !important;
+            background: none !important;
+            text-shadow: none !important;
+            transform: none !important;
+            padding: 0.25rem 0.5rem !important;
         }
 
-        /* Buttons */
-        .btn-rainbow {
-            background: linear-gradient(45deg, var(--primary-pink), var(--primary-purple), var(--primary-blue));
-            border: none;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            margin: 5px;
+        .navbar.adventure-verb-bar .nav-link {
+            font-family: 'Press Start 2P', cursive !important;
+            font-weight: 400 !important;
+            color: var(--ega-white) !important;
+            position: relative !important;
+            transition: background 0.1s, color 0.1s !important;
+            margin: 2px !important;
+            font-size: 0.55rem !important;
+            border: 2px solid var(--ega-light-gray) !important;
+            padding: 6px 10px !important;
+            text-transform: uppercase !important;
+            text-shadow: none !important;
+            background: none !important;
+            transform: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
         }
 
-        .btn-rainbow:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            color: white;
+        .navbar.adventure-verb-bar .nav-link:hover {
+            background: var(--ega-bright-blue) !important;
+            color: var(--ega-yellow) !important;
+            transform: none !important;
+            box-shadow: none !important;
+            text-shadow: none !important;
+            border: 2px solid var(--ega-light-gray) !important;
         }
 
-        /* Book Cards */
-        .book-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            overflow: hidden;
-            margin: 1rem 0;
-            border: 2px solid transparent;
-            border-image: linear-gradient(45deg, var(--primary-blue), var(--primary-green)) 1;
-            transition: all 0.3s ease;
-            height: 100%;
+        .navbar.adventure-verb-bar .nav-link.active {
+            background: var(--ega-bright-blue) !important;
+            color: var(--ega-yellow) !important;
+            transform: none !important;
+            text-shadow: none !important;
+            border: 2px solid var(--ega-light-gray) !important;
         }
 
-        .book-card:hover {
-            transform: scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        .navbar.adventure-verb-bar .navbar-toggler {
+            border-color: var(--ega-light-gray) !important;
         }
 
-        .book-img {
-            width: 100%;
-            height: 250px;
-            object-fit: contain;
-            /* FLORIDA WETLAND ABSTRACT - Unconventional gradient angles */
-            background: linear-gradient(127deg,
-                #00a8cc 0%,        /* Water blue */
-                #6b8e4e 23%,       /* Sawgrass */
-                #f5e6d3 47%,       /* Sand/shell */
-                #ff6b35 71%,       /* Sunset orange */
-                #c71585 100%       /* Tropical magenta */
-            );
-            /* Add noise texture for organic feel */
-            background-image:
-                linear-gradient(127deg,
-                    #00a8cc 0%,
-                    #6b8e4e 23%,
-                    #f5e6d3 47%,
-                    #ff6b35 71%,
-                    #c71585 100%
-                ),
-                repeating-linear-gradient(
-                    0deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(0, 0, 0, 0.03) 2px,
-                    rgba(0, 0, 0, 0.03) 4px
-                );
-        }
-
-        /* Featured book styling */
-        .featured-book {
-            position: relative;
-            border-image: linear-gradient(45deg, var(--primary-yellow), var(--primary-orange)) 1 !important;
-            animation: bookGlow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes bookGlow {
-            from { box-shadow: 0 20px 40px rgba(255, 215, 0, 0.3); }
-            to { box-shadow: 0 25px 50px rgba(255, 215, 0, 0.5); }
+        .navbar.adventure-verb-bar .navbar-toggler-icon {
+            filter: invert(1) !important;
         }
 
         /* Section Headers */
@@ -298,74 +174,33 @@
 
         .section-header h2 {
             font-family: 'Press Start 2P', cursive;
-            color: var(--neon-yellow);
-            text-shadow: 0 0 20px var(--neon-yellow);
+            color: var(--ega-yellow);
+            text-shadow: none;
             margin-bottom: 1rem;
+            font-size: 1.2rem;
         }
 
         .section-header p {
-            color: var(--neon-cyan);
-            text-shadow: 0 0 10px var(--neon-cyan);
-            font-size: 1.1rem;
-        }
-
-        /* Footer */
-        .footer {
-            background: linear-gradient(45deg, var(--primary-purple), var(--primary-pink));
-            color: white;
-            padding: 2rem 0;
-            text-align: center;
-            margin-top: 4rem;
-        }
-
-        .social-links a {
-            color: white;
-            font-size: 1.5rem;
-            margin: 0 10px;
-            transition: all 0.3s ease;
-        }
-
-        .social-links a:hover {
-            transform: translateY(-3px);
-            color: var(--primary-yellow);
+            color: var(--ega-bright-cyan);
+            font-size: 0.6rem;
         }
 
         /* Library Shelf Styles */
         .library-shelf-container {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+            background: var(--ega-dark-gray);
+            border: 4px solid var(--ega-light-gray);
             padding: 2rem;
             margin: 2rem 0;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
         .shelf-background {
             position: relative;
             height: 280px;
-            /* FLORIDA WETLAND BACKDROP - Sawgrass field to water gradient */
-            background: linear-gradient(to bottom,
-                #5a7247 0%,        /* Sawgrass green */
-                #6b8e4e 25%,       /* Lighter sawgrass */
-                #2e5266 50%,       /* Wetland blue */
-                #0092ca 75%,       /* Spring blue */
-                #00a8cc 100%       /* Water blue */
-            );
-            border-radius: 0; /* Reject curves - angular Florida */
+            background: var(--ega-dark-gray);
             margin-bottom: 1rem;
             overflow: hidden;
-            box-shadow: inset 0 15px 30px rgba(0, 0, 0, 0.4), 0 8px 0 #4a6741;
-            /* Add texture like marsh grass */
-            background-image:
-                repeating-linear-gradient(
-                    92deg,
-                    transparent,
-                    transparent 3px,
-                    rgba(139, 157, 119, 0.15) 3px,
-                    rgba(139, 157, 119, 0.15) 4px
-                );
-            border: 3px solid #6d5843; /* Mangrove brown edge */
+            box-shadow: inset 0 8px 16px rgba(0, 0, 0, 0.6);
+            border: 3px solid var(--ega-brown);
         }
 
         .shelf-wood {
@@ -373,35 +208,9 @@
             bottom: 0;
             width: 100%;
             height: 40px;
-            /* WEATHERED CYPRESS DRIFTWOOD - Florida native tree */
-            background: linear-gradient(to right,
-                #5d4037 0%,        /* Cypress brown */
-                #6d4c41 15%,       /* Lighter cypress */
-                #a8af8e 30%,       /* Driftwood gray-green */
-                #b5baa0 50%,       /* Spanish moss tone */
-                #a8af8e 70%,       /* Back to driftwood */
-                #6d4c41 85%,       /* Cypress */
-                #5d4037 100%       /* Dark cypress */
-            );
-            border-radius: 0; /* No curves - raw wood */
-            box-shadow: 0 -8px 15px rgba(0, 0, 0, 0.5), inset 0 3px 6px rgba(245, 230, 211, 0.3);
-            /* Add wood grain texture */
-            background-image:
-                repeating-linear-gradient(
-                    90deg,
-                    transparent,
-                    transparent 12px,
-                    rgba(0, 0, 0, 0.1) 12px,
-                    rgba(0, 0, 0, 0.1) 14px
-                ),
-                repeating-linear-gradient(
-                    0deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(0, 0, 0, 0.05) 2px,
-                    rgba(0, 0, 0, 0.05) 3px
-                );
-            border-top: 2px solid #f5e6d3; /* Sand highlight */
+            background: var(--ega-brown);
+            border-top: 2px solid var(--ega-yellow);
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.5);
         }
 
         .book-collection {
@@ -418,106 +227,22 @@
 
         .book-spine {
             width: 50px;
-            height: 160px;
-            border-radius: 3px 3px 0 0;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             position: relative;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: transform 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
             writing-mode: vertical-lr;
             text-orientation: mixed;
-            transform-style: preserve-3d;
-            perspective: 1000px;
-            box-shadow: 
-                4px 0 12px rgba(0, 0, 0, 0.5),
-                inset -4px 0 8px rgba(255, 255, 255, 0.4),
-                inset 4px 0 8px rgba(0, 0, 0, 0.15),
-                0 0 0 1px rgba(255, 255, 255, 0.15),
-                0 2px 4px rgba(0, 0, 0, 0.2);
-            /* Add subtle embossed effect */
-            border-left: 1px solid rgba(255, 255, 255, 0.3);
-            border-right: 1px solid rgba(0, 0, 0, 0.2);
-        }
-
-        /* Add subtle texture and spine lines for realism */
-        .book-spine {
-            /* Add some subtle texture */
-            background-image: 
-                repeating-linear-gradient(
-                    0deg,
-                    transparent,
-                    transparent 1px,
-                    rgba(0, 0, 0, 0.03) 1px,
-                    rgba(0, 0, 0, 0.03) 2px
-                );
-        }
-
-        /* Add spine center line effect */
-        .book-spine:hover::before {
-            background: linear-gradient(to right, 
-                rgba(0, 0, 0, 0.5) 0%,
-                rgba(0, 0, 0, 0.3) 30%,
-                rgba(0, 0, 0, 0.1) 70%,
-                rgba(255, 255, 255, 0.2) 100%);
-        }
-
-        /* Add subtle raised lettering effect */
-        .book-text {
-            position: relative;
-            z-index: 2;
-            /* Enhanced text shadow for depth */
-            text-shadow: 
-                1px 1px 2px rgba(0, 0, 0, 0.8),
-                2px 2px 4px rgba(0, 0, 0, 0.5),
-                1px 1px 0px rgba(0, 0, 0, 0.9);
-        }
-
-        .book-spine::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: -6px;
-            width: 6px;
-            height: 100%;
-            background: linear-gradient(to right, 
-                rgba(0, 0, 0, 0.4) 0%,
-                rgba(0, 0, 0, 0.2) 30%,
-                rgba(0, 0, 0, 0.1) 70%,
-                rgba(255, 255, 255, 0.1) 100%);
-            border-radius: 0 2px 0 0;
-            transform: skewY(-3deg);
-            z-index: -1;
-        }
-
-        .book-spine::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(to right, 
-                rgba(0, 0, 0, 0.5) 0%,
-                rgba(0, 0, 0, 0.3) 30%,
-                rgba(0, 0, 0, 0.2) 70%,
-                rgba(0, 0, 0, 0.5) 100%);
-            border-radius: 0 0 2px 2px;
-            transform: skewX(-5deg);
-            z-index: -1;
+            box-shadow: 3px 0 6px rgba(0, 0, 0, 0.5);
         }
 
         .book-spine:hover {
-            transform: translateY(-20px) scale(1.1) rotateX(5deg) rotateY(-5deg);
+            transform: translateY(-15px);
             z-index: 10;
-            box-shadow: 
-                0 25px 40px rgba(0, 0, 0, 0.5),
-                6px 0 15px rgba(0, 0, 0, 0.4),
-                inset -6px 0 10px rgba(255, 255, 255, 0.5),
-                inset 6px 0 10px rgba(0, 0, 0, 0.2),
-                0 0 0 2px rgba(255, 255, 255, 0.2),
-                0 5px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
         }
 
         .book-text {
@@ -526,10 +251,7 @@
             text-align: center;
             line-height: 1.2;
             color: white;
-            text-shadow: 
-                1px 1px 2px rgba(0, 0, 0, 0.8),
-                2px 2px 4px rgba(0, 0, 0, 0.5),
-                1px 1px 0px rgba(0, 0, 0, 0.9);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
             writing-mode: horizontal-tb;
             transform: rotate(90deg);
             white-space: nowrap;
@@ -537,65 +259,50 @@
             z-index: 2;
         }
 
-        /* Individual book colors - FLORIDA NATIVE PALETTE */
+        /* Individual book spine colors - EGA palette */
         .book-1 {
-            /* UNDERTALE - Tropical sunset magenta to orange */
-            background: linear-gradient(to right, #c71585, #ff6b35);
+            background: var(--ega-bright-red);
             height: 140px;
         }
-
         .book-2 {
-            /* CRITICAL MAKING - Deep wetland to spring blue */
-            background: linear-gradient(to right, #2e5266, #00a8cc);
+            background: var(--ega-blue);
             height: 160px;
         }
-
         .book-3 {
-            /* PLAYFUL PEDAGOGY - Sawgrass greens */
-            background: linear-gradient(to right, #5a7247, #8b9d77);
+            background: var(--ega-green);
             height: 130px;
         }
-
         .book-4 {
-            /* TWINING - Spanish moss gray-green to driftwood */
-            background: linear-gradient(to right, #a8af8e, #b5baa0);
+            background: var(--ega-light-gray);
             height: 145px;
         }
-
         .book-5 {
-            /* FANBOY AUTEUR - Mangrove browns with green undertone */
-            background: linear-gradient(to right, #4a6741, #6d5843);
+            background: var(--ega-dark-gray);
             height: 165px;
         }
-
         .book-6 {
-            /* ADVENTURE GAMES - Bright spring water to tropical blue */
-            background: linear-gradient(to right, #0092ca, #00a8cc);
+            background: var(--ega-cyan);
             height: 135px;
         }
-
         .book-7 {
-            /* TOXIC GEEK - Vibrant sawgrass to lime */
-            background: linear-gradient(to right, #6b8e4e, #8b9d77);
+            background: var(--ega-bright-green);
             height: 150px;
         }
-
         .book-8 {
-            /* JANE JENSEN - Sunset orange to warm amber */
-            background: linear-gradient(to right, #ff6b35, #f7931e);
+            background: var(--ega-brown);
             height: 138px;
         }
-
         .book-9 {
-            /* QUEST - Cypress brown to weathered wood */
-            background: linear-gradient(to right, #5d4037, #6d4c41);
+            background: var(--ega-red);
             height: 148px;
         }
-
         .book-10 {
-            /* FLASH - Electric sunset to magenta */
-            background: linear-gradient(to right, #f7931e, #c71585);
+            background: var(--ega-yellow);
             height: 142px;
+        }
+        .book-10 .book-text {
+            color: var(--ega-black);
+            text-shadow: none;
         }
 
         .shelf-shadow {
@@ -605,7 +312,6 @@
             right: 0;
             height: 15px;
             background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.4));
-            border-radius: 0 0 15px 15px;
         }
 
         .shelf-title {
@@ -613,115 +319,341 @@
         }
 
         .shelf-title h1 {
-            font-family: 'Audiowide', cursive;
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--neon-pink), var(--neon-cyan), var(--neon-yellow));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: var(--ega-yellow);
             margin-bottom: 1rem;
-            text-shadow: 0 0 20px var(--neon-pink);
-            animation: glow 2s ease-in-out infinite alternate;
+            text-shadow: 2px 2px 0 var(--ega-black);
         }
 
         .shelf-title .subtitle {
-            font-size: 1.3rem;
-            color: var(--light-text);
+            font-size: 0.6rem;
+            color: var(--ega-white);
             margin-bottom: 0;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Book Cards */
+        .book-card {
+            background: var(--ega-blue);
+            border: 4px solid var(--ega-white);
+            overflow: hidden;
+            margin: 1rem 0;
+            height: 100%;
+        }
+
+        .book-card h5 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            color: var(--ega-yellow);
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+        }
+
+        .book-card p {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.5rem;
+            color: var(--ega-white);
+            line-height: 2;
+        }
+
+        .book-card .text-muted {
+            color: var(--ega-bright-cyan) !important;
+            font-size: 0.45rem;
+        }
+
+        .book-img {
+            width: 100%;
+            height: 250px;
+            object-fit: contain;
+            background: var(--ega-black);
+        }
+
+        /* Featured book styling */
+        .featured-book {
+            border: 4px solid var(--ega-yellow) !important;
+        }
+
+        .badge-new {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.4rem;
+            background: var(--ega-bright-green);
+            color: var(--ega-black);
+            padding: 4px 8px;
+            display: inline-block;
+            margin-bottom: 8px;
+            border: 2px solid var(--ega-white);
+        }
+
+        /* Buttons */
+        .btn-order {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.45rem;
+            background: var(--ega-dark-gray);
+            border: 2px solid var(--ega-light-gray);
+            color: var(--ega-white);
+            padding: 8px 14px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.1s, color 0.1s;
+            text-transform: uppercase;
+            line-height: 1.8;
+        }
+
+        .btn-order:hover {
+            background: var(--ega-bright-blue);
+            color: var(--ega-yellow);
+            border-color: var(--ega-yellow);
+        }
+
+        /* Inventory Panel - Contact Cluster */
+        .chaos-contact-cluster {
+            position: fixed !important;
+            top: auto !important;
+            bottom: 52px !important;
+            left: 8px !important;
+            right: auto !important;
+            background: var(--ega-dark-gray) !important;
+            border: 3px solid var(--ega-light-gray) !important;
+            padding: 6px !important;
+            display: flex !important;
+            flex-direction: row !important;
+            gap: 4px !important;
+            z-index: 100 !important;
+            animation: none !important;
+            transform: none !important;
+            clip-path: none !important;
+            border-radius: 0 !important;
+        }
+
+        .chaos-contact-item {
+            background: var(--ega-blue) !important;
+            border: 2px solid var(--ega-cyan) !important;
+            padding: 4px 8px !important;
+            animation: none !important;
+            transform: none !important;
+            clip-path: none !important;
+            border-radius: 0 !important;
+            float: none !important;
+        }
+
+        .chaos-contact-item:hover {
+            background: var(--ega-bright-blue) !important;
+            transform: none !important;
+        }
+
+        .chaos-contact-link {
+            font-family: 'Press Start 2P', cursive !important;
+            font-size: 0.45rem !important;
+            color: var(--ega-white) !important;
+            text-decoration: none !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+        }
+
+        .chaos-contact-link:hover {
+            color: var(--ega-yellow) !important;
+        }
+
+        .chaos-contact-icon {
+            color: var(--ega-bright-cyan) !important;
+            font-size: 0.5rem !important;
+        }
+
+        .chaos-contact-text {
+            color: var(--ega-white) !important;
+        }
+
+        /* Motion Toggle */
+        .chaos-motion-toggle {
+            position: fixed !important;
+            top: auto !important;
+            bottom: 52px !important;
+            right: 8px !important;
+            left: auto !important;
+            background: var(--ega-dark-gray) !important;
+            border: 3px solid var(--ega-light-gray) !important;
+            padding: 6px 12px !important;
+            z-index: 100 !important;
+            animation: none !important;
+            transform: none !important;
+            clip-path: none !important;
+            border-radius: 0 !important;
+            cursor: pointer;
+        }
+
+        .chaos-motion-toggle:hover {
+            background: var(--ega-bright-blue) !important;
+            transform: none !important;
+        }
+
+        .chaos-motion-toggle-inner {
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+
+        .chaos-motion-toggle-icon {
+            font-size: 0.6rem !important;
+            color: var(--ega-bright-green) !important;
+        }
+
+        .chaos-motion-toggle-text {
+            font-family: 'Press Start 2P', cursive !important;
+            font-size: 0.45rem !important;
+            color: var(--ega-white) !important;
         }
 
         /* Responsive Design */
-        @media (max-width: 768px) {
-            .page-header h1 {
-                font-size: 2rem;
-            }
-            
-            .page-header {
-                padding: 2rem;
-            }
 
+        /* Tablet */
+        @media (min-width: 768px) and (max-width: 1199px) {
+            .chaos-contact-text {
+                display: none !important;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 767px) {
             .book-collection {
                 gap: 3px;
                 left: 10px;
                 right: 10px;
             }
-            
+
             .book-spine {
                 width: 28px;
-                height: 90px;
             }
-            
+
             .book-text {
                 font-size: 4px;
             }
-            
+
             .shelf-title h1 {
-                font-size: 2rem;
+                font-size: 1.2rem;
             }
-            
+
             .book-1, .book-2, .book-3, .book-4, .book-5, .book-6, .book-7, .book-8, .book-9, .book-10 {
                 height: 75px;
             }
-            
+
             .book-2 { height: 80px; }
             .book-5 { height: 85px; }
             .book-9 { height: 82px; }
+
+            .shelf-background {
+                height: 180px;
+            }
+
+            .book-collection {
+                height: 130px;
+            }
+
+            .section-header h2 {
+                font-size: 0.8rem;
+            }
+
+            .book-card h5 {
+                font-size: 0.5rem;
+            }
+
+            .book-card p {
+                font-size: 0.45rem;
+            }
+
+            .nav-link {
+                font-size: 0.45rem !important;
+                padding: 4px 8px !important;
+            }
+
+            .navbar-brand {
+                font-size: 0.5rem;
+            }
+
+            .chaos-contact-cluster {
+                bottom: 44px !important;
+            }
+
+            .chaos-motion-toggle {
+                bottom: 44px !important;
+            }
+
+            .chaos-contact-text {
+                display: none !important;
+            }
+
+            .chaos-contact-link {
+                font-size: 0.4rem !important;
+            }
+        }
+
+        /* Ensure minimum 8px for Press Start 2P */
+        @media (max-width: 400px) {
+            .section-header h2 {
+                font-size: 0.7rem;
+            }
+
+            .book-card h5 {
+                font-size: 0.5rem;
+            }
+
+            .book-card p {
+                font-size: 0.4rem;
+            }
+
+            .btn-order {
+                font-size: 0.4rem;
+            }
+        }
+
+        /* Touch target sizing */
+        @media (pointer: coarse) {
+            .btn-order {
+                min-height: 44px;
+                min-width: 44px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .nav-link {
+                min-height: 44px;
+                display: inline-flex !important;
+                align-items: center !important;
+            }
+
+            .chaos-contact-item {
+                min-height: 44px !important;
+                min-width: 44px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+
+            .chaos-motion-toggle {
+                min-height: 44px !important;
+                min-width: 44px !important;
+            }
+
+            .book-spine {
+                min-width: 32px;
+            }
+        }
+
+        /* Reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            .book-spine {
+                transition: none;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="animated-bg"></div>
-    
-    <!-- Floating Shapes -->
-    <div class="floating-shapes">
-        <i class="fas fa-book shape" style="font-size: 2rem;"></i>
-        <i class="fas fa-star shape" style="font-size: 1.5rem;"></i>
-        <i class="fas fa-bookmark shape" style="font-size: 2.5rem;"></i>
-        <i class="fas fa-pen-fancy shape" style="font-size: 2rem;"></i>
-        <i class="fas fa-scroll shape" style="font-size: 2rem;"></i>
-        <i class="fas fa-feather shape" style="font-size: 1.8rem;"></i>
-    </div>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="index.html">🎮 ANASTASIA SALTER</a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html">👩‍💻 About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="books.html">📚 Books</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="research.html">🎮 Research</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="elit.html">💻 E-lit</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="teaching.html">🎓 Teaching</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="CV.pdf" target="_blank">📄 CV</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
     <!-- Library Shelf Header -->
     <section class="container">
-        <div class="library-shelf-container" data-aos="fade-up">
+        <div class="library-shelf-container">
             <div class="shelf-background">
                 <div class="shelf-wood"></div>
                 <div class="book-collection">
@@ -764,35 +696,34 @@
     <!-- Latest Books Section -->
     <section class="py-5">
         <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2>🆕 Latest Books</h2>
-                
+            <div class="section-header">
+                <h2>Latest Books</h2>
             </div>
-            
+
             <div class="row">
                 <!-- Undertale Book - Latest -->
-                <div class="col-lg-6 mb-4" data-aos="fade-right">
+                <div class="col-lg-6 mb-4">
                     <div class="book-card featured-book" id="undertale">
                         <img src="undertale.jpg" alt="Undertale: Can a Game Give Hope?" class="book-img">
                         <div class="p-4">
-                            <div class="badge bg-success mb-2">🆕 Newest Release!</div>
-                            <h5>Undertale: Can a Game Give Hope? 🎮</h5>
+                            <div class="badge-new">NEW RELEASE</div>
+                            <h5>Undertale: Can a Game Give Hope?</h5>
                             <p class="text-muted">Anastasia Salter</p>
                             <p>An exploration of the 2015 indie game sensation that invited players to rethink their relationship with gaming through empathy, choice, and intentional human design in a post-GamerGate world.</p>
-                            <a href="https://press.uchicago.edu/ucp/books/book/chicago/U/bo249661280.html" class="btn-rainbow">🛒 Order from University of Chicago Press</a>
+                            <a href="https://press.uchicago.edu/ucp/books/book/chicago/U/bo249661280.html" class="btn-order">Order from University of Chicago Press</a>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Critical Making Book -->
-                <div class="col-lg-6 mb-4" data-aos="fade-left">
+                <div class="col-lg-6 mb-4">
                     <div class="book-card" id="critical-making">
                         <img src="making.jpg" alt="Critical Making in the Age of AI" class="book-img">
                         <div class="p-4">
-                            <h5>Critical Making in the Age of AI 🤖</h5>
+                            <h5>Critical Making in the Age of AI</h5>
                             <p class="text-muted">Emily K. Johnson and Anastasia Salter</p>
                             <p>A guide to digital methods that combines craft traditions with scholarly communication, featuring patterns for making comics, games, and AI-generated content.</p>
-                            <a href="https://services.publishing.umich.edu/Books/C/Critical-Making-in-the-Age-of-AI3" class="btn-rainbow">📖 Read Open Access</a>
+                            <a href="https://services.publishing.umich.edu/Books/C/Critical-Making-in-the-Age-of-AI3" class="btn-order">Read Open Access</a>
                         </div>
                     </div>
                 </div>
@@ -803,112 +734,111 @@
     <!-- Previous Titles Section -->
     <section class="py-5">
         <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2>📖 Previous Titles</h2>
-                
+            <div class="section-header">
+                <h2>Previous Titles</h2>
             </div>
-            
+
             <div class="row">
                 <!-- Playful Pedagogy Book -->
-                <div class="col-lg-6 mb-4" data-aos="fade-right">
+                <div class="col-lg-6 mb-4">
                     <div class="book-card" id="playful-pedagogy">
                         <img src="pivoting.jpg" alt="Playful Pedagogy in the Pandemic" class="book-img">
                         <div class="p-4">
-                            <h5>Playful Pedagogy in the Pandemic 🎲</h5>
+                            <h5>Playful Pedagogy in the Pandemic</h5>
                             <p class="text-muted">Emily K. Johnson and Anastasia Salter</p>
                             <p>Exploring game-based learning in higher education and creating spaces for playful engagement beyond corporate gamification.</p>
-                            <a href="https://www.routledge.com/Playful-Pedagogy-in-the-Pandemic-Pivoting-to-Games-Based-Learning/Johnson-Salter/p/book/9781032251264" class="btn-rainbow">🛒 Order from Routledge</a>
+                            <a href="https://www.routledge.com/Playful-Pedagogy-in-the-Pandemic-Pivoting-to-Games-Based-Learning/Johnson-Salter/p/book/9781032251264" class="btn-order">Order from Routledge</a>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Twining Book -->
-                <div class="col-lg-6 mb-4" data-aos="fade-left">
+                <div class="col-lg-6 mb-4">
                     <div class="book-card" id="twining">
                         <img src="twining.png" alt="Twining" class="book-img">
                         <div class="p-4">
-                            <h5>Twining: Critical and Creative Approaches to Hypertext Narratives 🔗</h5>
+                            <h5>Twining: Critical and Creative Approaches to Hypertext Narratives</h5>
                             <p class="text-muted">Anastasia Salter and Stuart Moulthrop</p>
                             <p>A journey through Twine as a platform for digital storytelling, combining technical discussion with critical commentary.</p>
-                            <a href="https://www.fulcrum.org/concern/monographs/ms35tb924" class="btn-rainbow">📖 Read Open Access</a>
+                            <a href="https://www.fulcrum.org/concern/monographs/ms35tb924" class="btn-order">Read Open Access</a>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Fanboy Auteur Book -->
-                <div class="col-lg-6 mb-4" data-aos="fade-right">
+                <div class="col-lg-6 mb-4">
                     <div class="book-card" id="fanboy-auteur">
                         <img src="fanboy.jpg" alt="A Portrait of the Auteur as Fanboy" class="book-img">
                         <div class="p-4">
-                            <h5>A Portrait of the Auteur as Fanboy 🎬</h5>
+                            <h5>A Portrait of the Auteur as Fanboy</h5>
                             <p class="text-muted">Anastasia Salter and Mel Stanfill</p>
                             <p>Examining how fan credentials in media production intersect with authorship and the exclusionary practices of geek culture.</p>
-                            <a href="https://www.upress.state.ms.us/Books/A/A-Portrait-of-the-Auteur-as-Fanboy" class="btn-rainbow">🛒 Order from Mississippi Press</a>
+                            <a href="https://www.upress.state.ms.us/Books/A/A-Portrait-of-the-Auteur-as-Fanboy" class="btn-order">Order from Mississippi Press</a>
                         </div>
                     </div>
                 </div>
 
                 <!-- Playing the Outsider Book -->
-                <div class="col-lg-6 mb-4" data-aos="fade-left">
+                <div class="col-lg-6 mb-4">
                     <div class="book-card" id="adventure-games">
                         <img src="outsider.jpg" alt="Playing the Outsider" class="book-img">
                         <div class="p-4">
-                            <h5>Adventure Games: Playing the Outsider 🎭</h5>
+                            <h5>Adventure Games: Playing the Outsider</h5>
                             <p class="text-muted">Aaron Reed, John Murray, and Anastasia Salter</p>
                             <p>Exploring the cultural significance of adventure games and their role in challenging traditional gaming narratives through outsider perspectives.</p>
-                            <a href="https://www.bloomsbury.com/us/adventure-games-9781501385827/" class="btn-rainbow">🛒 Order from Bloomsbury</a>
+                            <a href="https://www.bloomsbury.com/us/adventure-games-9781501385827/" class="btn-order">Order from Bloomsbury</a>
                         </div>
                     </div>
                 </div>
 
                 <!-- Toxic Geek Masculinity Book -->
-                <div class="col-lg-6 mb-4" data-aos="fade-right">
+                <div class="col-lg-6 mb-4">
                     <div class="book-card" id="toxic-geek">
                         <img src="geek.jpg" alt="Toxic Geek Masculinity in Media" class="book-img">
                         <div class="p-4">
-                            <h5>Toxic Geek Masculinity in Media 🚫</h5>
+                            <h5>Toxic Geek Masculinity in Media</h5>
                             <p class="text-muted">Anastasia Salter and Bridget Blodgett</p>
                             <p>A critical examination of how toxic masculinity manifests in geek culture and its impact on media representation and community dynamics.</p>
-                            <a href="https://books.google.com/books/about/Toxic_Geek_Masculinity_in_Media.html?id=ccI9DwAAQBAJ" class="btn-rainbow">📖 View on Google Books</a>
+                            <a href="https://books.google.com/books/about/Toxic_Geek_Masculinity_in_Media.html?id=ccI9DwAAQBAJ" class="btn-order">View on Google Books</a>
                         </div>
                     </div>
                 </div>
 
                 <!-- Jane Jensen Book -->
-                <div class="col-lg-6 mb-4" data-aos="fade-left">
+                <div class="col-lg-6 mb-4">
                     <div class="book-card" id="jane-jensen">
                         <img src="jensen.jpg" alt="Jane Jensen: Gabriel Knight, Adventure Games, Hidden Objects" class="book-img">
                         <div class="p-4">
-                            <h5>Jane Jensen: Gabriel Knight, Adventure Games, Hidden Objects 🔍</h5>
+                            <h5>Jane Jensen: Gabriel Knight, Adventure Games, Hidden Objects</h5>
                             <p class="text-muted">Anastasia Salter</p>
                             <p>An in-depth look at game designer Jane Jensen's contributions to adventure gaming and interactive storytelling.</p>
-                            <a href="https://www.bloomsbury.com/us/jane-jensen-9781501327469/" class="btn-rainbow">🛒 Order from Bloomsbury</a>
+                            <a href="https://www.bloomsbury.com/us/jane-jensen-9781501327469/" class="btn-order">Order from Bloomsbury</a>
                         </div>
                     </div>
                 </div>
 
                 <!-- What is Your Quest Book -->
-                <div class="col-lg-6 mb-4" data-aos="fade-right">
+                <div class="col-lg-6 mb-4">
                     <div class="book-card" id="quest">
                         <img src="quest.jpg" alt="What is Your Quest?" class="book-img">
                         <div class="p-4">
-                            <h5>What is Your Quest?: From Adventure Games to Interactive Books 📚</h5>
+                            <h5>What is Your Quest?: From Adventure Games to Interactive Books</h5>
                             <p class="text-muted">Anastasia Salter</p>
                             <p>Tracing the evolution from text-based adventure games to modern interactive fiction and digital storytelling.</p>
-                            <a href="https://www.amazon.com/What-Your-Quest-Adventure-Interactive/dp/1609382757" class="btn-rainbow">🛒 Order from Amazon</a>
+                            <a href="https://www.amazon.com/What-Your-Quest-Adventure-Interactive/dp/1609382757" class="btn-order">Order from Amazon</a>
                         </div>
                     </div>
                 </div>
 
                 <!-- Flash Book -->
-                <div class="col-lg-6 mb-4" data-aos="fade-left">
+                <div class="col-lg-6 mb-4">
                     <div class="book-card" id="flash">
                         <img src="flash.jpg" alt="Flash: Building the Interactive Web" class="book-img">
                         <div class="p-4">
-                            <h5>Flash: Building the Interactive Web ⚡</h5>
+                            <h5>Flash: Building the Interactive Web</h5>
                             <p class="text-muted">Anastasia Salter and John Murray</p>
                             <p>A comprehensive history of Adobe Flash and its transformative role in shaping the interactive web and digital media.</p>
-                            <a href="https://direct.mit.edu/books/book/3067/FlashBuilding-the-Interactive-Web" class="btn-rainbow">🛒 Order from MIT Press</a>
+                            <a href="https://direct.mit.edu/books/book/3067/FlashBuilding-the-Interactive-Web" class="btn-order">Order from MIT Press</a>
                         </div>
                     </div>
                 </div>
@@ -916,15 +846,15 @@
         </div>
     </section>
 
-    <!-- Motion Toggle Button - Top Left -->
+    <!-- Motion Toggle Button - Bottom Right -->
     <div class="chaos-motion-toggle" id="motionToggle">
         <div class="chaos-motion-toggle-inner">
-            <span class="chaos-motion-toggle-icon">▶</span>
-            <span class="chaos-motion-toggle-text">MOTION ON</span>
+            <span class="chaos-motion-toggle-icon">⏸</span>
+            <span class="chaos-motion-toggle-text">PAUSE</span>
         </div>
     </div>
 
-    <!-- Floating Contact Cluster - Chaos Style -->
+    <!-- Inventory Panel - Contact Cluster -->
     <div class="chaos-contact-cluster">
         <div class="chaos-contact-item contact-email">
             <a href="mailto:anastasia@ucf.edu" class="chaos-contact-link">
@@ -952,106 +882,120 @@
         </div>
     </div>
 
+    <!-- Navigation - Adventure Verb Bar (Bottom Fixed) -->
+    <nav class="navbar navbar-expand-lg adventure-verb-bar">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">ANASTASIA SALTER</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">Look: About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="books.html">Read: Books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="research.html">Study: Research</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="elit.html">Play: E-lit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="teaching.html">Talk: Teaching</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="CV.pdf" target="_blank">Take: CV</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- AOS Animation Library -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-    <!-- Chaos Effects -->
-    <script src="js/chaos-effects.js"></script>
 
     <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 1000,
-            once: true
-        });
+        // ======================================
+        // MOTION TOGGLE
+        // ======================================
+        (function() {
+            var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            var stored = localStorage.getItem('motion-preference');
+            var motionDisabled = stored !== null ? stored === 'disabled' : prefersReducedMotion;
 
-        // Book spine click functionality
-        document.querySelectorAll('.book-spine').forEach(spine => {
+            function applyMotion() {
+                if (motionDisabled) {
+                    document.body.classList.add('motion-disabled');
+                } else {
+                    document.body.classList.remove('motion-disabled');
+                }
+                var toggle = document.getElementById('motionToggle');
+                if (toggle) {
+                    var icon = toggle.querySelector('.chaos-motion-toggle-icon');
+                    var text = toggle.querySelector('.chaos-motion-toggle-text');
+                    if (motionDisabled) {
+                        if (icon) icon.textContent = '\u25B6';
+                        if (text) text.textContent = 'PLAY';
+                    } else {
+                        if (icon) icon.textContent = '\u23F8';
+                        if (text) text.textContent = 'PAUSE';
+                    }
+                }
+            }
+
+            applyMotion();
+
+            var toggle = document.getElementById('motionToggle');
+            if (toggle) {
+                toggle.addEventListener('click', function() {
+                    motionDisabled = !motionDisabled;
+                    localStorage.setItem('motion-preference', motionDisabled ? 'disabled' : 'enabled');
+                    applyMotion();
+                });
+            }
+        })();
+
+        // ======================================
+        // BOOK SPINE CLICK-TO-SCROLL
+        // ======================================
+        document.querySelectorAll('.book-spine').forEach(function(spine) {
             spine.addEventListener('click', function() {
-                const bookId = this.getAttribute('data-book');
-                const targetBook = document.getElementById(bookId);
-                
+                var bookId = this.getAttribute('data-book');
+                var targetBook = document.getElementById(bookId);
+
                 if (targetBook) {
-                    // Add a visual feedback before scrolling
-                    this.style.transform = 'translateY(-30px) scale(1.2)';
+                    // Visual feedback
+                    this.style.transform = 'translateY(-30px)';
                     this.style.transition = 'transform 0.3s ease';
-                    
-                    // Reset the transform after animation
-                    setTimeout(() => {
-                        this.style.transform = '';
+
+                    var self = this;
+                    setTimeout(function() {
+                        self.style.transform = '';
                     }, 300);
-                    
-                    // Scroll to the target book with smooth animation
+
+                    // Scroll to the target book
                     targetBook.scrollIntoView({
                         behavior: 'smooth',
                         block: 'center'
                     });
-                    
-                    // Add a brief highlight effect to the target book
-                    setTimeout(() => {
-                        targetBook.style.transition = 'transform 0.5s ease, box-shadow 0.5s ease';
-                        targetBook.style.transform = 'scale(1.05)';
-                        targetBook.style.boxShadow = '0 25px 50px rgba(255, 215, 0, 0.6)';
-                        
-                        // Reset the highlight after 2 seconds
-                        setTimeout(() => {
-                            targetBook.style.transform = '';
+
+                    // Brief highlight effect
+                    setTimeout(function() {
+                        targetBook.style.transition = 'box-shadow 0.3s ease';
+                        targetBook.style.boxShadow = '0 0 0 4px var(--ega-yellow), 0 0 0 8px var(--ega-bright-blue)';
+
+                        setTimeout(function() {
                             targetBook.style.boxShadow = '';
                         }, 2000);
                     }, 500);
                 }
             });
         });
-
-        // Add sparkle cursor effect
-        document.addEventListener('mousemove', function(e) {
-            if (Math.random() < 0.1) {
-                createSparkle(e.clientX, e.clientY);
-            }
-        });
-
-        function createSparkle(x, y) {
-            const sparkle = document.createElement('div');
-            sparkle.innerHTML = '✨';
-            sparkle.style.position = 'fixed';
-            sparkle.style.left = x + 'px';
-            sparkle.style.top = y + 'px';
-            sparkle.style.pointerEvents = 'none';
-            sparkle.style.fontSize = '12px';
-            sparkle.style.zIndex = '9999';
-            sparkle.style.animation = 'sparkleAnimation 1s ease-out forwards';
-            
-            document.body.appendChild(sparkle);
-            
-            setTimeout(() => {
-                if (sparkle.parentNode) {
-                    sparkle.parentNode.removeChild(sparkle);
-                }
-            }, 1000);
-        }
-
-        // Add CSS for sparkle animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes sparkleAnimation {
-                0% { 
-                    opacity: 1; 
-                    transform: scale(0) rotate(0deg); 
-                }
-                50% { 
-                    opacity: 1; 
-                    transform: scale(1) rotate(180deg); 
-                }
-                100% { 
-                    opacity: 0; 
-                    transform: scale(0) rotate(360deg); 
-                }
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>

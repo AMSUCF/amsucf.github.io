@@ -4,37 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About - Anastasia Salter</title>
-    
+
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Audiowide:wght@400&family=Comic+Neue:wght@300;400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- AOS Animation Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-    <!-- Chaos Mode CSS Override -->
+    <!-- Chaos CSS (shared - overridden inline) -->
     <link rel="stylesheet" href="css/chaos.css">
 
     <style>
         :root {
-            /* Provocative color rebellion: burnt sienna + acid green + rust + slate */
-            --burn-orange: #d4520a;
-            --acid-lime: #c1ff00;
-            --rust-brown: #8b4000;
-            --slate-grey: #536872;
-            --toxic-yellow: #e8ff00;
-            --blood-red: #8b0000;
-            --moss-green: #5a7247;
-            --bruise-purple: #5e3a5e;
-            --tar-black: #1a1a1a;
-            --bone-white: #f5f1e8;
-            --bile-green: #9acd32;
-            --clay-red: #a0522d;
+            /* EGA 16-color palette */
+            --ega-black: #000000;
+            --ega-blue: #0000AA;
+            --ega-green: #00AA00;
+            --ega-cyan: #00AAAA;
+            --ega-red: #AA0000;
+            --ega-brown: #AA5500;
+            --ega-light-gray: #AAAAAA;
+            --ega-dark-gray: #555555;
+            --ega-bright-blue: #5555FF;
+            --ega-bright-green: #55FF55;
+            --ega-bright-cyan: #55FFFF;
+            --ega-bright-red: #FF5555;
+            --ega-magenta: #FF55FF;
+            --ega-yellow: #FFFF55;
+            --ega-white: #FFFFFF;
+
+            /* Remap chaos variables to EGA equivalents */
+            --burn-orange: #AA5500;
+            --acid-lime: #55FF55;
+            --rust-brown: #0000AA;
+            --slate-grey: #555555;
+            --toxic-yellow: #FFFF55;
+            --blood-red: #AA0000;
+            --moss-green: #00AA00;
+            --bruise-purple: #5555FF;
+            --tar-black: #000000;
+            --bone-white: #FFFFFF;
+            --bile-green: #00AA00;
+            --clay-red: #AA0000;
         }
 
         * {
@@ -44,617 +58,721 @@
         }
 
         body {
-            font-family: 'Orbitron', 'Poppins', sans-serif;
-            line-height: 1.6;
-            color: var(--dark-text);
+            font-family: 'Press Start 2P', cursive;
+            line-height: 1.8;
+            color: var(--ega-white);
             overflow-x: hidden;
-            padding-top: 80px;
+            padding-bottom: 60px;
+            background: var(--ega-black);
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M7 0h2v6h6v2h-6v6h-2v-6h-2v6h0v-8h-4v-2h4v-4h2z' fill='%2355FFFF'/%3E%3C/svg%3E") 8 8, crosshair;
         }
 
-        /* Animated Background */
-        .animated-bg {
+        a, button {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M2 2h4v2h2v2h2v-2h2v-2h2v8h-2v2h-2v2h-2v-2h-2v-2h-2v2h-2z' fill='%23FFFF55'/%3E%3C/svg%3E") 8 8, pointer;
+        }
+
+        @media (pointer: coarse) {
+            body, a, button {
+                cursor: auto;
+            }
+        }
+
+        /* Scanline overlay */
+        body::after {
+            content: '';
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            background: linear-gradient(45deg, 
-                var(--primary-pink), 
-                var(--primary-purple), 
-                var(--primary-blue), 
-                var(--primary-green));
-            background-size: 400% 400%;
-            animation: gradientShift 8s ease infinite;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Floating shapes animation */
-        .floating-shapes {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.1) 2px,
+                rgba(0, 0, 0, 0.1) 4px
+            );
             pointer-events: none;
+            z-index: 9000;
         }
 
-        .shape {
-            position: absolute;
-            opacity: 0.15;
-            animation: float 6s ease-in-out infinite;
+        /* Adventure Verb Bar Navigation — high specificity to override chaos.css */
+        .navbar.adventure-verb-bar,
+        nav.navbar.adventure-verb-bar {
+            position: fixed !important;
+            bottom: 0 !important;
+            top: auto !important;
+            left: 0 !important;
+            right: 0 !important;
+            background: var(--ega-dark-gray) !important;
+            backdrop-filter: none !important;
+            border-top: 4px solid var(--ega-light-gray) !important;
+            border-bottom: none !important;
+            transition: none !important;
+            transform: none !important;
+            z-index: 1000 !important;
+            padding: 4px 0 !important;
+            border-radius: 0 !important;
         }
 
-        .shape:nth-child(1) {
-            top: 20%;
-            left: 10%;
-            animation-delay: 0s;
-            color: var(--primary-yellow);
+        .navbar.adventure-verb-bar:hover,
+        nav.navbar.adventure-verb-bar:hover {
+            transform: none !important;
+            border-top-width: 4px !important;
         }
 
-        .shape:nth-child(2) {
-            top: 60%;
-            left: 80%;
-            animation-delay: 2s;
-            color: var(--primary-pink);
+        .navbar.adventure-verb-bar .navbar-brand {
+            font-family: 'Press Start 2P', cursive !important;
+            font-weight: 400 !important;
+            font-size: 0.7rem !important;
+            color: var(--ega-yellow) !important;
+            text-shadow: none !important;
+            text-decoration: none !important;
+            letter-spacing: 0 !important;
+            text-transform: uppercase !important;
+            background: none !important;
+            padding: 0.25rem 0.5rem !important;
         }
 
-        .shape:nth-child(3) {
-            top: 80%;
-            left: 20%;
-            animation-delay: 4s;
-            color: var(--primary-green);
+        .navbar.adventure-verb-bar .navbar-brand:hover {
+            color: var(--ega-bright-green) !important;
+            background: none !important;
+            text-shadow: none !important;
+            transform: none !important;
+            padding: 0.25rem 0.5rem !important;
         }
 
-        .shape:nth-child(4) {
-            top: 40%;
-            left: 70%;
-            animation-delay: 1s;
-            color: var(--primary-blue);
+        .navbar.adventure-verb-bar .nav-link {
+            font-family: 'Press Start 2P', cursive !important;
+            font-weight: 400 !important;
+            color: var(--ega-white) !important;
+            position: relative !important;
+            transition: background 0.1s, color 0.1s !important;
+            margin: 2px !important;
+            font-size: 0.55rem !important;
+            border: 2px solid var(--ega-light-gray) !important;
+            padding: 6px 10px !important;
+            text-transform: uppercase !important;
+            text-shadow: none !important;
+            background: none !important;
+            transform: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
         }
 
-        .shape:nth-child(5) {
-            top: 30%;
-            left: 50%;
-            animation-delay: 3s;
-            color: var(--primary-orange);
+        .navbar.adventure-verb-bar .nav-link:hover {
+            background: var(--ega-bright-blue) !important;
+            color: var(--ega-yellow) !important;
+            transform: none !important;
+            box-shadow: none !important;
+            text-shadow: none !important;
+            border: 2px solid var(--ega-light-gray) !important;
         }
 
-        .shape:nth-child(6) {
-            top: 70%;
-            left: 60%;
-            animation-delay: 5s;
-            color: var(--primary-purple);
+        .navbar.adventure-verb-bar .nav-link.active {
+            background: var(--ega-bright-blue) !important;
+            color: var(--ega-yellow) !important;
+            transform: none !important;
+            text-shadow: none !important;
+            border: 2px solid var(--ega-light-gray) !important;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
+        .navbar.adventure-verb-bar .navbar-toggler {
+            border-color: var(--ega-light-gray) !important;
         }
 
-        /* Header Styles */
-        .navbar {
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--neon-cyan);
-            transition: all 0.3s ease;
+        .navbar.adventure-verb-bar .navbar-toggler-icon {
+            filter: invert(1) !important;
         }
 
-        .navbar-brand {
-            font-family: 'Press Start 2P', cursive;
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--neon-pink);
-            text-shadow: 0 0 10px var(--neon-pink);
-            text-decoration: none;
+        /* =============================================
+           QUEST INFORMATION PANEL — Sierra dialog style
+           ============================================= */
+
+        .quest-screen {
+            max-width: 800px;
+            margin: 1.5rem auto;
+            padding: 0 1rem;
         }
 
-        .navbar-brand:hover {
-            color: var(--neon-cyan);
-            text-shadow: 0 0 15px var(--neon-cyan);
+        /* Top status bar */
+        .quest-status-bar {
+            background: var(--ega-dark-gray);
+            border: 2px solid var(--ega-light-gray);
+            padding: 6px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.5rem;
+            color: var(--ega-white);
+            margin-bottom: 0;
         }
 
-        .nav-link {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 600;
-            color: #fff !important;
-            position: relative;
-            transition: all 0.3s ease;
-            margin: 0 0.5rem;
+        .quest-status-bar .location {
+            color: var(--ega-bright-cyan);
         }
 
-        /* Main content styles */
-        .main-content {
-            margin-top: 100px;
-            padding: 2rem 0;
+        .quest-status-bar .action {
+            color: var(--ega-yellow);
         }
 
-        .content-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 1rem 0;
-            border: 2px solid transparent;
-            border-image: linear-gradient(45deg, var(--primary-pink), var(--primary-purple)) 1;
-            transition: all 0.3s ease;
+        /* Main info panel — the big Sierra text window */
+        .quest-panel {
+            background: var(--ega-blue);
+            border: 4px solid var(--ega-white);
+            outline: 4px solid var(--ega-blue);
+            padding: 0;
+            margin-bottom: 1.5rem;
+            box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.5);
         }
 
-        .content-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .page-header {
+        .quest-panel-title {
+            background: var(--ega-dark-gray);
+            border-bottom: 4px solid var(--ega-white);
+            padding: 12px 20px;
             text-align: center;
-            margin-bottom: 3rem;
         }
 
-        .page-header h1 {
-            font-family: 'Audiowide', cursive;
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--neon-pink), var(--neon-cyan), var(--neon-yellow));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 20px var(--neon-pink);
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from { filter: drop-shadow(0 0 20px var(--neon-pink)); }
-            to { filter: drop-shadow(0 0 30px var(--neon-cyan)); }
-        }
-
-        .section-title {
+        .quest-panel-title h1 {
             font-family: 'Press Start 2P', cursive;
-            color: var(--neon-yellow);
-            text-shadow: 0 0 20px var(--neon-yellow);
-            font-size: 1.8rem;
-            margin-bottom: 2rem;
-            text-align: center;
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--ega-yellow);
+            margin: 0;
+            text-shadow: 2px 2px 0 var(--ega-black);
         }
 
-        /* Research Cards */
-        .research-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 1rem 0;
-            border: 2px solid transparent;
-            border-image: linear-gradient(45deg, var(--primary-pink), var(--primary-purple)) 1;
-            transition: all 0.3s ease;
-            height: 100%;
+        .quest-panel-body {
+            padding: 20px 24px;
         }
 
-        .research-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .research-icon {
-            font-size: 3rem;
-            background: linear-gradient(45deg, var(--primary-pink), var(--primary-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        /* Bio text — styled as Sierra "LOOK" description */
+        .quest-description {
+            color: var(--ega-white);
+            font-size: 0.6rem;
+            line-height: 2.4;
             margin-bottom: 1rem;
         }
 
-        /* Buttons */
-        .btn-rainbow {
-            background: linear-gradient(45deg, var(--primary-pink), var(--primary-purple), var(--primary-blue));
-            border: none;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            margin: 5px;
+        .quest-description .prompt {
+            color: var(--ega-bright-green);
+            margin-right: 4px;
         }
 
-        .btn-rainbow:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            color: white;
+        .quest-description p {
+            margin-bottom: 1.2rem;
+        }
+
+        .quest-description a {
+            color: var(--ega-bright-cyan);
             text-decoration: none;
         }
 
-        /* Footer */
-        .footer {
-            background: linear-gradient(45deg, var(--primary-purple), var(--primary-pink));
-            color: white;
-            padding: 2rem 0;
-            text-align: center;
+        .quest-description a:hover {
+            color: var(--ega-yellow);
+            text-decoration: underline;
         }
 
-        .social-links a {
-            color: white;
-            font-size: 1.5rem;
-            margin: 0 10px;
-            transition: all 0.3s ease;
-        }
-
-        .social-links a:hover {
-            transform: translateY(-3px);
-            color: var(--primary-yellow);
-        }
-
-        /* Book title styling */
-        .book-title {
+        .quest-description .book-title {
             font-style: italic;
-            color: var(--neon-pink);
-            text-shadow: 0 0 5px var(--neon-pink);
-            font-weight: 600;
+            color: var(--ega-yellow);
         }
 
-        /* Abstract Geometric Landscape */
-        .pixel-landscape {
-            height: 120px;
-            background: var(--tar-black);
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 2rem;
-            border-radius: 0;
-            border: 5px solid var(--acid-lime);
-            box-shadow: none;
+        /* Social links as inventory action buttons */
+        .quest-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 2px solid var(--ega-bright-blue);
         }
 
-        /* Horizontal color bands - abstract horizon */
-        .pixel-landscape::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background:
-                linear-gradient(90deg, var(--slate-grey) 0%, var(--slate-grey) 100%) 0% 0% / 100% 20%,
-                linear-gradient(90deg, var(--rust-brown) 0%, var(--rust-brown) 100%) 0% 20% / 100% 20%,
-                linear-gradient(90deg, var(--moss-green) 0%, var(--moss-green) 100%) 0% 40% / 100% 20%,
-                linear-gradient(90deg, var(--burn-orange) 0%, var(--burn-orange) 100%) 0% 60% / 100% 20%,
-                linear-gradient(90deg, var(--toxic-yellow) 0%, var(--toxic-yellow) 100%) 0% 80% / 100% 20%;
-            background-repeat: no-repeat;
-            animation: bandGlitch 7s ease-in-out infinite;
+        .quest-action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--ega-dark-gray);
+            border: 2px solid var(--ega-light-gray);
+            color: var(--ega-white);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.5rem;
+            padding: 8px 14px;
+            text-decoration: none;
+            min-height: 44px;
         }
 
-        @keyframes bandGlitch {
-            0%, 100% {
-                transform: translateX(0);
-                opacity: 0.9;
-            }
-            25% {
-                transform: translateX(5px);
-                opacity: 0.95;
-            }
-            50% {
-                transform: translateX(-3px);
-                opacity: 0.85;
-            }
-            75% {
-                transform: translateX(2px);
-                opacity: 0.92;
+        .quest-action-btn:hover {
+            background: var(--ega-bright-blue);
+            color: var(--ega-yellow);
+            border-color: var(--ega-yellow);
+        }
+
+        .quest-action-btn i {
+            color: var(--ega-bright-cyan);
+            font-size: 0.7rem;
+        }
+
+        .quest-action-btn:hover i {
+            color: var(--ega-yellow);
+        }
+
+        /* ===========================================
+           QUEST LOG — Research areas as quest entries
+           =========================================== */
+
+        .quest-log-header {
+            background: var(--ega-dark-gray);
+            border: 2px solid var(--ega-light-gray);
+            padding: 10px 20px;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        .quest-log-header h2 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            color: var(--ega-yellow);
+            margin: 0;
+            text-shadow: 2px 2px 0 var(--ega-black);
+        }
+
+        .quest-log {
+            background: var(--ega-black);
+            border: 4px solid var(--ega-white);
+            outline: 4px solid var(--ega-black);
+            margin-bottom: 1.5rem;
+            box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .quest-log-entries {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        .quest-entry {
+            background: var(--ega-blue);
+            border: 2px solid var(--ega-bright-blue);
+            padding: 16px 20px;
+            margin: 8px 12px;
+        }
+
+        .quest-entry-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .quest-entry-icon {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            background: var(--ega-dark-gray);
+            border: 2px solid var(--ega-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--ega-bright-cyan);
+        }
+
+        .quest-entry-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            color: var(--ega-yellow);
+        }
+
+        .quest-entry-items {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .quest-entry-items li {
+            font-size: 0.55rem;
+            color: var(--ega-white);
+            padding: 4px 0;
+            line-height: 2;
+        }
+
+        .quest-entry-items li::before {
+            content: '> ';
+            color: var(--ega-bright-green);
+        }
+
+        .quest-entry-items a {
+            color: var(--ega-bright-cyan);
+            text-decoration: none;
+        }
+
+        .quest-entry-items a:hover {
+            color: var(--ega-yellow);
+        }
+
+        /* Inventory Panel - Contact Cluster */
+        .chaos-contact-cluster {
+            position: fixed !important;
+            top: auto !important;
+            bottom: 52px !important;
+            left: 8px !important;
+            right: auto !important;
+            background: var(--ega-dark-gray) !important;
+            border: 3px solid var(--ega-light-gray) !important;
+            padding: 6px !important;
+            display: flex !important;
+            flex-direction: row !important;
+            gap: 4px !important;
+            z-index: 100 !important;
+            animation: none !important;
+            transform: none !important;
+            clip-path: none !important;
+            border-radius: 0 !important;
+        }
+
+        .chaos-contact-item {
+            background: var(--ega-blue) !important;
+            border: 2px solid var(--ega-cyan) !important;
+            padding: 4px 8px !important;
+            animation: none !important;
+            transform: none !important;
+            clip-path: none !important;
+            border-radius: 0 !important;
+            float: none !important;
+        }
+
+        .chaos-contact-item:hover {
+            background: var(--ega-bright-blue) !important;
+            transform: none !important;
+        }
+
+        .chaos-contact-link {
+            font-family: 'Press Start 2P', cursive !important;
+            font-size: 0.45rem !important;
+            color: var(--ega-white) !important;
+            text-decoration: none !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+        }
+
+        .chaos-contact-link:hover {
+            color: var(--ega-yellow) !important;
+        }
+
+        .chaos-contact-icon {
+            color: var(--ega-bright-cyan) !important;
+            font-size: 0.5rem !important;
+        }
+
+        .chaos-contact-text {
+            color: var(--ega-white) !important;
+        }
+
+        /* Motion Toggle */
+        .chaos-motion-toggle {
+            position: fixed !important;
+            top: auto !important;
+            bottom: 52px !important;
+            right: 8px !important;
+            left: auto !important;
+            background: var(--ega-dark-gray) !important;
+            border: 3px solid var(--ega-light-gray) !important;
+            padding: 6px 12px !important;
+            z-index: 100 !important;
+            animation: none !important;
+            transform: none !important;
+            clip-path: none !important;
+            border-radius: 0 !important;
+            cursor: pointer;
+        }
+
+        .chaos-motion-toggle:hover {
+            background: var(--ega-bright-blue) !important;
+            transform: none !important;
+        }
+
+        .chaos-motion-toggle-inner {
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+
+        .chaos-motion-toggle-icon {
+            font-size: 0.6rem !important;
+            color: var(--ega-bright-green) !important;
+        }
+
+        .chaos-motion-toggle-text {
+            font-family: 'Press Start 2P', cursive !important;
+            font-size: 0.45rem !important;
+            color: var(--ega-white) !important;
+        }
+
+        /* Click feedback */
+        .click-prompt {
+            position: fixed;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1rem;
+            color: var(--ega-bright-green);
+            pointer-events: none;
+            z-index: 9999;
+            animation: promptFade 0.6s ease-out forwards;
+        }
+
+        @keyframes promptFade {
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); }
+        }
+
+        /* ========================
+           RESPONSIVE
+           ======================== */
+
+        /* Desktop — 3-column quest log */
+        @media (min-width: 900px) {
+            .quest-log-entries {
+                grid-template-columns: 1fr 1fr 1fr;
             }
         }
 
-        /* Vertical bars - abstract vegetation */
-        .florida-moss {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-image:
-                /* Angular vertical bars */
-                linear-gradient(0deg, var(--acid-lime) 0%, var(--acid-lime) 100%) 15% 50% / 4px 40%,
-                linear-gradient(0deg, var(--burn-orange) 0%, var(--burn-orange) 100%) 35% 60% / 6px 35%,
-                linear-gradient(0deg, var(--toxic-yellow) 0%, var(--toxic-yellow) 100%) 55% 55% / 3px 38%,
-                linear-gradient(0deg, var(--rust-brown) 0%, var(--rust-brown) 100%) 75% 65% / 5px 30%,
-                linear-gradient(0deg, var(--moss-green) 0%, var(--moss-green) 100%) 85% 58% / 4px 36%;
-            background-repeat: no-repeat;
-            animation: barRotate 6s ease-in-out infinite;
-        }
-
-        @keyframes barRotate {
-            0%, 100% {
-                transform: skewX(0deg);
+        /* Tablet */
+        @media (min-width: 768px) and (max-width: 899px) {
+            .quest-log-entries {
+                grid-template-columns: 1fr 1fr;
             }
-            50% {
-                transform: skewX(2deg);
+
+            .chaos-contact-text {
+                display: none !important;
             }
         }
 
-        /* Angular geometric shapes - abstract foreground */
-        .florida-sawgrass {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 45%;
-            background-image:
-                /* Rectangular blocks */
-                linear-gradient(0deg, var(--tar-black) 0%, var(--tar-black) 100%) 10% bottom / 8px 25px,
-                linear-gradient(0deg, var(--rust-brown) 0%, var(--rust-brown) 100%) 25% bottom / 12px 18px,
-                linear-gradient(0deg, var(--burn-orange) 0%, var(--burn-orange) 100%) 45% bottom / 6px 22px,
-                linear-gradient(0deg, var(--slate-grey) 0%, var(--slate-grey) 100%) 60% bottom / 10px 16px,
-                linear-gradient(0deg, var(--acid-lime) 0%, var(--acid-lime) 100%) 80% bottom / 7px 20px,
-                linear-gradient(0deg, var(--toxic-yellow) 0%, var(--toxic-yellow) 100%) 92% bottom / 9px 19px;
-            background-repeat: no-repeat;
-        }
-
-        /* Floating rectangles - abstract middle layer */
-        .florida-mangroves {
-            position: absolute;
-            bottom: 30%;
-            width: 100%;
-            height: 30%;
-            background:
-                /* Angular rectangles at various positions */
-                linear-gradient(45deg, var(--burn-orange) 0%, var(--burn-orange) 100%) 20% 50% / 15px 10px,
-                linear-gradient(-30deg, var(--toxic-yellow) 0%, var(--toxic-yellow) 100%) 50% 60% / 12px 8px,
-                linear-gradient(60deg, var(--rust-brown) 0%, var(--rust-brown) 100%) 75% 40% / 18px 12px;
-            background-repeat: no-repeat;
-            animation: rectangleShift 9s ease-in-out infinite;
-        }
-
-        @keyframes rectangleShift {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
+        /* Mobile */
+        @media (max-width: 767px) {
+            .quest-screen {
+                padding: 0 0.5rem;
+                margin-top: 1rem;
             }
-            33% {
-                transform: translateY(-3px) rotate(2deg);
+
+            .quest-panel-title h1 {
+                font-size: 0.75rem;
             }
-            66% {
-                transform: translateY(2px) rotate(-1deg);
+
+            .quest-description {
+                font-size: 0.5rem;
+                line-height: 2.2;
             }
-        }
 
-        /* Abstract Angular Birds - Geometric Triangles */
-        .pixel-bird {
-            position: absolute;
-            width: 24px;
-            height: 20px;
-            top: 20%;
-            animation: geometricFly 10s linear infinite;
-        }
-
-        /* Angular bird shape - simple triangle cluster */
-        .pixel-bird::before {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 0;
-            /* Main triangle */
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-bottom: 12px solid var(--tar-black);
-            left: 4px;
-            top: 4px;
-        }
-
-        /* Second triangle - abstract wing suggestion */
-        .pixel-bird::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-left: 10px solid transparent;
-            border-right: 2px solid transparent;
-            border-top: 6px solid var(--rust-brown);
-            left: 0;
-            top: 8px;
-            animation: geometricPulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes geometricPulse {
-            0%, 100% {
-                opacity: 0.8;
+            .quest-panel-body {
+                padding: 14px 14px;
             }
-            50% {
-                opacity: 1;
+
+            .quest-entry-title {
+                font-size: 0.5rem;
+            }
+
+            .quest-entry-items li {
+                font-size: 0.5rem;
+            }
+
+            .quest-log-header h2 {
+                font-size: 0.55rem;
+            }
+
+            .quest-action-btn {
+                font-size: 0.45rem;
+                padding: 6px 10px;
+            }
+
+            .nav-link {
+                font-size: 0.45rem !important;
+                padding: 4px 8px !important;
+            }
+
+            .navbar-brand {
+                font-size: 0.5rem;
+            }
+
+            .chaos-contact-cluster {
+                bottom: 44px !important;
+            }
+
+            .chaos-motion-toggle {
+                bottom: 44px !important;
+            }
+
+            .chaos-contact-text {
+                display: none !important;
             }
         }
 
-        /* Varied geometric bird positions */
-        .pixel-bird:nth-child(2) {
-            animation-delay: -3s;
-            top: 12%;
-            animation-duration: 12s;
-        }
+        /* Touch targets */
+        @media (pointer: coarse) {
+            .nav-link {
+                min-height: 44px;
+                display: inline-flex !important;
+                align-items: center !important;
+            }
 
-        .pixel-bird:nth-child(3) {
-            animation-delay: -6s;
-            top: 30%;
-            animation-duration: 8s;
-        }
+            .chaos-contact-item {
+                min-height: 44px !important;
+                min-width: 44px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
 
-        @keyframes geometricFly {
-            0% {
-                left: -30px;
-                transform: rotate(0deg);
-            }
-            25% {
-                transform: rotate(5deg);
-            }
-            50% {
-                transform: rotate(-3deg);
-            }
-            75% {
-                transform: rotate(4deg);
-            }
-            100% {
-                left: calc(100% + 30px);
-                transform: rotate(0deg);
+            .chaos-motion-toggle {
+                min-height: 44px !important;
+                min-width: 44px !important;
             }
         }
 
-        /* Remove mountains - this is Florida, not Colorado */
-        .pixel-mountains {
-            display: none;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .page-header h1 {
-                font-size: 2.5rem;
-            }
-            
-            .main-content {
-                margin-top: 80px;
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="animated-bg"></div>
-    
-    <!-- Floating Shapes -->
-    <div class="floating-shapes">
-        <i class="fas fa-gamepad shape" style="font-size: 2rem;"></i>
-        <i class="fas fa-heart shape" style="font-size: 1.5rem;"></i>
-        <i class="fas fa-star shape" style="font-size: 2.5rem;"></i>
-        <i class="fas fa-dice-d20 shape" style="font-size: 2rem;"></i>
-        <i class="fas fa-trophy shape" style="font-size: 2rem;"></i>
-        <i class="fas fa-rocket shape" style="font-size: 1.8rem;"></i>
-    </div>
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg fixed-top">
+    <!-- Navigation - Adventure Verb Bar -->
+    <nav class="navbar navbar-expand-lg adventure-verb-bar">
         <div class="container">
-            <a class="navbar-brand" href="index.html">🎮 ANASTASIA SALTER</a>
-            
+            <a class="navbar-brand" href="index.html">ANASTASIA SALTER</a>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
+
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-            
                     <li class="nav-item">
-                        <a class="nav-link active" href="about.html">👩‍💻 About</a>
+                        <a class="nav-link" href="about.html">Look: About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="books.html">📚 Books</a>
+                        <a class="nav-link" href="books.html">Read: Books</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="research.html">🎮 Research</a>
+                        <a class="nav-link" href="research.html">Study: Research</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="elit.html">💻 E-lit</a>
+                        <a class="nav-link" href="elit.html">Play: E-lit</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="teaching.html">🎓 Teaching</a>
+                        <a class="nav-link" href="teaching.html">Talk: Teaching</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="CV.pdf" target="_blank">📄 CV</a>
+                        <a class="nav-link" href="CV.pdf" target="_blank">Take: CV</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="container">
-           
-            <!-- Florida Wetland Landscape Header -->
-            <div class="pixel-landscape" data-aos="fade-up">
-                <div class="florida-moss"></div>
-                <div class="florida-mangroves"></div>
-                <div class="florida-sawgrass"></div>
-                <div class="pixel-bird"></div>
-                <div class="pixel-bird"></div>
-                <div class="pixel-bird"></div>
-            </div>
+    <!-- Quest Information Screen -->
+    <div class="quest-screen">
 
-            <!-- About Me Section -->
-            <section class="mb-5" data-aos="fade-up">
-                <div class="content-card text-center">
-                    <h2 class="mb-4" style="font-family: 'Audiowide', cursive; color: var(--neon-cyan); text-shadow: 0 0 15px var(--neon-cyan);">✨ About Me ✨</h2>
-                    <p class="lead">
-                        Anastasia Salter is Professor of English and Director of Graduate Programs for the College of Arts and Humanities at the <a href="https://www.ucf.edu/">University of Central Florida</a>, and Director of the <a href="https://cah.ucf.edu/textstech/">Texts & Technology PhD program</a>. Dr. Salter is the author of ten books on digital culture and platforms, including the forthcoming <span class="book-title">Undertale</span> (<a href="https://press.uchicago.edu/">University of Chicago Press</a>, October 2025) and the recent <span class="book-title">Critical Making in the Age of AI</span> (with Emily Johnson, <a href="https://acpress.amherst.edu/">Amherst College Press</a>, 2025). Dr. Salter is President of the <a href="https://eliterature.org/">Electronic Literature Organization</a>, and Inventio editor for <a href="https://kairos.technorhetoric.net/"><span class="book-title">Kairos: A Journal of Rhetoric, Technology, and Pedagogy</span></a>.
-                    </p>
-                  
-                    <div class="social-links mt-4">
-                        <a href="https://bsky.app/profile/anasalter.bsky.social"><i class="fas fa-cloud"></i></a>
-                        <a href="https://www.instagram.com/anasalter/"><i class="fab fa-instagram"></i></a>
-                        <a href="CV.pdf"><i class="fas fa-file-pdf"></i></a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Research Areas Section -->
-            <section class="mb-5" data-aos="fade-up">
-                <div class="text-center mb-5">
-                    <h2 class="section-title">🌈 Transdisciplinary Scholarship 🌈</h2>
-                    
-                </div>
-                
-                <div class="row">
-                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-                        <div class="research-card text-center">
-                            <div class="research-icon">
-                                <i class="fas fa-desktop"></i>
-                            </div>
-                            <h4>Digital Narratives 🎮</h4>
-                            <ul class="list-unstyled mt-3">
-                                <li>📖 <a href="elit.html" style="color: #ff6b9d; text-decoration: none;">Electronic Literature</a></li>
-                                <li>🎮 Adventure Games</li>
-                                <li>💻 Platform Studies</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                        <div class="research-card text-center">
-                            <div class="research-icon">
-                                <i class="fas fa-book"></i>
-                            </div>
-                            <h4>Literary Futures 📚</h4>
-                            <ul class="list-unstyled mt-3">
-                                <li>🔍 Digital Humanities</li>
-                                <li>👶 Children's Literature</li>
-                                <li>💥 Comic Books</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-                        <div class="research-card text-center">
-                            <div class="research-icon">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <h4>Internet Research 🌐</h4>
-                            <ul class="list-unstyled mt-3">
-                                <li>📺 Media Studies</li>
-                                <li>🌐 Digital Culture</li>
-                                <li>🤓 Geek Identity</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
+        <!-- Status Bar -->
+        <div class="quest-status-bar">
+            <span class="action">LOOK AT: Character</span>
+            <span class="location">UCF English Department</span>
         </div>
-    </main>
 
-    <!-- Motion Toggle Button - Top Left -->
+        <!-- Main Info Panel -->
+        <div class="quest-panel">
+            <div class="quest-panel-title">
+                <h1>Anastasia Salter</h1>
+            </div>
+            <div class="quest-panel-body">
+                <div class="quest-description">
+                    <p><span class="prompt">&gt;</span> Anastasia Salter is Professor of English and Director of Graduate Programs for the College of Arts and Humanities at the <a href="https://www.ucf.edu/">University of Central Florida</a>, and Director of the <a href="https://cah.ucf.edu/textstech/">Texts &amp; Technology PhD program</a>.</p>
+
+                    <p><span class="prompt">&gt;</span> Dr. Salter is the author of ten books on digital culture and platforms, including the forthcoming <span class="book-title">Undertale</span> (<a href="https://press.uchicago.edu/">University of Chicago Press</a>, October 2025) and the recent <span class="book-title">Critical Making in the Age of AI</span> (with Emily Johnson, <a href="https://acpress.amherst.edu/">Amherst College Press</a>, 2025).</p>
+
+                    <p><span class="prompt">&gt;</span> Dr. Salter is President of the <a href="https://eliterature.org/">Electronic Literature Organization</a>, and Inventio editor for <a href="https://kairos.technorhetoric.net/"><span class="book-title">Kairos: A Journal of Rhetoric, Technology, and Pedagogy</span></a>.</p>
+                </div>
+
+                <div class="quest-actions">
+                    <a href="https://bsky.app/profile/anasalter.bsky.social" class="quest-action-btn" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-cloud"></i> Bluesky
+                    </a>
+                    <a href="https://www.instagram.com/anasalter/" class="quest-action-btn" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-instagram"></i> Instagram
+                    </a>
+                    <a href="CV.pdf" class="quest-action-btn" target="_blank">
+                        <i class="fas fa-file-pdf"></i> CV
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quest Log — Research Areas -->
+        <div class="quest-log">
+            <div class="quest-log-header">
+                <h2>Quest Log: Transdisciplinary Scholarship</h2>
+            </div>
+            <div class="quest-log-entries">
+                <div class="quest-entry">
+                    <div class="quest-entry-header">
+                        <div class="quest-entry-icon">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <div class="quest-entry-title">Digital Narratives</div>
+                    </div>
+                    <ul class="quest-entry-items">
+                        <li><a href="elit.html">Electronic Literature</a></li>
+                        <li>Adventure Games</li>
+                        <li>Platform Studies</li>
+                    </ul>
+                </div>
+
+                <div class="quest-entry">
+                    <div class="quest-entry-header">
+                        <div class="quest-entry-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="quest-entry-title">Literary Futures</div>
+                    </div>
+                    <ul class="quest-entry-items">
+                        <li>Digital Humanities</li>
+                        <li>Children's Literature</li>
+                        <li>Comic Books</li>
+                    </ul>
+                </div>
+
+                <div class="quest-entry">
+                    <div class="quest-entry-header">
+                        <div class="quest-entry-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="quest-entry-title">Internet Research</div>
+                    </div>
+                    <ul class="quest-entry-items">
+                        <li>Media Studies</li>
+                        <li>Digital Culture</li>
+                        <li>Geek Identity</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Motion Toggle Button -->
     <div class="chaos-motion-toggle" id="motionToggle">
         <div class="chaos-motion-toggle-inner">
-            <span class="chaos-motion-toggle-icon">▶</span>
-            <span class="chaos-motion-toggle-text">MOTION ON</span>
+            <span class="chaos-motion-toggle-icon">⏸</span>
+            <span class="chaos-motion-toggle-text">PAUSE</span>
         </div>
     </div>
 
-    <!-- Floating Contact Cluster - Chaos Style -->
+    <!-- Inventory Panel - Contact Cluster -->
     <div class="chaos-contact-cluster">
         <div class="chaos-contact-item contact-email">
             <a href="mailto:anastasia@ucf.edu" class="chaos-contact-link">
@@ -684,90 +802,60 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- AOS Animation Library -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-    <!-- Chaos Effects -->
-    <script src="js/chaos-effects.js"></script>
 
     <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 1000,
-            once: true
-        });
+        // Motion toggle
+        (function() {
+            var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            var stored = localStorage.getItem('motion-preference');
+            var motionDisabled = stored !== null ? stored === 'disabled' : prefersReducedMotion;
 
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+            function applyMotion() {
+                if (motionDisabled) {
+                    document.body.classList.add('motion-disabled');
+                } else {
+                    document.body.classList.remove('motion-disabled');
+                }
+                var toggle = document.getElementById('motionToggle');
+                if (toggle) {
+                    var icon = toggle.querySelector('.chaos-motion-toggle-icon');
+                    var text = toggle.querySelector('.chaos-motion-toggle-text');
+                    if (motionDisabled) {
+                        if (icon) icon.textContent = '\u25B6';
+                        if (text) text.textContent = 'PLAY';
+                    } else {
+                        if (icon) icon.textContent = '\u23F8';
+                        if (text) text.textContent = 'PAUSE';
+                    }
+                }
+            }
+
+            applyMotion();
+
+            document.addEventListener('DOMContentLoaded', function() {
+                applyMotion();
+                var toggle = document.getElementById('motionToggle');
+                if (toggle) {
+                    toggle.addEventListener('click', function() {
+                        motionDisabled = !motionDisabled;
+                        localStorage.setItem('motion-preference', motionDisabled ? 'disabled' : 'enabled');
+                        applyMotion();
                     });
                 }
             });
+        })();
+
+        // Click feedback
+        document.addEventListener('click', function(e) {
+            if (document.body.classList.contains('motion-disabled')) return;
+            var prompt = document.createElement('div');
+            prompt.className = 'click-prompt';
+            prompt.textContent = '>';
+            prompt.style.left = e.clientX + 'px';
+            prompt.style.top = e.clientY + 'px';
+            document.body.appendChild(prompt);
+            setTimeout(function() { prompt.remove(); }, 600);
         });
-
-        // Add sparkle cursor effect
-        document.addEventListener('mousemove', function(e) {
-            if (Math.random() < 0.1) {
-                createSparkle(e.clientX, e.clientY);
-            }
-        });
-
-        function createSparkle(x, y) {
-            const sparkle = document.createElement('div');
-            sparkle.innerHTML = '✨';
-            sparkle.style.position = 'fixed';
-            sparkle.style.left = x + 'px';
-            sparkle.style.top = y + 'px';
-            sparkle.style.pointerEvents = 'none';
-            sparkle.style.fontSize = '12px';
-            sparkle.style.zIndex = '9999';
-            sparkle.style.animation = 'sparkleAnimation 1s ease-out forwards';
-            
-            document.body.appendChild(sparkle);
-            
-            setTimeout(() => {
-                if (sparkle.parentNode) {
-                    sparkle.parentNode.removeChild(sparkle);
-                }
-            }, 1000);
-        }
-
-        // Add CSS for sparkle animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes sparkleAnimation {
-                0% { 
-                    opacity: 1; 
-                    transform: scale(0) rotate(0deg); 
-                }
-                50% { 
-                    opacity: 1; 
-                    transform: scale(1) rotate(180deg); 
-                }
-                100% { 
-                    opacity: 0; 
-                    transform: scale(0) rotate(360deg); 
-                }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Add glow animation
-        const glowStyle = document.createElement('style');
-        glowStyle.textContent = `
-            @keyframes glow {
-                from { filter: drop-shadow(0 0 20px var(--neon-pink)); }
-                to { filter: drop-shadow(0 0 30px var(--neon-cyan)); }
-            }
-        `;
-        document.head.appendChild(glowStyle);
     </script>
 </body>
 </html>

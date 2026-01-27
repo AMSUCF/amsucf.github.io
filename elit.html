@@ -1,438 +1,674 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>🎮 E-lit - Anastasia Salter</title>
+    <title>E-lit - Anastasia Salter</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Audiowide:wght@400&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Chaos Mode CSS Override -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/chaos.css">
 
     <style>
-      /* Minimal e-lit specific styling */
-      .hero-section {
-        padding: 80px 0 60px;
-        text-align: center;
-        background: var(--burn-orange) !important;
-        border-bottom: 8px solid var(--acid-lime);
-        margin-top: 0;
+      :root {
+        /* EGA 16-color palette */
+        --ega-black: #000000;
+        --ega-blue: #0000AA;
+        --ega-green: #00AA00;
+        --ega-cyan: #00AAAA;
+        --ega-red: #AA0000;
+        --ega-brown: #AA5500;
+        --ega-light-gray: #AAAAAA;
+        --ega-dark-gray: #555555;
+        --ega-bright-blue: #5555FF;
+        --ega-bright-green: #55FF55;
+        --ega-bright-cyan: #55FFFF;
+        --ega-bright-red: #FF5555;
+        --ega-magenta: #FF55FF;
+        --ega-yellow: #FFFF55;
+        --ega-white: #FFFFFF;
       }
 
-      .hero-content {
-        max-width: 700px;
-        margin: 0 auto;
-        padding: 2rem;
-        background: transparent;
-        border: none;
-        box-shadow: none;
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Press Start 2P', cursive;
+        background: var(--ega-black);
+        color: var(--ega-white);
+        line-height: 1.6;
+        overflow-y: auto;
+        padding-bottom: 60px;
+        /* Pixel cursor */
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M7 0h2v6h6v2h-6v6h-2v-6h-2v6h0v-8h-4v-2h4v-4h2z' fill='%2355FFFF'/%3E%3C/svg%3E") 8 8, crosshair;
+      }
+
+      a, button {
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M2 2h4v2h2v2h2v-2h2v-2h2v8h-2v2h-2v2h-2v-2h-2v-2h-2v2h-2z' fill='%23FFFF55'/%3E%3C/svg%3E") 8 8, pointer;
+      }
+
+      @media (pointer: coarse) {
+        body, a, button {
+          cursor: auto;
+        }
+      }
+
+      /* Adventure Verb Bar Navigation — high specificity to override chaos.css */
+      .navbar.adventure-verb-bar,
+      nav.navbar.adventure-verb-bar {
+        position: fixed !important;
+        bottom: 0 !important;
+        top: auto !important;
+        left: 0 !important;
+        right: 0 !important;
+        background: var(--ega-dark-gray) !important;
+        backdrop-filter: none !important;
+        border-top: 4px solid var(--ega-light-gray) !important;
+        border-bottom: none !important;
+        transition: none !important;
+        transform: none !important;
+        z-index: 1000 !important;
+        padding: 4px 0 !important;
+        border-radius: 0 !important;
+      }
+
+      .navbar.adventure-verb-bar:hover,
+      nav.navbar.adventure-verb-bar:hover {
+        transform: none !important;
+        border-top-width: 4px !important;
+      }
+
+      .navbar.adventure-verb-bar .navbar-brand {
+        font-family: 'Press Start 2P', cursive !important;
+        font-weight: 400 !important;
+        font-size: 0.7rem !important;
+        color: var(--ega-yellow) !important;
+        text-shadow: none !important;
+        text-decoration: none !important;
+        letter-spacing: 0 !important;
+        text-transform: uppercase !important;
+        background: none !important;
+        padding: 0.25rem 0.5rem !important;
+      }
+
+      .navbar.adventure-verb-bar .navbar-brand:hover {
+        color: var(--ega-bright-green) !important;
+        background: none !important;
+        text-shadow: none !important;
+        transform: none !important;
+        padding: 0.25rem 0.5rem !important;
+      }
+
+      .navbar.adventure-verb-bar .nav-link {
+        font-family: 'Press Start 2P', cursive !important;
+        font-weight: 400 !important;
+        color: var(--ega-white) !important;
+        position: relative !important;
+        transition: background 0.1s, color 0.1s !important;
+        margin: 2px !important;
+        font-size: 0.55rem !important;
+        border: 2px solid var(--ega-light-gray) !important;
+        padding: 6px 10px !important;
+        text-transform: uppercase !important;
+        text-shadow: none !important;
+        background: none !important;
+        transform: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+      }
+
+      .navbar.adventure-verb-bar .nav-link:hover {
+        background: var(--ega-bright-blue) !important;
+        color: var(--ega-yellow) !important;
+        transform: none !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+        border: 2px solid var(--ega-light-gray) !important;
+      }
+
+      .navbar.adventure-verb-bar .nav-link.active {
+        background: var(--ega-bright-blue) !important;
+        color: var(--ega-yellow) !important;
+        transform: none !important;
+        text-shadow: none !important;
+        border: 2px solid var(--ega-light-gray) !important;
+      }
+
+      .navbar.adventure-verb-bar .navbar-toggler {
+        border-color: var(--ega-light-gray) !important;
+      }
+
+      .navbar.adventure-verb-bar .navbar-toggler-icon {
+        filter: invert(1) !important;
+      }
+
+      /* ===== HERO SECTION ===== */
+      .hero-section {
+        background: var(--ega-blue);
+        border: 4px solid var(--ega-white);
+        text-align: center;
+        padding: 60px 20px 40px;
+        margin: 20px;
       }
 
       .hero-title {
-        font-family: 'Impact', 'Arial Black', sans-serif !important;
-        font-size: 4.5rem;
-        font-weight: 900 !important;
-        color: var(--bone-white) !important;
-        text-shadow:
-          3px 3px 0 var(--tar-black),
-          6px 6px 0 var(--tar-black),
-          9px 9px 0 var(--tar-black),
-          12px 12px 0 var(--tar-black),
-          15px 15px 0 var(--rust-brown),
-          18px 18px 0 var(--tar-black) !important;
-        letter-spacing: 0.08em !important;
-        line-height: 1.2 !important;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 1.2rem;
+        color: var(--ega-yellow);
         margin-bottom: 1rem;
-        transform: rotate(-1.5deg);
-        animation: textQuake 3.7s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
       }
 
       .hero-subtitle {
-        color: var(--bone-white);
-        font-size: 1.3rem;
-        font-weight: 700;
-        text-shadow: 2px 2px 0 var(--tar-black), 4px 4px 0 var(--tar-black);
+        font-family: 'Press Start 2P', cursive;
+        font-size: 0.6rem;
+        color: var(--ega-white);
+      }
+
+      /* ===== SECTION TITLES ===== */
+      .section-title {
+        font-family: 'Press Start 2P', cursive;
+        font-size: 0.8rem;
+        color: var(--ega-yellow);
+        text-align: center;
+        margin: 3rem 0 2rem;
+      }
+
+      /* ===== PROJECT CARDS ===== */
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        padding: 0 20px;
+        max-width: 1200px;
+        margin: 0 auto;
       }
 
       .project-card {
-        background: rgba(245, 241, 232, 0.93);
-        border: 5px solid var(--burn-orange);
-        border-radius: 0 !important;
-        margin-bottom: 2rem;
+        background: var(--ega-dark-gray);
+        border: 4px solid var(--ega-light-gray);
+        border-radius: 0;
         overflow: hidden;
-        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        transition: border-color 0.1s;
       }
 
       .project-card:hover {
-        transform: translateY(-12px) translateX(-8px) rotate(-1deg);
-        box-shadow: 20px 20px 0 var(--tar-black);
-        border-color: var(--acid-lime);
+        border-color: var(--ega-bright-blue);
       }
 
       .project-image {
         height: 200px;
         background-size: cover;
         background-position: center;
-        border-bottom: 4px solid var(--rust-brown);
+        border-bottom: 2px solid var(--ega-light-gray);
       }
 
       .project-content {
-        padding: 1.5rem;
+        padding: 12px;
       }
 
       .project-title {
-        color: var(--burn-orange);
-        font-size: 1.2rem;
-        font-weight: 900;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 0.5rem;
+        color: var(--ega-bright-cyan);
         text-decoration: none;
+        display: block;
+        line-height: 1.5;
       }
 
       .project-title:hover {
-        color: var(--toxic-yellow);
+        color: var(--ega-yellow);
       }
 
       .project-author {
-        color: var(--rust-brown);
-        font-weight: 700;
-        margin: 0.5rem 0;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 0.45rem;
+        color: var(--ega-white);
+        margin: 8px 0 4px;
+        line-height: 1.6;
       }
 
       .project-venue {
-        color: var(--tar-black);
-        font-size: 0.9rem;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 0.45rem;
+        color: var(--ega-light-gray);
+        line-height: 1.6;
+        margin: 4px 0;
       }
 
       .project-year {
-        color: var(--clay-red);
-        font-weight: 700;
-      }
-
-      .section-title {
         font-family: 'Press Start 2P', cursive;
-        font-size: 2rem;
-        text-align: center;
-        margin: 4rem 0 3rem;
-        color: var(--toxic-yellow);
-        text-shadow: 2px 2px 0 var(--tar-black);
+        font-size: 0.45rem;
+        color: var(--ega-yellow);
+        margin-top: 6px;
       }
 
-      @media (max-width: 768px) {
+      /* ===== CONTACT CLUSTER (inventory panel bottom-left) ===== */
+      .chaos-contact-cluster {
+        position: fixed !important;
+        top: auto !important;
+        bottom: 52px !important;
+        left: 8px !important;
+        right: auto !important;
+        background: var(--ega-dark-gray) !important;
+        border: 3px solid var(--ega-light-gray) !important;
+        padding: 6px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 4px !important;
+        z-index: 100 !important;
+        animation: none !important;
+        transform: none !important;
+        clip-path: none !important;
+        border-radius: 0 !important;
+      }
+
+      .chaos-contact-item {
+        background: var(--ega-blue) !important;
+        border: 2px solid var(--ega-cyan) !important;
+        padding: 4px 8px !important;
+        animation: none !important;
+        transform: none !important;
+        clip-path: none !important;
+        border-radius: 0 !important;
+        float: none !important;
+      }
+
+      .chaos-contact-item:hover {
+        background: var(--ega-bright-blue) !important;
+        transform: none !important;
+      }
+
+      .chaos-contact-link {
+        font-family: 'Press Start 2P', cursive !important;
+        font-size: 0.45rem !important;
+        color: var(--ega-white) !important;
+        text-decoration: none !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 4px !important;
+      }
+
+      .chaos-contact-link:hover {
+        color: var(--ega-yellow) !important;
+      }
+
+      .chaos-contact-icon {
+        color: var(--ega-bright-cyan) !important;
+        font-size: 0.5rem !important;
+      }
+
+      .chaos-contact-text {
+        color: var(--ega-white) !important;
+      }
+
+      /* ===== MOTION TOGGLE (bottom-right) ===== */
+      .chaos-motion-toggle {
+        position: fixed !important;
+        top: auto !important;
+        bottom: 52px !important;
+        right: 8px !important;
+        left: auto !important;
+        background: var(--ega-dark-gray) !important;
+        border: 3px solid var(--ega-light-gray) !important;
+        padding: 6px 12px !important;
+        z-index: 100 !important;
+        animation: none !important;
+        transform: none !important;
+        clip-path: none !important;
+        border-radius: 0 !important;
+        cursor: pointer;
+      }
+
+      .chaos-motion-toggle:hover {
+        background: var(--ega-bright-blue) !important;
+        transform: none !important;
+      }
+
+      .chaos-motion-toggle-inner {
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+      }
+
+      .chaos-motion-toggle-icon {
+        font-size: 0.6rem !important;
+        color: var(--ega-bright-green) !important;
+      }
+
+      .chaos-motion-toggle-text {
+        font-family: 'Press Start 2P', cursive !important;
+        font-size: 0.45rem !important;
+        color: var(--ega-white) !important;
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 900px) {
+        .projects-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (min-width: 768px) and (max-width: 1199px) {
+        .chaos-contact-text {
+          display: none !important;
+        }
+      }
+
+      @media (max-width: 767px) {
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-section {
+          margin: 10px;
+          padding: 40px 12px 30px;
+        }
+
         .hero-title {
-          font-size: 2.5rem;
-          letter-spacing: 0.05em !important;
-          text-shadow:
-            2px 2px 0 var(--tar-black),
-            4px 4px 0 var(--tar-black),
-            6px 6px 0 var(--rust-brown),
-            8px 8px 0 var(--tar-black) !important;
+          font-size: 0.9rem;
+        }
+
+        .hero-subtitle {
+          font-size: 0.5rem;
         }
 
         .section-title {
-          font-size: 1.2rem;
+          font-size: 0.65rem;
+        }
+
+        .adventure-verb-bar .nav-link,
+        .navbar.adventure-verb-bar .nav-link {
+          font-size: 0.45rem !important;
+          padding: 4px 8px !important;
+        }
+
+        .adventure-verb-bar .nav-brand,
+        .navbar-brand {
+          font-size: 0.5rem;
+        }
+
+        .chaos-contact-cluster {
+          bottom: 44px !important;
+        }
+
+        .chaos-motion-toggle {
+          bottom: 44px !important;
+        }
+
+        .chaos-contact-text {
+          display: none !important;
+        }
+
+        .project-title {
+          font-size: max(0.45rem, 8px);
+        }
+
+        .project-author,
+        .project-venue,
+        .project-year {
+          font-size: max(0.4rem, 8px);
+        }
+      }
+
+      /* Touch targets */
+      @media (pointer: coarse) {
+        .adventure-verb-bar .nav-link,
+        .nav-link {
+          min-height: 44px;
+          display: inline-flex !important;
+          align-items: center !important;
+        }
+
+        .chaos-contact-item {
+          min-height: 44px !important;
+          min-width: 44px !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+        }
+
+        .chaos-motion-toggle {
+          min-height: 44px !important;
+          min-width: 44px !important;
+        }
+      }
+
+      /* Reduced motion */
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
         }
       }
     </style>
   </head>
   <body>
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="index.html">🎮 ANASTASIA SALTER</a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html">👩‍💻 About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="books.html">📚 Books</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="research.html">🎮 Research</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="elit.html">💻 E-lit</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="teaching.html">🎓 Teaching</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="CV.pdf" target="_blank">📄 CV</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
     <!-- Hero Section -->
     <section class="hero-section">
-      <div class="container">
-        <div class="hero-content">
-          <h1 class="hero-title">🎨 electronic literature</h1>
-          <p class="hero-subtitle">text × tech × textile 🧵</p>
-        </div>
-      </div>
+      <h1 class="hero-title">electronic literature</h1>
+      <p class="hero-subtitle">text x tech x textile</p>
     </section>
 
     <!-- Electronic Literature Works Section -->
-    <section class="container">
-      <h2 class="section-title">🌟 Works</h2>
-      
-      <div class="row">
-        <div class="col-md-4">
-          <div class="project-card">
-            <div class="project-image" style="background-image: url('AIAdmin/campus.jpg');"></div>
-            <div class="project-content">
-              <h3><a href="AIAdmin/" class="project-title">AI Admin</a></h3>
-              <div class="project-author"><strong>Anastasia Salter</strong></div>
-              <div class="project-venue">CCCC Fall Virtual Institute: Machine Writing and the Work of Rhetoric and Composition Program </div>
-              <div class="project-year">2024 🤖</div>
-            </div>
+    <section>
+      <h2 class="section-title">Works</h2>
+
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-image" style="background-image: url('AIAdmin/campus.jpg');"></div>
+          <div class="project-content">
+            <a href="AIAdmin/" class="project-title">AI Admin</a>
+            <div class="project-author">Anastasia Salter</div>
+            <div class="project-venue">CCCC Fall Virtual Institute: Machine Writing and the Work of Rhetoric and Composition Program</div>
+            <div class="project-year">2024</div>
           </div>
         </div>
-        
-        <div class="col-md-4">
-          <div class="project-card">
-            <div class="project-image" style="background-image: url('yarns.jpg');"></div>
-            <div class="project-content">
-              <h3><a href="https://anastasiasalter.net/SpinningYarns/" class="project-title">Spinning Yarns: Speculative Pasts of Electronic Literature</a></h3>
-              <div class="project-author"><strong>Anne Sullivan and Anastasia Salter</strong></div>
-              <div class="project-venue">Electronic Literature Organization Exhibition: Portugal</div>
-              <div class="project-year">2023 🏆</div>
-            </div>
+
+        <div class="project-card">
+          <div class="project-image" style="background-image: url('yarns.jpg');"></div>
+          <div class="project-content">
+            <a href="https://anastasiasalter.net/SpinningYarns/" class="project-title">Spinning Yarns: Speculative Pasts of Electronic Literature</a>
+            <div class="project-author">Anne Sullivan and Anastasia Salter</div>
+            <div class="project-venue">Electronic Literature Organization Exhibition: Portugal</div>
+            <div class="project-year">2023</div>
           </div>
         </div>
-        
-        <div class="col-md-4">
-          <div class="project-card">
-            <div class="project-image" style="background-image: url('poetics.jpg');"></div>
-            <div class="project-content">
-              <h3><a href="https://anastasiasalter.net/post_anthropocene/" class="project-title">Post-Anthropocene Poetics [De]Fused</a></h3>
-              <div class="project-author"><strong>Anne Sullivan and Anastasia Salter</strong></div>
-              <div class="project-venue">Electronic Literature Organization Exhibition: Italy</div>
-              <div class="project-year">2022 🌍</div>
-            </div>
+
+        <div class="project-card">
+          <div class="project-image" style="background-image: url('poetics.jpg');"></div>
+          <div class="project-content">
+            <a href="https://anastasiasalter.net/post_anthropocene/" class="project-title">Post-Anthropocene Poetics [De]Fused</a>
+            <div class="project-author">Anne Sullivan and Anastasia Salter</div>
+            <div class="project-venue">Electronic Literature Organization Exhibition: Italy</div>
+            <div class="project-year">2022</div>
           </div>
         </div>
-        
-        <div class="col-md-4">
-          <div class="project-card">
-            <div class="project-image" style="background-image: url('mask.jpg');"></div>
-            <div class="project-content">
-              <h3><a href="https://eliterature.org/elo2021/covid/" class="project-title">Masked Making</a></h3>
-              <div class="project-author"><strong>Lai-Tze Fan, Anne Sullivan, and Anastasia Salter</strong></div>
-              <div class="project-venue">Electronic Literature Organization Exhibition: Covid E-Lit + ELC Volume 4</div>
-              <div class="project-year">2021 😷</div>
-            </div>
+
+        <div class="project-card">
+          <div class="project-image" style="background-image: url('mask.jpg');"></div>
+          <div class="project-content">
+            <a href="https://eliterature.org/elo2021/covid/" class="project-title">Masked Making</a>
+            <div class="project-author">Lai-Tze Fan, Anne Sullivan, and Anastasia Salter</div>
+            <div class="project-venue">Electronic Literature Organization Exhibition: Covid E-Lit + ELC Volume 4</div>
+            <div class="project-year">2021</div>
           </div>
         </div>
-        
-        <div class="col-md-4">
-          <div class="project-card">
-            <div class="project-image" style="background-image: url('tension.png');"></div>
-            <div class="project-content">
-              <h3><a href="https://projects.cah.ucf.edu/mediaartsexhibits/uncontinuity/Murray/murray.html" class="project-title">Tension Assembly</a></h3>
-              <div class="project-author"><strong>John Murray and Anastasia Salter</strong></div>
-              <div class="project-venue">Electronic Literature Organization Exhibition: (un)continuity</div>
-              <div class="project-year">2020 🔧</div>
-            </div>
+
+        <div class="project-card">
+          <div class="project-image" style="background-image: url('tension.png');"></div>
+          <div class="project-content">
+            <a href="https://projects.cah.ucf.edu/mediaartsexhibits/uncontinuity/Murray/murray.html" class="project-title">Tension Assembly</a>
+            <div class="project-author">John Murray and Anastasia Salter</div>
+            <div class="project-venue">Electronic Literature Organization Exhibition: (un)continuity</div>
+            <div class="project-year">2020</div>
           </div>
         </div>
-        
-        <div class="col-md-4">
-          <div class="project-card">
-            <div class="project-image" style="background-image: url('threads.jpg');"></div>
-            <div class="project-content">
-              <h3><a href="https://electronicbookreview.com/essay/retraced-threads-generating-feminist-textile-art-with-tracery/" class="project-title">Re:Traced Threads</a></h3>
-              <div class="project-author"><strong>Anastasia Salter</strong></div>
-              <div class="project-venue">Electronic Literature Organization Exhibition at the Glucksman, Ireland</div>
-              <div class="project-year">2019 🧵</div>
-            </div>
+
+        <div class="project-card">
+          <div class="project-image" style="background-image: url('threads.jpg');"></div>
+          <div class="project-content">
+            <a href="https://electronicbookreview.com/essay/retraced-threads-generating-feminist-textile-art-with-tracery/" class="project-title">Re:Traced Threads</a>
+            <div class="project-author">Anastasia Salter</div>
+            <div class="project-venue">Electronic Literature Organization Exhibition at the Glucksman, Ireland</div>
+            <div class="project-year">2019</div>
           </div>
         </div>
-        
-        <div class="col-md-4">
-          <div class="project-card">
-            <div class="project-image" style="background-image: url('blocked.jpg');"></div>
-            <div class="project-content">
-              <h3><a href="http://hyperrhiz.io/hyperrhiz21/games/5-blocked-in.html" class="project-title">Blocked In</a></h3>
-              <div class="project-author"><strong>Anastasia Salter and John Murray</strong></div>
-              <div class="project-venue"><i>Hyperrhiz: New Media Cultures 21</i> The Buzzademia Special Issue</div>
-              <div class="project-year">2019 🚫</div>
-            </div>
+
+        <div class="project-card">
+          <div class="project-image" style="background-image: url('blocked.jpg');"></div>
+          <div class="project-content">
+            <a href="http://hyperrhiz.io/hyperrhiz21/games/5-blocked-in.html" class="project-title">Blocked In</a>
+            <div class="project-author">Anastasia Salter and John Murray</div>
+            <div class="project-venue">Hyperrhiz: New Media Cultures 21 The Buzzademia Special Issue</div>
+            <div class="project-year">2019</div>
           </div>
         </div>
-        
-        <div class="col-md-4">
-          <div class="project-card">
-            <div class="project-image" style="background-image: url('mii.jpg');"></div>
-            <div class="project-content">
-              <h3><a href="http://hyperrhiz.io/hyperrhiz21/list-explain-think/8-being-mii.html" class="project-title">Being Mii</a></h3>
-              <div class="project-author"><strong>Anastasia Salter</strong></div>
-              <div class="project-venue"><i>Hyperrhiz: New Media Cultures 21</i> The Buzzademia Special Issue</div>
-              <div class="project-year">2019 👤</div>
-            </div>
+
+        <div class="project-card">
+          <div class="project-image" style="background-image: url('mii.jpg');"></div>
+          <div class="project-content">
+            <a href="http://hyperrhiz.io/hyperrhiz21/list-explain-think/8-being-mii.html" class="project-title">Being Mii</a>
+            <div class="project-author">Anastasia Salter</div>
+            <div class="project-venue">Hyperrhiz: New Media Cultures 21 The Buzzademia Special Issue</div>
+            <div class="project-year">2019</div>
           </div>
         </div>
-        
-        <div class="col-md-4">
-          <div class="project-card">
-            <div class="project-image" style="background-image: url('codes.jpg');"></div>
-            <div class="project-content">
-              <h3><a href="https://never-here.neocities.org/" class="project-title">Blocked Connections</a></h3>
-              <div class="project-author"><strong>Anastasia Salter and Anne Sullivan</strong></div>
-              <div class="project-venue">Electronic Literature Organization Exhibition in Montreal</div>
-              <div class="project-year">2018 🔗</div>
-            </div>
+
+        <div class="project-card">
+          <div class="project-image" style="background-image: url('codes.jpg');"></div>
+          <div class="project-content">
+            <a href="https://never-here.neocities.org/" class="project-title">Blocked Connections</a>
+            <div class="project-author">Anastasia Salter and Anne Sullivan</div>
+            <div class="project-venue">Electronic Literature Organization Exhibition in Montreal</div>
+            <div class="project-year">2018</div>
           </div>
         </div>
-        
-        <div class="col-md-4">
-          <div class="project-card">
-            <div class="project-image" style="background-image: url('spiderweb.jpg');"></div>
-            <div class="project-content">
-              <h3><a href="https://adanewmedia.org/2018/05/issue13-kuchera/" class="project-title">The Spider's Web</a></h3>
-              <div class="project-author"><strong>Collaboration led by Carly Kocurek</strong></div>
-              <div class="project-venue">Alternate Reality Game published in <i>Ada: A Journal of Gender, New Media, and Technology</i></div>
-              <div class="project-year">2018 🕷️</div>
-            </div>
+
+        <div class="project-card">
+          <div class="project-image" style="background-image: url('spiderweb.jpg');"></div>
+          <div class="project-content">
+            <a href="https://adanewmedia.org/2018/05/issue13-kuchera/" class="project-title">The Spider's Web</a>
+            <div class="project-author">Collaboration led by Carly Kocurek</div>
+            <div class="project-venue">Alternate Reality Game published in Ada: A Journal of Gender, New Media, and Technology</div>
+            <div class="project-year">2018</div>
           </div>
         </div>
-        
-        <div class="col-md-4">
-          <div class="project-card">
-            <div class="project-image" style="background-image: url('ctrlalt.png');"></div>
-            <div class="project-content">
-              <h3><a href="https://ojs.deakin.edu.au/index.php/ps/article/view/656" class="project-title">Alt-Right: Ctrl+A; Del</a></h3>
-              <div class="project-author"><strong>Anastasia Salter and Bridget Blodgett</strong></div>
-              <div class="project-venue">Hypertext published in <i>Persona Studies</i></div>
-              <div class="project-year">2017 ⌨️</div>
-            </div>
+
+        <div class="project-card">
+          <div class="project-image" style="background-image: url('ctrlalt.png');"></div>
+          <div class="project-content">
+            <a href="https://ojs.deakin.edu.au/index.php/ps/article/view/656" class="project-title">Alt-Right: Ctrl+A; Del</a>
+            <div class="project-author">Anastasia Salter and Bridget Blodgett</div>
+            <div class="project-venue">Hypertext published in Persona Studies</div>
+            <div class="project-year">2017</div>
           </div>
         </div>
-        
-        <div class="col-md-4">
-          <div class="project-card">
-            <div class="project-image" style="background-image: url('eliza.png');"></div>
-            <div class="project-content">
-              <h3><a href="http://anastasiasalter.net/ElizaAndAndromeda/" class="project-title">Eliza and Andromeda</a></h3>
-              <div class="project-author"><strong>Anastasia Salter and Deena Larsen</strong></div>
-              <div class="project-venue">Electronic Literature Organization Exhibition in Porto</div>
-              <div class="project-year">2017 🤖</div>
-            </div>
+
+        <div class="project-card">
+          <div class="project-image" style="background-image: url('eliza.png');"></div>
+          <div class="project-content">
+            <a href="http://anastasiasalter.net/ElizaAndAndromeda/" class="project-title">Eliza and Andromeda</a>
+            <div class="project-author">Anastasia Salter and Deena Larsen</div>
+            <div class="project-venue">Electronic Literature Organization Exhibition in Porto</div>
+            <div class="project-year">2017</div>
           </div>
         </div>
-        
-        <div class="col-md-4">
-          <div class="project-card">
-            <div class="project-image" style="background-image: url('alice.jpg');"></div>
-            <div class="project-content">
-              <h3><a href="http://kairos.technorhetoric.net/20.1/inventio/salter/index.html" class="project-title">Alice in Dataland 2.0</a></h3>
-              <div class="project-author"><strong>Anastasia Salter</strong></div>
-              <div class="project-venue">Hypertext published in <i>Kairos: A Journal of Rhetoric, Technology, and Pedagogy 20.1</i></div>
-              <div class="project-year">2015 🐰</div>
-            </div>
+
+        <div class="project-card">
+          <div class="project-image" style="background-image: url('alice.jpg');"></div>
+          <div class="project-content">
+            <a href="http://kairos.technorhetoric.net/20.1/inventio/salter/index.html" class="project-title">Alice in Dataland 2.0</a>
+            <div class="project-author">Anastasia Salter</div>
+            <div class="project-venue">Hypertext published in Kairos: A Journal of Rhetoric, Technology, and Pedagogy 20.1</div>
+            <div class="project-year">2015</div>
           </div>
         </div>
-        
-        <div class="col-md-4">
-          <div class="project-card">
-            <div class="project-image" style="background-image: url('beyond.png');"></div>
-            <div class="project-content">
-              <h3><a href="http://aco.booktype.pro/elo-2015-the-ends-of-electronic-literature/john-murray-and-anastasia-salter-from-beyond-hybridity-ouija-board-project/" class="project-title">From Beyond</a></h3>
-              <div class="project-author"><strong>John Murray and Anastasia Salter</strong></div>
-              <div class="project-venue">The End(s) of Electronic Literature Exhibition in Bergen, Norway</div>
-              <div class="project-year">2015 👻</div>
-            </div>
+
+        <div class="project-card">
+          <div class="project-image" style="background-image: url('beyond.png');"></div>
+          <div class="project-content">
+            <a href="http://aco.booktype.pro/elo-2015-the-ends-of-electronic-literature/john-murray-and-anastasia-salter-from-beyond-hybridity-ouija-board-project/" class="project-title">From Beyond</a>
+            <div class="project-author">John Murray and Anastasia Salter</div>
+            <div class="project-venue">The End(s) of Electronic Literature Exhibition in Bergen, Norway</div>
+            <div class="project-year">2015</div>
           </div>
         </div>
-        
-        <div class="col-md-4">
-          <div class="project-card">
-            <div class="project-image" style="background-image: url('nowhere.png');"></div>
-            <div class="project-content">
-              <h3><a href="https://www.unlikelystories.org/ethan/ethan-salter.shtml" class="project-title">Nowhere</a></h3>
-              <div class="project-author"><strong>Anastasia Salter from Jeremy Hight's text</strong></div>
-              <div class="project-venue">Unlikely Stories: Episode IV</div>
-              <div class="project-year">2014 🌌</div>
-            </div>
+
+        <div class="project-card">
+          <div class="project-image" style="background-image: url('nowhere.png');"></div>
+          <div class="project-content">
+            <a href="https://www.unlikelystories.org/ethan/ethan-salter.shtml" class="project-title">Nowhere</a>
+            <div class="project-author">Anastasia Salter from Jeremy Hight's text</div>
+            <div class="project-venue">Unlikely Stories: Episode IV</div>
+            <div class="project-year">2014</div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Curation Section -->
-    <section class="container">
-      <h2 class="section-title">🎪 Curation & Exhibitions</h2>
-      
-      <div class="row">
-        <div class="col-md-4">
-          <div class="project-card">
-            <div class="project-image" style="background-image: url('arcade.jpg');"></div>
-            <div class="project-content">
-              <h3><a href="https://projects.cah.ucf.edu/mediaartsexhibits/cp2022/" class="project-title">CP Arcade: Reinvention</a></h3>
-              <div class="project-author"><strong>Anastasia Salter, with graphic design by PS Berge and web development by John Murray</strong></div>
-              <div class="project-venue">Console-ing Passions Conference</div>
-              <div class="project-year">2022 🕹️</div>
-            </div>
+    <section>
+      <h2 class="section-title">Curation &amp; Exhibitions</h2>
+
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-image" style="background-image: url('arcade.jpg');"></div>
+          <div class="project-content">
+            <a href="https://projects.cah.ucf.edu/mediaartsexhibits/cp2022/" class="project-title">CP Arcade: Reinvention</a>
+            <div class="project-author">Anastasia Salter, with graphic design by PS Berge and web development by John Murray</div>
+            <div class="project-venue">Console-ing Passions Conference</div>
+            <div class="project-year">2022</div>
           </div>
         </div>
-        
-        <div class="col-md-4">
-          <div class="project-card">
-            <div class="project-image" style="background-image: url('uncontinuity.png');"></div>
-            <div class="project-content">
-              <h3><a href="https://projects.cah.ucf.edu/mediaartsexhibits/uncontinuity/" class="project-title">(un)continuity</a></h3>
-              <div class="project-author"><strong>Shannon Lindsay, Ha'ani Hogan, and Anastasia Salter</strong></div>
-              <div class="project-venue">Electronic Literature Organization Virtual Exhibition</div>
-              <div class="project-year">2020 🔄</div>
-            </div>
+
+        <div class="project-card">
+          <div class="project-image" style="background-image: url('uncontinuity.png');"></div>
+          <div class="project-content">
+            <a href="https://projects.cah.ucf.edu/mediaartsexhibits/uncontinuity/" class="project-title">(un)continuity</a>
+            <div class="project-author">Shannon Lindsay, Ha'ani Hogan, and Anastasia Salter</div>
+            <div class="project-venue">Electronic Literature Organization Virtual Exhibition</div>
+            <div class="project-year">2020</div>
           </div>
         </div>
-        
-        <div class="col-md-4">
-          <div class="project-card">
-            <div class="project-image" style="background-image: url('change.png');"></div>
-            <div class="project-content">
-              <h3><a href="https://projects.cah.ucf.edu/mediaartsexhibits/ClimatesOfChange/" class="project-title">Climates of Change</a></h3>
-              <div class="project-author"><strong>Jason Nelson and Anastasia Salter</strong></div>
-              <div class="project-venue">A Virtual Exhibit of ACM Hypertext and Social Media 2020</div>
-              <div class="project-year">2020 🌡️</div>
-            </div>
+
+        <div class="project-card">
+          <div class="project-image" style="background-image: url('change.png');"></div>
+          <div class="project-content">
+            <a href="https://projects.cah.ucf.edu/mediaartsexhibits/ClimatesOfChange/" class="project-title">Climates of Change</a>
+            <div class="project-author">Jason Nelson and Anastasia Salter</div>
+            <div class="project-venue">A Virtual Exhibit of ACM Hypertext and Social Media 2020</div>
+            <div class="project-year">2020</div>
           </div>
         </div>
-        
-        <div class="col-md-4">
-          <div class="project-card">
-            <div class="project-image" style="background-image: url('elc.png');"></div>
-            <div class="project-content">
-              <h3><a href="http://collection.eliterature.org/3/" class="project-title">Electronic Literature Collection Volume 3</a></h3>
-              <div class="project-author"><strong>Stephanie Boluk, Leonardo Flores, Jacob Garbe, and Anastasia Salter</strong></div>
-              <div class="project-venue">The Electronic Literature Organization</div>
-              <div class="project-year">2016 📚</div>
-            </div>
+
+        <div class="project-card">
+          <div class="project-image" style="background-image: url('elc.png');"></div>
+          <div class="project-content">
+            <a href="http://collection.eliterature.org/3/" class="project-title">Electronic Literature Collection Volume 3</a>
+            <div class="project-author">Stephanie Boluk, Leonardo Flores, Jacob Garbe, and Anastasia Salter</div>
+            <div class="project-venue">The Electronic Literature Organization</div>
+            <div class="project-year">2016</div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Motion Toggle Button - Top Left -->
+    <div style="height: 40px;"></div>
+
+    <!-- Motion Toggle Button -->
     <div class="chaos-motion-toggle" id="motionToggle">
         <div class="chaos-motion-toggle-inner">
-            <span class="chaos-motion-toggle-icon">▶</span>
-            <span class="chaos-motion-toggle-text">MOTION ON</span>
+            <span class="chaos-motion-toggle-icon">⏸</span>
+            <span class="chaos-motion-toggle-text">PAUSE</span>
         </div>
     </div>
 
-    <!-- Floating Contact Cluster - Chaos Style -->
+    <!-- Inventory Panel - Contact Cluster -->
     <div class="chaos-contact-cluster">
         <div class="chaos-contact-item contact-email">
             <a href="mailto:anastasia@ucf.edu" class="chaos-contact-link">
@@ -460,9 +696,101 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Navigation - Adventure Verb Bar -->
+    <nav class="navbar navbar-expand-lg adventure-verb-bar">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">ANASTASIA SALTER</a>
 
-    <!-- Chaos Effects -->
-    <script src="js/chaos-effects.js"></script>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">Look: About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="books.html">Read: Books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="research.html">Study: Research</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="elit.html">Play: E-lit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="teaching.html">Talk: Teaching</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="CV.pdf" target="_blank">Take: CV</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Motion toggle
+        (function() {
+            var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            var stored = localStorage.getItem('motion-preference');
+            var motionDisabled = stored !== null ? stored === 'disabled' : prefersReducedMotion;
+
+            function applyMotion() {
+                if (motionDisabled) {
+                    document.body.classList.add('motion-disabled');
+                } else {
+                    document.body.classList.remove('motion-disabled');
+                }
+                var toggle = document.getElementById('motionToggle');
+                if (toggle) {
+                    var icon = toggle.querySelector('.chaos-motion-toggle-icon');
+                    var text = toggle.querySelector('.chaos-motion-toggle-text');
+                    if (motionDisabled) {
+                        if (icon) icon.textContent = '\u25B6';
+                        if (text) text.textContent = 'PLAY';
+                    } else {
+                        if (icon) icon.textContent = '\u23F8';
+                        if (text) text.textContent = 'PAUSE';
+                    }
+                }
+            }
+
+            applyMotion();
+
+            document.addEventListener('DOMContentLoaded', function() {
+                applyMotion();
+                var toggle = document.getElementById('motionToggle');
+                if (toggle) {
+                    toggle.addEventListener('click', function() {
+                        motionDisabled = !motionDisabled;
+                        localStorage.setItem('motion-preference', motionDisabled ? 'disabled' : 'enabled');
+                        applyMotion();
+                    });
+                }
+            });
+        })();
+
+        // Click feedback
+        document.addEventListener('click', function(e) {
+            if (document.body.classList.contains('motion-disabled')) return;
+            var prompt = document.createElement('div');
+            prompt.style.cssText = 'position:fixed;font-family:"Press Start 2P",cursive;font-size:1rem;color:#55FF55;pointer-events:none;z-index:9999;animation:promptFade 0.6s ease-out forwards;';
+            prompt.textContent = '>';
+            prompt.style.left = e.clientX + 'px';
+            prompt.style.top = e.clientY + 'px';
+            document.body.appendChild(prompt);
+            setTimeout(function() { prompt.remove(); }, 600);
+        });
+
+        // Prompt fade animation
+        var fadeStyle = document.createElement('style');
+        fadeStyle.textContent = '@keyframes promptFade { 0% { opacity:1; transform:translate(-50%,-50%) scale(1); } 100% { opacity:0; transform:translate(-50%,-50%) scale(1.5); } }';
+        document.head.appendChild(fadeStyle);
+    </script>
   </body>
 </html>

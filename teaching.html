@@ -4,41 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teaching - Anastasia Salter</title>
-    
+
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Audiowide:wght@400&family=Comic+Neue:wght@300;400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- AOS Animation Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-    <!-- Chaos Mode CSS Override -->
-    <link rel="stylesheet" href="css/chaos.css">
 
     <style>
         :root {
-            --primary-pink: #ff69b4;
-            --primary-purple: #9966cc;
-            --primary-blue: #00bfff;
-            --primary-green: #00ff7f;
-            --primary-yellow: #ffd700;
-            --primary-orange: #ff6347;
-            --secondary-pink: #ffb6c1;
-            --secondary-purple: #dda0dd;
-            --secondary-blue: #87ceeb;
-            --secondary-green: #98fb98;
-            --dark-text: #2c3e50;
-            --light-text: #ffffff;
-            --neon-pink: #ff00ff;
-            --neon-cyan: #00ffff;
-            --neon-yellow: #ffff00;
-            --neon-green: #00ff00;
-            --neon-purple: #8a2be2;
+            /* EGA 16-color palette */
+            --ega-black: #000000;
+            --ega-blue: #0000AA;
+            --ega-green: #00AA00;
+            --ega-cyan: #00AAAA;
+            --ega-red: #AA0000;
+            --ega-brown: #AA5500;
+            --ega-light-gray: #AAAAAA;
+            --ega-dark-gray: #555555;
+            --ega-bright-blue: #5555FF;
+            --ega-bright-green: #55FF55;
+            --ega-bright-cyan: #55FFFF;
+            --ega-bright-red: #FF5555;
+            --ega-magenta: #FF55FF;
+            --ega-yellow: #FFFF55;
+            --ega-white: #FFFFFF;
+
+            /* Remap chaos variables to EGA equivalents */
+            --burn-orange: #AA5500;
+            --acid-lime: #55FF55;
+            --rust-brown: #0000AA;
+            --slate-grey: #555555;
+            --toxic-yellow: #FFFF55;
+            --blood-red: #AA0000;
+            --moss-green: #00AA00;
+            --bruise-purple: #5555FF;
+            --tar-black: #000000;
+            --bone-white: #FFFFFF;
+            --bile-green: #00AA00;
+            --clay-red: #AA0000;
         }
 
         * {
@@ -48,200 +55,153 @@
         }
 
         body {
-            font-family: 'Orbitron', 'Poppins', sans-serif;
-            line-height: 1.6;
-            color: var(--dark-text);
-            overflow-x: hidden;
-            padding-top: 80px;
-        }
-
-        /* Animated Background */
-        .animated-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(45deg, 
-                var(--primary-pink), 
-                var(--primary-purple), 
-                var(--primary-blue), 
-                var(--primary-green));
-            background-size: 400% 400%;
-            animation: gradientShift 8s ease infinite;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Floating shapes animation */
-        .floating-shapes {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .shape {
-            position: absolute;
-            opacity: 0.15;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .shape:nth-child(1) {
-            top: 20%;
-            left: 10%;
-            animation-delay: 0s;
-            color: var(--primary-yellow);
-        }
-
-        .shape:nth-child(2) {
-            top: 60%;
-            left: 80%;
-            animation-delay: 2s;
-            color: var(--primary-pink);
-        }
-
-        .shape:nth-child(3) {
-            top: 80%;
-            left: 20%;
-            animation-delay: 4s;
-            color: var(--primary-green);
-        }
-
-        .shape:nth-child(4) {
-            top: 40%;
-            left: 70%;
-            animation-delay: 1s;
-            color: var(--primary-blue);
-        }
-
-        .shape:nth-child(5) {
-            top: 30%;
-            left: 50%;
-            animation-delay: 3s;
-            color: var(--primary-orange);
-        }
-
-        .shape:nth-child(6) {
-            top: 70%;
-            left: 60%;
-            animation-delay: 5s;
-            color: var(--primary-purple);
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
-
-        /* Header Styles */
-        .navbar {
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--neon-cyan);
-            transition: all 0.3s ease;
-        }
-
-        .navbar-brand {
             font-family: 'Press Start 2P', cursive;
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--neon-pink);
-            text-shadow: 0 0 10px var(--neon-pink);
-            text-decoration: none;
+            line-height: 1.8;
+            color: var(--ega-white);
+            background: var(--ega-black);
+            font-size: 0.5rem;
+            padding-bottom: 60px;
+            overflow-x: hidden;
+            /* Pixel cursor */
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M7 0h2v6h6v2h-6v6h-2v-6h-2v6h0v-8h-4v-2h4v-4h2z' fill='%2355FFFF'/%3E%3C/svg%3E") 8 8, crosshair;
         }
 
-        .navbar-brand:hover {
-            color: var(--neon-cyan);
-            text-shadow: 0 0 15px var(--neon-cyan);
+        a, button {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M2 2h4v2h2v2h2v-2h2v-2h2v8h-2v2h-2v2h-2v-2h-2v-2h-2v2h-2z' fill='%23FFFF55'/%3E%3C/svg%3E") 8 8, pointer;
         }
 
-        .nav-link {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 600;
-            color: #fff !important;
-            position: relative;
-            transition: all 0.3s ease;
-            margin: 0 0.5rem;
+        @media (pointer: coarse) {
+            body, a, button {
+                cursor: auto;
+            }
         }
 
-        /* Page Header */
-        .page-header {
-            text-align: center;
-            padding: 4rem 0 2rem;
-            margin-top: 2rem;
+        /* Adventure Verb Bar Navigation — high specificity to override chaos.css */
+        .navbar.adventure-verb-bar,
+        nav.navbar.adventure-verb-bar {
+            position: fixed !important;
+            bottom: 0 !important;
+            top: auto !important;
+            left: 0 !important;
+            right: 0 !important;
+            background: var(--ega-dark-gray) !important;
+            backdrop-filter: none !important;
+            border-top: 4px solid var(--ega-light-gray) !important;
+            border-bottom: none !important;
+            transition: none !important;
+            transform: none !important;
+            z-index: 1000 !important;
+            padding: 4px 0 !important;
+            border-radius: 0 !important;
         }
 
-        .page-header h1 {
-            font-family: 'Audiowide', cursive;
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--light-text);
-            text-shadow: 0 0 20px var(--neon-pink);
-            margin-bottom: 1rem;
+        .navbar.adventure-verb-bar:hover,
+        nav.navbar.adventure-verb-bar:hover {
+            transform: none !important;
+            border-top-width: 4px !important;
         }
 
-        .page-header .subtitle {
-            font-size: 1.3rem;
-            color: var(--light-text);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        .navbar.adventure-verb-bar .navbar-brand {
+            font-family: 'Press Start 2P', cursive !important;
+            font-weight: 400 !important;
+            font-size: 0.7rem !important;
+            color: var(--ega-yellow) !important;
+            text-shadow: none !important;
+            text-decoration: none !important;
+            letter-spacing: 0 !important;
+            text-transform: uppercase !important;
+            background: none !important;
+            padding: 0.25rem 0.5rem !important;
         }
 
-        /* Google Scholar Link */
-        .google-scholar-link {
-            text-align: center;
-            margin: 2rem 0;
+        .navbar.adventure-verb-bar .navbar-brand:hover {
+            color: var(--ega-bright-green) !important;
+            background: none !important;
+            text-shadow: none !important;
+            transform: none !important;
+            padding: 0.25rem 0.5rem !important;
+        }
+
+        .navbar.adventure-verb-bar .nav-link {
+            font-family: 'Press Start 2P', cursive !important;
+            font-weight: 400 !important;
+            color: var(--ega-white) !important;
+            position: relative !important;
+            transition: background 0.1s, color 0.1s !important;
+            margin: 2px !important;
+            font-size: 0.55rem !important;
+            border: 2px solid var(--ega-light-gray) !important;
+            padding: 6px 10px !important;
+            text-transform: uppercase !important;
+            text-shadow: none !important;
+            background: none !important;
+            transform: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+        }
+
+        .navbar.adventure-verb-bar .nav-link:hover {
+            background: var(--ega-bright-blue) !important;
+            color: var(--ega-yellow) !important;
+            transform: none !important;
+            box-shadow: none !important;
+            text-shadow: none !important;
+            border: 2px solid var(--ega-light-gray) !important;
+        }
+
+        .navbar.adventure-verb-bar .nav-link.active {
+            background: var(--ega-bright-blue) !important;
+            color: var(--ega-yellow) !important;
+            transform: none !important;
+            text-shadow: none !important;
+            border: 2px solid var(--ega-light-gray) !important;
+        }
+
+        .navbar.adventure-verb-bar .navbar-toggler {
+            border-color: var(--ega-light-gray) !important;
+        }
+
+        .navbar.adventure-verb-bar .navbar-toggler-icon {
+            filter: invert(1) !important;
+        }
+
+        /* Page Content Area */
+        .page-content {
+            padding: 2rem 0;
         }
 
         /* Section Headers */
         .section-header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 1.5rem;
         }
 
         .section-header h2 {
             font-family: 'Press Start 2P', cursive;
-            font-size: 2rem;
-            color: var(--light-text);
-            text-shadow: 0 0 15px var(--neon-cyan);
-            margin-bottom: 1rem;
-        }
-
-        .section-header p {
-            font-size: 1.1rem;
-            color: var(--light-text);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+            font-size: 0.7rem;
+            color: var(--ega-yellow);
+            text-shadow: none;
+            margin-bottom: 0.5rem;
         }
 
         /* Research Cards */
         .research-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2rem;
+            background: var(--ega-blue);
+            border: 4px solid var(--ega-white);
+            border-radius: 0;
+            padding: 1.5rem;
             margin: 1rem 0;
-            border: 2px solid transparent;
-            border-image: linear-gradient(45deg, var(--primary-pink), var(--primary-purple)) 1;
-            transition: all 0.3s ease;
         }
 
         .research-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transform: none;
+            box-shadow: none;
         }
 
         .research-item {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid rgba(153, 102, 204, 0.3);
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--ega-light-gray);
         }
 
         .research-item:last-child {
@@ -251,242 +211,364 @@
         }
 
         .research-item h5 {
-            line-height: 1.6;
-            color: var(--dark-text);
+            line-height: 2;
+            color: var(--ega-white);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.5rem;
         }
 
         .research-item a {
-            color: var(--primary-purple);
+            color: var(--ega-bright-cyan);
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: color 0.1s;
         }
 
         .research-item a:hover {
-            color: var(--primary-pink);
-            text-shadow: 0 0 5px var(--primary-pink);
+            color: var(--ega-yellow);
+            text-shadow: none;
         }
 
-        /* Buttons */
-        .btn-rainbow {
-            background: linear-gradient(45deg, var(--primary-pink), var(--primary-purple), var(--primary-blue));
-            border: none;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            margin: 5px;
+        /* Inventory Panel - Contact Cluster */
+        .chaos-contact-cluster {
+            position: fixed !important;
+            top: auto !important;
+            bottom: 52px !important;
+            left: 8px !important;
+            right: auto !important;
+            background: var(--ega-dark-gray) !important;
+            border: 3px solid var(--ega-light-gray) !important;
+            padding: 6px !important;
+            display: flex !important;
+            flex-direction: row !important;
+            gap: 4px !important;
+            z-index: 100 !important;
+            animation: none !important;
+            transform: none !important;
+            clip-path: none !important;
+            border-radius: 0 !important;
         }
 
-        .btn-rainbow:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            color: white;
-            text-decoration: none;
+        .chaos-contact-item {
+            background: var(--ega-blue) !important;
+            border: 2px solid var(--ega-cyan) !important;
+            padding: 4px 8px !important;
+            animation: none !important;
+            transform: none !important;
+            clip-path: none !important;
+            border-radius: 0 !important;
+            float: none !important;
         }
 
-        /* Footer */
-        .footer {
-            background: linear-gradient(45deg, var(--primary-purple), var(--primary-pink));
-            color: white;
-            padding: 2rem 0;
-            text-align: center;
-            margin-top: 4rem;
+        .chaos-contact-item:hover {
+            background: var(--ega-bright-blue) !important;
+            transform: none !important;
         }
 
-        .social-links a {
-            color: white;
-            font-size: 1.5rem;
-            margin: 0 10px;
-            transition: all 0.3s ease;
+        .chaos-contact-link {
+            font-family: 'Press Start 2P', cursive !important;
+            font-size: 0.45rem !important;
+            color: var(--ega-white) !important;
+            text-decoration: none !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 4px !important;
         }
 
-        .social-links a:hover {
-            transform: translateY(-3px);
-            color: var(--primary-yellow);
+        .chaos-contact-link:hover {
+            color: var(--ega-yellow) !important;
+        }
+
+        .chaos-contact-icon {
+            color: var(--ega-bright-cyan) !important;
+            font-size: 0.5rem !important;
+        }
+
+        .chaos-contact-text {
+            color: var(--ega-white) !important;
+        }
+
+        /* Motion Toggle */
+        .chaos-motion-toggle {
+            position: fixed !important;
+            top: auto !important;
+            bottom: 52px !important;
+            right: 8px !important;
+            left: auto !important;
+            background: var(--ega-dark-gray) !important;
+            border: 3px solid var(--ega-light-gray) !important;
+            padding: 6px 12px !important;
+            z-index: 100 !important;
+            animation: none !important;
+            transform: none !important;
+            clip-path: none !important;
+            border-radius: 0 !important;
+            cursor: pointer;
+        }
+
+        .chaos-motion-toggle:hover {
+            background: var(--ega-bright-blue) !important;
+            transform: none !important;
+        }
+
+        .chaos-motion-toggle-inner {
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+
+        .chaos-motion-toggle-icon {
+            font-size: 0.6rem !important;
+            color: var(--ega-bright-green) !important;
+        }
+
+        .chaos-motion-toggle-text {
+            font-family: 'Press Start 2P', cursive !important;
+            font-size: 0.45rem !important;
+            color: var(--ega-white) !important;
         }
 
         /* Responsive Design */
-        @media (max-width: 768px) {
-            .page-header h1 {
-                font-size: 2rem;
+
+        /* Tablet */
+        @media (min-width: 768px) and (max-width: 1199px) {
+            .chaos-contact-text {
+                display: none !important;
             }
-            
+        }
+
+        /* Mobile */
+        @media (max-width: 767px) {
             .section-header h2 {
-                font-size: 1.5rem;
+                font-size: 0.6rem;
             }
-            
             .research-card {
-                padding: 1.5rem;
+                padding: 1rem;
+            }
+            .research-item h5 {
+                font-size: 0.45rem;
+            }
+            .nav-link {
+                font-size: 0.45rem !important;
+                padding: 4px 8px !important;
+            }
+            .navbar-brand {
+                font-size: 0.5rem;
+            }
+            .chaos-contact-cluster {
+                bottom: 44px !important;
+            }
+            .chaos-motion-toggle {
+                bottom: 44px !important;
+            }
+            .chaos-contact-text {
+                display: none !important;
+            }
+            .chaos-contact-link {
+                font-size: 0.4rem !important;
+            }
+        }
+
+        /* Minimum font sizes */
+        @media (max-width: 400px) {
+            .section-header h2 {
+                font-size: 0.5rem;
+            }
+            .research-item h5 {
+                font-size: 0.45rem;
+            }
+        }
+
+        /* Touch targets */
+        @media (pointer: coarse) {
+            .nav-link {
+                min-height: 44px;
+                display: inline-flex !important;
+                align-items: center !important;
+            }
+            .chaos-contact-item {
+                min-height: 44px !important;
+                min-width: 44px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+            .chaos-motion-toggle {
+                min-height: 44px !important;
+                min-width: 44px !important;
+            }
+            .research-item a {
+                display: inline-block;
+                min-height: 44px;
+                line-height: 44px;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="animated-bg"></div>
-    
-    <!-- Floating Shapes -->
-    <div class="floating-shapes">
-        <i class="fas fa-chalkboard-teacher shape" style="font-size: 2rem;"></i>
-        <i class="fas fa-graduation-cap shape" style="font-size: 1.5rem;"></i>
-        <i class="fas fa-book-open shape" style="font-size: 2.5rem;"></i>
-        <i class="fas fa-laptop-code shape" style="font-size: 2rem;"></i>
-        <i class="fas fa-lightbulb shape" style="font-size: 2rem;"></i>
-        <i class="fas fa-users shape" style="font-size: 1.8rem;"></i>
+
+    <!-- Page Content -->
+    <div class="page-content">
+        <!-- Selected Courses Section -->
+        <section class="py-4">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Selected Courses</h2>
+                </div>
+
+                <div class="research-card">
+                    <div class="research-item">
+                        <h5><a href="https://anastasiasalter.net/CriticalMaking2026/" target="_blank">Critical Making in Digital Humanities (2026)</a> - Hands-on making as a method for digital humanities research and practice</h5>
+                    </div>
+
+                    <div class="research-item">
+                        <h5><a href="https://anastasiasalter.net/HumanitiesAI/" target="_blank">Humanities in the Age of AI (2025)</a> - Exploring the intersection of artificial intelligence and humanistic inquiry</h5>
+                    </div>
+
+                    <div class="research-item">
+                        <h5><a href="https://anastasiasalter.net/DissertationDesign/" target="_blank">Dissertation Design (2025)</a> - Strategic approaches to crafting and completing doctoral research</h5>
+                    </div>
+
+                    <div class="research-item">
+                        <h5><a href="https://anastasiasalter.net/Creative-Coding/" target="_blank">Creative Coding (2025)</a> - Programming as a medium for artistic expression and digital storytelling</h5>
+                    </div>
+
+                    <div class="research-item">
+                        <h5><a href="https://anastasiasalter.net/Interactive-Digital-Narratives/" target="_blank">Interactive Digital Narratives (2025)</a> - Designing and analyzing interactive storytelling experiences</h5>
+                    </div>
+
+                    <div class="research-item">
+                        <h5><a href="https://anastasiasalter.net/ComicsAndImageText/" target="_blank">Comics and ImageText (2024)</a> - Visual narrative forms and multimodal composition</h5>
+                    </div>
+
+                    <div class="research-item">
+                        <h5><a href="https://anastasiasalter.net/Critical-Making-Syllabus/" target="_blank">Critical Making for Humanist Scholarship (2024)</a> - Hands-on creation as a form of scholarly inquiry</h5>
+                    </div>
+
+                    <div class="research-item">
+                        <h5><a href="https://anastasiasalter.net/Playable-Texts/syllabus" target="_blank">Playable Texts & Technology (2023)</a> - Games, interactive fiction, and playful media</h5>
+                    </div>
+
+                    <div class="research-item">
+                        <h5><a href="https://anastasiasalter.net/IntroTandT/syllabus" target="_blank">Intro to Texts & Technology (2023)</a> - Foundational course in digital humanities methods and theory</h5>
+                    </div>
+
+                    <div class="research-item">
+                        <h5><a href="https://anastasiasalter.net/ScienceFictionSyllabus/syllabus" target="_blank">Science Fiction (2023)</a> - Speculative fiction and technological imagination</h5>
+                    </div>
+
+                    <div class="research-item">
+                        <h5><a href="https://anastasiasalter.net/Electronic-Literature/syllabus" target="_blank">Electronic Literature (2022)</a> - Born-digital literary forms and experimental writing</h5>
+                    </div>
+
+                    <div class="research-item">
+                        <h5><a href="https://anastasiasalter.net/Digital-Archives/syllabus" target="_blank">Digital Archives (2022)</a> - Preservation, access, and curation in the digital age</h5>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data-Sitters Club Section -->
+        <section class="py-4">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Data-Sitters Club</h2>
+                </div>
+
+                <div class="research-card">
+                    <div class="research-item">
+                        <h5>Salter, Anastasia, John Murray, and Lee Skallerup Bessette. "<a href="https://datasittersclub.github.io/site/dsc23.html" target="_blank">DSC #23: Dawn of the Coasting AI</a>." The Data-Sitters Club. August 25, 2025.</h5>
+                    </div>
+
+                    <div class="research-item">
+                        <h5>Salter, Anastasia and Quinn Dombrowski. "<a href="https://datasittersclub.github.io/site/dsc16.html" target="_blank">DSC #16: Anastasia's Secret Language</a>." The Data-Sitters Club. September 19, 2022.</h5>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Workshops Section -->
+        <section class="py-4">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Recent Workshops</h2>
+                </div>
+
+                <div class="research-card">
+                    <div class="research-item">
+                        <h5><a href="https://anastasiasalter.net/DistantCoding/" target="_blank">Distant Coding (MLA 2026)</a> - Computational approaches to code analysis and distant reading methodologies</h5>
+                    </div>
+
+                    <div class="research-item">
+                        <h5><a href="https://anastasiasalter.net/BotsBuildingBots/" target="_blank">Bots Building Bots (ELO 2025)</a> - Exploring AI-generated content and algorithmic creativity in electronic literature</h5>
+                    </div>
+
+                    <div class="research-item">
+                        <h5><a href="https://anastasiasalter.net/DHProgramming/" target="_blank">Digital Humanities Programming Pedagogy in the Age of AI (DHSI 2025, with John Murray)</a> - Adapting coding education for the era of artificial intelligence</h5>
+                    </div>
+
+                    <div class="research-item">
+                        <h5><a href="https://anastasiasalter.net/critailiteracy/" target="_blank">Teaching Critical AI Literacy (University of Wisconsin Milwaukee 2025)</a> - Developing critical thinking skills for AI-mediated environments</h5>
+                    </div>
+
+                    <div class="research-item">
+                        <h5><a href="https://anastasiasalter.net/DH_GenAI/" target="_blank">Generative AI and Digital Pedagogy (Carleton College 2025)</a> - Integrating generative AI tools into humanities education</h5>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg fixed-top">
+    <!-- Navigation - Adventure Verb Bar (Bottom) -->
+    <nav class="navbar navbar-expand-lg adventure-verb-bar">
         <div class="container">
-            <a class="navbar-brand" href="index.html">🎮 ANASTASIA SALTER</a>
-            
+            <a class="navbar-brand" href="index.html">ANASTASIA SALTER</a>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
+
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="about.html">👩‍💻 About</a>
+                        <a class="nav-link" href="about.html">Look: About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="books.html">📚 Books</a>
+                        <a class="nav-link" href="books.html">Read: Books</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="research.html">🎮 Research</a>
+                        <a class="nav-link" href="research.html">Study: Research</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="elit.html">💻 E-lit</a>
+                        <a class="nav-link" href="elit.html">Play: E-lit</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="teaching.html">🎓 Teaching</a>
+                        <a class="nav-link active" href="teaching.html">Talk: Teaching</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="CV.pdf" target="_blank">📄 CV</a>
+                        <a class="nav-link" href="CV.pdf" target="_blank">Take: CV</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Selected Courses Section -->
-    <section class="py-5">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2>📚 Selected Courses</h2>
-             
-            </div>
-            
-            <div class="research-card" data-aos="fade-up">
-                <div class="research-item">
-                    <h5><a href="https://anastasiasalter.net/HumanitiesAI/" target="_blank">Humanities in the Age of AI (2025)</a> - Exploring the intersection of artificial intelligence and humanistic inquiry</h5>
-                </div>
-
-                <div class="research-item">
-                    <h5><a href="https://anastasiasalter.net/DissertationDesign/" target="_blank">Dissertation Design (2025)</a> - Strategic approaches to crafting and completing doctoral research</h5>
-                </div>
-
-                <div class="research-item">
-                    <h5><a href="https://anastasiasalter.net/Creative-Coding/" target="_blank">Creative Coding (2025)</a> - Programming as a medium for artistic expression and digital storytelling</h5>
-                </div>
-
-                <div class="research-item">
-                    <h5><a href="https://anastasiasalter.net/Interactive-Digital-Narratives/" target="_blank">Interactive Digital Narratives (2025)</a> - Designing and analyzing interactive storytelling experiences</h5>
-                </div>
-
-                <div class="research-item">
-                    <h5><a href="https://anastasiasalter.net/ComicsAndImageText/" target="_blank">Comics and ImageText (2024)</a> - Visual narrative forms and multimodal composition</h5>
-                </div>
-
-                <div class="research-item">
-                    <h5><a href="https://anastasiasalter.net/Critical-Making-Syllabus/" target="_blank">Critical Making for Humanist Scholarship (2024)</a> - Hands-on creation as a form of scholarly inquiry</h5>
-                </div>
-
-                <div class="research-item">
-                    <h5><a href="https://anastasiasalter.net/Playable-Texts/syllabus" target="_blank">Playable Texts & Technology (2023)</a> - Games, interactive fiction, and playful media</h5>
-                </div>
-
-                <div class="research-item">
-                    <h5><a href="https://anastasiasalter.net/IntroTandT/syllabus" target="_blank">Intro to Texts & Technology (2023)</a> - Foundational course in digital humanities methods and theory</h5>
-                </div>
-
-                <div class="research-item">
-                    <h5><a href="https://anastasiasalter.net/ScienceFictionSyllabus/syllabus" target="_blank">Science Fiction (2023)</a> - Speculative fiction and technological imagination</h5>
-                </div>
-
-                <div class="research-item">
-                    <h5><a href="https://anastasiasalter.net/Electronic-Literature/syllabus" target="_blank">Electronic Literature (2022)</a> - Born-digital literary forms and experimental writing</h5>
-                </div>
-
-                <div class="research-item">
-                    <h5><a href="https://anastasiasalter.net/Digital-Archives/syllabus" target="_blank">Digital Archives (2022)</a> - Preservation, access, and curation in the digital age</h5>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Data-Sitters Club Section -->
-    <section class="py-5">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2>💾 Data-Sitters Club</h2>
-            </div>
-
-            <div class="research-card" data-aos="fade-up">
-                <div class="research-item">
-                    <h5>Salter, Anastasia, John Murray, and Lee Skallerup Bessette. “<a href="https://datasittersclub.github.io/site/dsc23.html" target="_blank">DSC #23: Dawn of the Coasting AI</a>.” The Data-Sitters Club. August 25, 2025.</h5>
-                </div>
-
-                <div class="research-item">
-                    <h5>Salter, Anastasia and Quinn Dombrowski. “<a href="https://datasittersclub.github.io/site/dsc16.html" target="_blank">DSC #16: Anastasia’s Secret Language</a>.” The Data-Sitters Club. September 19, 2022.</h5>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Recent Workshops Section -->
-    <section class="py-5">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2>🛠️ Recent Workshops</h2>
-            </div>
-            
-            <div class="research-card" data-aos="fade-up" data-aos-delay="200">
-                <div class="research-item">
-                    <h5><a href="https://anastasiasalter.net/DistantCoding/" target="_blank">Distant Coding (MLA 2026)</a> - Computational approaches to code analysis and distant reading methodologies</h5>
-                </div>
-
-                <div class="research-item">
-                    <h5><a href="https://anastasiasalter.net/BotsBuildingBots/" target="_blank">Bots Building Bots (ELO 2025)</a> - Exploring AI-generated content and algorithmic creativity in electronic literature</h5>
-                </div>
-
-                <div class="research-item">
-                    <h5><a href="https://anastasiasalter.net/DHProgramming/" target="_blank">Digital Humanities Programming Pedagogy in the Age of AI (DHSI 2025, with John Murray)</a> - Adapting coding education for the era of artificial intelligence</h5>
-                </div>
-
-                <div class="research-item">
-                    <h5><a href="https://anastasiasalter.net/critailiteracy/" target="_blank">Teaching Critical AI Literacy (University of Wisconsin Milwaukee 2025)</a> - Developing critical thinking skills for AI-mediated environments</h5>
-                </div>
-
-                <div class="research-item">
-                    <h5><a href="https://anastasiasalter.net/DH_GenAI/" target="_blank">Generative AI and Digital Pedagogy (Carleton College 2025)</a> - Integrating generative AI tools into humanities education</h5>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Motion Toggle Button - Top Left -->
+    <!-- Motion Toggle Button - Bottom Right -->
     <div class="chaos-motion-toggle" id="motionToggle">
         <div class="chaos-motion-toggle-inner">
-            <span class="chaos-motion-toggle-icon">▶</span>
-            <span class="chaos-motion-toggle-text">MOTION ON</span>
+            <span class="chaos-motion-toggle-icon">⏸</span>
+            <span class="chaos-motion-toggle-text">PAUSE</span>
         </div>
     </div>
 
-    <!-- Floating Contact Cluster - Chaos Style -->
+    <!-- Inventory Panel - Contact Cluster - Bottom Left -->
     <div class="chaos-contact-cluster">
         <div class="chaos-contact-item contact-email">
             <a href="mailto:anastasia@ucf.edu" class="chaos-contact-link">
@@ -516,80 +598,45 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- AOS Animation Library -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-    <!-- Chaos Effects -->
-    <script src="js/chaos-effects.js"></script>
 
     <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 1000,
-            once: true
-        });
+        // Motion Toggle
+        (function() {
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const stored = localStorage.getItem('motion-preference');
+            let motionDisabled = stored !== null ? stored === 'disabled' : prefersReducedMotion;
 
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+            function applyMotion() {
+                if (motionDisabled) {
+                    document.body.classList.add('motion-disabled');
+                } else {
+                    document.body.classList.remove('motion-disabled');
                 }
-            });
-        });
-
-        // Add sparkle cursor effect
-        document.addEventListener('mousemove', function(e) {
-            if (Math.random() < 0.1) {
-                createSparkle(e.clientX, e.clientY);
-            }
-        });
-
-        function createSparkle(x, y) {
-            const sparkle = document.createElement('div');
-            sparkle.innerHTML = '✨';
-            sparkle.style.position = 'fixed';
-            sparkle.style.left = x + 'px';
-            sparkle.style.top = y + 'px';
-            sparkle.style.pointerEvents = 'none';
-            sparkle.style.fontSize = '12px';
-            sparkle.style.zIndex = '9999';
-            sparkle.style.animation = 'sparkleAnimation 1s ease-out forwards';
-            
-            document.body.appendChild(sparkle);
-            
-            setTimeout(() => {
-                if (sparkle.parentNode) {
-                    sparkle.parentNode.removeChild(sparkle);
-                }
-            }, 1000);
-        }
-
-        // Add CSS for sparkle animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes sparkleAnimation {
-                0% { 
-                    opacity: 1; 
-                    transform: scale(0) rotate(0deg); 
-                }
-                50% { 
-                    opacity: 1; 
-                    transform: scale(1) rotate(180deg); 
-                }
-                100% { 
-                    opacity: 0; 
-                    transform: scale(0) rotate(360deg); 
+                const toggle = document.getElementById('motionToggle');
+                if (toggle) {
+                    const icon = toggle.querySelector('.chaos-motion-toggle-icon');
+                    const text = toggle.querySelector('.chaos-motion-toggle-text');
+                    if (motionDisabled) {
+                        if (icon) icon.textContent = '\u25B6';
+                        if (text) text.textContent = 'PLAY';
+                    } else {
+                        if (icon) icon.textContent = '\u23F8';
+                        if (text) text.textContent = 'PAUSE';
+                    }
                 }
             }
-        `;
-        document.head.appendChild(style);
+
+            applyMotion();
+
+            const toggle = document.getElementById('motionToggle');
+            if (toggle) {
+                toggle.addEventListener('click', function() {
+                    motionDisabled = !motionDisabled;
+                    localStorage.setItem('motion-preference', motionDisabled ? 'disabled' : 'enabled');
+                    applyMotion();
+                });
+            }
+        })();
     </script>
 </body>
 </html>

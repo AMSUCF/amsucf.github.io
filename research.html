@@ -4,41 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Research - Anastasia Salter</title>
-    
+
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Audiowide:wght@400&family=Comic+Neue:wght@300;400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- AOS Animation Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-    <!-- Chaos Mode CSS Override -->
-    <link rel="stylesheet" href="css/chaos.css">
 
     <style>
         :root {
-            --primary-pink: #ff69b4;
-            --primary-purple: #9966cc;
-            --primary-blue: #00bfff;
-            --primary-green: #00ff7f;
-            --primary-yellow: #ffd700;
-            --primary-orange: #ff6347;
-            --secondary-pink: #ffb6c1;
-            --secondary-purple: #dda0dd;
-            --secondary-blue: #87ceeb;
-            --secondary-green: #98fb98;
-            --dark-text: #2c3e50;
-            --light-text: #ffffff;
-            --neon-pink: #ff00ff;
-            --neon-cyan: #00ffff;
-            --neon-yellow: #ffff00;
-            --neon-green: #00ff00;
-            --neon-purple: #8a2be2;
+            /* EGA 16-color palette */
+            --ega-black: #000000;
+            --ega-blue: #0000AA;
+            --ega-green: #00AA00;
+            --ega-cyan: #00AAAA;
+            --ega-red: #AA0000;
+            --ega-brown: #AA5500;
+            --ega-light-gray: #AAAAAA;
+            --ega-dark-gray: #555555;
+            --ega-bright-blue: #5555FF;
+            --ega-bright-green: #55FF55;
+            --ega-bright-cyan: #55FFFF;
+            --ega-bright-red: #FF5555;
+            --ega-magenta: #FF55FF;
+            --ega-yellow: #FFFF55;
+            --ega-white: #FFFFFF;
         }
 
         * {
@@ -48,204 +41,151 @@
         }
 
         body {
-            font-family: 'Orbitron', 'Poppins', sans-serif;
-            line-height: 1.6;
-            color: var(--dark-text);
-            overflow-x: hidden;
-            padding-top: 80px;
-        }
-
-        /* Animated Background */
-        .animated-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(45deg, 
-                var(--primary-pink), 
-                var(--primary-purple), 
-                var(--primary-blue), 
-                var(--primary-green));
-            background-size: 400% 400%;
-            animation: gradientShift 8s ease infinite;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Floating shapes animation */
-        .floating-shapes {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .shape {
-            position: absolute;
-            opacity: 0.15;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .shape:nth-child(1) {
-            top: 20%;
-            left: 10%;
-            animation-delay: 0s;
-            color: var(--primary-yellow);
-        }
-
-        .shape:nth-child(2) {
-            top: 60%;
-            left: 80%;
-            animation-delay: 2s;
-            color: var(--primary-pink);
-        }
-
-        .shape:nth-child(3) {
-            top: 80%;
-            left: 20%;
-            animation-delay: 4s;
-            color: var(--primary-green);
-        }
-
-        .shape:nth-child(4) {
-            top: 40%;
-            left: 70%;
-            animation-delay: 1s;
-            color: var(--primary-blue);
-        }
-
-        .shape:nth-child(5) {
-            top: 30%;
-            left: 50%;
-            animation-delay: 3s;
-            color: var(--primary-orange);
-        }
-
-        .shape:nth-child(6) {
-            top: 70%;
-            left: 60%;
-            animation-delay: 5s;
-            color: var(--primary-purple);
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
-
-        /* Header Styles */
-        .navbar {
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--neon-cyan);
-            transition: all 0.3s ease;
-        }
-
-        .navbar-brand {
             font-family: 'Press Start 2P', cursive;
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--neon-pink);
-            text-shadow: 0 0 10px var(--neon-pink);
-            text-decoration: none;
+            line-height: 1.6;
+            color: var(--ega-white);
+            background: var(--ega-black);
+            overflow-x: hidden;
+            overflow-y: auto;
+            padding-bottom: 60px;
+            /* Pixel cursor - crosshair style */
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M7 0h2v6h6v2h-6v6h-2v-6h-2v6h0v-8h-4v-2h4v-4h2z' fill='%2355FFFF'/%3E%3C/svg%3E") 8 8, crosshair;
         }
 
-        .navbar-brand:hover {
-            color: var(--neon-cyan);
-            text-shadow: 0 0 15px var(--neon-cyan);
+        a, button {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M2 2h4v2h2v2h2v-2h2v-2h2v8h-2v2h-2v2h-2v-2h-2v-2h-2v2h-2z' fill='%23FFFF55'/%3E%3C/svg%3E") 8 8, pointer;
         }
 
-        .nav-link {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 600;
-            color: #fff !important;
-            position: relative;
-            transition: all 0.3s ease;
-            margin: 0 0.5rem;
+        /* Disable custom cursor on touch devices */
+        @media (pointer: coarse) {
+            body, a, button {
+                cursor: auto;
+            }
+        }
+
+        /* Adventure Verb Bar Navigation — high specificity to override chaos.css */
+        .navbar.adventure-verb-bar,
+        nav.navbar.adventure-verb-bar {
+            position: fixed !important;
+            bottom: 0 !important;
+            top: auto !important;
+            left: 0 !important;
+            right: 0 !important;
+            background: var(--ega-dark-gray) !important;
+            backdrop-filter: none !important;
+            border-top: 4px solid var(--ega-light-gray) !important;
+            border-bottom: none !important;
+            transition: none !important;
+            transform: none !important;
+            z-index: 1000 !important;
+            padding: 4px 0 !important;
+            border-radius: 0 !important;
+        }
+
+        .navbar.adventure-verb-bar:hover,
+        nav.navbar.adventure-verb-bar:hover {
+            transform: none !important;
+            border-top-width: 4px !important;
+        }
+
+        .navbar.adventure-verb-bar .navbar-brand {
+            font-family: 'Press Start 2P', cursive !important;
+            font-weight: 400 !important;
+            font-size: 0.7rem !important;
+            color: var(--ega-yellow) !important;
+            text-shadow: none !important;
+            text-decoration: none !important;
+            letter-spacing: 0 !important;
+            text-transform: uppercase !important;
+            background: none !important;
+            padding: 0.25rem 0.5rem !important;
+        }
+
+        .navbar.adventure-verb-bar .navbar-brand:hover {
+            color: var(--ega-bright-green) !important;
+            background: none !important;
+            text-shadow: none !important;
+            transform: none !important;
+            padding: 0.25rem 0.5rem !important;
+        }
+
+        .navbar.adventure-verb-bar .nav-link {
+            font-family: 'Press Start 2P', cursive !important;
+            font-weight: 400 !important;
+            color: var(--ega-white) !important;
+            position: relative !important;
+            transition: background 0.1s, color 0.1s !important;
+            margin: 2px !important;
+            font-size: 0.55rem !important;
+            border: 2px solid var(--ega-light-gray) !important;
+            padding: 6px 10px !important;
+            text-transform: uppercase !important;
+            text-shadow: none !important;
+            background: none !important;
+            transform: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+        }
+
+        .navbar.adventure-verb-bar .nav-link:hover {
+            background: var(--ega-bright-blue) !important;
+            color: var(--ega-yellow) !important;
+            transform: none !important;
+            box-shadow: none !important;
+            text-shadow: none !important;
+            border: 2px solid var(--ega-light-gray) !important;
+        }
+
+        .navbar.adventure-verb-bar .nav-link.active {
+            background: var(--ega-bright-blue) !important;
+            color: var(--ega-yellow) !important;
+            transform: none !important;
+            text-shadow: none !important;
+            border: 2px solid var(--ega-light-gray) !important;
+        }
+
+        .navbar.adventure-verb-bar .navbar-toggler {
+            border-color: var(--ega-light-gray) !important;
+        }
+
+        .navbar.adventure-verb-bar .navbar-toggler-icon {
+            filter: invert(1) !important;
         }
 
         /* Page Header */
         .page-header {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 3rem;
+            background: var(--ega-blue);
+            border: 4px solid var(--ega-white);
+            border-radius: 0;
+            padding: 2rem;
             margin: 2rem 0;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            border: 2px solid rgba(255, 255, 255, 0.2);
             text-align: center;
         }
 
         .page-header h1 {
-            font-family: 'Audiowide', 'Comic Neue', cursive;
-            font-size: 3rem;
-            font-weight: 700;
-            color: white;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--ega-yellow);
             margin-bottom: 1rem;
-            text-shadow: 0 0 20px var(--neon-pink);
-            animation: glow 2s ease-in-out infinite alternate;
+            text-shadow: 2px 2px 0 var(--ega-black);
         }
 
-        @keyframes glow {
-            from { filter: drop-shadow(0 0 20px var(--neon-pink)); }
-            to { filter: drop-shadow(0 0 30px var(--neon-cyan)); }
-        }
-
-        .page-header .subtitle {
-            font-size: 1.3rem;
-            color: var(--light-text);
-            margin-bottom: 1.5rem;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-        }
-
-        .page-header .google-scholar-link {
-            margin-top: 1.5rem;
-        }
-
-        /* Buttons */
-        .btn-rainbow {
-            background: linear-gradient(45deg, var(--primary-pink), var(--primary-purple), var(--primary-blue));
-            border: none;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: 600;
+        .btn-scholar {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.45rem;
+            background: var(--ega-dark-gray);
+            border: 2px solid var(--ega-light-gray);
+            color: var(--ega-white);
+            padding: 8px 14px;
             text-decoration: none;
             display: inline-block;
-            transition: all 0.3s ease;
-            margin: 5px;
+            transition: background 0.1s, color 0.1s;
         }
 
-        .btn-rainbow:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            color: white;
-        }
-
-        /* Research Cards */
-        .research-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 1rem 0;
-            border: 2px solid transparent;
-            border-image: linear-gradient(45deg, var(--primary-blue), var(--primary-green)) 1;
-            transition: all 0.3s ease;
-        }
-
-        .research-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        .btn-scholar:hover {
+            background: var(--ega-bright-blue);
+            color: var(--ega-yellow);
         }
 
         /* Section Headers */
@@ -256,128 +196,277 @@
 
         .section-header h2 {
             font-family: 'Press Start 2P', cursive;
-            color: var(--neon-yellow);
-            text-shadow: 0 0 20px var(--neon-yellow);
+            font-size: 0.7rem;
+            color: var(--ega-yellow);
+            text-shadow: none;
             margin-bottom: 1rem;
         }
 
-        .section-header p {
-            color: var(--neon-cyan);
-            text-shadow: 0 0 10px var(--neon-cyan);
-            font-size: 1.1rem;
+        /* Research Cards */
+        .research-card {
+            background: var(--ega-blue);
+            border: 4px solid var(--ega-white);
+            border-radius: 0;
+            padding: 1.5rem;
+            margin: 1rem 0;
         }
 
         .research-item {
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border-left: 4px solid var(--primary-pink);
-            transition: all 0.3s ease;
+            background: var(--ega-dark-gray);
+            border-radius: 0;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--ega-bright-green);
+            transition: none;
+        }
+
+        .research-item:last-child {
+            margin-bottom: 0;
         }
 
         .research-item:hover {
-            transform: translateX(10px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transform: none;
         }
 
         .research-item h5 {
-            font-size: 1.1rem;
-            line-height: 1.6;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.45rem;
+            line-height: 2;
             margin: 0;
+            color: var(--ega-white);
         }
 
         .research-item a {
-            color: var(--primary-purple);
+            color: var(--ega-bright-cyan);
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 400;
         }
 
         .research-item a:hover {
-            color: var(--primary-pink);
+            color: var(--ega-yellow);
             text-decoration: underline;
         }
 
-        .google-scholar-link {
-            text-align: center;
-            margin: 2rem 0;
+        .research-item i {
+            color: var(--ega-light-gray);
         }
 
-        /* Footer */
-        .footer {
-            background: linear-gradient(45deg, var(--primary-purple), var(--primary-pink));
-            color: white;
-            padding: 2rem 0;
-            text-align: center;
-            margin-top: 4rem;
+        /* Inventory Panel - Contact Cluster */
+        .chaos-contact-cluster {
+            position: fixed !important;
+            top: auto !important;
+            bottom: 52px !important;
+            left: 8px !important;
+            right: auto !important;
+            background: var(--ega-dark-gray) !important;
+            border: 3px solid var(--ega-light-gray) !important;
+            padding: 6px !important;
+            display: flex !important;
+            flex-direction: row !important;
+            gap: 4px !important;
+            z-index: 100 !important;
+            animation: none !important;
+            transform: none !important;
+            clip-path: none !important;
+            border-radius: 0 !important;
         }
 
-        .social-links a {
-            color: white;
-            font-size: 1.5rem;
-            margin: 0 10px;
-            transition: all 0.3s ease;
+        .chaos-contact-item {
+            background: var(--ega-blue) !important;
+            border: 2px solid var(--ega-cyan) !important;
+            padding: 4px 8px !important;
+            animation: none !important;
+            transform: none !important;
+            clip-path: none !important;
+            border-radius: 0 !important;
+            float: none !important;
         }
 
-        .social-links a:hover {
-            transform: translateY(-3px);
-            color: var(--primary-yellow);
+        .chaos-contact-item:hover {
+            background: var(--ega-bright-blue) !important;
+            transform: none !important;
+        }
+
+        .chaos-contact-link {
+            font-family: 'Press Start 2P', cursive !important;
+            font-size: 0.45rem !important;
+            color: var(--ega-white) !important;
+            text-decoration: none !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+        }
+
+        .chaos-contact-link:hover {
+            color: var(--ega-yellow) !important;
+        }
+
+        .chaos-contact-icon {
+            color: var(--ega-bright-cyan) !important;
+            font-size: 0.5rem !important;
+        }
+
+        .chaos-contact-text {
+            color: var(--ega-white) !important;
+        }
+
+        /* Motion Toggle */
+        .chaos-motion-toggle {
+            position: fixed !important;
+            top: auto !important;
+            bottom: 52px !important;
+            right: 8px !important;
+            left: auto !important;
+            background: var(--ega-dark-gray) !important;
+            border: 3px solid var(--ega-light-gray) !important;
+            padding: 6px 12px !important;
+            z-index: 100 !important;
+            animation: none !important;
+            transform: none !important;
+            clip-path: none !important;
+            border-radius: 0 !important;
+            cursor: pointer;
+        }
+
+        .chaos-motion-toggle:hover {
+            background: var(--ega-bright-blue) !important;
+            transform: none !important;
+        }
+
+        .chaos-motion-toggle-inner {
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+
+        .chaos-motion-toggle-icon {
+            font-size: 0.6rem !important;
+            color: var(--ega-bright-green) !important;
+        }
+
+        .chaos-motion-toggle-text {
+            font-family: 'Press Start 2P', cursive !important;
+            font-size: 0.45rem !important;
+            color: var(--ega-white) !important;
         }
 
         /* Responsive Design */
-        @media (max-width: 768px) {
-            .page-header h1 {
-                font-size: 2rem;
+
+        /* Tablet */
+        @media (min-width: 768px) and (max-width: 1199px) {
+            .chaos-contact-text {
+                display: none !important;
             }
-            
+        }
+
+        /* Mobile <768px */
+        @media (max-width: 767px) {
+            .page-header h1 {
+                font-size: 0.85rem;
+            }
             .page-header {
-                padding: 2rem;
+                padding: 1.5rem;
+            }
+            .nav-link {
+                font-size: 0.45rem !important;
+                padding: 4px 8px !important;
+            }
+            .navbar-brand {
+                font-size: 0.5rem;
+            }
+            .chaos-contact-cluster {
+                bottom: 44px !important;
+            }
+            .chaos-motion-toggle {
+                bottom: 44px !important;
+            }
+            .chaos-contact-text {
+                display: none !important;
+            }
+            .chaos-contact-link {
+                font-size: 0.4rem !important;
+            }
+        }
+
+        /* Minimum font sizes */
+        @media (max-width: 400px) {
+            .page-header h1 {
+                font-size: 0.7rem;
+            }
+            .research-item h5 {
+                font-size: 0.4rem;
+            }
+            .section-header h2 {
+                font-size: 0.55rem;
+            }
+        }
+
+        /* Touch target sizing */
+        @media (pointer: coarse) {
+            .btn-scholar {
+                min-height: 44px;
+                min-width: 44px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .nav-link {
+                min-height: 44px;
+                display: inline-flex !important;
+                align-items: center !important;
+            }
+            .chaos-contact-item {
+                min-height: 44px !important;
+                min-width: 44px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+            .chaos-motion-toggle {
+                min-height: 44px !important;
+                min-width: 44px !important;
+            }
+        }
+
+        /* Reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="animated-bg"></div>
-    
-    <!-- Floating Shapes -->
-    <div class="floating-shapes">
-        <i class="fas fa-gamepad shape" style="font-size: 2rem;"></i>
-        <i class="fas fa-heart shape" style="font-size: 1.5rem;"></i>
-        <i class="fas fa-star shape" style="font-size: 2.5rem;"></i>
-        <i class="fas fa-dice-d20 shape" style="font-size: 2rem;"></i>
-        <i class="fas fa-trophy shape" style="font-size: 2rem;"></i>
-        <i class="fas fa-rocket shape" style="font-size: 1.8rem;"></i>
-    </div>
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg fixed-top">
+    <!-- Navigation - Adventure Verb Bar -->
+    <nav class="navbar navbar-expand-lg adventure-verb-bar">
         <div class="container">
-            <a class="navbar-brand" href="index.html">🎮 ANASTASIA SALTER</a>
-            
+            <a class="navbar-brand" href="index.html">ANASTASIA SALTER</a>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
+
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="about.html">👩‍💻 About</a>
+                        <a class="nav-link" href="about.html">Look: About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="books.html">📚 Books</a>
+                        <a class="nav-link" href="books.html">Read: Books</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="research.html">🎮 Research</a>
+                        <a class="nav-link active" href="research.html">Study: Research</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="elit.html">💻 E-lit</a>
+                        <a class="nav-link" href="elit.html">Play: E-lit</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="teaching.html">🎓 Teaching</a>
+                        <a class="nav-link" href="teaching.html">Talk: Teaching</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="CV.pdf" target="_blank">📄 CV</a>
+                        <a class="nav-link" href="CV.pdf" target="_blank">Take: CV</a>
                     </li>
                 </ul>
             </div>
@@ -386,27 +475,30 @@
 
     <!-- Page Header -->
     <section class="container">
-        <div class="page-header" data-aos="fade-up">
-            <h1>📚 Publications 📚</h1>
-            <div class="google-scholar-link">
-                <a href="https://scholar.google.com/citations?user=dKeX0m8AAAAJ" class="btn-rainbow">
-                    📊 View more on Google Scholar
+        <div class="page-header">
+            <h1>Publications</h1>
+            <div style="margin-top: 1.5rem;">
+                <a href="https://scholar.google.com/citations?user=dKeX0m8AAAAJ" class="btn-scholar" target="_blank" rel="noopener noreferrer">
+                    View more on Google Scholar
                 </a>
             </div>
         </div>
     </section>
 
     <!-- Recent Journal Articles Section -->
-    <section class="py-5">
+    <section class="py-4">
         <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2>📰 Recent Journal Articles</h2>
-                
+            <div class="section-header">
+                <h2>Recent Journal Articles</h2>
             </div>
-            
-            <div class="research-card" data-aos="fade-up">
+
+            <div class="research-card">
                 <div class="research-item">
-                    <h5>Sullivan, Anne, and Anastasia Salter. (2024). <a href="https://maifeminism.com/mending-the-magic-circle-crafting-feminist-pedagogy-in-game-design/">"Mending the 'Magic' Circle: Crafting Feminist Pedagogy in Game Design."</a> <i>MAI: Feminism & Visual Culture, Issue 14</i>.</h5>
+                    <h5>Salter, Anastasia. <a href="https://kairos.technorhetoric.net/30.2/disputatio/salter/">"AI Admin: Provocations through Generated Play."</a> <i>Kairos: A Journal of Rhetoric, Technology, and Pedagogy</i>, vol. 30, no. 2, 2026.</h5>
+                </div>
+
+                <div class="research-item">
+                    <h5>Sullivan, Anne, and Anastasia Salter. (2024). <a href="https://maifeminism.com/mending-the-magic-circle-crafting-feminist-pedagogy-in-game-design/">"Mending the 'Magic' Circle: Crafting Feminist Pedagogy in Game Design."</a> <i>MAI: Feminism &amp; Visual Culture, Issue 14</i>.</h5>
                 </div>
 
                 <div class="research-item">
@@ -414,7 +506,7 @@
                 </div>
 
                 <div class="research-item">
-                    <h5>Johnson, E.; Salter, A. (2022). <a href="https://www.sciencedirect.com/science/article/pii/S8755461522000378">"Embracing Discord? The rhetorical consequences of gaming platforms as classrooms."</a> <i>Computers & Composition 65</i>.</h5>
+                    <h5>Johnson, E.; Salter, A. (2022). <a href="https://www.sciencedirect.com/science/article/pii/S8755461522000378">"Embracing Discord? The rhetorical consequences of gaming platforms as classrooms."</a> <i>Computers &amp; Composition 65</i>.</h5>
                 </div>
 
                 <div class="research-item">
@@ -438,21 +530,24 @@
                 </div>
 
                 <div class="research-item">
-                    <h5>Blodgett, B.; Salter, A. (2018). <a href="https://academic.oup.com/ccc/article-abstract/11/1/133/4953070">"Ghostbusters is For Boys: Understanding Geek Masculinity's Role in the Alt-right."</a> <i>Communication Culture & Critique, 11(1)</i>. 133-146.</h5>
+                    <h5>Blodgett, B.; Salter, A. (2018). <a href="https://academic.oup.com/ccc/article-abstract/11/1/133/4953070">"Ghostbusters is For Boys: Understanding Geek Masculinity's Role in the Alt-right."</a> <i>Communication Culture &amp; Critique, 11(1)</i>. 133-146.</h5>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Conference Proceedings Section -->
-    <section class="py-5">
+    <section class="py-4">
         <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2>🎤 Recent Conference Proceedings</h2>
-             
+            <div class="section-header">
+                <h2>Recent Conference Proceedings</h2>
             </div>
-            
-            <div class="research-card" data-aos="fade-up" data-aos-delay="200">
+
+            <div class="research-card">
+                <div class="research-item">
+                    <h5>Murray, John, and Anastasia Salter. <a href="https://doi.org/10.1007/978-3-032-12408-1_15">"Distant Coding and the Future of Interactive Digital Narrative Pedagogy."</a> <i>Interactive Storytelling. ICIDS 2025. Lecture Notes in Computer Science, vol 16374.</i> December 1, 2025. Springer, Cham.</h5>
+                </div>
+
                 <div class="research-item">
                     <h5>Sullivan, Anne, Anastasia Salter, Mel Stanfill, and Noah Wardrip-Fruin. <a href="https://dl.acm.org/doi/10.1145/3723498.3723814">"Form and Function: Toward a Better Understanding of Design-Based Games."</a> <i>FDG 2025: Proceedings of the 20th International Conference on the Foundations of Digital Games.</i> April 15-18, 2025.</h5>
                 </div>
@@ -504,15 +599,15 @@
         </div>
     </section>
 
-    <!-- Motion Toggle Button - Top Left -->
+    <!-- Motion Toggle Button -->
     <div class="chaos-motion-toggle" id="motionToggle">
         <div class="chaos-motion-toggle-inner">
-            <span class="chaos-motion-toggle-icon">▶</span>
-            <span class="chaos-motion-toggle-text">MOTION ON</span>
+            <span class="chaos-motion-toggle-icon">⏸</span>
+            <span class="chaos-motion-toggle-text">PAUSE</span>
         </div>
     </div>
 
-    <!-- Floating Contact Cluster - Chaos Style -->
+    <!-- Inventory Panel - Contact Cluster -->
     <div class="chaos-contact-cluster">
         <div class="chaos-contact-item contact-email">
             <a href="mailto:anastasia@ucf.edu" class="chaos-contact-link">
@@ -542,66 +637,47 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- AOS Animation Library -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-    <!-- Chaos Effects -->
-    <script src="js/chaos-effects.js"></script>
 
     <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 1000,
-            once: true
-        });
+        // ======================================
+        // MOTION TOGGLE
+        // ======================================
+        (function() {
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const stored = localStorage.getItem('motion-preference');
+            let motionDisabled = stored !== null ? stored === 'disabled' : prefersReducedMotion;
 
-        // Add sparkle cursor effect
-        document.addEventListener('mousemove', function(e) {
-            if (Math.random() < 0.1) {
-                createSparkle(e.clientX, e.clientY);
-            }
-        });
-
-        function createSparkle(x, y) {
-            const sparkle = document.createElement('div');
-            sparkle.innerHTML = '✨';
-            sparkle.style.position = 'fixed';
-            sparkle.style.left = x + 'px';
-            sparkle.style.top = y + 'px';
-            sparkle.style.pointerEvents = 'none';
-            sparkle.style.fontSize = '12px';
-            sparkle.style.zIndex = '9999';
-            sparkle.style.animation = 'sparkleAnimation 1s ease-out forwards';
-            
-            document.body.appendChild(sparkle);
-            
-            setTimeout(() => {
-                if (sparkle.parentNode) {
-                    sparkle.parentNode.removeChild(sparkle);
+            function applyMotion() {
+                if (motionDisabled) {
+                    document.body.classList.add('motion-disabled');
+                } else {
+                    document.body.classList.remove('motion-disabled');
                 }
-            }, 1000);
-        }
-
-        // Add CSS for sparkle animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes sparkleAnimation {
-                0% { 
-                    opacity: 1; 
-                    transform: scale(0) rotate(0deg); 
-                }
-                50% { 
-                    opacity: 1; 
-                    transform: scale(1) rotate(180deg); 
-                }
-                100% { 
-                    opacity: 0; 
-                    transform: scale(0) rotate(360deg); 
+                const toggle = document.getElementById('motionToggle');
+                if (toggle) {
+                    const icon = toggle.querySelector('.chaos-motion-toggle-icon');
+                    const text = toggle.querySelector('.chaos-motion-toggle-text');
+                    if (motionDisabled) {
+                        if (icon) icon.textContent = '\u25B6';
+                        if (text) text.textContent = 'PLAY';
+                    } else {
+                        if (icon) icon.textContent = '\u23F8';
+                        if (text) text.textContent = 'PAUSE';
+                    }
                 }
             }
-        `;
-        document.head.appendChild(style);
+
+            applyMotion();
+
+            const toggle = document.getElementById('motionToggle');
+            if (toggle) {
+                toggle.addEventListener('click', function() {
+                    motionDisabled = !motionDisabled;
+                    localStorage.setItem('motion-preference', motionDisabled ? 'disabled' : 'enabled');
+                    applyMotion();
+                });
+            }
+        })();
     </script>
 </body>
 </html>
