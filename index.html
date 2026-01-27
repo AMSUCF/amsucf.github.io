@@ -919,33 +919,86 @@
                     pg.rect(tx - 1, hillY - 7, 5, 3);
                 }
 
-                // === PATH: brown trapezoid from bottom toward castle ===
-                pg.fill(...EGA.brown);
-                // Simple path using rects narrowing toward castle
-                let pathBottom = bufH;
-                let pathTop = castleBase + 30;
-                let pathSteps = 12;
-                for (let i = 0; i < pathSteps; i++) {
-                    let t = i / pathSteps;
-                    let y = p.lerp(pathBottom, pathTop, t);
-                    let w = p.lerp(60, 10, t);
-                    let cx = p.lerp(bufW / 2, castleX + castleW / 2, t);
-                    pg.rect(Math.floor(cx - w / 2), Math.floor(y), Math.floor(w), Math.ceil((pathBottom - pathTop) / pathSteps) + 1);
+                // === MOAT: full-width water channel ===
+                let moatY = hillY + 22;
+                let moatH = 20;
+
+                // Draw moat across full width
+                pg.fill(...EGA.blue);
+                pg.rect(0, moatY, bufW, moatH);
+                // Lighter water surface
+                pg.fill(...EGA.cyan);
+                pg.rect(0, moatY + 3, bufW, moatH - 6);
+
+                // Shimmer - alternating pixel pattern across full width
+                pg.fill(...EGA.brightCyan);
+                for (let wx = 0; wx < bufW; wx += 4) {
+                    let wy = moatY + (twoFrame === 0 ? 5 : 8);
+                    pg.rect(wx + twoFrame * 2, wy, 2, 1);
+                    pg.rect(wx + (1 - twoFrame) * 2, wy + 6, 2, 1);
                 }
 
-                // === WATER: cyan area with shimmer ===
-                let waterY = hillY + 30;
-                let waterH = 18;
-                if (waterY + waterH < bufH) {
-                    pg.fill(...EGA.cyan);
-                    pg.rect(Math.floor(bufW * 0.65), waterY, Math.floor(bufW * 0.30), waterH);
-                    // Shimmer - alternating pixel pattern
-                    pg.fill(...EGA.brightCyan);
-                    for (let wx = Math.floor(bufW * 0.65); wx < Math.floor(bufW * 0.95); wx += 4) {
-                        let wy = waterY + (twoFrame === 0 ? 2 : 5);
-                        pg.rect(wx + twoFrame * 2, wy, 2, 1);
-                        pg.rect(wx + (1 - twoFrame) * 2, wy + 8, 2, 1);
-                    }
+                // Dark water edges (top and bottom banks)
+                pg.fill(...EGA.blue);
+                pg.rect(0, moatY, bufW, 3);
+                pg.rect(0, moatY + moatH - 3, bufW, 3);
+
+                // === STEPPING STONES with BRIDGE across moat ===
+                // Stepping stones from bottom of screen up to moat
+                let pathBottom = bufH;
+                let pathMoatBottom = moatY + moatH;
+                let stoneCountLower = 10;
+                for (let i = 0; i < stoneCountLower; i++) {
+                    let t = i / stoneCountLower;
+                    let y = p.lerp(pathBottom - 6, pathMoatBottom + 2, t);
+                    let stoneW = Math.floor(p.lerp(10, 6, t));
+                    let stoneH = Math.floor(p.lerp(5, 3, t));
+                    let cx = p.lerp(bufW / 2, castleX + castleW / 2, t * 0.4);
+                    // Alternate slight horizontal offset for natural look
+                    let offsetX = (i % 2 === 0) ? -2 : 2;
+                    pg.fill(...EGA.lightGray);
+                    pg.rect(Math.floor(cx + offsetX - stoneW / 2), Math.floor(y), stoneW, stoneH);
+                    // Shadow/depth on stone
+                    pg.fill(...EGA.darkGray);
+                    pg.rect(Math.floor(cx + offsetX - stoneW / 2) + 1, Math.floor(y) + stoneH, stoneW - 2, 1);
+                }
+
+                // Bridge across the moat
+                let bridgeCX = Math.floor(p.lerp(bufW / 2, castleX + castleW / 2, 0.4));
+                let bridgeW = 28;
+                // Bridge planks (brown over the water)
+                pg.fill(...EGA.brown);
+                pg.rect(bridgeCX - bridgeW / 2, moatY - 1, bridgeW, moatH + 2);
+                // Bridge railings
+                pg.fill(...EGA.lightGray);
+                pg.rect(bridgeCX - bridgeW / 2 - 2, moatY, 2, moatH);
+                pg.rect(bridgeCX + bridgeW / 2, moatY, 2, moatH);
+                // Railing posts
+                pg.rect(bridgeCX - bridgeW / 2 - 3, moatY - 2, 4, 3);
+                pg.rect(bridgeCX + bridgeW / 2 - 1, moatY - 2, 4, 3);
+                pg.rect(bridgeCX - bridgeW / 2 - 3, moatY + moatH - 1, 4, 3);
+                pg.rect(bridgeCX + bridgeW / 2 - 1, moatY + moatH - 1, 4, 3);
+                // Plank lines on bridge
+                pg.fill(...EGA.darkGray);
+                for (let py = moatY + 2; py < moatY + moatH - 2; py += 4) {
+                    pg.rect(bridgeCX - bridgeW / 2 + 1, py, bridgeW - 2, 1);
+                }
+
+                // Stepping stones from moat to castle
+                let pathMoatTop = moatY;
+                let pathCastleBase = castleBase + 30;
+                let stoneCountUpper = 6;
+                for (let i = 0; i < stoneCountUpper; i++) {
+                    let t = i / stoneCountUpper;
+                    let y = p.lerp(pathMoatTop - 4, pathCastleBase + 2, t);
+                    let stoneW = Math.floor(p.lerp(6, 4, t));
+                    let stoneH = Math.floor(p.lerp(3, 2, t));
+                    let cx = p.lerp(bridgeCX, castleX + castleW / 2, t);
+                    let offsetX = (i % 2 === 0) ? -1 : 1;
+                    pg.fill(...EGA.lightGray);
+                    pg.rect(Math.floor(cx + offsetX - stoneW / 2), Math.floor(y), stoneW, stoneH);
+                    pg.fill(...EGA.darkGray);
+                    pg.rect(Math.floor(cx + offsetX - stoneW / 2) + 1, Math.floor(y) + stoneH, stoneW - 2, 1);
                 }
 
                 // === BIRDS: V-shapes drifting ===

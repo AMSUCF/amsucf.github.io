@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
     <link rel="stylesheet" href="css/chaos.css">
 
     <style>
@@ -28,6 +29,20 @@
         --ega-magenta: #FF55FF;
         --ega-yellow: #FFFF55;
         --ega-white: #FFFFFF;
+
+        /* Remap chaos variables to EGA equivalents */
+        --burn-orange: #AA5500;
+        --acid-lime: #55FF55;
+        --rust-brown: #0000AA;
+        --slate-grey: #555555;
+        --toxic-yellow: #FFFF55;
+        --blood-red: #AA0000;
+        --moss-green: #00AA00;
+        --bruise-purple: #5555FF;
+        --tar-black: #000000;
+        --bone-white: #FFFFFF;
+        --bile-green: #00AA00;
+        --clay-red: #AA0000;
       }
 
       * {
@@ -146,26 +161,120 @@
         filter: invert(1) !important;
       }
 
-      /* ===== HERO SECTION ===== */
-      .hero-section {
+      /* ===== HERO SECTION — matches index.html structure ===== */
+      .hero {
+        position: relative;
+        width: 100%;
+        height: 50vh;
+        min-height: 320px;
+        max-height: 500px;
+        overflow: hidden;
+      }
+
+      .well-canvas-container {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+      }
+
+      .well-canvas-container canvas {
+        pointer-events: none;
+      }
+
+      /* Scanline overlay */
+      .hero::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 0, 0, 0.15) 2px,
+          rgba(0, 0, 0, 0.15) 4px
+        );
+        pointer-events: none;
+        z-index: 50;
+      }
+
+      .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 10;
+      }
+
+      /* Status Bar — Sierra style */
+      .status-bar {
+        width: 100%;
+        background: var(--ega-dark-gray);
+        border-bottom: 2px solid var(--ega-light-gray);
+        padding: 4px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: 'Press Start 2P', cursive;
+        font-size: 0.55rem;
+        color: var(--ega-white);
+        z-index: 20;
+      }
+
+      .status-bar-score {
+        color: var(--ega-yellow);
+      }
+
+      .status-bar-location {
+        color: var(--ega-bright-cyan);
+      }
+
+      /* Dialog Box — Sierra adventure style */
+      .dialog-box {
         background: var(--ega-blue);
         border: 4px solid var(--ega-white);
+        outline: 4px solid var(--ega-blue);
+        padding: 20px 28px;
+        margin-top: auto;
+        margin-bottom: 24px;
+        max-width: 520px;
+        width: 90%;
         text-align: center;
-        padding: 60px 20px 40px;
-        margin: 20px;
+        box-shadow: 8px 8px 0 rgba(0,0,0,0.5);
+        position: relative;
       }
 
-      .hero-title {
+      .dialog-box h1 {
         font-family: 'Press Start 2P', cursive;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+        font-weight: 400;
         color: var(--ega-yellow);
-        margin-bottom: 1rem;
+        margin-bottom: 8px;
+        text-shadow: 2px 2px 0 var(--ega-black);
+        animation: none;
+        transform: none;
+        letter-spacing: 0;
+        line-height: 1.6;
       }
 
-      .hero-subtitle {
+      .dialog-box .subtitle {
         font-family: 'Press Start 2P', cursive;
-        font-size: 0.6rem;
+        font-size: 0.55rem;
         color: var(--ega-white);
+        margin-bottom: 0;
+        text-shadow: none;
+        transform: none;
+        letter-spacing: 0;
+        line-height: 2;
       }
 
       /* ===== SECTION TITLES ===== */
@@ -363,17 +472,26 @@
           grid-template-columns: 1fr;
         }
 
-        .hero-section {
-          margin: 10px;
-          padding: 40px 12px 30px;
+        .hero {
+          height: 40vh;
+          min-height: 260px;
         }
 
-        .hero-title {
-          font-size: 0.9rem;
+        .dialog-box {
+          padding: 14px 18px;
+          margin-bottom: 16px;
         }
 
-        .hero-subtitle {
-          font-size: 0.5rem;
+        .dialog-box h1 {
+          font-size: 0.8rem;
+        }
+
+        .dialog-box .subtitle {
+          font-size: 0.45rem;
+        }
+
+        .status-bar {
+          font-size: 0.4rem;
         }
 
         .section-title {
@@ -448,10 +566,22 @@
   </head>
   <body>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-      <h1 class="hero-title">electronic literature</h1>
-      <p class="hero-subtitle">text x tech x textile</p>
+    <!-- Hero Section — Wishing Well Scene -->
+    <section class="hero" id="heroSection">
+      <div id="wellCanvas" class="well-canvas-container"></div>
+      <div class="hero-overlay">
+        <!-- Status Bar -->
+        <div class="status-bar">
+          <span class="status-bar-score">Score: 77 of 100</span>
+          <span class="status-bar-location">The Wishing Well</span>
+        </div>
+
+        <!-- Dialog Box -->
+        <div class="dialog-box">
+          <h1>Electronic Literature</h1>
+          <p class="subtitle">text x tech x textile</p>
+        </div>
+      </div>
     </section>
 
     <!-- Electronic Literature Works Section -->
@@ -791,6 +921,340 @@
         var fadeStyle = document.createElement('style');
         fadeStyle.textContent = '@keyframes promptFade { 0% { opacity:1; transform:translate(-50%,-50%) scale(1); } 100% { opacity:0; transform:translate(-50%,-50%) scale(1.5); } }';
         document.head.appendChild(fadeStyle);
+
+        // ======================================
+        // WISHING WELL PIXEL SCENE (p5.js)
+        // ======================================
+        var wellSketch = function(p) {
+            var pg;
+            var bufW = 320;
+            var bufH = 200;
+            var frameCount = 0;
+            var twoFrame = 0;
+            var clouds = [];
+            var sparkles = [];
+            var canvasW, canvasH;
+
+            var EGA = {
+                black:       [0, 0, 0],
+                blue:        [0, 0, 170],
+                green:       [0, 170, 0],
+                cyan:        [0, 170, 170],
+                red:         [170, 0, 0],
+                brown:       [170, 85, 0],
+                lightGray:   [170, 170, 170],
+                darkGray:    [85, 85, 85],
+                brightBlue:  [85, 85, 255],
+                brightGreen: [85, 255, 85],
+                brightCyan:  [85, 255, 255],
+                brightRed:   [255, 85, 85],
+                magenta:     [255, 85, 255],
+                yellow:      [255, 255, 85],
+                white:       [255, 255, 255]
+            };
+
+            p.setup = function() {
+                var hero = document.getElementById('heroSection');
+                canvasW = hero.offsetWidth;
+                canvasH = hero.offsetHeight;
+
+                // Fallback if hero hasn't laid out yet
+                if (canvasH < 10) {
+                    canvasH = Math.max(320, Math.floor(window.innerHeight * 0.5));
+                }
+                if (canvasW < 10) {
+                    canvasW = window.innerWidth;
+                }
+
+                if (canvasW < 768) {
+                    bufW = 240;
+                    bufH = 150;
+                } else {
+                    bufW = 320;
+                    bufH = 200;
+                }
+
+                var canvas = p.createCanvas(canvasW, canvasH);
+                canvas.parent('wellCanvas');
+                canvas.style('display', 'block');
+                p.noSmooth();
+
+                pg = p.createGraphics(bufW, bufH);
+                pg.noSmooth();
+                pg.pixelDensity(1);
+
+                // Initialize clouds
+                for (var i = 0; i < 4; i++) {
+                    clouds.push({
+                        x: p.random(-20, bufW + 20),
+                        y: p.random(8, 40),
+                        w: p.floor(p.random(20, 45)),
+                        h: p.floor(p.random(6, 12)),
+                        speed: p.random(0.05, 0.15)
+                    });
+                }
+
+                // Initialize sparkles (magic from the well)
+                for (var i = 0; i < 8; i++) {
+                    sparkles.push({
+                        x: p.random(-8, 8),
+                        y: p.random(-20, -4),
+                        speed: p.random(0.2, 0.5),
+                        phase: p.floor(p.random(0, 2))
+                    });
+                }
+            };
+
+            p.draw = function() {
+                frameCount++;
+                if (frameCount % 15 === 0) {
+                    twoFrame = 1 - twoFrame;
+                }
+
+                pg.background(0);
+                pg.noStroke();
+
+                // === SKY: chunky gradient bands ===
+                var skyColors = [EGA.black, EGA.blue, EGA.blue, EGA.brightBlue, EGA.brightBlue, EGA.cyan];
+                var bandH = Math.ceil(bufH * 0.5 / skyColors.length);
+                for (var i = 0; i < skyColors.length; i++) {
+                    pg.fill(skyColors[i][0], skyColors[i][1], skyColors[i][2]);
+                    pg.rect(0, i * bandH, bufW, bandH);
+                }
+                var skyBottom = skyColors.length * bandH;
+
+                // === CLOUDS ===
+                for (var c = 0; c < clouds.length; c++) {
+                    var cl = clouds[c];
+                    cl.x += cl.speed;
+                    if (cl.x > bufW + 30) cl.x = -cl.w - 10;
+                    pg.fill(EGA.white[0], EGA.white[1], EGA.white[2]);
+                    pg.rect(Math.floor(cl.x), cl.y, cl.w, cl.h);
+                    pg.fill(EGA.lightGray[0], EGA.lightGray[1], EGA.lightGray[2]);
+                    pg.rect(Math.floor(cl.x) + 2, cl.y + cl.h, cl.w - 4, 3);
+                }
+
+                // === GROUND: green meadow ===
+                var groundY = Math.floor(bufH * 0.5);
+                pg.fill(EGA.green[0], EGA.green[1], EGA.green[2]);
+                pg.rect(0, groundY, bufW, 8);
+                pg.fill(EGA.brightGreen[0], EGA.brightGreen[1], EGA.brightGreen[2]);
+                pg.rect(0, groundY + 8, bufW, bufH - groundY - 8);
+
+                // Background hills
+                pg.fill(EGA.green[0], EGA.green[1], EGA.green[2]);
+                pg.rect(0, groundY - 8, Math.floor(bufW * 0.2), 8);
+                pg.rect(Math.floor(bufW * 0.75), groundY - 6, Math.floor(bufW * 0.25), 6);
+
+                // === TREES on sides ===
+                var treePositions = [15, 40, 60, 250, 275, 300];
+                for (var t = 0; t < treePositions.length; t++) {
+                    var tx = treePositions[t];
+                    if (tx >= bufW) continue;
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(tx, groundY + 2, 3, 12);
+                    pg.fill(EGA.green[0], EGA.green[1], EGA.green[2]);
+                    pg.rect(tx - 4, groundY - 2, 11, 4);
+                    pg.rect(tx - 3, groundY - 6, 9, 4);
+                    pg.rect(tx - 1, groundY - 9, 5, 3);
+                }
+
+                // === STONE PATH leading to well ===
+                pg.fill(EGA.darkGray[0], EGA.darkGray[1], EGA.darkGray[2]);
+                var pathSteps = 8;
+                for (var i = 0; i < pathSteps; i++) {
+                    var t = i / pathSteps;
+                    var py = p.lerp(bufH, groundY + 20, t);
+                    var pw = p.lerp(50, 20, t);
+                    var cx = bufW / 2;
+                    pg.rect(Math.floor(cx - pw / 2), Math.floor(py), Math.floor(pw), Math.ceil((bufH - groundY - 20) / pathSteps) + 1);
+                }
+                // Path stones detail
+                pg.fill(EGA.lightGray[0], EGA.lightGray[1], EGA.lightGray[2]);
+                for (var i = 0; i < 5; i++) {
+                    var sy = groundY + 25 + i * 14;
+                    if (sy < bufH - 5) {
+                        pg.rect(bufW / 2 - 4 + (i % 2) * 3, sy, 3, 2);
+                    }
+                }
+
+                // === THE WISHING WELL ===
+                var wellCX = Math.floor(bufW / 2);
+                var wellBaseY = groundY + 8;
+
+                // Well base — circular stone wall (approximated with rects)
+                // Back wall stones
+                pg.fill(EGA.darkGray[0], EGA.darkGray[1], EGA.darkGray[2]);
+                pg.rect(wellCX - 18, wellBaseY - 4, 36, 4);
+
+                // Main well body — stone cylinder
+                pg.fill(EGA.lightGray[0], EGA.lightGray[1], EGA.lightGray[2]);
+                pg.rect(wellCX - 16, wellBaseY, 32, 20);
+
+                // Stone texture on well
+                pg.fill(EGA.darkGray[0], EGA.darkGray[1], EGA.darkGray[2]);
+                pg.rect(wellCX - 16, wellBaseY + 5, 32, 1);
+                pg.rect(wellCX - 16, wellBaseY + 10, 32, 1);
+                pg.rect(wellCX - 16, wellBaseY + 15, 32, 1);
+                // Vertical mortar lines
+                pg.rect(wellCX - 8, wellBaseY, 1, 5);
+                pg.rect(wellCX + 6, wellBaseY, 1, 5);
+                pg.rect(wellCX - 2, wellBaseY + 6, 1, 4);
+                pg.rect(wellCX + 12, wellBaseY + 6, 1, 4);
+                pg.rect(wellCX - 12, wellBaseY + 11, 1, 4);
+                pg.rect(wellCX + 4, wellBaseY + 11, 1, 4);
+                pg.rect(wellCX - 6, wellBaseY + 16, 1, 4);
+                pg.rect(wellCX + 10, wellBaseY + 16, 1, 4);
+
+                // Well rim — top edge
+                pg.fill(EGA.white[0], EGA.white[1], EGA.white[2]);
+                pg.rect(wellCX - 18, wellBaseY - 2, 36, 3);
+
+                // Well interior — dark opening
+                pg.fill(EGA.black[0], EGA.black[1], EGA.black[2]);
+                pg.rect(wellCX - 12, wellBaseY - 1, 24, 4);
+
+                // Water shimmer inside well
+                pg.fill(EGA.brightBlue[0], EGA.brightBlue[1], EGA.brightBlue[2]);
+                pg.rect(wellCX - 8 + twoFrame * 3, wellBaseY + 1, 6, 1);
+                pg.rect(wellCX + 2 - twoFrame * 3, wellBaseY + 2, 4, 1);
+
+                // === WOODEN ROOF STRUCTURE ===
+                // Left post
+                pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                pg.rect(wellCX - 20, wellBaseY - 30, 4, 30);
+                // Right post
+                pg.rect(wellCX + 16, wellBaseY - 30, 4, 30);
+
+                // Crossbeam
+                pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                pg.rect(wellCX - 22, wellBaseY - 32, 44, 3);
+
+                // Roof — peaked wooden shingle roof
+                pg.fill(EGA.red[0], EGA.red[1], EGA.red[2]);
+                // Roof layers (peaked)
+                pg.rect(wellCX - 24, wellBaseY - 35, 48, 4);
+                pg.rect(wellCX - 20, wellBaseY - 39, 40, 4);
+                pg.rect(wellCX - 16, wellBaseY - 42, 32, 3);
+                pg.rect(wellCX - 10, wellBaseY - 44, 20, 2);
+                pg.rect(wellCX - 4, wellBaseY - 45, 8, 1);
+
+                // Roof highlight
+                pg.fill(EGA.brightRed[0], EGA.brightRed[1], EGA.brightRed[2]);
+                pg.rect(wellCX - 22, wellBaseY - 35, 2, 4);
+                pg.rect(wellCX - 18, wellBaseY - 39, 2, 4);
+                pg.rect(wellCX - 14, wellBaseY - 42, 2, 3);
+
+                // Rope/crank mechanism
+                pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                // Horizontal axle
+                pg.rect(wellCX - 14, wellBaseY - 28, 28, 2);
+                // Crank handle (right side)
+                pg.rect(wellCX + 14, wellBaseY - 30, 2, 6);
+                pg.rect(wellCX + 14, wellBaseY - 30, 6, 2);
+
+                // Rope hanging down
+                pg.fill(EGA.lightGray[0], EGA.lightGray[1], EGA.lightGray[2]);
+                pg.rect(wellCX, wellBaseY - 26, 1, 24);
+
+                // Bucket at bottom of rope
+                pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                pg.rect(wellCX - 3, wellBaseY - 4, 7, 6);
+                pg.fill(EGA.darkGray[0], EGA.darkGray[1], EGA.darkGray[2]);
+                pg.rect(wellCX - 3, wellBaseY - 4, 7, 1);
+
+                // === MAGIC SPARKLES rising from well ===
+                for (var s = 0; s < sparkles.length; s++) {
+                    var sp = sparkles[s];
+                    sp.y -= sp.speed;
+                    if (sp.y < -50) {
+                        sp.y = p.random(-4, 2);
+                        sp.x = p.random(-10, 10);
+                    }
+
+                    var visible = (twoFrame === sp.phase) || (sp.y < -10);
+                    if (visible) {
+                        var sx = Math.floor(wellCX + sp.x);
+                        var sy = Math.floor(wellBaseY + sp.y);
+                        // Sparkle colors cycle
+                        var sparkColors = [EGA.brightCyan, EGA.yellow, EGA.magenta, EGA.white];
+                        var sc = sparkColors[s % sparkColors.length];
+                        pg.fill(sc[0], sc[1], sc[2]);
+                        pg.rect(sx, sy, 2, 2);
+                        // Cross sparkle shape
+                        pg.rect(sx - 1, sy + 1, 1, 1);
+                        pg.rect(sx + 2, sy + 1, 1, 1);
+                    }
+                }
+
+                // === FLOWERS on the ground ===
+                var flowerPositions = [
+                    {x: wellCX - 35, c: EGA.yellow},
+                    {x: wellCX - 28, c: EGA.magenta},
+                    {x: wellCX + 30, c: EGA.brightRed},
+                    {x: wellCX + 38, c: EGA.yellow},
+                    {x: wellCX - 45, c: EGA.brightCyan},
+                    {x: wellCX + 48, c: EGA.magenta}
+                ];
+                for (var f = 0; f < flowerPositions.length; f++) {
+                    var fl = flowerPositions[f];
+                    if (fl.x > 0 && fl.x < bufW) {
+                        pg.fill(EGA.green[0], EGA.green[1], EGA.green[2]);
+                        pg.rect(fl.x, groundY + 6, 1, 4);
+                        pg.fill(fl.c[0], fl.c[1], fl.c[2]);
+                        pg.rect(fl.x - 1, groundY + 4, 3, 2);
+                    }
+                }
+
+                // === Scale up to fill container ===
+                p.background(0);
+                p.image(pg, 0, 0, canvasW, canvasH);
+            };
+
+            p.windowResized = function() {
+                var hero = document.getElementById('heroSection');
+                canvasW = hero.offsetWidth;
+                canvasH = hero.offsetHeight;
+                if (canvasH < 10) canvasH = Math.floor(window.innerHeight * 0.5);
+                if (canvasW < 10) canvasW = window.innerWidth;
+                p.resizeCanvas(canvasW, canvasH);
+
+                if (canvasW < 768) {
+                    bufW = 240;
+                    bufH = 150;
+                } else {
+                    bufW = 320;
+                    bufH = 200;
+                }
+                pg = p.createGraphics(bufW, bufH);
+                pg.noSmooth();
+                pg.pixelDensity(1);
+            };
+        };
+
+        // Wait for DOM to be ready so hero section has computed dimensions
+        document.addEventListener('DOMContentLoaded', function() {
+            var p5WellInstance = new p5(wellSketch);
+
+            // Check initial motion state
+            if (document.body.classList.contains('motion-disabled')) {
+                p5WellInstance.noLoop();
+            }
+
+            // Listen for motion toggle changes
+            var wellObserver = new MutationObserver(function(mutations) {
+                for (var i = 0; i < mutations.length; i++) {
+                    if (mutations[i].attributeName === 'class') {
+                        if (document.body.classList.contains('motion-disabled')) {
+                            p5WellInstance.noLoop();
+                        } else {
+                            p5WellInstance.loop();
+                        }
+                    }
+                }
+            });
+            wellObserver.observe(document.body, { attributes: true });
+        });
     </script>
   </body>
 </html>
