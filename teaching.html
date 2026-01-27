@@ -14,6 +14,9 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- p5.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+
     <style>
         :root {
             /* EGA 16-color palette */
@@ -168,6 +171,128 @@
         /* Page Content Area */
         .page-content {
             padding: 2rem 0;
+        }
+
+        canvas {
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        /* ===== HERO SECTION — matches index.html structure ===== */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 50vh;
+            min-height: 320px;
+            max-height: 500px;
+            overflow: hidden;
+        }
+
+        .scene-canvas-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .scene-canvas-container canvas {
+            pointer-events: none;
+        }
+
+        /* Scanline overlay */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.15) 2px,
+                rgba(0, 0, 0, 0.15) 4px
+            );
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+
+        /* Status Bar — Sierra style */
+        .status-bar {
+            width: 100%;
+            background: var(--ega-dark-gray);
+            border-bottom: 2px solid var(--ega-light-gray);
+            padding: 4px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.55rem;
+            color: var(--ega-white);
+            z-index: 20;
+        }
+
+        .status-bar-score {
+            color: var(--ega-yellow);
+        }
+
+        .status-bar-location {
+            color: var(--ega-bright-cyan);
+        }
+
+        /* Dialog Box — Sierra adventure style */
+        .dialog-box {
+            background: var(--ega-blue);
+            border: 4px solid var(--ega-white);
+            outline: 4px solid var(--ega-blue);
+            padding: 20px 28px;
+            margin-top: auto;
+            margin-bottom: 24px;
+            max-width: 520px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .dialog-box h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: var(--ega-yellow);
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 0 var(--ega-black);
+            animation: none;
+            transform: none;
+            letter-spacing: 0;
+            line-height: 1.6;
+        }
+
+        .dialog-box .subtitle {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.55rem;
+            color: var(--ega-white);
+            margin-bottom: 0;
+            text-shadow: none;
+            transform: none;
+            letter-spacing: 0;
+            line-height: 2;
         }
 
         /* Section Headers */
@@ -338,6 +463,28 @@
 
         /* Mobile */
         @media (max-width: 767px) {
+            .hero {
+                height: 40vh;
+                min-height: 260px;
+            }
+
+            .dialog-box {
+                padding: 14px 18px;
+                margin-bottom: 16px;
+            }
+
+            .dialog-box h1 {
+                font-size: 0.8rem;
+            }
+
+            .dialog-box .subtitle {
+                font-size: 0.45rem;
+            }
+
+            .status-bar {
+                font-size: 0.4rem;
+            }
+
             .section-header h2 {
                 font-size: 0.6rem;
             }
@@ -413,6 +560,21 @@
     </style>
 </head>
 <body>
+
+    <!-- Hero Section — Classroom Scene -->
+    <section class="hero" id="heroSection">
+        <div id="sceneCanvas" class="scene-canvas-container"></div>
+        <div class="hero-overlay">
+            <div class="status-bar">
+                <span class="status-bar-score">Score: 65 of 100</span>
+                <span class="status-bar-location">The Classroom</span>
+            </div>
+            <div class="dialog-box">
+                <h1>Teaching</h1>
+                <p class="subtitle">courses &amp; workshops</p>
+            </div>
+        </div>
+    </section>
 
     <!-- Page Content -->
     <div class="page-content">
@@ -637,6 +799,259 @@
                 });
             }
         })();
+
+        // ======================================
+        // CLASSROOM PIXEL SCENE (p5.js)
+        // ======================================
+        document.addEventListener('DOMContentLoaded', function() {
+            var classroomSketch = function(p) {
+                var pg;
+                var bufW = 320;
+                var bufH = 200;
+                var frameCount = 0;
+                var twoFrame = 0;
+                var canvasW, canvasH;
+
+                var EGA = {
+                    black: [0,0,0], blue: [0,0,170], green: [0,170,0],
+                    cyan: [0,170,170], red: [170,0,0], brown: [170,85,0],
+                    lightGray: [170,170,170], darkGray: [85,85,85],
+                    brightBlue: [85,85,255], brightGreen: [85,255,85],
+                    brightCyan: [85,255,255], brightRed: [255,85,85],
+                    magenta: [255,85,255], yellow: [255,255,85],
+                    white: [255,255,255]
+                };
+
+                p.setup = function() {
+                    var hero = document.getElementById('heroSection');
+                    canvasW = hero.offsetWidth;
+                    canvasH = hero.offsetHeight;
+                    if (canvasH < 10) canvasH = Math.max(320, Math.floor(window.innerHeight * 0.5));
+                    if (canvasW < 10) canvasW = window.innerWidth;
+
+                    if (canvasW < 768) { bufW = 240; bufH = 150; }
+                    else { bufW = 320; bufH = 200; }
+
+                    var canvas = p.createCanvas(canvasW, canvasH);
+                    canvas.parent('sceneCanvas');
+                    canvas.style('display', 'block');
+                    p.noSmooth();
+
+                    pg = p.createGraphics(bufW, bufH);
+                    pg.noSmooth();
+                    pg.pixelDensity(1);
+                };
+
+                p.draw = function() {
+                    frameCount++;
+                    if (frameCount % 15 === 0) twoFrame = 1 - twoFrame;
+
+                    pg.background(0);
+                    pg.noStroke();
+
+                    // Stone wall background
+                    pg.fill(EGA.darkGray[0], EGA.darkGray[1], EGA.darkGray[2]);
+                    pg.rect(0, 0, bufW, bufH);
+
+                    // Stone wall mortar lines
+                    pg.fill(EGA.black[0], EGA.black[1], EGA.black[2]);
+                    for (var row = 0; row < bufH; row += 20) {
+                        pg.rect(0, row, bufW, 1);
+                        var offset = (Math.floor(row / 20) % 2 === 0) ? 0 : 24;
+                        for (var col = offset; col < bufW; col += 48) {
+                            pg.rect(col, row, 1, 20);
+                        }
+                    }
+
+                    // Stone floor
+                    var floorY = Math.floor(bufH * 0.65);
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(0, floorY, bufW, bufH - floorY);
+                    // Floor lines
+                    pg.fill(EGA.darkGray[0], EGA.darkGray[1], EGA.darkGray[2]);
+                    for (var fy = floorY; fy < bufH; fy += 12) {
+                        pg.rect(0, fy, bufW, 1);
+                    }
+                    for (var fx = 0; fx < bufW; fx += 32) {
+                        pg.rect(fx, floorY, 1, bufH - floorY);
+                    }
+
+                    // Arched window (back wall, center-left)
+                    var winX = Math.floor(bufW * 0.15);
+                    var winY = 20;
+                    var winW = 40;
+                    var winH = 60;
+                    // Window frame
+                    pg.fill(EGA.lightGray[0], EGA.lightGray[1], EGA.lightGray[2]);
+                    pg.rect(winX - 2, winY, winW + 4, winH + 4);
+                    // Arch top
+                    pg.rect(winX + 2, winY - 6, winW - 4, 8);
+                    pg.rect(winX + 6, winY - 10, winW - 12, 6);
+                    pg.rect(winX + 12, winY - 12, winW - 24, 4);
+                    // Sky through window
+                    pg.fill(EGA.brightBlue[0], EGA.brightBlue[1], EGA.brightBlue[2]);
+                    pg.rect(winX, winY + 2, winW, winH);
+                    pg.rect(winX + 4, winY - 4, winW - 8, 6);
+                    pg.rect(winX + 8, winY - 8, winW - 16, 6);
+                    pg.rect(winX + 14, winY - 10, winW - 28, 4);
+                    // Window cross bars
+                    pg.fill(EGA.lightGray[0], EGA.lightGray[1], EGA.lightGray[2]);
+                    pg.rect(winX + winW/2 - 1, winY - 8, 2, winH + 8);
+                    pg.rect(winX, winY + winH/2 - 1, winW, 2);
+                    // Sunbeam (subtle)
+                    pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                    var beamOffset = twoFrame * 2;
+                    pg.rect(winX + 10 + beamOffset, floorY - 8, 3, 8);
+                    pg.rect(winX + 20 + beamOffset, floorY - 12, 3, 12);
+
+                    // Blackboard (back wall, center-right)
+                    var bbX = Math.floor(bufW * 0.45);
+                    var bbY = 16;
+                    var bbW = 100;
+                    var bbH = 60;
+                    // Board frame
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(bbX - 3, bbY - 3, bbW + 6, bbH + 6);
+                    // Board surface
+                    pg.fill(EGA.green[0], EGA.green[1], EGA.green[2]);
+                    pg.rect(bbX, bbY, bbW, bbH);
+                    // Chalk text on board
+                    pg.fill(EGA.white[0], EGA.white[1], EGA.white[2]);
+                    pg.rect(bbX + 6, bbY + 8, 30, 2);
+                    pg.rect(bbX + 6, bbY + 14, 22, 2);
+                    pg.rect(bbX + 6, bbY + 20, 36, 2);
+                    pg.rect(bbX + 6, bbY + 28, 18, 2);
+                    pg.rect(bbX + 6, bbY + 34, 28, 2);
+                    // Chalk diagram
+                    pg.rect(bbX + 60, bbY + 10, 20, 16);
+                    pg.fill(EGA.green[0], EGA.green[1], EGA.green[2]);
+                    pg.rect(bbX + 62, bbY + 12, 16, 12);
+                    pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                    pg.rect(bbX + 64, bbY + 14, 4, 4);
+                    pg.rect(bbX + 72, bbY + 18, 4, 4);
+                    // Chalk tray
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(bbX, bbY + bbH, bbW, 4);
+                    pg.fill(EGA.white[0], EGA.white[1], EGA.white[2]);
+                    pg.rect(bbX + 10, bbY + bbH + 1, 8, 2);
+                    pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                    pg.rect(bbX + 24, bbY + bbH + 1, 6, 2);
+
+                    // Desk/lectern (center foreground)
+                    var deskX = Math.floor(bufW * 0.35);
+                    var deskY = floorY - 20;
+                    // Lectern body
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(deskX, deskY, 80, 20);
+                    // Desk top
+                    pg.fill(EGA.lightGray[0], EGA.lightGray[1], EGA.lightGray[2]);
+                    pg.rect(deskX - 4, deskY - 3, 88, 4);
+                    // Desk legs
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(deskX + 4, deskY + 20, 6, 12);
+                    pg.rect(deskX + 70, deskY + 20, 6, 12);
+                    // Book on desk
+                    pg.fill(EGA.red[0], EGA.red[1], EGA.red[2]);
+                    pg.rect(deskX + 20, deskY - 6, 16, 4);
+                    pg.fill(EGA.white[0], EGA.white[1], EGA.white[2]);
+                    pg.rect(deskX + 22, deskY - 5, 12, 2);
+                    // Scroll on desk
+                    pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                    pg.rect(deskX + 44, deskY - 5, 20, 3);
+                    pg.fill(EGA.white[0], EGA.white[1], EGA.white[2]);
+                    pg.rect(deskX + 46, deskY - 4, 16, 1);
+
+                    // Student benches (foreground)
+                    for (var bench = 0; bench < 3; bench++) {
+                        var bx = 20 + bench * 100;
+                        var by = floorY + 20;
+                        if (bx + 70 > bufW) continue;
+                        // Bench seat
+                        pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                        pg.rect(bx, by, 70, 6);
+                        // Bench legs
+                        pg.rect(bx + 4, by + 6, 4, 8);
+                        pg.rect(bx + 62, by + 6, 4, 8);
+                    }
+
+                    // Candle sconces on walls
+                    var sconcePositions = [8, bufW - 20];
+                    for (var s = 0; s < sconcePositions.length; s++) {
+                        var sx = sconcePositions[s];
+                        // Bracket
+                        pg.fill(EGA.lightGray[0], EGA.lightGray[1], EGA.lightGray[2]);
+                        pg.rect(sx, 40, 4, 12);
+                        pg.rect(sx - 2, 50, 8, 4);
+                        // Candle
+                        pg.fill(EGA.white[0], EGA.white[1], EGA.white[2]);
+                        pg.rect(sx, 32, 4, 8);
+                        // Flame (flickers)
+                        if (twoFrame === 0) {
+                            pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                            pg.rect(sx, 28, 4, 4);
+                            pg.fill(EGA.brightRed[0], EGA.brightRed[1], EGA.brightRed[2]);
+                            pg.rect(sx + 1, 26, 2, 3);
+                        } else {
+                            pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                            pg.rect(sx + 1, 28, 3, 4);
+                            pg.fill(EGA.brightRed[0], EGA.brightRed[1], EGA.brightRed[2]);
+                            pg.rect(sx + 1, 25, 2, 4);
+                        }
+                    }
+
+                    // Banner on wall (between window and blackboard)
+                    var bannerX = Math.floor(bufW * 0.34);
+                    pg.fill(EGA.red[0], EGA.red[1], EGA.red[2]);
+                    pg.rect(bannerX, 10, 16, 50);
+                    pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                    pg.rect(bannerX + 2, 14, 12, 2);
+                    pg.rect(bannerX + 4, 20, 8, 8);
+                    pg.rect(bannerX + 2, 32, 12, 2);
+                    // Banner point
+                    pg.fill(EGA.red[0], EGA.red[1], EGA.red[2]);
+                    pg.rect(bannerX + 2, 60, 12, 4);
+                    pg.rect(bannerX + 4, 64, 8, 3);
+                    pg.rect(bannerX + 6, 67, 4, 2);
+
+                    // Scale up
+                    p.background(0);
+                    p.image(pg, 0, 0, canvasW, canvasH);
+                };
+
+                p.windowResized = function() {
+                    var hero = document.getElementById('heroSection');
+                    canvasW = hero.offsetWidth;
+                    canvasH = hero.offsetHeight;
+                    if (canvasH < 10) canvasH = Math.floor(window.innerHeight * 0.5);
+                    if (canvasW < 10) canvasW = window.innerWidth;
+                    p.resizeCanvas(canvasW, canvasH);
+                    if (canvasW < 768) { bufW = 240; bufH = 150; }
+                    else { bufW = 320; bufH = 200; }
+                    pg = p.createGraphics(bufW, bufH);
+                    pg.noSmooth();
+                    pg.pixelDensity(1);
+                };
+            };
+
+            var p5ClassroomInstance = new p5(classroomSketch);
+
+            if (document.body.classList.contains('motion-disabled')) {
+                p5ClassroomInstance.noLoop();
+            }
+
+            var classObserver = new MutationObserver(function(mutations) {
+                for (var i = 0; i < mutations.length; i++) {
+                    if (mutations[i].attributeName === 'class') {
+                        if (document.body.classList.contains('motion-disabled')) {
+                            p5ClassroomInstance.noLoop();
+                        } else {
+                            p5ClassroomInstance.loop();
+                        }
+                    }
+                }
+            });
+            classObserver.observe(document.body, { attributes: true });
+        });
     </script>
 </body>
 </html>

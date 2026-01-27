@@ -14,6 +14,9 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- p5.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+
     <style>
         :root {
             /* EGA 16-color palette */
@@ -150,6 +153,128 @@
 
         .navbar.adventure-verb-bar .navbar-toggler-icon {
             filter: invert(1) !important;
+        }
+
+        canvas {
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        /* ===== HERO SECTION — matches index.html structure ===== */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 50vh;
+            min-height: 320px;
+            max-height: 500px;
+            overflow: hidden;
+        }
+
+        .scene-canvas-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .scene-canvas-container canvas {
+            pointer-events: none;
+        }
+
+        /* Scanline overlay */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.15) 2px,
+                rgba(0, 0, 0, 0.15) 4px
+            );
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+
+        /* Status Bar — Sierra style */
+        .status-bar {
+            width: 100%;
+            background: var(--ega-dark-gray);
+            border-bottom: 2px solid var(--ega-light-gray);
+            padding: 4px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.55rem;
+            color: var(--ega-white);
+            z-index: 20;
+        }
+
+        .status-bar-score {
+            color: var(--ega-yellow);
+        }
+
+        .status-bar-location {
+            color: var(--ega-bright-cyan);
+        }
+
+        /* Dialog Box — Sierra adventure style */
+        .dialog-box {
+            background: var(--ega-blue);
+            border: 4px solid var(--ega-white);
+            outline: 4px solid var(--ega-blue);
+            padding: 20px 28px;
+            margin-top: auto;
+            margin-bottom: 24px;
+            max-width: 520px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .dialog-box h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: var(--ega-yellow);
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 0 var(--ega-black);
+            animation: none;
+            transform: none;
+            letter-spacing: 0;
+            line-height: 1.6;
+        }
+
+        .dialog-box .subtitle {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.55rem;
+            color: var(--ega-white);
+            margin-bottom: 0;
+            text-shadow: none;
+            transform: none;
+            letter-spacing: 0;
+            line-height: 2;
         }
 
         /* Page Header */
@@ -386,6 +511,27 @@
             .chaos-contact-link {
                 font-size: 0.4rem !important;
             }
+            .hero {
+                height: 40vh;
+                min-height: 260px;
+            }
+
+            .dialog-box {
+                padding: 14px 18px;
+                margin-bottom: 16px;
+            }
+
+            .dialog-box h1 {
+                font-size: 0.8rem;
+            }
+
+            .dialog-box .subtitle {
+                font-size: 0.45rem;
+            }
+
+            .status-bar {
+                font-size: 0.4rem;
+            }
         }
 
         /* Minimum font sizes */
@@ -473,17 +619,27 @@
         </div>
     </nav>
 
-    <!-- Page Header -->
-    <section class="container">
-        <div class="page-header">
-            <h1>Publications</h1>
-            <div style="margin-top: 1.5rem;">
-                <a href="https://scholar.google.com/citations?user=dKeX0m8AAAAJ" class="btn-scholar" target="_blank" rel="noopener noreferrer">
-                    View more on Google Scholar
-                </a>
+    <!-- Hero Section — Scriptorium Scene -->
+    <section class="hero" id="heroSection">
+        <div id="sceneCanvas" class="scene-canvas-container"></div>
+        <div class="hero-overlay">
+            <div class="status-bar">
+                <span class="status-bar-score">Score: 72 of 100</span>
+                <span class="status-bar-location">The Scriptorium</span>
+            </div>
+            <div class="dialog-box">
+                <h1>Publications</h1>
+                <p class="subtitle">scholarly scrolls &amp; manuscripts</p>
             </div>
         </div>
     </section>
+
+    <!-- Scholar Link -->
+    <div class="container" style="text-align: center; margin: 1.5rem auto;">
+        <a href="https://scholar.google.com/citations?user=dKeX0m8AAAAJ" class="btn-scholar" target="_blank" rel="noopener noreferrer">
+            View more on Google Scholar
+        </a>
+    </div>
 
     <!-- Recent Journal Articles Section -->
     <section class="py-4">
@@ -678,6 +834,290 @@
                 });
             }
         })();
+    </script>
+
+    <script>
+        // ======================================
+        // SCRIPTORIUM PIXEL SCENE (p5.js)
+        // ======================================
+        document.addEventListener('DOMContentLoaded', function() {
+            var scriptoriumSketch = function(p) {
+                var pg;
+                var bufW = 320;
+                var bufH = 200;
+                var frameCount = 0;
+                var twoFrame = 0;
+                var canvasW, canvasH;
+
+                var EGA = {
+                    black: [0,0,0], blue: [0,0,170], green: [0,170,0],
+                    cyan: [0,170,170], red: [170,0,0], brown: [170,85,0],
+                    lightGray: [170,170,170], darkGray: [85,85,85],
+                    brightBlue: [85,85,255], brightGreen: [85,255,85],
+                    brightCyan: [85,255,255], brightRed: [255,85,85],
+                    magenta: [255,85,255], yellow: [255,255,85],
+                    white: [255,255,255]
+                };
+
+                p.setup = function() {
+                    var hero = document.getElementById('heroSection');
+                    canvasW = hero.offsetWidth;
+                    canvasH = hero.offsetHeight;
+                    if (canvasH < 10) canvasH = Math.max(320, Math.floor(window.innerHeight * 0.5));
+                    if (canvasW < 10) canvasW = window.innerWidth;
+
+                    if (canvasW < 768) { bufW = 240; bufH = 150; }
+                    else { bufW = 320; bufH = 200; }
+
+                    var canvas = p.createCanvas(canvasW, canvasH);
+                    canvas.parent('sceneCanvas');
+                    canvas.style('display', 'block');
+                    p.noSmooth();
+
+                    pg = p.createGraphics(bufW, bufH);
+                    pg.noSmooth();
+                    pg.pixelDensity(1);
+                };
+
+                p.draw = function() {
+                    frameCount++;
+                    if (frameCount % 15 === 0) twoFrame = 1 - twoFrame;
+
+                    pg.background(0);
+                    pg.noStroke();
+
+                    // Stone wall background
+                    pg.fill(EGA.darkGray[0], EGA.darkGray[1], EGA.darkGray[2]);
+                    pg.rect(0, 0, bufW, bufH);
+
+                    // Stone mortar lines
+                    pg.fill(EGA.black[0], EGA.black[1], EGA.black[2]);
+                    for (var row = 0; row < bufH; row += 22) {
+                        pg.rect(0, row, bufW, 1);
+                        var offset = (Math.floor(row / 22) % 2 === 0) ? 0 : 26;
+                        for (var col = offset; col < bufW; col += 52) {
+                            pg.rect(col, row, 1, 22);
+                        }
+                    }
+
+                    // Wooden floor
+                    var floorY = Math.floor(bufH * 0.68);
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(0, floorY, bufW, bufH - floorY);
+                    pg.fill(EGA.darkGray[0], EGA.darkGray[1], EGA.darkGray[2]);
+                    for (var fy = floorY + 1; fy < bufH; fy += 10) {
+                        pg.rect(0, fy, bufW, 1);
+                    }
+
+                    // === LEFT BOOKSHELF ===
+                    var shelfX = 8;
+                    var shelfW = 70;
+                    // Shelf frame
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(shelfX, 10, shelfW, floorY - 10);
+                    // Shelf back
+                    pg.fill(EGA.darkGray[0], EGA.darkGray[1], EGA.darkGray[2]);
+                    pg.rect(shelfX + 4, 14, shelfW - 8, floorY - 18);
+
+                    // Shelf rows with books
+                    var shelfRows = [18, 48, 78, 108];
+                    var bookColors = [EGA.red, EGA.blue, EGA.green, EGA.brightRed, EGA.cyan, EGA.magenta, EGA.brightBlue, EGA.yellow];
+                    for (var r = 0; r < shelfRows.length; r++) {
+                        var sy = shelfRows[r];
+                        // Shelf plank
+                        pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                        pg.rect(shelfX + 2, sy + 24, shelfW - 4, 3);
+                        // Books on this shelf
+                        var bx = shelfX + 6;
+                        for (var b = 0; b < 6; b++) {
+                            var bc = bookColors[(r * 6 + b) % bookColors.length];
+                            var bh = 18 + (b % 3) * 2;
+                            var bw = 7 + (b % 2) * 2;
+                            pg.fill(bc[0], bc[1], bc[2]);
+                            pg.rect(bx, sy + 24 - bh, bw, bh);
+                            pg.fill(EGA.black[0], EGA.black[1], EGA.black[2]);
+                            pg.rect(bx + bw, sy + 24 - bh, 1, bh);
+                            bx += bw + 1;
+                        }
+                    }
+
+                    // === RIGHT SCROLL RACK ===
+                    var rackX = bufW - 80;
+                    var rackW = 70;
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(rackX, 10, rackW, floorY - 10);
+                    pg.fill(EGA.darkGray[0], EGA.darkGray[1], EGA.darkGray[2]);
+                    pg.rect(rackX + 4, 14, rackW - 8, floorY - 18);
+
+                    // Scroll cubbies
+                    var cubbyRows = [18, 48, 78, 108];
+                    for (var cr = 0; cr < cubbyRows.length; cr++) {
+                        var cy = cubbyRows[cr];
+                        // Shelf plank
+                        pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                        pg.rect(rackX + 2, cy + 24, rackW - 4, 3);
+                        // Scrolls (horizontal cylinders)
+                        for (var sc = 0; sc < 4; sc++) {
+                            var scrollX = rackX + 8 + sc * 14;
+                            var scrollY = cy + 6;
+                            var scrollColors = [EGA.yellow, EGA.white, EGA.lightGray, EGA.brightCyan];
+                            var scCol = scrollColors[(cr * 4 + sc) % scrollColors.length];
+                            // Scroll body
+                            pg.fill(scCol[0], scCol[1], scCol[2]);
+                            pg.rect(scrollX, scrollY, 12, 6);
+                            // Scroll ends (darker)
+                            pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                            pg.rect(scrollX - 1, scrollY, 2, 6);
+                            pg.rect(scrollX + 11, scrollY, 2, 6);
+                            // Second scroll stacked
+                            if (sc % 2 === 0) {
+                                pg.fill(scCol[0], scCol[1], scCol[2]);
+                                pg.rect(scrollX + 2, scrollY + 8, 10, 5);
+                                pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                                pg.rect(scrollX + 1, scrollY + 8, 2, 5);
+                                pg.rect(scrollX + 10, scrollY + 8, 2, 5);
+                            }
+                        }
+                    }
+
+                    // === CENTER WRITING DESK ===
+                    var deskX = Math.floor(bufW / 2) - 40;
+                    var deskY = floorY - 30;
+                    // Desk body
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(deskX, deskY, 80, 18);
+                    // Desk top surface
+                    pg.fill(EGA.lightGray[0], EGA.lightGray[1], EGA.lightGray[2]);
+                    pg.rect(deskX - 4, deskY - 3, 88, 4);
+                    // Desk legs
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(deskX + 4, deskY + 18, 5, 14);
+                    pg.rect(deskX + 71, deskY + 18, 5, 14);
+
+                    // Open scroll on desk
+                    pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                    pg.rect(deskX + 12, deskY - 8, 40, 6);
+                    // Scroll roll ends
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(deskX + 10, deskY - 9, 4, 8);
+                    pg.rect(deskX + 50, deskY - 9, 4, 8);
+                    // Text on scroll
+                    pg.fill(EGA.black[0], EGA.black[1], EGA.black[2]);
+                    pg.rect(deskX + 16, deskY - 6, 16, 1);
+                    pg.rect(deskX + 16, deskY - 4, 24, 1);
+
+                    // Inkwell
+                    pg.fill(EGA.black[0], EGA.black[1], EGA.black[2]);
+                    pg.rect(deskX + 60, deskY - 6, 8, 4);
+                    pg.fill(EGA.darkGray[0], EGA.darkGray[1], EGA.darkGray[2]);
+                    pg.rect(deskX + 61, deskY - 5, 6, 2);
+                    // Quill
+                    pg.fill(EGA.white[0], EGA.white[1], EGA.white[2]);
+                    pg.rect(deskX + 66, deskY - 14, 1, 10);
+                    pg.rect(deskX + 64, deskY - 14, 4, 2);
+                    pg.fill(EGA.brightCyan[0], EGA.brightCyan[1], EGA.brightCyan[2]);
+                    pg.rect(deskX + 64, deskY - 16, 5, 3);
+
+                    // Chair
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(deskX + 24, floorY - 4, 30, 4);
+                    pg.rect(deskX + 26, floorY, 4, 10);
+                    pg.rect(deskX + 48, floorY, 4, 10);
+                    // Chair back
+                    pg.rect(deskX + 24, floorY - 24, 4, 24);
+                    pg.rect(deskX + 24, floorY - 24, 30, 4);
+
+                    // === CANDLE on desk ===
+                    pg.fill(EGA.white[0], EGA.white[1], EGA.white[2]);
+                    pg.rect(deskX + 4, deskY - 10, 4, 8);
+                    // Flame
+                    if (twoFrame === 0) {
+                        pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                        pg.rect(deskX + 4, deskY - 14, 4, 4);
+                        pg.fill(EGA.brightRed[0], EGA.brightRed[1], EGA.brightRed[2]);
+                        pg.rect(deskX + 5, deskY - 16, 2, 3);
+                    } else {
+                        pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                        pg.rect(deskX + 5, deskY - 14, 3, 4);
+                        pg.fill(EGA.brightRed[0], EGA.brightRed[1], EGA.brightRed[2]);
+                        pg.rect(deskX + 5, deskY - 17, 2, 4);
+                    }
+
+                    // === WALL TORCH (left) ===
+                    var torchX = shelfX + shelfW + 12;
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(torchX, 30, 4, 16);
+                    pg.fill(EGA.lightGray[0], EGA.lightGray[1], EGA.lightGray[2]);
+                    pg.rect(torchX - 2, 44, 8, 4);
+                    if (twoFrame === 0) {
+                        pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                        pg.rect(torchX - 1, 22, 6, 8);
+                        pg.fill(EGA.brightRed[0], EGA.brightRed[1], EGA.brightRed[2]);
+                        pg.rect(torchX, 18, 4, 5);
+                    } else {
+                        pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                        pg.rect(torchX, 23, 5, 7);
+                        pg.fill(EGA.brightRed[0], EGA.brightRed[1], EGA.brightRed[2]);
+                        pg.rect(torchX + 1, 19, 3, 5);
+                    }
+
+                    // === WALL TORCH (right) ===
+                    var torchX2 = rackX - 16;
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(torchX2, 30, 4, 16);
+                    pg.fill(EGA.lightGray[0], EGA.lightGray[1], EGA.lightGray[2]);
+                    pg.rect(torchX2 - 2, 44, 8, 4);
+                    if (twoFrame === 0) {
+                        pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                        pg.rect(torchX2 - 1, 22, 6, 8);
+                        pg.fill(EGA.brightRed[0], EGA.brightRed[1], EGA.brightRed[2]);
+                        pg.rect(torchX2, 18, 4, 5);
+                    } else {
+                        pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                        pg.rect(torchX2, 23, 5, 7);
+                        pg.fill(EGA.brightRed[0], EGA.brightRed[1], EGA.brightRed[2]);
+                        pg.rect(torchX2 + 1, 19, 3, 5);
+                    }
+
+                    // Scale up
+                    p.background(0);
+                    p.image(pg, 0, 0, canvasW, canvasH);
+                };
+
+                p.windowResized = function() {
+                    var hero = document.getElementById('heroSection');
+                    canvasW = hero.offsetWidth;
+                    canvasH = hero.offsetHeight;
+                    if (canvasH < 10) canvasH = Math.floor(window.innerHeight * 0.5);
+                    if (canvasW < 10) canvasW = window.innerWidth;
+                    p.resizeCanvas(canvasW, canvasH);
+                    if (canvasW < 768) { bufW = 240; bufH = 150; }
+                    else { bufW = 320; bufH = 200; }
+                    pg = p.createGraphics(bufW, bufH);
+                    pg.noSmooth();
+                    pg.pixelDensity(1);
+                };
+            };
+
+            var p5ScriptoriumInstance = new p5(scriptoriumSketch);
+
+            if (document.body.classList.contains('motion-disabled')) {
+                p5ScriptoriumInstance.noLoop();
+            }
+
+            var scriptObserver = new MutationObserver(function(mutations) {
+                for (var i = 0; i < mutations.length; i++) {
+                    if (mutations[i].attributeName === 'class') {
+                        if (document.body.classList.contains('motion-disabled')) {
+                            p5ScriptoriumInstance.noLoop();
+                        } else {
+                            p5ScriptoriumInstance.loop();
+                        }
+                    }
+                }
+            });
+            scriptObserver.observe(document.body, { attributes: true });
+        });
     </script>
 </body>
 </html>
