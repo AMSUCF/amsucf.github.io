@@ -14,6 +14,9 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- p5.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+
     <!-- Chaos CSS (shared - overridden inline) -->
     <link rel="stylesheet" href="css/chaos.css">
 
@@ -77,23 +80,10 @@
             }
         }
 
-        /* Scanline overlay */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 0, 0, 0.1) 2px,
-                rgba(0, 0, 0, 0.1) 4px
-            );
-            pointer-events: none;
-            z-index: 9000;
+        canvas {
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
         }
 
         /* Adventure Verb Bar Navigation — high specificity to override chaos.css */
@@ -185,6 +175,122 @@
             filter: invert(1) !important;
         }
 
+        /* ===== HERO SECTION — Portrait Hallway ===== */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 50vh;
+            min-height: 320px;
+            max-height: 500px;
+            overflow: hidden;
+        }
+
+        .scene-canvas-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .scene-canvas-container canvas {
+            pointer-events: none;
+        }
+
+        /* Scanline overlay */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.15) 2px,
+                rgba(0, 0, 0, 0.15) 4px
+            );
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+
+        /* Status Bar — Sierra style */
+        .status-bar {
+            width: 100%;
+            background: var(--ega-dark-gray);
+            border-bottom: 2px solid var(--ega-light-gray);
+            padding: 4px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.55rem;
+            color: var(--ega-white);
+            z-index: 20;
+        }
+
+        .status-bar-score {
+            color: var(--ega-yellow);
+        }
+
+        .status-bar-location {
+            color: var(--ega-bright-cyan);
+        }
+
+        /* Dialog Box — Sierra adventure style */
+        .dialog-box {
+            background: var(--ega-blue);
+            border: 4px solid var(--ega-white);
+            outline: 4px solid var(--ega-blue);
+            padding: 20px 28px;
+            margin-top: auto;
+            margin-bottom: 24px;
+            max-width: 520px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .dialog-box h1 {
+            font-family: 'Press Start 2P', cursive !important;
+            font-size: 1.1rem !important;
+            font-weight: 400 !important;
+            color: var(--ega-yellow) !important;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 0 var(--ega-black) !important;
+            animation: none !important;
+            transform: none !important;
+            letter-spacing: 0 !important;
+            line-height: 1.6 !important;
+        }
+
+        .dialog-box .subtitle {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.55rem;
+            color: var(--ega-white);
+            margin-bottom: 0;
+            text-shadow: none;
+            transform: none;
+            letter-spacing: 0;
+            line-height: 2;
+        }
+
         /* =============================================
            QUEST INFORMATION PANEL — Sierra dialog style
            ============================================= */
@@ -193,27 +299,6 @@
             max-width: 800px;
             margin: 1.5rem auto;
             padding: 0 1rem;
-        }
-
-        /* Top status bar */
-        .quest-status-bar {
-            background: var(--ega-dark-gray);
-            border: 2px solid var(--ega-light-gray);
-            padding: 6px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.5rem;
-            color: var(--ega-white);
-            margin-bottom: 0;
-        }
-
-        .quest-status-bar .location {
-            color: var(--ega-bright-cyan);
-        }
-
-        .quest-status-bar .action {
-            color: var(--ega-yellow);
         }
 
         /* Main info panel — the big Sierra text window */
@@ -233,13 +318,17 @@
             text-align: center;
         }
 
-        .quest-panel-title h1 {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 1rem;
-            font-weight: 400;
-            color: var(--ega-yellow);
+        .quest-panel-title h2 {
+            font-family: 'Press Start 2P', cursive !important;
+            font-size: 0.7rem !important;
+            font-weight: 400 !important;
+            color: var(--ega-yellow) !important;
             margin: 0;
-            text-shadow: 2px 2px 0 var(--ega-black);
+            text-shadow: 2px 2px 0 var(--ega-black) !important;
+            animation: none !important;
+            transform: none !important;
+            letter-spacing: 0 !important;
+            line-height: 1.6 !important;
         }
 
         .quest-panel-body {
@@ -331,11 +420,15 @@
         }
 
         .quest-log-header h2 {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.7rem;
-            color: var(--ega-yellow);
+            font-family: 'Press Start 2P', cursive !important;
+            font-size: 0.7rem !important;
+            color: var(--ega-yellow) !important;
             margin: 0;
-            text-shadow: 2px 2px 0 var(--ega-black);
+            text-shadow: 2px 2px 0 var(--ega-black) !important;
+            animation: none !important;
+            transform: none !important;
+            letter-spacing: 0 !important;
+            line-height: 1.6 !important;
         }
 
         .quest-log {
@@ -551,13 +644,35 @@
 
         /* Mobile */
         @media (max-width: 767px) {
+            .hero {
+                height: 40vh;
+                min-height: 260px;
+            }
+
+            .dialog-box {
+                padding: 14px 18px;
+                margin-bottom: 16px;
+            }
+
+            .dialog-box h1 {
+                font-size: 0.8rem !important;
+            }
+
+            .dialog-box .subtitle {
+                font-size: 0.45rem;
+            }
+
+            .status-bar {
+                font-size: 0.4rem;
+            }
+
             .quest-screen {
                 padding: 0 0.5rem;
                 margin-top: 1rem;
             }
 
-            .quest-panel-title h1 {
-                font-size: 0.75rem;
+            .quest-panel-title h2 {
+                font-size: 0.6rem !important;
             }
 
             .quest-description {
@@ -578,7 +693,7 @@
             }
 
             .quest-log-header h2 {
-                font-size: 0.55rem;
+                font-size: 0.55rem !important;
             }
 
             .quest-action-btn {
@@ -641,53 +756,28 @@
 </head>
 <body>
 
-    <!-- Navigation - Adventure Verb Bar -->
-    <nav class="navbar navbar-expand-lg adventure-verb-bar">
-        <div class="container">
-            <a class="navbar-brand" href="index.html">ANASTASIA SALTER</a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html">Look: About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="books.html">Read: Books</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="research.html">Study: Research</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="elit.html">Play: E-lit</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="teaching.html">Talk: Teaching</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="CV.pdf" target="_blank">Take: CV</a>
-                    </li>
-                </ul>
+    <!-- Hero Section — Portrait Hallway -->
+    <section class="hero" id="heroSection">
+        <div id="sceneCanvas" class="scene-canvas-container"></div>
+        <div class="hero-overlay">
+            <div class="status-bar">
+                <span class="status-bar-score">Score: 50 of 100</span>
+                <span class="status-bar-location">The Portrait Gallery</span>
+            </div>
+            <div class="dialog-box">
+                <h1>Anastasia Salter</h1>
+                <p class="subtitle">Professor of English, UCF</p>
             </div>
         </div>
-    </nav>
+    </section>
 
     <!-- Quest Information Screen -->
     <div class="quest-screen">
 
-        <!-- Status Bar -->
-        <div class="quest-status-bar">
-            <span class="action">LOOK AT: Character</span>
-            <span class="location">UCF English Department</span>
-        </div>
-
         <!-- Main Info Panel -->
         <div class="quest-panel">
             <div class="quest-panel-title">
-                <h1>Anastasia Salter</h1>
+                <h2>Character Info</h2>
             </div>
             <div class="quest-panel-body">
                 <div class="quest-description">
@@ -763,6 +853,40 @@
         </div>
 
     </div>
+
+    <!-- Navigation - Adventure Verb Bar -->
+    <nav class="navbar navbar-expand-lg fixed-top adventure-verb-bar">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">ANASTASIA SALTER</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="about.html">Look: About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="books.html">Read: Books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="research.html">Study: Research</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="elit.html">Play: E-lit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="teaching.html">Talk: Teaching</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="CV.pdf" target="_blank">Take: CV</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <!-- Motion Toggle Button -->
     <div class="chaos-motion-toggle" id="motionToggle">
@@ -855,6 +979,325 @@
             prompt.style.top = e.clientY + 'px';
             document.body.appendChild(prompt);
             setTimeout(function() { prompt.remove(); }, 600);
+        });
+
+        // ======================================
+        // PORTRAIT GALLERY PIXEL SCENE (p5.js)
+        // ======================================
+        document.addEventListener('DOMContentLoaded', function() {
+            var gallerySketch = function(p) {
+                var pg;
+                var bufW = 320;
+                var bufH = 200;
+                var frameCount = 0;
+                var twoFrame = 0;
+                var canvasW, canvasH;
+
+                var EGA = {
+                    black: [0,0,0], blue: [0,0,170], green: [0,170,0],
+                    cyan: [0,170,170], red: [170,0,0], brown: [170,85,0],
+                    lightGray: [170,170,170], darkGray: [85,85,85],
+                    brightBlue: [85,85,255], brightGreen: [85,255,85],
+                    brightCyan: [85,255,255], brightRed: [255,85,85],
+                    magenta: [255,85,255], yellow: [255,255,85],
+                    white: [255,255,255]
+                };
+
+                // Portrait data: robe color, hair color, accessory
+                var portraits = [
+                    { robe: 'red', hair: 'brown', hat: true },
+                    { robe: 'blue', hair: 'yellow', hat: false },
+                    { robe: 'green', hair: 'lightGray', hat: true },
+                    { robe: 'magenta', hair: 'brown', hat: false },
+                    { robe: 'cyan', hair: 'black', hat: true },
+                    { robe: 'brightBlue', hair: 'brightRed', hat: false }
+                ];
+
+                function drawPortrait(px, py, pw, ph, portrait) {
+                    // Gold frame
+                    pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                    pg.rect(px, py, pw, ph);
+                    // Frame inner border
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(px + 2, py + 2, pw - 4, ph - 4);
+                    // Canvas background (dark blue)
+                    pg.fill(EGA.blue[0], EGA.blue[1], EGA.blue[2]);
+                    pg.rect(px + 4, py + 4, pw - 8, ph - 8);
+
+                    // Figure centered in portrait
+                    var cx = px + Math.floor(pw / 2);
+                    var cy = py + Math.floor(ph / 2);
+
+                    // Head
+                    var hc = EGA[portrait.hair] || EGA.brown;
+                    pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]); // skin
+                    pg.rect(cx - 3, cy - 10, 6, 6);
+                    // Hair
+                    pg.fill(hc[0], hc[1], hc[2]);
+                    pg.rect(cx - 3, cy - 12, 6, 3);
+                    // Hat/mortarboard
+                    if (portrait.hat) {
+                        pg.fill(EGA.black[0], EGA.black[1], EGA.black[2]);
+                        pg.rect(cx - 5, cy - 14, 10, 2);
+                        pg.rect(cx - 3, cy - 16, 6, 2);
+                        // Tassel
+                        pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                        pg.rect(cx + 4, cy - 14, 1, 4);
+                        pg.rect(cx + 4, cy - 10, 2, 1);
+                    }
+                    // Eyes
+                    pg.fill(EGA.black[0], EGA.black[1], EGA.black[2]);
+                    pg.rect(cx - 2, cy - 8, 1, 1);
+                    pg.rect(cx + 1, cy - 8, 1, 1);
+
+                    // Robe/body
+                    var rc = EGA[portrait.robe] || EGA.red;
+                    pg.fill(rc[0], rc[1], rc[2]);
+                    pg.rect(cx - 5, cy - 3, 10, 12);
+                    // Collar
+                    pg.fill(EGA.white[0], EGA.white[1], EGA.white[2]);
+                    pg.rect(cx - 3, cy - 4, 6, 2);
+
+                    // Frame highlight (top-left)
+                    pg.fill(EGA.white[0], EGA.white[1], EGA.white[2]);
+                    pg.rect(px, py, pw, 1);
+                    pg.rect(px, py, 1, ph);
+                }
+
+                function drawTorch(tx, ty) {
+                    // Bracket
+                    pg.fill(EGA.lightGray[0], EGA.lightGray[1], EGA.lightGray[2]);
+                    pg.rect(tx, ty + 8, 4, 12);
+                    pg.rect(tx - 2, ty + 18, 8, 4);
+                    // Torch body
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(tx, ty, 4, 10);
+                    // Flame
+                    if (twoFrame === 0) {
+                        pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                        pg.rect(tx - 1, ty - 6, 6, 6);
+                        pg.fill(EGA.brightRed[0], EGA.brightRed[1], EGA.brightRed[2]);
+                        pg.rect(tx, ty - 9, 4, 4);
+                    } else {
+                        pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                        pg.rect(tx, ty - 5, 5, 5);
+                        pg.fill(EGA.brightRed[0], EGA.brightRed[1], EGA.brightRed[2]);
+                        pg.rect(tx + 1, ty - 9, 3, 5);
+                    }
+                }
+
+                p.setup = function() {
+                    var hero = document.getElementById('heroSection');
+                    canvasW = hero.offsetWidth;
+                    canvasH = hero.offsetHeight;
+                    if (canvasH < 10) canvasH = Math.max(320, Math.floor(window.innerHeight * 0.5));
+                    if (canvasW < 10) canvasW = window.innerWidth;
+
+                    if (canvasW < 768) { bufW = 240; bufH = 150; }
+                    else { bufW = 320; bufH = 200; }
+
+                    var canvas = p.createCanvas(canvasW, canvasH);
+                    canvas.parent('sceneCanvas');
+                    canvas.style('display', 'block');
+                    p.noSmooth();
+
+                    pg = p.createGraphics(bufW, bufH);
+                    pg.noSmooth();
+                    pg.pixelDensity(1);
+                };
+
+                p.draw = function() {
+                    frameCount++;
+                    if (frameCount % 15 === 0) twoFrame = 1 - twoFrame;
+
+                    pg.background(0);
+                    pg.noStroke();
+
+                    // === STONE WALL BACKGROUND ===
+                    pg.fill(EGA.darkGray[0], EGA.darkGray[1], EGA.darkGray[2]);
+                    pg.rect(0, 0, bufW, bufH);
+
+                    // Stone mortar lines
+                    pg.fill(EGA.black[0], EGA.black[1], EGA.black[2]);
+                    for (var row = 0; row < bufH; row += 20) {
+                        pg.rect(0, row, bufW, 1);
+                        var offset = (Math.floor(row / 20) % 2 === 0) ? 0 : 24;
+                        for (var col = offset; col < bufW; col += 48) {
+                            pg.rect(col, row, 1, 20);
+                        }
+                    }
+
+                    // === FLOOR ===
+                    var floorY = Math.floor(bufH * 0.7);
+                    // Stone floor base
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(0, floorY, bufW, bufH - floorY);
+                    // Floor tile lines
+                    pg.fill(EGA.darkGray[0], EGA.darkGray[1], EGA.darkGray[2]);
+                    for (var fy = floorY; fy < bufH; fy += 10) {
+                        pg.rect(0, fy, bufW, 1);
+                    }
+                    for (var fx = 0; fx < bufW; fx += 28) {
+                        pg.rect(fx, floorY, 1, bufH - floorY);
+                    }
+
+                    // === RED CARPET (center runner) ===
+                    var carpetW = 60;
+                    var carpetX = Math.floor(bufW / 2 - carpetW / 2);
+                    pg.fill(EGA.red[0], EGA.red[1], EGA.red[2]);
+                    pg.rect(carpetX, floorY, carpetW, bufH - floorY);
+                    // Carpet border
+                    pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                    pg.rect(carpetX, floorY, 2, bufH - floorY);
+                    pg.rect(carpetX + carpetW - 2, floorY, 2, bufH - floorY);
+                    // Carpet pattern
+                    pg.fill(EGA.brightRed[0], EGA.brightRed[1], EGA.brightRed[2]);
+                    for (var cy = floorY + 6; cy < bufH; cy += 14) {
+                        pg.rect(carpetX + Math.floor(carpetW / 2) - 4, cy, 8, 4);
+                    }
+
+                    // === WAINSCOTING (lower wall panels) ===
+                    var wainY = floorY - 18;
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(0, wainY, bufW, 18);
+                    // Top molding
+                    pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                    pg.rect(0, wainY, bufW, 2);
+                    // Panel lines
+                    pg.fill(EGA.darkGray[0], EGA.darkGray[1], EGA.darkGray[2]);
+                    for (var wx = 30; wx < bufW; wx += 50) {
+                        pg.rect(wx, wainY + 3, 1, 14);
+                    }
+
+                    // === PORTRAITS on left wall ===
+                    var portraitW = 32;
+                    var portraitH = 44;
+                    var portraitY = 20;
+                    var spacing = 52;
+                    var startX = 10;
+
+                    // Left side portraits (3)
+                    for (var i = 0; i < 3; i++) {
+                        var px = startX + i * spacing;
+                        if (px + portraitW < bufW / 2 - 10) {
+                            drawPortrait(px, portraitY, portraitW, portraitH, portraits[i]);
+                        }
+                    }
+
+                    // Right side portraits (3)
+                    var rightStartX = Math.floor(bufW / 2) + 14;
+                    for (var i = 0; i < 3; i++) {
+                        var px = rightStartX + i * spacing;
+                        if (px + portraitW < bufW - 4) {
+                            drawPortrait(px, portraitY, portraitW, portraitH, portraits[i + 3]);
+                        }
+                    }
+
+                    // === TORCHES between portraits ===
+                    // Left wall torches
+                    drawTorch(startX + portraitW + 8, 30);
+                    drawTorch(startX + portraitW + spacing + 8, 30);
+
+                    // Right wall torches
+                    drawTorch(rightStartX + portraitW + 8, 30);
+                    drawTorch(rightStartX + portraitW + spacing + 8, 30);
+
+                    // === CENTER SUIT OF ARMOR ===
+                    var armorX = Math.floor(bufW / 2) - 8;
+                    var armorY = floorY - 44;
+
+                    // Helmet
+                    pg.fill(EGA.lightGray[0], EGA.lightGray[1], EGA.lightGray[2]);
+                    pg.rect(armorX + 2, armorY, 12, 10);
+                    pg.fill(EGA.darkGray[0], EGA.darkGray[1], EGA.darkGray[2]);
+                    pg.rect(armorX + 4, armorY + 4, 8, 2); // visor slit
+                    // Helmet plume
+                    pg.fill(EGA.brightRed[0], EGA.brightRed[1], EGA.brightRed[2]);
+                    pg.rect(armorX + 6, armorY - 4, 4, 5);
+
+                    // Body
+                    pg.fill(EGA.lightGray[0], EGA.lightGray[1], EGA.lightGray[2]);
+                    pg.rect(armorX + 1, armorY + 10, 14, 18);
+                    // Belt
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(armorX + 1, armorY + 20, 14, 3);
+                    pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                    pg.rect(armorX + 6, armorY + 20, 4, 3);
+
+                    // Legs
+                    pg.fill(EGA.lightGray[0], EGA.lightGray[1], EGA.lightGray[2]);
+                    pg.rect(armorX + 2, armorY + 28, 5, 14);
+                    pg.rect(armorX + 9, armorY + 28, 5, 14);
+                    // Feet
+                    pg.fill(EGA.darkGray[0], EGA.darkGray[1], EGA.darkGray[2]);
+                    pg.rect(armorX + 1, armorY + 40, 6, 4);
+                    pg.rect(armorX + 9, armorY + 40, 6, 4);
+
+                    // Sword (right side)
+                    pg.fill(EGA.lightGray[0], EGA.lightGray[1], EGA.lightGray[2]);
+                    pg.rect(armorX + 15, armorY + 8, 2, 24);
+                    pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                    pg.rect(armorX + 13, armorY + 8, 6, 2);
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(armorX + 15, armorY + 4, 2, 4);
+
+                    // Shield (left side)
+                    pg.fill(EGA.red[0], EGA.red[1], EGA.red[2]);
+                    pg.rect(armorX - 5, armorY + 12, 8, 12);
+                    pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                    pg.rect(armorX - 3, armorY + 15, 4, 6);
+
+                    // === NAME BANNER above center ===
+                    var bannerW = 80;
+                    var bannerX = Math.floor(bufW / 2 - bannerW / 2);
+                    pg.fill(EGA.red[0], EGA.red[1], EGA.red[2]);
+                    pg.rect(bannerX, 4, bannerW, 12);
+                    pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                    pg.rect(bannerX, 4, bannerW, 1);
+                    pg.rect(bannerX, 15, bannerW, 1);
+                    // Banner tails
+                    pg.fill(EGA.red[0], EGA.red[1], EGA.red[2]);
+                    pg.rect(bannerX - 4, 6, 4, 8);
+                    pg.rect(bannerX + bannerW, 6, 4, 8);
+
+                    // === Scale up ===
+                    p.background(0);
+                    p.image(pg, 0, 0, canvasW, canvasH);
+                };
+
+                p.windowResized = function() {
+                    var hero = document.getElementById('heroSection');
+                    canvasW = hero.offsetWidth;
+                    canvasH = hero.offsetHeight;
+                    if (canvasH < 10) canvasH = Math.floor(window.innerHeight * 0.5);
+                    if (canvasW < 10) canvasW = window.innerWidth;
+                    p.resizeCanvas(canvasW, canvasH);
+                    if (canvasW < 768) { bufW = 240; bufH = 150; }
+                    else { bufW = 320; bufH = 200; }
+                    pg = p.createGraphics(bufW, bufH);
+                    pg.noSmooth();
+                    pg.pixelDensity(1);
+                };
+            };
+
+            var p5GalleryInstance = new p5(gallerySketch);
+
+            if (document.body.classList.contains('motion-disabled')) {
+                p5GalleryInstance.noLoop();
+            }
+
+            var galleryObserver = new MutationObserver(function(mutations) {
+                for (var i = 0; i < mutations.length; i++) {
+                    if (mutations[i].attributeName === 'class') {
+                        if (document.body.classList.contains('motion-disabled')) {
+                            p5GalleryInstance.noLoop();
+                        } else {
+                            p5GalleryInstance.loop();
+                        }
+                    }
+                }
+            });
+            galleryObserver.observe(document.body, { attributes: true });
         });
     </script>
 </body>

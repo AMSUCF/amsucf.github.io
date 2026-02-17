@@ -309,7 +309,7 @@ body {
 
 /* Links - exclude nav-links and contact cluster links */
 a:not(.nav-link):not(.navbar-brand):not(.chaos-contact-link) {
-    color: var(--burn-orange) !important;
+    color: var(--toxic-yellow) !important;
     text-decoration: underline;
     text-decoration-color: var(--acid-lime);
     text-decoration-thickness: 2px;
@@ -317,7 +317,7 @@ a:not(.nav-link):not(.navbar-brand):not(.chaos-contact-link) {
 }
 
 a:not(.nav-link):not(.navbar-brand):not(.chaos-contact-link):hover {
-    color: var(--toxic-yellow) !important;
+    color: var(--acid-lime) !important;
     text-decoration-color: var(--blood-red);
     text-shadow: 1px 1px 0 var(--tar-black);
 }
