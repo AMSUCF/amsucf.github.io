@@ -1319,9 +1319,16 @@
             };
 
             var p5GalleryInstance = new p5(gallerySketch);
-            document.addEventListener('DOMContentLoaded', function() {
-                if (typeof AdventureScore !== 'undefined') { AdventureScore.registerPage('about'); }
-            });
+            (function () {
+                function registerAbout() {
+                    if (typeof AdventureScore !== 'undefined') { AdventureScore.registerPage('about'); }
+                }
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', registerAbout);
+                } else {
+                    registerAbout();
+                }
+            })();
 
             if (document.body.classList.contains('motion-disabled')) {
                 p5GalleryInstance.noLoop();
