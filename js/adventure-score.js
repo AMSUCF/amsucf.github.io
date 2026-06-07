@@ -114,6 +114,7 @@
   var VISITED_KEY = 'adventure-visited';
   var EGGS_KEY = 'adventure-eggs';
   var STYLE_ID = 'adventure-score-style';
+  var audioCtx = null;
 
   function hasDOM() {
     return typeof document !== 'undefined' && typeof localStorage !== 'undefined';
@@ -149,6 +150,7 @@
   }
 
   function ensureStyle() {
+    if (!hasDOM()) { return; }
     if (document.getElementById(STYLE_ID)) { return; }
     var css =
       '.status-bar-score.score-flash{animation:adv-score-flash .5s ease-out;}' +
@@ -193,16 +195,17 @@
     try {
       var Ctx = window.AudioContext || window.webkitAudioContext;
       if (!Ctx) { return; }
-      var ctx = new Ctx();
-      var osc = ctx.createOscillator();
-      var gain = ctx.createGain();
+      if (!audioCtx) { audioCtx = new Ctx(); }
+      if (audioCtx.state === 'suspended' && audioCtx.resume) { audioCtx.resume(); }
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
       osc.type = 'square';
-      osc.frequency.setValueAtTime(660, ctx.currentTime);
-      osc.frequency.setValueAtTime(880, ctx.currentTime + 0.07);
-      gain.gain.setValueAtTime(0.05, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.18);
-      osc.connect(gain); gain.connect(ctx.destination);
-      osc.start(); osc.stop(ctx.currentTime + 0.18);
+      osc.frequency.setValueAtTime(660, audioCtx.currentTime);
+      osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.07);
+      gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.18);
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(); osc.stop(audioCtx.currentTime + 0.18);
     } catch (e) { /* audio not available; ignore */ }
   }
 
