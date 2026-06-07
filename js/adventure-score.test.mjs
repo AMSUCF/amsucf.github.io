@@ -13,6 +13,10 @@ test('maxScore = 1 + pages + eggs = 25', () => {
   assert.equal(AS.maxScore(), 25);
 });
 
+test('maxScore equals starting + pages + eggs structurally', () => {
+  assert.equal(AS.maxScore(), AS.STARTING_SCORE + AS.PAGES.length + AS.totalEggCount(AS.EGGS));
+});
+
 test('applyVisit adds a point only the first time', () => {
   const s0 = { score: 1, visited: [], eggs: [] };
   const r1 = AS.applyVisit(s0, 'index');

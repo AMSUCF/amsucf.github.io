@@ -64,6 +64,12 @@
     };
   }
 
+  // The manifest is the single source of truth for scoring; make it read-only
+  // so neither the browser glue nor page code can corrupt it at runtime.
+  Object.freeze(PAGES);
+  for (var _p in EGGS) { if (EGGS.hasOwnProperty(_p)) { Object.freeze(EGGS[_p]); } }
+  Object.freeze(EGGS);
+
   var AdventureScore = {
     STARTING_SCORE: STARTING_SCORE,
     PAGES: PAGES,
