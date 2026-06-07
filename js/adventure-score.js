@@ -64,6 +64,26 @@
     };
   }
 
+  // Aspect-preserving "cover" fit, anchored to the bottom of the viewport.
+  // Returns the transform used by both rendering and hit-testing.
+  function computeCover(canvasW, canvasH, bufW, bufH) {
+    var scale = Math.max(canvasW / bufW, canvasH / bufH);
+    var drawW = bufW * scale;
+    var drawH = bufH * scale;
+    return {
+      scale: scale,
+      drawW: drawW,
+      drawH: drawH,
+      offsetX: (canvasW - drawW) / 2, // center horizontally
+      offsetY: canvasH - drawH        // pin to bottom (ground stays visible)
+    };
+  }
+
+  // Convert a screen/canvas point to buffer coordinates using a cover transform.
+  function screenToBufferXY(sx, sy, t) {
+    return { x: (sx - t.offsetX) / t.scale, y: (sy - t.offsetY) / t.scale };
+  }
+
   // The manifest is the single source of truth for scoring; make it read-only
   // so neither the browser glue nor page code can corrupt it at runtime.
   Object.freeze(PAGES);
@@ -78,7 +98,9 @@
     maxScore: maxScore,
     isKnownEgg: isKnownEgg,
     applyVisit: applyVisit,
-    applyFindEgg: applyFindEgg
+    applyFindEgg: applyFindEgg,
+    computeCover: computeCover,
+    screenToBufferXY: screenToBufferXY
   };
 
   if (typeof module !== 'undefined' && module.exports) {
