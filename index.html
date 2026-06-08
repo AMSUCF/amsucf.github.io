@@ -236,7 +236,16 @@
         }
 
         .sunset-container canvas {
+            pointer-events: auto;
+        }
+        .hero-overlay {
             pointer-events: none;
+        }
+        .hero-overlay a,
+        .hero-overlay button,
+        .hero-overlay .nav-link,
+        .hero-overlay .btn-verb {
+            pointer-events: auto;
         }
 
         /* Scanline overlay on hero */
@@ -659,7 +668,7 @@
                     <div class="hero-overlay">
                         <!-- Status Bar -->
                         <div class="status-bar">
-                            <span class="status-bar-score">Score: 42 of 100</span>
+                            <span class="status-bar-score">Score: 1 of 25</span>
                             <span class="status-bar-location">Royal Castle of UCF</span>
                         </div>
 
@@ -681,6 +690,7 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/adventure-score.js"></script>
 
     <script>
         // ======================================
@@ -1040,9 +1050,41 @@
                 pg.rect(charX - 3, charY - 14, 6, 2);
                 pg.rect(charX - 1, charY - 15, 2, 1);
 
-                // === Scale up to fill viewport ===
-                p.background(0);
-                p.image(pg, 0, 0, canvasW, canvasH);
+                // === Scale up to fill viewport (aspect-preserving cover) ===
+                AdventureScore.drawCover(p, pg);
+            };
+
+            // === EASTER EGGS (buffer-space rectangles: [x, y, w, h]) ===
+            function getEggs() {
+                var castleBase = Math.floor(bufH * 0.38);
+                var castleX = Math.floor(bufW * 0.35);
+                var castleW = Math.floor(bufW * 0.30);
+                var turretH = 20;
+                return [
+                    { id: 'castle-flag',
+                      rect: [castleX + castleW / 2 - 2, castleBase - turretH - 24, 14, 12],
+                      message: 'You raise the banner over Castle Daventry. Somewhere, King Graham nods approvingly. +1 point.' },
+                    { id: 'castle-window',
+                      rect: [castleX + 4, castleBase + 4, 12, 12],
+                      message: 'A candle in the tower window — proof that up here, at least, you are NOT likely to be eaten by a grue. +1 point.' },
+                    { id: 'castle-traveler',
+                      rect: [bufW / 2 - 5, bufH - 56, 12, 20],
+                      message: 'A tiny adventurer in a very silly hat. He is pretty sure he left the lamp on back in Daventry. +1 point.' }
+                ];
+            }
+
+            p.mousePressed = function() {
+                if (!pg || typeof AdventureScore === 'undefined') { return; }
+                var b = AdventureScore.canvasToBuffer(p, pg, p.mouseX, p.mouseY);
+                var eggs = getEggs();
+                for (var i = 0; i < eggs.length; i++) {
+                    var r = eggs[i].rect;
+                    if (b.x >= r[0] && b.x <= r[0] + r[2] && b.y >= r[1] && b.y <= r[1] + r[3]) {
+                        AdventureScore.findEgg(eggs[i].id,
+                            { message: eggs[i].message, screenX: p.mouseX, screenY: p.mouseY });
+                        break;
+                    }
+                }
             };
 
             p.windowResized = function() {
@@ -1065,6 +1107,9 @@
         };
 
         let p5Instance = new p5(adventureSketch);
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof AdventureScore !== 'undefined') { AdventureScore.registerPage('index'); }
+        });
 
         // Check initial motion state
         if (document.body.classList.contains('motion-disabled')) {
