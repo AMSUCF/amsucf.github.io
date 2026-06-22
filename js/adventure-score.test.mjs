@@ -48,18 +48,29 @@ test('applyVisit/applyFindEgg do not mutate the input state', () => {
   assert.deepEqual(s0, { score: 1, visited: [], eggs: [] });
 });
 
-test('computeCover scales to fill and anchors to the bottom', () => {
+test('computeCover (contain) fits the whole scene and anchors to the bottom', () => {
   // 320x200 buffer into a tall 400x800 portrait viewport.
   const t = AS.computeCover(400, 800, 320, 200);
-  // cover => scale is the max of the two ratios: max(400/320, 800/200) = max(1.25, 4) = 4
-  assert.equal(t.scale, 4);
-  assert.equal(t.drawW, 1280);
-  assert.equal(t.drawH, 800);
-  assert.equal(t.offsetX, (400 - 1280) / 2); // -440, centered horizontally
-  assert.equal(t.offsetY, 800 - 800);        // 0, pinned to bottom
+  // contain => scale is the min of the two ratios: min(400/320, 800/200) = min(1.25, 4) = 1.25
+  assert.equal(t.scale, 1.25);
+  assert.equal(t.drawW, 400);              // fills width, nothing cropped
+  assert.equal(t.drawH, 250);
+  assert.equal(t.offsetX, (400 - 400) / 2); // 0, centered horizontally
+  assert.equal(t.offsetY, 800 - 250);       // 550, pinned to bottom (letterbox above)
 });
 
-test('screenToBufferXY inverts the cover transform', () => {
+test('computeCover (contain) letterboxes the sides on a wide viewport', () => {
+  // 320x200 buffer into a wide 1920x1080 desktop viewport.
+  const t = AS.computeCover(1920, 1080, 320, 200);
+  // contain => min(1920/320, 1080/200) = min(6, 5.4) = 5.4
+  assert.equal(t.scale, 5.4);
+  assert.equal(t.drawH, 1080);              // fills height, top no longer cropped
+  assert.equal(Math.round(t.drawW), 1728);
+  assert.equal(t.offsetX, (1920 - t.drawW) / 2); // 96, black bars left/right
+  assert.equal(t.offsetY, 0);                    // pinned to bottom
+});
+
+test('screenToBufferXY inverts the contain transform', () => {
   const t = AS.computeCover(400, 800, 320, 200);
   // The bottom-center of the viewport maps to bottom-center of the buffer.
   const p = AS.screenToBufferXY(200, 800, t);
