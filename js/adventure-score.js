@@ -64,22 +64,23 @@
     };
   }
 
-  // Aspect-preserving "contain" fit, anchored to the bottom of the viewport.
-  // Uses the SMALLER ratio so the entire scene always fits on screen with the
-  // correct aspect ratio (no cropping); any leftover space becomes black
-  // letterbox bars that blend into the page's black background. Returns the
-  // transform used by both rendering and hit-testing.
-  // (Named computeCover for historical reasons; the fit is now contain.)
+  // Aspect-preserving "cover" fit, anchored to the bottom of the viewport.
+  // Uses the LARGER ratio so the scene always fills the entire viewport with the
+  // correct aspect ratio; whichever dimension overflows gets trimmed. Centering
+  // horizontally trims the sides evenly on tall/portrait screens, while the
+  // bottom anchor trims the sky off the top on wide screens — the ground,
+  // castle, and character stay put against the verb bar. Returns the transform
+  // used by both rendering and hit-testing.
   function computeCover(canvasW, canvasH, bufW, bufH) {
-    var scale = Math.min(canvasW / bufW, canvasH / bufH);
+    var scale = Math.max(canvasW / bufW, canvasH / bufH);
     var drawW = bufW * scale;
     var drawH = bufH * scale;
     return {
       scale: scale,
       drawW: drawW,
       drawH: drawH,
-      offsetX: (canvasW - drawW) / 2, // center horizontally
-      offsetY: canvasH - drawH        // pin to bottom (ground meets the verb bar)
+      offsetX: (canvasW - drawW) / 2, // center horizontally (trim sides evenly)
+      offsetY: canvasH - drawH        // pin to bottom (trim the sky off the top)
     };
   }
 
