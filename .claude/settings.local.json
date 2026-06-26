@@ -1,7 +1,25 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(bash *)",
+      "Bash(node --test js/adventure-score.test.mjs)",
+      "Bash(grep -v \"^\\\\s*//\")",
+      "Bash(Select-String -Pattern \"EGGS|elit\")",
+      "Bash(node --test js/)",
+      "Bash(git checkout *)",
+      "Bash(git pull *)",
+      "Bash(git merge *)",
+      "Bash(npx --version)",
+      "Read(//c/Program Files/Google/Chrome/Application/**)",
+      "Read(//c/Program Files \\(x86\\)/Microsoft/Edge/Application/**)",
+      "Bash('/c/Program Files/Google/Chrome/Application/chrome.exe' --headless=new --disable-gpu --remote-debugging-port=9222 --window-size=390,844 --user-data-dir=C:/Users/anast/AppData/Local/Temp/claude/C--Users-anast-Documents-GitHub-amsucf-github-io/556d8bd0-afc6-4c4d-a9fb-78fe2d7c4d4b/scratchpad/cdp-profile about:blank)",
+      "Bash(curl -s http://localhost:9222/json/version)",
+      "Bash(curl -s http://localhost:9222/json)",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>{let a=JSON.parse\\(d\\);a.filter\\(t=>t.type==='page'\\).forEach\\(t=>console.log\\(t.webSocketDebuggerUrl\\)\\)}\\)\")"
     ],
     "deny": [],
     "ask": []

@@ -70,6 +70,35 @@ test('computeCover (cover) fills a wide viewport and trims the sky off the top',
   assert.equal(t.offsetY, 1080 - 1200);    // -120, pinned to bottom (sky cropped)
 });
 
+test('computeCover bottom anchor is the default when anchorY is omitted', () => {
+  // Same wide viewport as above; omitting anchorY must behave like 'bottom'.
+  const def = AS.computeCover(1920, 1080, 320, 200);
+  const bottom = AS.computeCover(1920, 1080, 320, 200, 'bottom');
+  assert.deepEqual(def, bottom);
+  assert.equal(def.offsetY, 1080 - 1200); // -120, pinned to bottom
+});
+
+test("computeCover 'center' splits vertical overflow for the interior banners", () => {
+  // 320x200 scene into a short, wide 1440x450 interior banner.
+  const t = AS.computeCover(1440, 450, 320, 200, 'center');
+  // cover => max(1440/320, 450/200) = max(4.5, 2.25) = 4.5
+  assert.equal(t.scale, 4.5);
+  assert.equal(t.drawW, 1440);          // fills width exactly
+  assert.equal(t.drawH, 900);           // overflows height by 450
+  assert.equal(t.offsetX, 0);           // no horizontal trim
+  assert.equal(t.offsetY, (450 - 900) / 2); // -225, half the overflow off each of top/bottom
+});
+
+test("computeCover 'center' only changes the vertical anchor, not the scale or x", () => {
+  const bottom = AS.computeCover(1440, 450, 320, 200, 'bottom');
+  const center = AS.computeCover(1440, 450, 320, 200, 'center');
+  assert.equal(center.scale, bottom.scale);
+  assert.equal(center.drawW, bottom.drawW);
+  assert.equal(center.drawH, bottom.drawH);
+  assert.equal(center.offsetX, bottom.offsetX);
+  assert.notEqual(center.offsetY, bottom.offsetY);
+});
+
 test('screenToBufferXY inverts the cover transform', () => {
   const t = AS.computeCover(400, 800, 320, 200);
   // The bottom-center of the viewport maps to bottom-center of the buffer.

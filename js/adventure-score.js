@@ -64,23 +64,37 @@
     };
   }
 
-  // Aspect-preserving "cover" fit, anchored to the bottom of the viewport.
-  // Uses the LARGER ratio so the scene always fills the entire viewport with the
-  // correct aspect ratio; whichever dimension overflows gets trimmed. Centering
-  // horizontally trims the sides evenly on tall/portrait screens, while the
-  // bottom anchor trims the sky off the top on wide screens — the ground,
-  // castle, and character stay put against the verb bar. Returns the transform
-  // used by both rendering and hit-testing.
-  function computeCover(canvasW, canvasH, bufW, bufH) {
+  // Aspect-preserving "cover" fit. Uses the LARGER ratio so the scene always
+  // fills the entire box with the correct aspect ratio; whichever dimension
+  // overflows gets trimmed. Always centers horizontally (trims the sides evenly).
+  //
+  // The vertical anchor is configurable because the same scene serves two very
+  // different boxes:
+  //   - 'bottom' (default) — the full-viewport index hero. The box is tall, so
+  //     cover only trims a little sky off the top; pinning to the bottom keeps
+  //     the ground, castle, and character planted against the verb bar.
+  //   - 'center' — the short, wide interior banners. There the box is much wider
+  //     than the 1.6 scene, so cover scales by width and overflows vertically by
+  //     a lot; a bottom pin would slice the entire top of the scene off (titles,
+  //     ceilings, blackboards, and the upper easter eggs). Centering splits the
+  //     vertical overflow between sky and floor so the focal mid-scene content
+  //     stays visible. On mobile the banner is relatively tall, so there is
+  //     little vertical overflow and the anchor barely matters.
+  // Returns the transform used by both rendering and hit-testing, so eggs stay
+  // clickable exactly where they are drawn.
+  function computeCover(canvasW, canvasH, bufW, bufH, anchorY) {
     var scale = Math.max(canvasW / bufW, canvasH / bufH);
     var drawW = bufW * scale;
     var drawH = bufH * scale;
+    var offsetY = anchorY === 'center'
+      ? (canvasH - drawH) / 2  // split vertical overflow between top and bottom
+      : canvasH - drawH;       // 'bottom' (default): pin to the bottom edge
     return {
       scale: scale,
       drawW: drawW,
       drawH: drawH,
       offsetX: (canvasW - drawW) / 2, // center horizontally (trim sides evenly)
-      offsetY: canvasH - drawH        // pin to bottom (trim the sky off the top)
+      offsetY: offsetY
     };
   }
 
@@ -292,17 +306,21 @@
     return false;
   }
 
-  // Public p5 helper: draw the offscreen buffer with cover scaling. Returns the transform.
-  function drawCover(p, pg) {
-    var t = computeCover(p.width, p.height, pg.width, pg.height);
+  // Public p5 helper: draw the offscreen buffer with cover scaling. Returns the
+  // transform. Pass anchorY 'center' for the short interior banners; omit (or
+  // 'bottom') for the full-viewport index hero.
+  function drawCover(p, pg, anchorY) {
+    var t = computeCover(p.width, p.height, pg.width, pg.height, anchorY);
     p.background(0);
     p.image(pg, t.offsetX, t.offsetY, t.drawW, t.drawH);
     return t;
   }
 
-  // Public p5 helper: map a canvas point to buffer coordinates for the current frame.
-  function canvasToBuffer(p, pg, sx, sy) {
-    var t = computeCover(p.width, p.height, pg.width, pg.height);
+  // Public p5 helper: map a canvas point to buffer coordinates for the current
+  // frame. Must use the same anchorY as the matching drawCover call so eggs stay
+  // clickable where they are drawn.
+  function canvasToBuffer(p, pg, sx, sy, anchorY) {
+    var t = computeCover(p.width, p.height, pg.width, pg.height, anchorY);
     return screenToBufferXY(sx, sy, t);
   }
 

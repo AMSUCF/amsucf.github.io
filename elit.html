@@ -1213,8 +1213,8 @@
                     }
                 }
 
-                // === Scale up to fill container (aspect-preserving cover) ===
-                AdventureScore.drawCover(p, pg);
+                // === Scale up to fill container (aspect-preserving cover, centered) ===
+                AdventureScore.drawCover(p, pg, 'center');
             };
 
             // === EASTER EGGS (buffer-space rectangles: [x, y, w, h]) ===
@@ -1235,7 +1235,7 @@
 
             p.mousePressed = function() {
                 if (!pg || typeof AdventureScore === 'undefined') { return; }
-                var b = AdventureScore.canvasToBuffer(p, pg, p.mouseX, p.mouseY);
+                var b = AdventureScore.canvasToBuffer(p, pg, p.mouseX, p.mouseY, 'center');
                 var eggs = getEggs();
                 for (var i = 0; i < eggs.length; i++) {
                     var r = eggs[i].rect;
