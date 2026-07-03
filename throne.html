@@ -251,6 +251,30 @@
             color: var(--ega-bright-green) !important;
         }
 
+        /* The victory dialog steps aside so the ceremony is watchable:
+           clickable to dismiss, and it fades out on its own. */
+        .dialog-box.victory {
+            pointer-events: auto;
+            transition: opacity 0.8s ease-out;
+        }
+
+        .dialog-box.victory .dismiss-hint {
+            display: block;
+            margin-top: 10px;
+            font-size: 0.4rem;
+            color: var(--ega-yellow);
+        }
+
+        .dialog-box.victory.faded {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        body.motion-disabled .dialog-box.victory.faded {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
         /* Contact cluster, motion toggle, and click prompt styles are
            shared — see css/adventure-ui.css. */
 
@@ -407,7 +431,12 @@
             if (unlocked) {
                 dialog.classList.add('victory');
                 title.textContent = 'CONGRATULATIONS!';
-                subtitle.innerHTML = 'Well done, brave scholar! You have uncovered every secret in the kingdom. Arise — the court is yours.';
+                subtitle.innerHTML = 'Well done, brave scholar! You have uncovered every secret in the kingdom. Arise — the court is yours.' +
+                    '<span class="dismiss-hint">[ click to watch the ceremony ]</span>';
+                // Let the knighting be visible: dismiss on click, auto-fade
+                // after the walk completes. Motion-off keeps it readable.
+                dialog.addEventListener('click', function () { dialog.classList.add('faded'); });
+                setTimeout(function () { dialog.classList.add('faded'); }, 8000);
             } else {
                 title.textContent = 'The Throne Room';
                 subtitle.innerHTML = 'The great doors are sealed by ancient magic. ' +
