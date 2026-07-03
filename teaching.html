@@ -5,17 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teaching - Anastasia Salter</title>
 
+    <!-- SEO / Social -->
+    <meta name="description" content="Teaching by Anastasia Salter — courses, workshops, and pedagogy in digital humanities, games, and electronic literature at UCF.">
+    <meta property="og:title" content="Teaching - Anastasia Salter">
+    <meta property="og:description" content="Courses, workshops, and pedagogy in digital humanities, games, and electronic literature at UCF.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://anastasiasalter.net/teaching.html">
+    <meta property="og:image" content="https://anastasiasalter.net/featured.png">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%B0%3C/text%3E%3C/svg%3E">
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- p5.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+
+    <!-- Shared adventure UI (contact cluster, motion toggle, game frame) -->
+    <link rel="stylesheet" href="css/adventure-ui.css">
 
     <style>
         :root {
@@ -35,20 +49,6 @@
             --ega-magenta: #FF55FF;
             --ega-yellow: #FFFF55;
             --ega-white: #FFFFFF;
-
-            /* Remap chaos variables to EGA equivalents */
-            --burn-orange: #AA5500;
-            --acid-lime: #55FF55;
-            --rust-brown: #0000AA;
-            --slate-grey: #555555;
-            --toxic-yellow: #FFFF55;
-            --blood-red: #AA0000;
-            --moss-green: #00AA00;
-            --bruise-purple: #5555FF;
-            --tar-black: #000000;
-            --bone-white: #FFFFFF;
-            --bile-green: #00AA00;
-            --clay-red: #AA0000;
         }
 
         * {
@@ -62,7 +62,6 @@
             line-height: 1.8;
             color: var(--ega-white);
             background: var(--ega-black);
-            font-size: 0.5rem;
             padding-bottom: 60px;
             overflow-x: hidden;
             /* Pixel cursor */
@@ -79,7 +78,7 @@
             }
         }
 
-        /* Adventure Verb Bar Navigation — high specificity to override chaos.css */
+        /* Adventure Verb Bar Navigation */
         .navbar.adventure-verb-bar,
         nav.navbar.adventure-verb-bar {
             position: fixed !important;
@@ -102,10 +101,6 @@
         nav.navbar.adventure-verb-bar:hover {
             transform: none !important;
             border-top-width: 4px !important;
-        }
-
-        .navbar.adventure-verb-bar .container {
-            max-width: 93% !important;
         }
 
         .navbar.adventure-verb-bar .navbar-brand {
@@ -183,16 +178,9 @@
             image-rendering: crisp-edges;
         }
 
-        /* ===== HERO SECTION — matches index.html structure ===== */
-        .hero {
-            position: relative;
-            width: 100%;
-            height: 50vh;
-            min-height: 320px;
-            max-height: 500px;
-            overflow: hidden;
-        }
-
+        /* ===== HERO SECTION — Classroom Scene =====
+           Sizing comes from the shared .game-frame / .hero-canvas
+           (fixed 8/5 aspect, so the scene never crops). */
         .scene-canvas-container {
             width: 100%;
             height: 100%;
@@ -207,7 +195,7 @@
         }
 
         /* Scanline overlay */
-        .hero::after {
+        .hero-canvas::after {
             content: '';
             position: absolute;
             top: 0;
@@ -363,121 +351,13 @@
             text-shadow: none;
         }
 
-        /* Inventory Panel - Contact Cluster */
-        .chaos-contact-cluster {
-            position: fixed !important;
-            top: auto !important;
-            bottom: 52px !important;
-            left: 8px !important;
-            right: auto !important;
-            background: var(--ega-dark-gray) !important;
-            border: 3px solid var(--ega-light-gray) !important;
-            padding: 6px !important;
-            display: flex !important;
-            flex-direction: row !important;
-            gap: 4px !important;
-            z-index: 100 !important;
-            animation: none !important;
-            transform: none !important;
-            clip-path: none !important;
-            border-radius: 0 !important;
-        }
-
-        .chaos-contact-item {
-            background: var(--ega-blue) !important;
-            border: 2px solid var(--ega-cyan) !important;
-            padding: 4px 8px !important;
-            animation: none !important;
-            transform: none !important;
-            clip-path: none !important;
-            border-radius: 0 !important;
-            float: none !important;
-        }
-
-        .chaos-contact-item:hover {
-            background: var(--ega-bright-blue) !important;
-            transform: none !important;
-        }
-
-        .chaos-contact-link {
-            font-family: 'Press Start 2P', cursive !important;
-            font-size: 0.45rem !important;
-            color: var(--ega-white) !important;
-            text-decoration: none !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 4px !important;
-        }
-
-        .chaos-contact-link:hover {
-            color: var(--ega-yellow) !important;
-        }
-
-        .chaos-contact-icon {
-            color: var(--ega-bright-cyan) !important;
-            font-size: 0.5rem !important;
-        }
-
-        .chaos-contact-text {
-            color: var(--ega-white) !important;
-        }
-
-        /* Motion Toggle */
-        .chaos-motion-toggle {
-            position: fixed !important;
-            top: auto !important;
-            bottom: 52px !important;
-            right: 8px !important;
-            left: auto !important;
-            background: var(--ega-dark-gray) !important;
-            border: 3px solid var(--ega-light-gray) !important;
-            padding: 6px 12px !important;
-            z-index: 100 !important;
-            animation: none !important;
-            transform: none !important;
-            clip-path: none !important;
-            border-radius: 0 !important;
-            cursor: pointer;
-        }
-
-        .chaos-motion-toggle:hover {
-            background: var(--ega-bright-blue) !important;
-            transform: none !important;
-        }
-
-        .chaos-motion-toggle-inner {
-            display: flex !important;
-            align-items: center !important;
-            gap: 6px !important;
-        }
-
-        .chaos-motion-toggle-icon {
-            font-size: 0.6rem !important;
-            color: var(--ega-bright-green) !important;
-        }
-
-        .chaos-motion-toggle-text {
-            font-family: 'Press Start 2P', cursive !important;
-            font-size: 0.45rem !important;
-            color: var(--ega-white) !important;
-        }
+        /* Contact cluster, motion toggle, and click prompt styles are
+           shared — see css/adventure-ui.css. */
 
         /* Responsive Design */
 
-        /* Tablet */
-        @media (min-width: 768px) and (max-width: 1199px) {
-            .chaos-contact-text {
-                display: none !important;
-            }
-        }
-
         /* Mobile */
         @media (max-width: 767px) {
-            .hero {
-                height: 40vh;
-                min-height: 260px;
-            }
-
             .dialog-box {
                 padding: 14px 18px;
                 margin-bottom: 16px;
@@ -511,18 +391,6 @@
             .navbar-brand {
                 font-size: 0.5rem;
             }
-            .chaos-contact-cluster {
-                bottom: 44px !important;
-            }
-            .chaos-motion-toggle {
-                bottom: 44px !important;
-            }
-            .chaos-contact-text {
-                display: none !important;
-            }
-            .chaos-contact-link {
-                font-size: 0.4rem !important;
-            }
         }
 
         /* Minimum font sizes */
@@ -537,34 +405,10 @@
 
         /* Touch targets */
         @media (pointer: coarse) {
-            .nav-link {
-                min-height: 44px;
-                display: inline-flex !important;
-                align-items: center !important;
-            }
-            .chaos-contact-item {
-                min-height: 44px !important;
-                min-width: 44px !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-            }
-            .chaos-motion-toggle {
-                min-height: 44px !important;
-                min-width: 44px !important;
-            }
             .research-item a {
                 display: inline-block;
                 min-height: 44px;
                 line-height: 44px;
-            }
-        }
-
-        /* Reduced motion */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation: none !important;
-                transition: none !important;
             }
         }
     </style>
@@ -572,16 +416,18 @@
 <body>
 
     <!-- Hero Section — Classroom Scene -->
-    <section class="hero" id="heroSection">
-        <div id="sceneCanvas" class="scene-canvas-container"></div>
-        <div class="hero-overlay">
-            <div class="status-bar">
-                <span class="status-bar-score">Score: 1 of 25</span>
-                <span class="status-bar-location">The Classroom</span>
-            </div>
-            <div class="dialog-box">
-                <h1>Teaching</h1>
-                <p class="subtitle">courses &amp; workshops</p>
+    <section class="game-frame">
+        <div class="status-bar">
+            <span class="status-bar-score">Score: 1 of 25</span>
+            <span class="status-bar-location">The Classroom</span>
+        </div>
+        <div class="hero-canvas" id="heroSection">
+            <div id="sceneCanvas" class="scene-canvas-container"></div>
+            <div class="hero-overlay">
+                <div class="dialog-box">
+                    <h1>Teaching</h1>
+                    <p class="subtitle">courses &amp; workshops</p>
+                </div>
             </div>
         </div>
     </section>
@@ -597,51 +443,51 @@
 
                 <div class="research-card">
                     <div class="research-item">
-                        <h5><a href="https://anastasiasalter.net/CriticalMaking2026/" target="_blank">Critical Making in Digital Humanities (2026)</a> - Hands-on making as a method for digital humanities research and practice</h5>
+                        <h5><a href="https://anastasiasalter.net/CriticalMaking2026/" target="_blank" rel="noopener noreferrer">Critical Making in Digital Humanities (2026)</a> - Hands-on making as a method for digital humanities research and practice</h5>
                     </div>
 
                     <div class="research-item">
-                        <h5><a href="https://anastasiasalter.net/HumanitiesAI/" target="_blank">Humanities in the Age of AI (2025)</a> - Exploring the intersection of artificial intelligence and humanistic inquiry</h5>
+                        <h5><a href="https://anastasiasalter.net/HumanitiesAI/" target="_blank" rel="noopener noreferrer">Humanities in the Age of AI (2025)</a> - Exploring the intersection of artificial intelligence and humanistic inquiry</h5>
                     </div>
 
                     <div class="research-item">
-                        <h5><a href="https://anastasiasalter.net/DissertationDesign/" target="_blank">Dissertation Design (2025)</a> - Strategic approaches to crafting and completing doctoral research</h5>
+                        <h5><a href="https://anastasiasalter.net/DissertationDesign/" target="_blank" rel="noopener noreferrer">Dissertation Design (2025)</a> - Strategic approaches to crafting and completing doctoral research</h5>
                     </div>
 
                     <div class="research-item">
-                        <h5><a href="https://anastasiasalter.net/Creative-Coding/" target="_blank">Creative Coding (2025)</a> - Programming as a medium for artistic expression and digital storytelling</h5>
+                        <h5><a href="https://anastasiasalter.net/Creative-Coding/" target="_blank" rel="noopener noreferrer">Creative Coding (2025)</a> - Programming as a medium for artistic expression and digital storytelling</h5>
                     </div>
 
                     <div class="research-item">
-                        <h5><a href="https://anastasiasalter.net/Interactive-Digital-Narratives/" target="_blank">Interactive Digital Narratives (2025)</a> - Designing and analyzing interactive storytelling experiences</h5>
+                        <h5><a href="https://anastasiasalter.net/Interactive-Digital-Narratives/" target="_blank" rel="noopener noreferrer">Interactive Digital Narratives (2025)</a> - Designing and analyzing interactive storytelling experiences</h5>
                     </div>
 
                     <div class="research-item">
-                        <h5><a href="https://anastasiasalter.net/ComicsAndImageText/" target="_blank">Comics and ImageText (2024)</a> - Visual narrative forms and multimodal composition</h5>
+                        <h5><a href="https://anastasiasalter.net/ComicsAndImageText/" target="_blank" rel="noopener noreferrer">Comics and ImageText (2024)</a> - Visual narrative forms and multimodal composition</h5>
                     </div>
 
                     <div class="research-item">
-                        <h5><a href="https://anastasiasalter.net/Critical-Making-Syllabus/" target="_blank">Critical Making for Humanist Scholarship (2024)</a> - Hands-on creation as a form of scholarly inquiry</h5>
+                        <h5><a href="https://anastasiasalter.net/Critical-Making-Syllabus/" target="_blank" rel="noopener noreferrer">Critical Making for Humanist Scholarship (2024)</a> - Hands-on creation as a form of scholarly inquiry</h5>
                     </div>
 
                     <div class="research-item">
-                        <h5><a href="https://anastasiasalter.net/Playable-Texts/syllabus" target="_blank">Playable Texts & Technology (2023)</a> - Games, interactive fiction, and playful media</h5>
+                        <h5><a href="https://anastasiasalter.net/Playable-Texts/syllabus" target="_blank" rel="noopener noreferrer">Playable Texts & Technology (2023)</a> - Games, interactive fiction, and playful media</h5>
                     </div>
 
                     <div class="research-item">
-                        <h5><a href="https://anastasiasalter.net/IntroTandT/syllabus" target="_blank">Intro to Texts & Technology (2023)</a> - Foundational course in digital humanities methods and theory</h5>
+                        <h5><a href="https://anastasiasalter.net/IntroTandT/syllabus" target="_blank" rel="noopener noreferrer">Intro to Texts & Technology (2023)</a> - Foundational course in digital humanities methods and theory</h5>
                     </div>
 
                     <div class="research-item">
-                        <h5><a href="https://anastasiasalter.net/ScienceFictionSyllabus/syllabus" target="_blank">Science Fiction (2023)</a> - Speculative fiction and technological imagination</h5>
+                        <h5><a href="https://anastasiasalter.net/ScienceFictionSyllabus/syllabus" target="_blank" rel="noopener noreferrer">Science Fiction (2023)</a> - Speculative fiction and technological imagination</h5>
                     </div>
 
                     <div class="research-item">
-                        <h5><a href="https://anastasiasalter.net/Electronic-Literature/syllabus" target="_blank">Electronic Literature (2022)</a> - Born-digital literary forms and experimental writing</h5>
+                        <h5><a href="https://anastasiasalter.net/Electronic-Literature/syllabus" target="_blank" rel="noopener noreferrer">Electronic Literature (2022)</a> - Born-digital literary forms and experimental writing</h5>
                     </div>
 
                     <div class="research-item">
-                        <h5><a href="https://anastasiasalter.net/Digital-Archives/syllabus" target="_blank">Digital Archives (2022)</a> - Preservation, access, and curation in the digital age</h5>
+                        <h5><a href="https://anastasiasalter.net/Digital-Archives/syllabus" target="_blank" rel="noopener noreferrer">Digital Archives (2022)</a> - Preservation, access, and curation in the digital age</h5>
                     </div>
                 </div>
             </div>
@@ -656,11 +502,11 @@
 
                 <div class="research-card">
                     <div class="research-item">
-                        <h5>Salter, Anastasia, John Murray, and Lee Skallerup Bessette. "<a href="https://datasittersclub.github.io/site/dsc23.html" target="_blank">DSC #23: Dawn of the Coasting AI</a>." The Data-Sitters Club. August 25, 2025.</h5>
+                        <h5>Salter, Anastasia, John Murray, and Lee Skallerup Bessette. "<a href="https://datasittersclub.github.io/site/dsc23.html" target="_blank" rel="noopener noreferrer">DSC #23: Dawn of the Coasting AI</a>." The Data-Sitters Club. August 25, 2025.</h5>
                     </div>
 
                     <div class="research-item">
-                        <h5>Salter, Anastasia and Quinn Dombrowski. "<a href="https://datasittersclub.github.io/site/dsc16.html" target="_blank">DSC #16: Anastasia's Secret Language</a>." The Data-Sitters Club. September 19, 2022.</h5>
+                        <h5>Salter, Anastasia and Quinn Dombrowski. "<a href="https://datasittersclub.github.io/site/dsc16.html" target="_blank" rel="noopener noreferrer">DSC #16: Anastasia's Secret Language</a>." The Data-Sitters Club. September 19, 2022.</h5>
                     </div>
                 </div>
             </div>
@@ -675,31 +521,31 @@
 
                 <div class="research-card">
                     <div class="research-item">
-                        <h5><a href="https://anastasiasalter.net/DHSI_DH_AI_2026/" target="_blank">Digital Humanities Programming Pedagogy in the Age of AI (DHSI 2026, with John Murray)</a> - Adapting coding education for the era of artificial intelligence</h5>
+                        <h5><a href="https://anastasiasalter.net/DHSI_DH_AI_2026/" target="_blank" rel="noopener noreferrer">Digital Humanities Programming Pedagogy in the Age of AI (DHSI 2026, with John Murray)</a> - Adapting coding education for the era of artificial intelligence</h5>
                     </div>
 
                     <div class="research-item">
-                        <h5><a href="https://anastasiasalter.net/PragmaticAgents/" target="_blank">Pragmatic Agentic AI for the Digital Humanities (UCF 2026)</a> - Practical approaches to agentic AI in digital humanities contexts</h5>
+                        <h5><a href="https://anastasiasalter.net/PragmaticAgents/" target="_blank" rel="noopener noreferrer">Pragmatic Agentic AI for the Digital Humanities (UCF 2026)</a> - Practical approaches to agentic AI in digital humanities contexts</h5>
                     </div>
 
                     <div class="research-item">
-                        <h5><a href="https://anastasiasalter.net/DistantCoding/" target="_blank">Distant Coding (MLA 2026)</a> - Computational approaches to code analysis and distant reading methodologies</h5>
+                        <h5><a href="https://anastasiasalter.net/DistantCoding/" target="_blank" rel="noopener noreferrer">Distant Coding (MLA 2026)</a> - Computational approaches to code analysis and distant reading methodologies</h5>
                     </div>
 
                     <div class="research-item">
-                        <h5><a href="https://anastasiasalter.net/BotsBuildingBots/" target="_blank">Bots Building Bots (ELO 2025)</a> - Exploring AI-generated content and algorithmic creativity in electronic literature</h5>
+                        <h5><a href="https://anastasiasalter.net/BotsBuildingBots/" target="_blank" rel="noopener noreferrer">Bots Building Bots (ELO 2025)</a> - Exploring AI-generated content and algorithmic creativity in electronic literature</h5>
                     </div>
 
                     <div class="research-item">
-                        <h5><a href="https://anastasiasalter.net/DHProgramming/" target="_blank">Digital Humanities Programming Pedagogy in the Age of AI (DHSI 2025, with John Murray)</a> - Adapting coding education for the era of artificial intelligence</h5>
+                        <h5><a href="https://anastasiasalter.net/DHProgramming/" target="_blank" rel="noopener noreferrer">Digital Humanities Programming Pedagogy in the Age of AI (DHSI 2025, with John Murray)</a> - Adapting coding education for the era of artificial intelligence</h5>
                     </div>
 
                     <div class="research-item">
-                        <h5><a href="https://anastasiasalter.net/critailiteracy/" target="_blank">Teaching Critical AI Literacy (University of Wisconsin Milwaukee 2025)</a> - Developing critical thinking skills for AI-mediated environments</h5>
+                        <h5><a href="https://anastasiasalter.net/critailiteracy/" target="_blank" rel="noopener noreferrer">Teaching Critical AI Literacy (University of Wisconsin Milwaukee 2025)</a> - Developing critical thinking skills for AI-mediated environments</h5>
                     </div>
 
                     <div class="research-item">
-                        <h5><a href="https://anastasiasalter.net/DH_GenAI/" target="_blank">Generative AI and Digital Pedagogy (Carleton College 2025)</a> - Integrating generative AI tools into humanities education</h5>
+                        <h5><a href="https://anastasiasalter.net/DH_GenAI/" target="_blank" rel="noopener noreferrer">Generative AI and Digital Pedagogy (Carleton College 2025)</a> - Integrating generative AI tools into humanities education</h5>
                     </div>
                 </div>
             </div>
@@ -733,14 +579,14 @@
                         <a class="nav-link active" href="teaching.html">Talk: Teaching</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="CV.pdf" target="_blank">Take: CV</a>
+                        <a class="nav-link" href="CV.pdf" target="_blank" rel="noopener noreferrer">Take: CV</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Motion Toggle Button - Bottom Right -->
+    <!-- Motion Toggle Button -->
     <div class="chaos-motion-toggle" id="motionToggle">
         <div class="chaos-motion-toggle-inner">
             <span class="chaos-motion-toggle-icon">⏸</span>
@@ -748,29 +594,29 @@
         </div>
     </div>
 
-    <!-- Inventory Panel - Contact Cluster - Bottom Left -->
+    <!-- Inventory Panel - Contact Cluster -->
     <div class="chaos-contact-cluster">
         <div class="chaos-contact-item contact-email">
-            <a href="mailto:anastasia@ucf.edu" class="chaos-contact-link">
-                <span class="chaos-contact-icon">@</span>
+            <a href="mailto:anastasia@ucf.edu" class="chaos-contact-link" aria-label="Email Anastasia Salter">
+                <span class="chaos-contact-icon" aria-hidden="true">@</span>
                 <span class="chaos-contact-text">EMAIL</span>
             </a>
         </div>
         <div class="chaos-contact-item">
-            <a href="https://bsky.app/profile/anasalter.bsky.social" class="chaos-contact-link" target="_blank" rel="noopener noreferrer">
-                <span class="chaos-contact-icon"><i class="fas fa-cloud"></i></span>
+            <a href="https://bsky.app/profile/anasalter.bsky.social" class="chaos-contact-link" target="_blank" rel="noopener noreferrer" aria-label="Bluesky profile">
+                <span class="chaos-contact-icon" aria-hidden="true"><i class="fa-brands fa-bluesky"></i></span>
                 <span class="chaos-contact-text">BLUESKY</span>
             </a>
         </div>
         <div class="chaos-contact-item">
-            <a href="https://www.instagram.com/anasalter/" class="chaos-contact-link" target="_blank" rel="noopener noreferrer">
-                <span class="chaos-contact-icon"><i class="fab fa-instagram"></i></span>
+            <a href="https://www.instagram.com/anasalter/" class="chaos-contact-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram profile">
+                <span class="chaos-contact-icon" aria-hidden="true"><i class="fab fa-instagram"></i></span>
                 <span class="chaos-contact-text">INSTA</span>
             </a>
         </div>
         <div class="chaos-contact-item">
-            <a href="CV.pdf" class="chaos-contact-link" target="_blank">
-                <span class="chaos-contact-icon"><i class="fas fa-file-pdf"></i></span>
+            <a href="CV.pdf" class="chaos-contact-link" target="_blank" rel="noopener noreferrer" aria-label="Curriculum vitae (PDF)">
+                <span class="chaos-contact-icon" aria-hidden="true"><i class="fas fa-file-pdf"></i></span>
                 <span class="chaos-contact-text">CV</span>
             </a>
         </div>
@@ -779,46 +625,9 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/adventure-score.js"></script>
+    <script src="js/adventure-ui.js"></script>
 
     <script>
-        // Motion Toggle
-        (function() {
-            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            const stored = localStorage.getItem('motion-preference');
-            let motionDisabled = stored !== null ? stored === 'disabled' : prefersReducedMotion;
-
-            function applyMotion() {
-                if (motionDisabled) {
-                    document.body.classList.add('motion-disabled');
-                } else {
-                    document.body.classList.remove('motion-disabled');
-                }
-                const toggle = document.getElementById('motionToggle');
-                if (toggle) {
-                    const icon = toggle.querySelector('.chaos-motion-toggle-icon');
-                    const text = toggle.querySelector('.chaos-motion-toggle-text');
-                    if (motionDisabled) {
-                        if (icon) icon.textContent = '\u25B6';
-                        if (text) text.textContent = 'PLAY';
-                    } else {
-                        if (icon) icon.textContent = '\u23F8';
-                        if (text) text.textContent = 'PAUSE';
-                    }
-                }
-            }
-
-            applyMotion();
-
-            const toggle = document.getElementById('motionToggle');
-            if (toggle) {
-                toggle.addEventListener('click', function() {
-                    motionDisabled = !motionDisabled;
-                    localStorage.setItem('motion-preference', motionDisabled ? 'disabled' : 'enabled');
-                    applyMotion();
-                });
-            }
-        })();
-
         // ======================================
         // CLASSROOM PIXEL SCENE (p5.js)
         // ======================================
@@ -1054,14 +863,11 @@
                 p.mousePressed = function() {
                     if (!pg || typeof AdventureScore === 'undefined') { return; }
                     var b = AdventureScore.canvasToBuffer(p, pg, p.mouseX, p.mouseY, 'center');
-                    var eggs = getEggs();
-                    for (var i = 0; i < eggs.length; i++) {
-                        var r = eggs[i].rect;
-                        if (b.x >= r[0] && b.x <= r[0] + r[2] && b.y >= r[1] && b.y <= r[1] + r[3]) {
-                            AdventureScore.findEgg(eggs[i].id,
-                                { message: eggs[i].message, screenX: p.mouseX, screenY: p.mouseY });
-                            break;
-                        }
+                    // 6px of buffer-space padding keeps small eggs finger-friendly.
+                    var egg = AdventureScore.hitTest(getEggs(), b, 6);
+                    if (egg) {
+                        AdventureScore.findEgg(egg.id,
+                            { message: egg.message, screenX: p.mouseX, screenY: p.mouseY });
                     }
                 };
 
@@ -1081,33 +887,8 @@
             };
 
             var p5ClassroomInstance = new p5(classroomSketch);
-            (function () {
-                function registerTeaching() {
-                    if (typeof AdventureScore !== 'undefined') { AdventureScore.registerPage('teaching'); }
-                }
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', registerTeaching);
-                } else {
-                    registerTeaching();
-                }
-            })();
-
-            if (document.body.classList.contains('motion-disabled')) {
-                p5ClassroomInstance.noLoop();
-            }
-
-            var classObserver = new MutationObserver(function(mutations) {
-                for (var i = 0; i < mutations.length; i++) {
-                    if (mutations[i].attributeName === 'class') {
-                        if (document.body.classList.contains('motion-disabled')) {
-                            p5ClassroomInstance.noLoop();
-                        } else {
-                            p5ClassroomInstance.loop();
-                        }
-                    }
-                }
-            });
-            classObserver.observe(document.body, { attributes: true });
+            if (typeof AdventureScore !== 'undefined') { AdventureScore.registerPage('teaching'); }
+            if (window.AdventureUI) { AdventureUI.watchMotion(p5ClassroomInstance); }
         });
     </script>
 </body>

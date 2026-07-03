@@ -103,6 +103,37 @@
     return { x: (sx - t.offsetX) / t.scale, y: (sy - t.offsetY) / t.scale };
   }
 
+  function allEggIds() {
+    var out = [];
+    for (var k in EGGS) { if (EGGS.hasOwnProperty(k)) { out = out.concat(EGGS[k]); } }
+    return out;
+  }
+
+  // How many manifest eggs are still unfound. Unknown ids in state are ignored,
+  // so stale localStorage from removed eggs can never fake completion.
+  function remainingEggs(state) {
+    var ids = allEggIds(), n = 0;
+    for (var i = 0; i < ids.length; i++) {
+      if (state.eggs.indexOf(ids[i]) === -1) { n++; }
+    }
+    return n;
+  }
+
+  function isComplete(state) { return remainingEggs(state) === 0; }
+
+  // Point-in-rect test over an egg list, expanding each rect by `pad` buffer px
+  // on every side so small targets stay tappable on phones. Returns the first
+  // matching egg or null.
+  function hitTest(eggs, pt, pad) {
+    pad = pad || 0;
+    for (var i = 0; i < eggs.length; i++) {
+      var r = eggs[i].rect;
+      if (pt.x >= r[0] - pad && pt.x <= r[0] + r[2] + pad &&
+          pt.y >= r[1] - pad && pt.y <= r[1] + r[3] + pad) { return eggs[i]; }
+    }
+    return null;
+  }
+
   // The manifest is the single source of truth for scoring; make it read-only
   // so neither the browser glue nor page code can corrupt it at runtime.
   Object.freeze(PAGES);
@@ -118,6 +149,9 @@
     isKnownEgg: isKnownEgg,
     applyVisit: applyVisit,
     applyFindEgg: applyFindEgg,
+    remainingEggs: remainingEggs,
+    isComplete: isComplete,
+    hitTest: hitTest,
     computeCover: computeCover,
     screenToBufferXY: screenToBufferXY,
     renderScore: renderScore,
@@ -181,6 +215,13 @@
       "font-family:'Press Start 2P',cursive;font-size:.6rem;line-height:1.9;color:#FFFFFF;" +
       'text-align:center;}' +
       '.adv-egg-dialog .adv-egg-dismiss{display:block;margin-top:14px;color:#FFFF55;font-size:.5rem;}' +
+      '.adv-egg-dialog .adv-victory-link{display:block;margin-top:14px;color:#55FFFF;' +
+      'font-size:.55rem;text-decoration:underline;}' +
+      '.adv-egg-dialog .adv-victory-link:hover,.adv-egg-dialog .adv-victory-link:focus-visible' +
+      '{color:#FFFF55;outline:2px solid #FFFF55;}' +
+      '.status-bar-crown{color:#FFFF55;text-decoration:none;margin-left:8px;}' +
+      '.status-bar-crown:hover,.status-bar-crown:focus-visible' +
+      '{color:#55FFFF;outline:2px solid #55FFFF;}' +
       '.adv-spark{position:fixed;width:6px;height:6px;background:#FFFF55;z-index:10001;' +
       'pointer-events:none;image-rendering:pixelated;}';
     var el = document.createElement('style');
@@ -191,10 +232,26 @@
 
   function renderScore() {
     if (!hasDOM()) { return; }
+    ensureStyle();
     var state = loadState();
     var text = 'Score: ' + state.score + ' of ' + maxScore();
+    var complete = isComplete(state);
     var nodes = document.querySelectorAll('.status-bar-score');
-    for (var i = 0; i < nodes.length; i++) { nodes[i].textContent = text; }
+    for (var i = 0; i < nodes.length; i++) {
+      nodes[i].textContent = text;
+      // Once every secret is found, a crown appears beside the score on every
+      // page, linking back to the throne room.
+      var next = nodes[i].nextElementSibling;
+      var hasCrown = next && next.classList && next.classList.contains('status-bar-crown');
+      if (complete && !hasCrown) {
+        var crown = document.createElement('a');
+        crown.className = 'status-bar-crown';
+        crown.href = 'throne.html';
+        crown.textContent = '♛';
+        crown.setAttribute('aria-label', 'Enter the Throne Room');
+        nodes[i].parentNode.insertBefore(crown, nodes[i].nextSibling);
+      }
+    }
   }
 
   function flashScore() {
@@ -254,7 +311,7 @@
     }
   }
 
-  function showEggDialog(message) {
+  function showEggDialog(message, victory) {
     if (!hasDOM()) { return; }
     ensureStyle();
     var existing = document.querySelector('.adv-egg-dialog');
@@ -264,15 +321,27 @@
     box.setAttribute('role', 'status');
     var msg = document.createElement('div');
     msg.textContent = message;
+    box.appendChild(msg);
+    if (victory) {
+      var link = document.createElement('a');
+      link.className = 'adv-victory-link';
+      link.href = 'throne.html';
+      link.textContent = '☞ The Throne Room doors swing open… Enter';
+      box.appendChild(link);
+    }
     var dismiss = document.createElement('div');
     dismiss.className = 'adv-egg-dismiss';
     dismiss.textContent = '[ click to close ]';
-    box.appendChild(msg);
     box.appendChild(dismiss);
     document.body.appendChild(box);
-    var close = function () { if (box.parentNode) { box.remove(); } };
+    var close = function (e) {
+      // Never let dialog-dismissal swallow the victory link's navigation.
+      if (e && e.target && e.target.closest && e.target.closest('.adv-victory-link')) { return; }
+      if (box.parentNode) { box.remove(); }
+    };
     box.addEventListener('click', close);
-    setTimeout(close, 4000);
+    // The victory dialog stays until dismissed; ordinary finds auto-close.
+    if (!victory) { setTimeout(close, 4000); }
   }
 
   // Public: mark the current page visited (awards a point the first time).
@@ -300,7 +369,12 @@
       renderScore();
       flashScore();
       blip();
-      showEggDialog(opts.message || 'You found a secret! +1 point.');
+      var victory = isComplete(result.state);
+      var message = opts.message || 'You found a secret! +1 point.';
+      if (victory) {
+        message += ' That was the last secret in the kingdom!';
+      }
+      showEggDialog(message, victory);
       return true;
     }
     return false;

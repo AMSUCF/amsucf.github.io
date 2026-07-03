@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Throne Room - Anastasia Salter</title>
+
+    <!-- Secret reward page — no need for search engines to spoil it -->
+    <meta name="robots" content="noindex">
+    <meta name="description" content="A hidden throne room for adventurers who found every secret on anastasiasalter.net.">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%B0%3C/text%3E%3C/svg%3E">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- p5.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+
+    <!-- Shared adventure UI (contact cluster, motion toggle, game frame) -->
+    <link rel="stylesheet" href="css/adventure-ui.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Press Start 2P', cursive;
+            line-height: 1.8;
+            color: var(--ega-white);
+            overflow-x: hidden;
+            padding-bottom: 60px;
+            background: var(--ega-black);
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M7 0h2v6h6v2h-6v6h-2v-6h-2v6h0v-8h-4v-2h4v-4h2z' fill='%2355FFFF'/%3E%3C/svg%3E") 8 8, crosshair;
+        }
+
+        a, button {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M2 2h4v2h2v2h2v-2h2v-2h2v8h-2v2h-2v2h-2v-2h-2v-2h-2v2h-2z' fill='%23FFFF55'/%3E%3C/svg%3E") 8 8, pointer;
+        }
+
+        @media (pointer: coarse) {
+            body, a, button {
+                cursor: auto;
+            }
+        }
+
+        canvas {
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+
+        /* Adventure Verb Bar Navigation */
+        .navbar.adventure-verb-bar,
+        nav.navbar.adventure-verb-bar {
+            position: fixed !important;
+            bottom: 0 !important;
+            top: auto !important;
+            left: 0 !important;
+            right: 0 !important;
+            background: var(--ega-dark-gray) !important;
+            backdrop-filter: none !important;
+            border-top: 4px solid var(--ega-light-gray) !important;
+            border-bottom: none !important;
+            transition: none !important;
+            transform: none !important;
+            z-index: 1000 !important;
+            padding: 4px 0 !important;
+            border-radius: 0 !important;
+        }
+
+        .navbar.adventure-verb-bar .navbar-brand {
+            font-family: 'Press Start 2P', cursive !important;
+            font-weight: 400 !important;
+            font-size: 0.7rem !important;
+            color: var(--ega-yellow) !important;
+            text-shadow: none !important;
+            text-decoration: none !important;
+            letter-spacing: 0 !important;
+            text-transform: uppercase !important;
+            background: none !important;
+            padding: 0.25rem 0.5rem !important;
+        }
+
+        .navbar.adventure-verb-bar .navbar-brand:hover {
+            color: var(--ega-bright-green) !important;
+            background: none !important;
+        }
+
+        .navbar.adventure-verb-bar .nav-link {
+            font-family: 'Press Start 2P', cursive !important;
+            font-weight: 400 !important;
+            color: var(--ega-white) !important;
+            transition: background 0.1s, color 0.1s !important;
+            margin: 2px !important;
+            font-size: 0.55rem !important;
+            border: 2px solid var(--ega-light-gray) !important;
+            padding: 6px 10px !important;
+            text-transform: uppercase !important;
+            background: none !important;
+            border-radius: 0 !important;
+        }
+
+        .navbar.adventure-verb-bar .nav-link:hover {
+            background: var(--ega-bright-blue) !important;
+            color: var(--ega-yellow) !important;
+        }
+
+        .navbar.adventure-verb-bar .navbar-toggler {
+            border-color: var(--ega-light-gray) !important;
+        }
+
+        .navbar.adventure-verb-bar .navbar-toggler-icon {
+            filter: invert(1) !important;
+        }
+
+        /* ===== HERO SECTION — Throne Room =====
+           Sizing comes from the shared .game-frame / .hero-canvas
+           (fixed 8/5 aspect, so the scene never crops). */
+        .scene-canvas-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .scene-canvas-container canvas {
+            pointer-events: auto;
+        }
+
+        /* Scanline overlay */
+        .hero-canvas::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.15) 2px,
+                rgba(0, 0, 0, 0.15) 4px
+            );
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+            pointer-events: none;
+        }
+        .hero-overlay a,
+        .hero-overlay button,
+        .hero-overlay .nav-link {
+            pointer-events: auto;
+        }
+
+        /* Status Bar — Sierra style */
+        .status-bar {
+            width: 100%;
+            background: var(--ega-dark-gray);
+            border-bottom: 2px solid var(--ega-light-gray);
+            padding: 4px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.55rem;
+            color: var(--ega-white);
+            z-index: 20;
+        }
+
+        .status-bar-score {
+            color: var(--ega-yellow);
+        }
+
+        .status-bar-location {
+            color: var(--ega-bright-cyan);
+        }
+
+        /* Dialog Box — Sierra adventure style */
+        .dialog-box {
+            background: var(--ega-blue);
+            border: 4px solid var(--ega-white);
+            outline: 4px solid var(--ega-blue);
+            padding: 20px 28px;
+            margin-top: auto;
+            margin-bottom: 24px;
+            max-width: 520px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .dialog-box h1 {
+            font-family: 'Press Start 2P', cursive !important;
+            font-size: 1.1rem !important;
+            font-weight: 400 !important;
+            color: var(--ega-yellow) !important;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 0 var(--ega-black) !important;
+            letter-spacing: 0 !important;
+            line-height: 1.6 !important;
+        }
+
+        .dialog-box .subtitle {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.55rem;
+            color: var(--ega-white);
+            margin-bottom: 0;
+            line-height: 2;
+        }
+
+        .dialog-box .throne-link {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 0.5rem;
+            color: var(--ega-bright-cyan);
+            text-decoration: underline;
+        }
+
+        .dialog-box .throne-link:hover {
+            color: var(--ega-yellow);
+        }
+
+        /* Victory banner above the dialog when unlocked */
+        .dialog-box.victory h1 {
+            color: var(--ega-bright-green) !important;
+        }
+
+        /* The victory dialog steps aside so the ceremony is watchable:
+           clickable to dismiss, and it fades out on its own. */
+        .dialog-box.victory {
+            pointer-events: auto;
+            transition: opacity 0.8s ease-out;
+        }
+
+        .dialog-box.victory .dismiss-hint {
+            display: block;
+            margin-top: 10px;
+            font-size: 0.4rem;
+            color: var(--ega-yellow);
+        }
+
+        .dialog-box.victory.faded {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        body.motion-disabled .dialog-box.victory.faded {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Contact cluster, motion toggle, and click prompt styles are
+           shared — see css/adventure-ui.css. */
+
+        /* Mobile */
+        @media (max-width: 767px) {
+            .dialog-box {
+                padding: 14px 18px;
+                margin-bottom: 16px;
+            }
+
+            .dialog-box h1 {
+                font-size: 0.8rem !important;
+            }
+
+            .dialog-box .subtitle {
+                font-size: 0.45rem;
+            }
+
+            .status-bar {
+                font-size: 0.4rem;
+            }
+
+            .nav-link {
+                font-size: 0.45rem !important;
+                padding: 4px 8px !important;
+            }
+
+            .navbar-brand {
+                font-size: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section — The Throne Room -->
+    <section class="game-frame">
+        <div class="status-bar">
+            <span class="status-bar-score">Score: 1 of 25</span>
+            <span class="status-bar-location">The Throne Room</span>
+        </div>
+        <div class="hero-canvas" id="heroSection">
+            <div id="sceneCanvas" class="scene-canvas-container"></div>
+            <div class="hero-overlay">
+                <div class="dialog-box" id="throneDialog">
+                    <h1 id="throneTitle">The Throne Room</h1>
+                    <p class="subtitle" id="throneSubtitle">The great doors are sealed by ancient magic.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Navigation - Adventure Verb Bar -->
+    <nav class="navbar navbar-expand-lg fixed-top adventure-verb-bar">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">ANASTASIA SALTER</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">Look: About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="books.html">Read: Books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="research.html">Study: Research</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="elit.html">Play: E-lit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="teaching.html">Talk: Teaching</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="CV.pdf" target="_blank" rel="noopener noreferrer">Take: CV</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Motion Toggle Button -->
+    <div class="chaos-motion-toggle" id="motionToggle">
+        <div class="chaos-motion-toggle-inner">
+            <span class="chaos-motion-toggle-icon">⏸</span>
+            <span class="chaos-motion-toggle-text">PAUSE</span>
+        </div>
+    </div>
+
+    <!-- Inventory Panel - Contact Cluster -->
+    <div class="chaos-contact-cluster">
+        <div class="chaos-contact-item contact-email">
+            <a href="mailto:anastasia@ucf.edu" class="chaos-contact-link" aria-label="Email Anastasia Salter">
+                <span class="chaos-contact-icon" aria-hidden="true">@</span>
+                <span class="chaos-contact-text">EMAIL</span>
+            </a>
+        </div>
+        <div class="chaos-contact-item">
+            <a href="https://bsky.app/profile/anasalter.bsky.social" class="chaos-contact-link" target="_blank" rel="noopener noreferrer" aria-label="Bluesky profile">
+                <span class="chaos-contact-icon" aria-hidden="true"><i class="fa-brands fa-bluesky"></i></span>
+                <span class="chaos-contact-text">BLUESKY</span>
+            </a>
+        </div>
+        <div class="chaos-contact-item">
+            <a href="https://www.instagram.com/anasalter/" class="chaos-contact-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram profile">
+                <span class="chaos-contact-icon" aria-hidden="true"><i class="fab fa-instagram"></i></span>
+                <span class="chaos-contact-text">INSTA</span>
+            </a>
+        </div>
+        <div class="chaos-contact-item">
+            <a href="CV.pdf" class="chaos-contact-link" target="_blank" rel="noopener noreferrer" aria-label="Curriculum vitae (PDF)">
+                <span class="chaos-contact-icon" aria-hidden="true"><i class="fas fa-file-pdf"></i></span>
+                <span class="chaos-contact-text">CV</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/adventure-score.js"></script>
+    <script src="js/adventure-ui.js"></script>
+
+    <script>
+        // ======================================
+        // THE THRONE ROOM (p5.js)
+        // Locked: sealed doors until every secret is found.
+        // Unlocked: knighting ceremony with confetti and fireworks.
+        // This page is NOT in the score manifest — no points here.
+        // ======================================
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // Read completion through the same storage the score layer uses.
+            // Any read failure counts as locked (safe default).
+            function currentEggs() {
+                try {
+                    var arr = JSON.parse(localStorage.getItem('adventure-eggs') || '[]');
+                    return Array.isArray(arr) ? arr : [];
+                } catch (e) { return []; }
+            }
+
+            var state = { score: 0, visited: [], eggs: currentEggs() };
+            var unlocked = typeof AdventureScore !== 'undefined' && AdventureScore.isComplete(state);
+            var remaining = typeof AdventureScore !== 'undefined' ? AdventureScore.remainingEggs(state) : 18;
+
+            // Dialog copy per state
+            var title = document.getElementById('throneTitle');
+            var subtitle = document.getElementById('throneSubtitle');
+            var dialog = document.getElementById('throneDialog');
+            if (unlocked) {
+                dialog.classList.add('victory');
+                title.textContent = 'CONGRATULATIONS!';
+                subtitle.innerHTML = 'Well done, brave scholar! You have uncovered every secret in the kingdom. Arise — the court is yours.' +
+                    '<span class="dismiss-hint">[ click to watch the ceremony ]</span>';
+                // Let the knighting be visible: dismiss on click, auto-fade
+                // after the walk completes. Motion-off keeps it readable.
+                dialog.addEventListener('click', function () { dialog.classList.add('faded'); });
+                setTimeout(function () { dialog.classList.add('faded'); }, 8000);
+            } else {
+                title.textContent = 'The Throne Room';
+                subtitle.innerHTML = 'The great doors are sealed by ancient magic. ' +
+                    remaining + ' secret' + (remaining === 1 ? '' : 's') + ' remain' + (remaining === 1 ? 's' : '') +
+                    ' hidden in the kingdom…' +
+                    '<br><a class="throne-link" href="index.html">&gt; Return to the castle</a>';
+            }
+
+            if (typeof AdventureScore !== 'undefined') { AdventureScore.renderScore(); }
+
+            // ---- 8-bit fanfare on first tap/click (celebration only) ----
+            var fanfarePlayed = false;
+            function motionOff() {
+                return document.body.classList.contains('motion-disabled') ||
+                    (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+            }
+            function playFanfare() {
+                if (fanfarePlayed || !unlocked || motionOff()) { return; }
+                fanfarePlayed = true;
+                try {
+                    var Ctx = window.AudioContext || window.webkitAudioContext;
+                    if (!Ctx) { return; }
+                    var ctx = new Ctx();
+                    var notes = [523, 523, 523, 659, 784, 659, 784, 1047];
+                    var durs  = [0.12, 0.12, 0.12, 0.2, 0.2, 0.12, 0.2, 0.5];
+                    var t = ctx.currentTime;
+                    for (var i = 0; i < notes.length; i++) {
+                        var osc = ctx.createOscillator();
+                        var gain = ctx.createGain();
+                        osc.type = 'square';
+                        osc.frequency.setValueAtTime(notes[i], t);
+                        gain.gain.setValueAtTime(0.04, t);
+                        gain.gain.exponentialRampToValueAtTime(0.0001, t + durs[i]);
+                        osc.connect(gain); gain.connect(ctx.destination);
+                        osc.start(t); osc.stop(t + durs[i]);
+                        t += durs[i];
+                    }
+                } catch (e) { /* audio unavailable */ }
+            }
+            document.addEventListener('pointerdown', playFanfare, { once: false });
+
+            var throneSketch = function(p) {
+                var pg;
+                var bufW = 320;
+                var bufH = 200;
+                var frameCount = 0;
+                var twoFrame = 0;
+                var canvasW, canvasH;
+
+                var EGA = {
+                    black: [0,0,0], blue: [0,0,170], green: [0,170,0],
+                    cyan: [0,170,170], red: [170,0,0], brown: [170,85,0],
+                    lightGray: [170,170,170], darkGray: [85,85,85],
+                    brightBlue: [85,85,255], brightGreen: [85,255,85],
+                    brightCyan: [85,255,255], brightRed: [255,85,85],
+                    magenta: [255,85,255], yellow: [255,255,85],
+                    white: [255,255,255]
+                };
+                function fillC(c) { pg.fill(c[0], c[1], c[2]); }
+
+                // Celebration actors
+                var confetti = [];
+                var fireworks = [];
+                var travelerY;       // walks up the carpet
+                var phase = 'walk';  // walk -> kneel -> knight -> festive
+
+                function resetActors() {
+                    confetti = [];
+                    fireworks = [];
+                    travelerY = bufH - 8;
+                    phase = 'walk';
+                    for (var i = 0; i < 40; i++) {
+                        confetti.push({
+                            x: Math.random() * bufW,
+                            y: Math.random() * -bufH,
+                            vy: 0.3 + Math.random() * 0.7,
+                            c: [EGA.yellow, EGA.brightCyan, EGA.magenta, EGA.brightGreen, EGA.brightRed][i % 5]
+                        });
+                    }
+                }
+
+                function drawTorch(tx, ty) {
+                    fillC(EGA.lightGray);
+                    pg.rect(tx, ty + 8, 4, 12);
+                    fillC(EGA.brown);
+                    pg.rect(tx, ty, 4, 10);
+                    if (twoFrame === 0) {
+                        fillC(EGA.yellow); pg.rect(tx - 1, ty - 6, 6, 6);
+                        fillC(EGA.brightRed); pg.rect(tx, ty - 9, 4, 4);
+                    } else {
+                        fillC(EGA.yellow); pg.rect(tx, ty - 5, 5, 5);
+                        fillC(EGA.brightRed); pg.rect(tx + 1, ty - 9, 3, 5);
+                    }
+                }
+
+                function drawWallAndFloor(dark) {
+                    fillC(dark ? EGA.black : EGA.darkGray);
+                    pg.rect(0, 0, bufW, bufH);
+                    // Mortar lines
+                    fillC(dark ? EGA.darkGray : EGA.black);
+                    for (var row = 0; row < bufH; row += 20) {
+                        pg.rect(0, row, bufW, 1);
+                        var offset = (Math.floor(row / 20) % 2 === 0) ? 0 : 24;
+                        for (var col = offset; col < bufW; col += 48) {
+                            pg.rect(col, row, 1, 20);
+                        }
+                    }
+                    var floorY = Math.floor(bufH * 0.72);
+                    fillC(dark ? EGA.darkGray : EGA.brown);
+                    pg.rect(0, floorY, bufW, bufH - floorY);
+                    fillC(dark ? EGA.black : EGA.darkGray);
+                    for (var fy = floorY; fy < bufH; fy += 10) { pg.rect(0, fy, bufW, 1); }
+                    for (var fx = 0; fx < bufW; fx += 28) { pg.rect(fx, floorY, 1, bufH - floorY); }
+                    return floorY;
+                }
+
+                // ============ LOCKED: the sealed doors ============
+                function drawLocked() {
+                    var floorY = drawWallAndFloor(true);
+
+                    // Massive double doors
+                    var doorW = Math.floor(bufW * 0.14);
+                    var doorH = Math.floor(bufH * 0.5);
+                    var doorX = Math.floor(bufW / 2) - doorW;
+                    var doorY = floorY - doorH;
+
+                    fillC(EGA.brown);
+                    pg.rect(doorX, doorY, doorW * 2, doorH);
+                    // Arch top
+                    fillC(EGA.brown);
+                    pg.rect(doorX + 4, doorY - 6, doorW * 2 - 8, 6);
+                    // Center seam + iron bands
+                    fillC(EGA.black);
+                    pg.rect(doorX + doorW - 1, doorY - 6, 2, doorH + 6);
+                    fillC(EGA.darkGray);
+                    pg.rect(doorX, doorY + 10, doorW * 2, 3);
+                    pg.rect(doorX, doorY + doorH - 16, doorW * 2, 3);
+                    // Handles
+                    fillC(EGA.yellow);
+                    pg.rect(doorX + doorW - 8, doorY + Math.floor(doorH / 2), 4, 6);
+                    pg.rect(doorX + doorW + 4, doorY + Math.floor(doorH / 2), 4, 6);
+
+                    // Glowing runes across the seam (flicker)
+                    var runeC = twoFrame === 0 ? EGA.brightCyan : EGA.cyan;
+                    fillC(runeC);
+                    var cx = doorX + doorW;
+                    pg.rect(cx - 6, doorY + 14, 12, 2);
+                    pg.rect(cx - 2, doorY + 22, 4, 4);
+                    pg.rect(cx - 8, doorY + 34, 6, 2);
+                    pg.rect(cx + 2, doorY + 34, 6, 2);
+                    pg.rect(cx - 2, doorY + 44, 4, 4);
+                    pg.rect(cx - 6, doorY + 58, 12, 2);
+
+                    // Heavy chain
+                    fillC(EGA.lightGray);
+                    for (var ch = 0; ch < 5; ch++) {
+                        pg.rect(doorX + doorW - 14 + ch * 6, doorY + Math.floor(doorH / 2) + 10 + (ch % 2) * 2, 5, 3);
+                    }
+
+                    drawTorch(doorX - 18, doorY + 16);
+                    drawTorch(doorX + doorW * 2 + 14, doorY + 16);
+                }
+
+                // ============ UNLOCKED: the ceremony ============
+                function drawFigure(x, y, robe, hairOrCrown) {
+                    // simple 12x20 pixel courtier; y = feet
+                    fillC(EGA.yellow); pg.rect(x - 3, y - 18, 6, 5);       // head
+                    if (hairOrCrown === 'crown') {
+                        fillC(EGA.yellow); pg.rect(x - 4, y - 21, 8, 3);
+                        fillC(EGA.brightRed); pg.rect(x - 2, y - 20, 1, 1);
+                    } else {
+                        fillC(EGA[hairOrCrown] || EGA.brown); pg.rect(x - 3, y - 20, 6, 2);
+                    }
+                    fillC(EGA[robe] || EGA.blue);
+                    pg.rect(x - 5, y - 13, 10, 13);                        // robe
+                    fillC(EGA.black);
+                    pg.rect(x - 2, y - 16, 1, 1); pg.rect(x + 1, y - 16, 1, 1); // eyes
+                }
+
+                function drawLaunchFirework() {
+                    fireworks.push({
+                        x: 30 + Math.random() * (bufW - 60),
+                        y: 20 + Math.random() * (bufH * 0.3),
+                        age: 0,
+                        c: [EGA.yellow, EGA.brightCyan, EGA.magenta, EGA.brightGreen][Math.floor(Math.random() * 4)]
+                    });
+                }
+
+                function drawCelebration() {
+                    var floorY = drawWallAndFloor(false);
+
+                    // Wall banners
+                    var bcols = [EGA.red, EGA.blue, EGA.red, EGA.blue];
+                    for (var b = 0; b < 4; b++) {
+                        var bx = Math.floor(bufW * (0.14 + b * 0.22));
+                        fillC(bcols[b]);
+                        pg.rect(bx, 8, 14, 34);
+                        pg.triangle(bx, 42, bx + 14, 42, bx + 7, 50);
+                        fillC(EGA.yellow);
+                        pg.rect(bx, 8, 14, 2);
+                        pg.rect(bx + 5, 20, 4, 4);
+                    }
+
+                    drawTorch(Math.floor(bufW * 0.06), 26);
+                    drawTorch(bufW - Math.floor(bufW * 0.06) - 4, 26);
+
+                    // Dais + throne (center rear)
+                    var daisW = Math.floor(bufW * 0.3);
+                    var daisX = Math.floor(bufW / 2 - daisW / 2);
+                    var daisY = floorY - 6;
+                    fillC(EGA.lightGray);
+                    pg.rect(daisX, daisY, daisW, 6);
+                    pg.rect(daisX + 6, daisY - 5, daisW - 12, 5);
+                    // Throne
+                    var thX = Math.floor(bufW / 2);
+                    fillC(EGA.brown);
+                    pg.rect(thX - 10, daisY - 40, 20, 35);
+                    fillC(EGA.yellow);
+                    pg.rect(thX - 10, daisY - 40, 20, 3);
+                    pg.rect(thX - 12, daisY - 38, 2, 12);
+                    pg.rect(thX + 10, daisY - 38, 2, 12);
+                    fillC(EGA.red);
+                    pg.rect(thX - 7, daisY - 34, 14, 24);
+
+                    // Monarch on the throne
+                    drawFigure(thX, daisY - 8, 'magenta', 'crown');
+
+                    // Red carpet
+                    var carpetW = 40;
+                    var carpetX = Math.floor(bufW / 2 - carpetW / 2);
+                    fillC(EGA.red);
+                    pg.rect(carpetX, daisY, carpetW, bufH - daisY);
+                    fillC(EGA.yellow);
+                    pg.rect(carpetX, daisY, 2, bufH - daisY);
+                    pg.rect(carpetX + carpetW - 2, daisY, 2, bufH - daisY);
+
+                    // Courtiers flanking the carpet
+                    var robes = ['blue', 'green', 'cyan', 'brightBlue', 'red', 'magenta'];
+                    for (var i = 0; i < 3; i++) {
+                        drawFigure(carpetX - 16 - i * 22, floorY + 12, robes[i], 'brown');
+                        drawFigure(carpetX + carpetW + 16 + i * 22, floorY + 12, robes[i + 3], 'yellow');
+                    }
+
+                    // The traveler: walk -> kneel -> knight -> festive
+                    var tx = Math.floor(bufW / 2);
+                    var kneelY = daisY + 14;
+                    if (phase === 'walk') {
+                        travelerY -= 0.6;
+                        if (travelerY <= kneelY) { travelerY = kneelY; phase = 'kneel'; }
+                        drawFigure(tx, Math.floor(travelerY), 'brightGreen', 'brown');
+                        // walking bob
+                        if (twoFrame === 0) { fillC(EGA.black); pg.rect(tx - 4, Math.floor(travelerY) - 1, 3, 1); }
+                    } else {
+                        // kneeling: shorter sprite
+                        fillC(EGA.yellow); pg.rect(tx - 3, kneelY - 12, 6, 5);
+                        fillC(EGA.brown); pg.rect(tx - 3, kneelY - 14, 6, 2);
+                        fillC(EGA.brightGreen); pg.rect(tx - 5, kneelY - 7, 10, 7);
+                        if (phase === 'kneel') {
+                            if (frameCount % 90 === 0) { phase = 'knight'; }
+                        }
+                        if (phase === 'knight' || phase === 'festive') {
+                            // monarch's sword taps the shoulder (two-frame)
+                            fillC(EGA.lightGray);
+                            if (twoFrame === 0) {
+                                pg.rect(tx - 14, kneelY - 22, 12, 2);
+                            } else {
+                                pg.rect(tx - 12, kneelY - 18, 10, 2);
+                            }
+                            fillC(EGA.yellow);
+                            pg.rect(tx - 16, kneelY - 23, 3, 4);
+                            if (phase === 'knight' && frameCount % 60 === 0) { phase = 'festive'; }
+                        }
+                    }
+
+                    // Confetti (always falling)
+                    for (var c = 0; c < confetti.length; c++) {
+                        var f = confetti[c];
+                        f.y += f.vy;
+                        f.x += Math.sin((frameCount + c * 13) / 20) * 0.4;
+                        if (f.y > bufH) { f.y = -4; f.x = Math.random() * bufW; }
+                        fillC(f.c);
+                        pg.rect(Math.floor(f.x), Math.floor(f.y), 2, 2);
+                    }
+
+                    // Fireworks bursts in the upper hall
+                    if (frameCount % 75 === 0) { drawLaunchFirework(); }
+                    for (var w = fireworks.length - 1; w >= 0; w--) {
+                        var fw = fireworks[w];
+                        fw.age++;
+                        var r = fw.age * 1.2;
+                        fillC(fw.c);
+                        for (var a = 0; a < 8; a++) {
+                            var ang = (Math.PI * 2 * a) / 8;
+                            pg.rect(Math.floor(fw.x + Math.cos(ang) * r),
+                                    Math.floor(fw.y + Math.sin(ang) * r), 2, 2);
+                        }
+                        if (fw.age > 18) { fireworks.splice(w, 1); }
+                    }
+                }
+
+                p.setup = function() {
+                    var hero = document.getElementById('heroSection');
+                    canvasW = hero.offsetWidth;
+                    canvasH = hero.offsetHeight;
+                    if (canvasH < 10) canvasH = Math.max(320, Math.floor(window.innerHeight * 0.5));
+                    if (canvasW < 10) canvasW = window.innerWidth;
+
+                    if (canvasW < 768) { bufW = 240; bufH = 150; }
+                    else { bufW = 320; bufH = 200; }
+
+                    var canvas = p.createCanvas(canvasW, canvasH);
+                    canvas.parent('sceneCanvas');
+                    canvas.style('display', 'block');
+                    p.noSmooth();
+
+                    pg = p.createGraphics(bufW, bufH);
+                    pg.noSmooth();
+                    pg.pixelDensity(1);
+                    resetActors();
+                };
+
+                p.draw = function() {
+                    frameCount++;
+                    if (frameCount % 15 === 0) twoFrame = 1 - twoFrame;
+
+                    pg.background(0);
+                    pg.noStroke();
+
+                    if (unlocked) { drawCelebration(); }
+                    else { drawLocked(); }
+
+                    AdventureScore.drawCover(p, pg, 'center');
+                };
+
+                p.windowResized = function() {
+                    var hero = document.getElementById('heroSection');
+                    canvasW = hero.offsetWidth;
+                    canvasH = hero.offsetHeight;
+                    if (canvasH < 10) canvasH = Math.floor(window.innerHeight * 0.5);
+                    if (canvasW < 10) canvasW = window.innerWidth;
+                    p.resizeCanvas(canvasW, canvasH);
+                    if (canvasW < 768) { bufW = 240; bufH = 150; }
+                    else { bufW = 320; bufH = 200; }
+                    pg = p.createGraphics(bufW, bufH);
+                    pg.noSmooth();
+                    pg.pixelDensity(1);
+                    resetActors();
+                };
+            };
+
+            var p5ThroneInstance = new p5(throneSketch);
+            if (window.AdventureUI) { AdventureUI.watchMotion(p5ThroneInstance); }
+        });
+    </script>
+</body>
+</html>
