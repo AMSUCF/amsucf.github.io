@@ -1,0 +1,225 @@
+/* adventure-ui.css — shared Sierra-style chrome for every page.
+   Single source of truth for the contact cluster ("inventory panel"),
+   motion toggle, click prompt, verb-bar width, game-window hero frame,
+   and motion-off rules. Page files keep only their scene-specific CSS. */
+
+:root {
+    /* EGA 16-color palette */
+    --ega-black: #000000;
+    --ega-blue: #0000AA;
+    --ega-green: #00AA00;
+    --ega-cyan: #00AAAA;
+    --ega-red: #AA0000;
+    --ega-brown: #AA5500;
+    --ega-light-gray: #AAAAAA;
+    --ega-dark-gray: #555555;
+    --ega-bright-blue: #5555FF;
+    --ega-bright-green: #55FF55;
+    --ega-bright-cyan: #55FFFF;
+    --ega-bright-red: #FF5555;
+    --ega-magenta: #FF55FF;
+    --ega-yellow: #FFFF55;
+    --ega-white: #FFFFFF;
+}
+
+/* Inventory Panel - Contact Cluster */
+.chaos-contact-cluster {
+    position: fixed !important;
+    top: auto !important;
+    bottom: 52px !important;
+    left: 8px !important;
+    right: auto !important;
+    background: var(--ega-dark-gray) !important;
+    border: 3px solid var(--ega-light-gray) !important;
+    padding: 6px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 4px !important;
+    z-index: 100 !important;
+    animation: none !important;
+    transform: none !important;
+    clip-path: none !important;
+    border-radius: 0 !important;
+}
+
+.chaos-contact-item {
+    background: var(--ega-blue) !important;
+    border: 2px solid var(--ega-cyan) !important;
+    padding: 4px 8px !important;
+    animation: none !important;
+    transform: none !important;
+    clip-path: none !important;
+    border-radius: 0 !important;
+    float: none !important;
+}
+
+.chaos-contact-item:hover {
+    background: var(--ega-bright-blue) !important;
+    transform: none !important;
+}
+
+.chaos-contact-link {
+    font-family: 'Press Start 2P', cursive !important;
+    font-size: 0.45rem !important;
+    color: var(--ega-white) !important;
+    text-decoration: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+}
+
+.chaos-contact-link:hover {
+    color: var(--ega-yellow) !important;
+}
+
+.chaos-contact-icon {
+    color: var(--ega-bright-cyan) !important;
+    font-size: 0.5rem !important;
+}
+
+.chaos-contact-text {
+    color: var(--ega-white) !important;
+}
+
+/* Motion Toggle */
+.chaos-motion-toggle {
+    position: fixed !important;
+    top: auto !important;
+    bottom: 52px !important;
+    right: 8px !important;
+    left: auto !important;
+    background: var(--ega-dark-gray) !important;
+    border: 3px solid var(--ega-light-gray) !important;
+    padding: 6px 12px !important;
+    z-index: 100 !important;
+    animation: none !important;
+    transform: none !important;
+    clip-path: none !important;
+    border-radius: 0 !important;
+    cursor: pointer;
+}
+
+.chaos-motion-toggle:hover {
+    background: var(--ega-bright-blue) !important;
+    transform: none !important;
+}
+
+.chaos-motion-toggle-inner {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.chaos-motion-toggle-icon {
+    font-size: 0.6rem !important;
+    color: var(--ega-bright-green) !important;
+}
+
+.chaos-motion-toggle-text {
+    font-family: 'Press Start 2P', cursive !important;
+    font-size: 0.45rem !important;
+    color: var(--ega-white) !important;
+}
+
+/* Click feedback */
+.click-prompt {
+    position: fixed;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1rem;
+    color: var(--ega-bright-green);
+    pointer-events: none;
+    z-index: 9999;
+    animation: promptFade 0.6s ease-out forwards;
+}
+
+@keyframes promptFade {
+    0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); }
+}
+
+/* Verb bar width — identical nav extent on every page */
+.navbar.adventure-verb-bar .container {
+    max-width: 93% !important;
+}
+
+/* Game-window hero frame — the Sierra 320x200 window, centered.
+   Fixed 8/5 aspect means the p5 cover transform is an exact fit:
+   nothing crops, and every easter egg stays visible at every size. */
+.game-frame {
+    width: min(100%, 800px);
+    margin: 0 auto;
+    border: 4px solid var(--ega-light-gray);
+    border-top: none;
+    background: var(--ega-black);
+}
+
+.game-frame .hero-canvas {
+    aspect-ratio: 8 / 5;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Shared responsive behavior for the fixed chrome */
+
+/* Tablet: icons only */
+@media (min-width: 768px) and (max-width: 1199px) {
+    .chaos-contact-text {
+        display: none !important;
+    }
+}
+
+/* Mobile <768px */
+@media (max-width: 767px) {
+    .chaos-contact-cluster {
+        bottom: 44px !important;
+    }
+    .chaos-motion-toggle {
+        bottom: 44px !important;
+    }
+    .chaos-contact-text {
+        display: none !important;
+    }
+    .chaos-contact-link {
+        font-size: 0.4rem !important;
+    }
+}
+
+/* Touch target sizing */
+@media (pointer: coarse) {
+    .nav-link {
+        min-height: 44px;
+        display: inline-flex !important;
+        align-items: center !important;
+    }
+    .chaos-contact-item {
+        min-height: 44px !important;
+        min-width: 44px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    .chaos-motion-toggle {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
+}
+
+/* Motion off (toggle) and reduced motion (system) */
+body.motion-disabled *,
+body.motion-disabled *::before,
+body.motion-disabled *::after {
+    animation: none !important;
+    transition: none !important;
+}
+
+body.motion-disabled *:hover {
+    transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
