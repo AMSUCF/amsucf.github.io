@@ -793,7 +793,11 @@
                         ? Math.floor((serpCycle / 30) * 8)
                         : (serpCycle > 210 ? Math.floor(((240 - serpCycle) / 30) * 8) : 8);
                     if (rise > 0) {
-                        let sx = Math.floor(bufW * 0.1);
+                        // Desktop: far left of the moat. Small buffers crop
+                        // the sides heavily on portrait phones, so surface
+                        // just left of the bridge (the always-visible strip).
+                        let serpBridgeCX = Math.floor(p.lerp(bufW / 2, castleX + castleW / 2, 0.4));
+                        let sx = bufW >= 300 ? Math.floor(bufW * 0.1) : serpBridgeCX - 33;
                         let sy = moatY + 10 - rise;
                         let bob = twoFrame === 0 ? 0 : 1;
                         pg.fill(...EGA.green);
