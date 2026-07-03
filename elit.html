@@ -1,15 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-lit - Anastasia Salter</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SEO / Social -->
+    <meta name="description" content="Electronic literature and digital projects by Anastasia Salter — interactive fiction, games, and born-digital works.">
+    <meta property="og:title" content="E-lit - Anastasia Salter">
+    <meta property="og:description" content="Electronic literature and digital projects by Anastasia Salter — interactive fiction, games, and born-digital works.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://anastasiasalter.net/elit.html">
+    <meta property="og:image" content="https://anastasiasalter.net/featured.png">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%B0%3C/text%3E%3C/svg%3E">
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <!-- p5.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
-    <link rel="stylesheet" href="css/chaos.css">
+
+    <!-- Shared adventure UI (contact cluster, motion toggle, game frame) -->
+    <link rel="stylesheet" href="css/adventure-ui.css">
 
     <style>
       :root {
@@ -29,20 +49,6 @@
         --ega-magenta: #FF55FF;
         --ega-yellow: #FFFF55;
         --ega-white: #FFFFFF;
-
-        /* Remap chaos variables to EGA equivalents */
-        --burn-orange: #AA5500;
-        --acid-lime: #55FF55;
-        --rust-brown: #0000AA;
-        --slate-grey: #555555;
-        --toxic-yellow: #FFFF55;
-        --blood-red: #AA0000;
-        --moss-green: #00AA00;
-        --bruise-purple: #5555FF;
-        --tar-black: #000000;
-        --bone-white: #FFFFFF;
-        --bile-green: #00AA00;
-        --clay-red: #AA0000;
       }
 
       * {
@@ -72,7 +78,7 @@
         }
       }
 
-      /* Adventure Verb Bar Navigation — high specificity to override chaos.css */
+      /* Adventure Verb Bar Navigation */
       .navbar.adventure-verb-bar,
       nav.navbar.adventure-verb-bar {
         position: fixed !important;
@@ -161,16 +167,9 @@
         filter: invert(1) !important;
       }
 
-      /* ===== HERO SECTION — matches index.html structure ===== */
-      .hero {
-        position: relative;
-        width: 100%;
-        height: 50vh;
-        min-height: 320px;
-        max-height: 500px;
-        overflow: hidden;
-      }
-
+      /* ===== HERO SECTION — Wishing Well Scene =====
+         Sizing comes from the shared .game-frame / .hero-canvas
+         (fixed 8/5 aspect, so the scene never crops). */
       .well-canvas-container {
         width: 100%;
         height: 100%;
@@ -185,7 +184,7 @@
       }
 
       /* Scanline overlay */
-      .hero::after {
+      .hero-canvas::after {
         content: '';
         position: absolute;
         top: 0;
@@ -361,104 +360,8 @@
         margin-top: 6px;
       }
 
-      /* ===== CONTACT CLUSTER (inventory panel bottom-left) ===== */
-      .chaos-contact-cluster {
-        position: fixed !important;
-        top: auto !important;
-        bottom: 52px !important;
-        left: 8px !important;
-        right: auto !important;
-        background: var(--ega-dark-gray) !important;
-        border: 3px solid var(--ega-light-gray) !important;
-        padding: 6px !important;
-        display: flex !important;
-        flex-direction: row !important;
-        gap: 4px !important;
-        z-index: 100 !important;
-        animation: none !important;
-        transform: none !important;
-        clip-path: none !important;
-        border-radius: 0 !important;
-      }
-
-      .chaos-contact-item {
-        background: var(--ega-blue) !important;
-        border: 2px solid var(--ega-cyan) !important;
-        padding: 4px 8px !important;
-        animation: none !important;
-        transform: none !important;
-        clip-path: none !important;
-        border-radius: 0 !important;
-        float: none !important;
-      }
-
-      .chaos-contact-item:hover {
-        background: var(--ega-bright-blue) !important;
-        transform: none !important;
-      }
-
-      .chaos-contact-link {
-        font-family: 'Press Start 2P', cursive !important;
-        font-size: 0.45rem !important;
-        color: var(--ega-white) !important;
-        text-decoration: none !important;
-        display: flex !important;
-        align-items: center !important;
-        gap: 4px !important;
-      }
-
-      .chaos-contact-link:hover {
-        color: var(--ega-yellow) !important;
-      }
-
-      .chaos-contact-icon {
-        color: var(--ega-bright-cyan) !important;
-        font-size: 0.5rem !important;
-      }
-
-      .chaos-contact-text {
-        color: var(--ega-white) !important;
-      }
-
-      /* ===== MOTION TOGGLE (bottom-right) ===== */
-      .chaos-motion-toggle {
-        position: fixed !important;
-        top: auto !important;
-        bottom: 52px !important;
-        right: 8px !important;
-        left: auto !important;
-        background: var(--ega-dark-gray) !important;
-        border: 3px solid var(--ega-light-gray) !important;
-        padding: 6px 12px !important;
-        z-index: 100 !important;
-        animation: none !important;
-        transform: none !important;
-        clip-path: none !important;
-        border-radius: 0 !important;
-        cursor: pointer;
-      }
-
-      .chaos-motion-toggle:hover {
-        background: var(--ega-bright-blue) !important;
-        transform: none !important;
-      }
-
-      .chaos-motion-toggle-inner {
-        display: flex !important;
-        align-items: center !important;
-        gap: 6px !important;
-      }
-
-      .chaos-motion-toggle-icon {
-        font-size: 0.6rem !important;
-        color: var(--ega-bright-green) !important;
-      }
-
-      .chaos-motion-toggle-text {
-        font-family: 'Press Start 2P', cursive !important;
-        font-size: 0.45rem !important;
-        color: var(--ega-white) !important;
-      }
+      /* Contact cluster, motion toggle, and click prompt styles are
+         shared — see css/adventure-ui.css. */
 
       /* ===== RESPONSIVE ===== */
       @media (max-width: 900px) {
@@ -467,20 +370,9 @@
         }
       }
 
-      @media (min-width: 768px) and (max-width: 1199px) {
-        .chaos-contact-text {
-          display: none !important;
-        }
-      }
-
       @media (max-width: 767px) {
         .projects-grid {
           grid-template-columns: 1fr;
-        }
-
-        .hero {
-          height: 40vh;
-          min-height: 260px;
         }
 
         .dialog-box {
@@ -504,27 +396,13 @@
           font-size: 0.65rem;
         }
 
-        .adventure-verb-bar .nav-link,
         .navbar.adventure-verb-bar .nav-link {
           font-size: 0.45rem !important;
           padding: 4px 8px !important;
         }
 
-        .adventure-verb-bar .nav-brand,
-        .navbar-brand {
+        .navbar.adventure-verb-bar .navbar-brand {
           font-size: 0.5rem;
-        }
-
-        .chaos-contact-cluster {
-          bottom: 44px !important;
-        }
-
-        .chaos-motion-toggle {
-          bottom: 44px !important;
-        }
-
-        .chaos-contact-text {
-          display: none !important;
         }
 
         .project-title {
@@ -537,55 +415,23 @@
           font-size: max(0.4rem, 8px);
         }
       }
-
-      /* Touch targets */
-      @media (pointer: coarse) {
-        .adventure-verb-bar .nav-link,
-        .nav-link {
-          min-height: 44px;
-          display: inline-flex !important;
-          align-items: center !important;
-        }
-
-        .chaos-contact-item {
-          min-height: 44px !important;
-          min-width: 44px !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-        }
-
-        .chaos-motion-toggle {
-          min-height: 44px !important;
-          min-width: 44px !important;
-        }
-      }
-
-      /* Reduced motion */
-      @media (prefers-reduced-motion: reduce) {
-        * {
-          animation: none !important;
-          transition: none !important;
-        }
-      }
     </style>
   </head>
   <body>
 
     <!-- Hero Section — Wishing Well Scene -->
-    <section class="hero" id="heroSection">
-      <div id="wellCanvas" class="well-canvas-container"></div>
-      <div class="hero-overlay">
-        <!-- Status Bar -->
-        <div class="status-bar">
-          <span class="status-bar-score">Score: 1 of 25</span>
-          <span class="status-bar-location">The Wishing Well</span>
-        </div>
-
-        <!-- Dialog Box -->
-        <div class="dialog-box">
-          <h1>Electronic Literature</h1>
-          <p class="subtitle">text x tech x textile</p>
+    <section class="game-frame">
+      <div class="status-bar">
+        <span class="status-bar-score">Score: 1 of 25</span>
+        <span class="status-bar-location">The Wishing Well</span>
+      </div>
+      <div class="hero-canvas" id="heroSection">
+        <div id="wellCanvas" class="well-canvas-container"></div>
+        <div class="hero-overlay">
+          <div class="dialog-box">
+            <h1>Electronic Literature</h1>
+            <p class="subtitle">text x tech x textile</p>
+          </div>
         </div>
       </div>
     </section>
@@ -608,7 +454,7 @@
         <div class="project-card">
           <div class="project-image" style="background-image: url('yarns.jpg');"></div>
           <div class="project-content">
-            <a href="https://anastasiasalter.net/SpinningYarns/" class="project-title">Spinning Yarns: Speculative Pasts of Electronic Literature</a>
+            <a href="https://anastasiasalter.net/SpinningYarns/" class="project-title" rel="noopener noreferrer">Spinning Yarns: Speculative Pasts of Electronic Literature</a>
             <div class="project-author">Anne Sullivan and Anastasia Salter</div>
             <div class="project-venue">Electronic Literature Organization Exhibition: Portugal</div>
             <div class="project-year">2023</div>
@@ -618,7 +464,7 @@
         <div class="project-card">
           <div class="project-image" style="background-image: url('poetics.jpg');"></div>
           <div class="project-content">
-            <a href="https://anastasiasalter.net/post_anthropocene/" class="project-title">Post-Anthropocene Poetics [De]Fused</a>
+            <a href="https://anastasiasalter.net/post_anthropocene/" class="project-title" rel="noopener noreferrer">Post-Anthropocene Poetics [De]Fused</a>
             <div class="project-author">Anne Sullivan and Anastasia Salter</div>
             <div class="project-venue">Electronic Literature Organization Exhibition: Italy</div>
             <div class="project-year">2022</div>
@@ -628,7 +474,7 @@
         <div class="project-card">
           <div class="project-image" style="background-image: url('mask.jpg');"></div>
           <div class="project-content">
-            <a href="https://eliterature.org/elo2021/covid/" class="project-title">Masked Making</a>
+            <a href="https://eliterature.org/elo2021/covid/" class="project-title" rel="noopener noreferrer">Masked Making</a>
             <div class="project-author">Lai-Tze Fan, Anne Sullivan, and Anastasia Salter</div>
             <div class="project-venue">Electronic Literature Organization Exhibition: Covid E-Lit + ELC Volume 4</div>
             <div class="project-year">2021</div>
@@ -638,7 +484,7 @@
         <div class="project-card">
           <div class="project-image" style="background-image: url('tension.png');"></div>
           <div class="project-content">
-            <a href="https://projects.cah.ucf.edu/mediaartsexhibits/uncontinuity/Murray/murray.html" class="project-title">Tension Assembly</a>
+            <a href="https://projects.cah.ucf.edu/mediaartsexhibits/uncontinuity/Murray/murray.html" class="project-title" rel="noopener noreferrer">Tension Assembly</a>
             <div class="project-author">John Murray and Anastasia Salter</div>
             <div class="project-venue">Electronic Literature Organization Exhibition: (un)continuity</div>
             <div class="project-year">2020</div>
@@ -648,7 +494,7 @@
         <div class="project-card">
           <div class="project-image" style="background-image: url('threads.jpg');"></div>
           <div class="project-content">
-            <a href="https://electronicbookreview.com/essay/retraced-threads-generating-feminist-textile-art-with-tracery/" class="project-title">Re:Traced Threads</a>
+            <a href="https://electronicbookreview.com/essay/retraced-threads-generating-feminist-textile-art-with-tracery/" class="project-title" rel="noopener noreferrer">Re:Traced Threads</a>
             <div class="project-author">Anastasia Salter</div>
             <div class="project-venue">Electronic Literature Organization Exhibition at the Glucksman, Ireland</div>
             <div class="project-year">2019</div>
@@ -658,7 +504,7 @@
         <div class="project-card">
           <div class="project-image" style="background-image: url('blocked.jpg');"></div>
           <div class="project-content">
-            <a href="http://hyperrhiz.io/hyperrhiz21/games/5-blocked-in.html" class="project-title">Blocked In</a>
+            <a href="http://hyperrhiz.io/hyperrhiz21/games/5-blocked-in.html" class="project-title" rel="noopener noreferrer">Blocked In</a>
             <div class="project-author">Anastasia Salter and John Murray</div>
             <div class="project-venue">Hyperrhiz: New Media Cultures 21 The Buzzademia Special Issue</div>
             <div class="project-year">2019</div>
@@ -668,7 +514,7 @@
         <div class="project-card">
           <div class="project-image" style="background-image: url('mii.jpg');"></div>
           <div class="project-content">
-            <a href="http://hyperrhiz.io/hyperrhiz21/list-explain-think/8-being-mii.html" class="project-title">Being Mii</a>
+            <a href="http://hyperrhiz.io/hyperrhiz21/list-explain-think/8-being-mii.html" class="project-title" rel="noopener noreferrer">Being Mii</a>
             <div class="project-author">Anastasia Salter</div>
             <div class="project-venue">Hyperrhiz: New Media Cultures 21 The Buzzademia Special Issue</div>
             <div class="project-year">2019</div>
@@ -678,7 +524,7 @@
         <div class="project-card">
           <div class="project-image" style="background-image: url('codes.jpg');"></div>
           <div class="project-content">
-            <a href="https://never-here.neocities.org/" class="project-title">Blocked Connections</a>
+            <a href="https://never-here.neocities.org/" class="project-title" rel="noopener noreferrer">Blocked Connections</a>
             <div class="project-author">Anastasia Salter and Anne Sullivan</div>
             <div class="project-venue">Electronic Literature Organization Exhibition in Montreal</div>
             <div class="project-year">2018</div>
@@ -688,7 +534,7 @@
         <div class="project-card">
           <div class="project-image" style="background-image: url('spiderweb.jpg');"></div>
           <div class="project-content">
-            <a href="https://adanewmedia.org/2018/05/issue13-kuchera/" class="project-title">The Spider's Web</a>
+            <a href="https://adanewmedia.org/2018/05/issue13-kuchera/" class="project-title" rel="noopener noreferrer">The Spider's Web</a>
             <div class="project-author">Collaboration led by Carly Kocurek</div>
             <div class="project-venue">Alternate Reality Game published in Ada: A Journal of Gender, New Media, and Technology</div>
             <div class="project-year">2018</div>
@@ -698,7 +544,7 @@
         <div class="project-card">
           <div class="project-image" style="background-image: url('ctrlalt.png');"></div>
           <div class="project-content">
-            <a href="https://ojs.deakin.edu.au/index.php/ps/article/view/656" class="project-title">Alt-Right: Ctrl+A; Del</a>
+            <a href="https://ojs.deakin.edu.au/index.php/ps/article/view/656" class="project-title" rel="noopener noreferrer">Alt-Right: Ctrl+A; Del</a>
             <div class="project-author">Anastasia Salter and Bridget Blodgett</div>
             <div class="project-venue">Hypertext published in Persona Studies</div>
             <div class="project-year">2017</div>
@@ -708,7 +554,7 @@
         <div class="project-card">
           <div class="project-image" style="background-image: url('eliza.png');"></div>
           <div class="project-content">
-            <a href="http://anastasiasalter.net/ElizaAndAndromeda/" class="project-title">Eliza and Andromeda</a>
+            <a href="http://anastasiasalter.net/ElizaAndAndromeda/" class="project-title" rel="noopener noreferrer">Eliza and Andromeda</a>
             <div class="project-author">Anastasia Salter and Deena Larsen</div>
             <div class="project-venue">Electronic Literature Organization Exhibition in Porto</div>
             <div class="project-year">2017</div>
@@ -718,7 +564,7 @@
         <div class="project-card">
           <div class="project-image" style="background-image: url('alice.jpg');"></div>
           <div class="project-content">
-            <a href="http://kairos.technorhetoric.net/20.1/inventio/salter/index.html" class="project-title">Alice in Dataland 2.0</a>
+            <a href="http://kairos.technorhetoric.net/20.1/inventio/salter/index.html" class="project-title" rel="noopener noreferrer">Alice in Dataland 2.0</a>
             <div class="project-author">Anastasia Salter</div>
             <div class="project-venue">Hypertext published in Kairos: A Journal of Rhetoric, Technology, and Pedagogy 20.1</div>
             <div class="project-year">2015</div>
@@ -728,7 +574,7 @@
         <div class="project-card">
           <div class="project-image" style="background-image: url('beyond.png');"></div>
           <div class="project-content">
-            <a href="http://aco.booktype.pro/elo-2015-the-ends-of-electronic-literature/john-murray-and-anastasia-salter-from-beyond-hybridity-ouija-board-project/" class="project-title">From Beyond</a>
+            <a href="http://aco.booktype.pro/elo-2015-the-ends-of-electronic-literature/john-murray-and-anastasia-salter-from-beyond-hybridity-ouija-board-project/" class="project-title" rel="noopener noreferrer">From Beyond</a>
             <div class="project-author">John Murray and Anastasia Salter</div>
             <div class="project-venue">The End(s) of Electronic Literature Exhibition in Bergen, Norway</div>
             <div class="project-year">2015</div>
@@ -738,7 +584,7 @@
         <div class="project-card">
           <div class="project-image" style="background-image: url('nowhere.png');"></div>
           <div class="project-content">
-            <a href="https://www.unlikelystories.org/ethan/ethan-salter.shtml" class="project-title">Nowhere</a>
+            <a href="https://www.unlikelystories.org/ethan/ethan-salter.shtml" class="project-title" rel="noopener noreferrer">Nowhere</a>
             <div class="project-author">Anastasia Salter from Jeremy Hight's text</div>
             <div class="project-venue">Unlikely Stories: Episode IV</div>
             <div class="project-year">2014</div>
@@ -755,7 +601,7 @@
         <div class="project-card">
           <div class="project-image" style="background-image: url('arcade.jpg');"></div>
           <div class="project-content">
-            <a href="https://projects.cah.ucf.edu/mediaartsexhibits/cp2022/" class="project-title">CP Arcade: Reinvention</a>
+            <a href="https://projects.cah.ucf.edu/mediaartsexhibits/cp2022/" class="project-title" rel="noopener noreferrer">CP Arcade: Reinvention</a>
             <div class="project-author">Anastasia Salter, with graphic design by PS Berge and web development by John Murray</div>
             <div class="project-venue">Console-ing Passions Conference</div>
             <div class="project-year">2022</div>
@@ -765,7 +611,7 @@
         <div class="project-card">
           <div class="project-image" style="background-image: url('uncontinuity.png');"></div>
           <div class="project-content">
-            <a href="https://projects.cah.ucf.edu/mediaartsexhibits/uncontinuity/" class="project-title">(un)continuity</a>
+            <a href="https://projects.cah.ucf.edu/mediaartsexhibits/uncontinuity/" class="project-title" rel="noopener noreferrer">(un)continuity</a>
             <div class="project-author">Shannon Lindsay, Ha'ani Hogan, and Anastasia Salter</div>
             <div class="project-venue">Electronic Literature Organization Virtual Exhibition</div>
             <div class="project-year">2020</div>
@@ -775,7 +621,7 @@
         <div class="project-card">
           <div class="project-image" style="background-image: url('change.png');"></div>
           <div class="project-content">
-            <a href="https://projects.cah.ucf.edu/mediaartsexhibits/ClimatesOfChange/" class="project-title">Climates of Change</a>
+            <a href="https://projects.cah.ucf.edu/mediaartsexhibits/ClimatesOfChange/" class="project-title" rel="noopener noreferrer">Climates of Change</a>
             <div class="project-author">Jason Nelson and Anastasia Salter</div>
             <div class="project-venue">A Virtual Exhibit of ACM Hypertext and Social Media 2020</div>
             <div class="project-year">2020</div>
@@ -785,7 +631,7 @@
         <div class="project-card">
           <div class="project-image" style="background-image: url('elc.png');"></div>
           <div class="project-content">
-            <a href="http://collection.eliterature.org/3/" class="project-title">Electronic Literature Collection Volume 3</a>
+            <a href="http://collection.eliterature.org/3/" class="project-title" rel="noopener noreferrer">Electronic Literature Collection Volume 3</a>
             <div class="project-author">Stephanie Boluk, Leonardo Flores, Jacob Garbe, and Anastasia Salter</div>
             <div class="project-venue">The Electronic Literature Organization</div>
             <div class="project-year">2016</div>
@@ -807,26 +653,26 @@
     <!-- Inventory Panel - Contact Cluster -->
     <div class="chaos-contact-cluster">
         <div class="chaos-contact-item contact-email">
-            <a href="mailto:anastasia@ucf.edu" class="chaos-contact-link">
-                <span class="chaos-contact-icon">@</span>
+            <a href="mailto:anastasia@ucf.edu" class="chaos-contact-link" aria-label="Email Anastasia Salter">
+                <span class="chaos-contact-icon" aria-hidden="true">@</span>
                 <span class="chaos-contact-text">EMAIL</span>
             </a>
         </div>
         <div class="chaos-contact-item">
-            <a href="https://bsky.app/profile/anasalter.bsky.social" class="chaos-contact-link" target="_blank" rel="noopener noreferrer">
-                <span class="chaos-contact-icon"><i class="fas fa-cloud"></i></span>
+            <a href="https://bsky.app/profile/anasalter.bsky.social" class="chaos-contact-link" target="_blank" rel="noopener noreferrer" aria-label="Bluesky profile">
+                <span class="chaos-contact-icon" aria-hidden="true"><i class="fa-brands fa-bluesky"></i></span>
                 <span class="chaos-contact-text">BLUESKY</span>
             </a>
         </div>
         <div class="chaos-contact-item">
-            <a href="https://www.instagram.com/anasalter/" class="chaos-contact-link" target="_blank" rel="noopener noreferrer">
-                <span class="chaos-contact-icon"><i class="fab fa-instagram"></i></span>
+            <a href="https://www.instagram.com/anasalter/" class="chaos-contact-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram profile">
+                <span class="chaos-contact-icon" aria-hidden="true"><i class="fab fa-instagram"></i></span>
                 <span class="chaos-contact-text">INSTA</span>
             </a>
         </div>
         <div class="chaos-contact-item">
-            <a href="CV.pdf" class="chaos-contact-link" target="_blank">
-                <span class="chaos-contact-icon"><i class="fas fa-file-pdf"></i></span>
+            <a href="CV.pdf" class="chaos-contact-link" target="_blank" rel="noopener noreferrer" aria-label="Curriculum vitae (PDF)">
+                <span class="chaos-contact-icon" aria-hidden="true"><i class="fas fa-file-pdf"></i></span>
                 <span class="chaos-contact-text">CV</span>
             </a>
         </div>
@@ -859,7 +705,7 @@
                         <a class="nav-link" href="teaching.html">Talk: Teaching</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="CV.pdf" target="_blank">Take: CV</a>
+                        <a class="nav-link" href="CV.pdf" target="_blank" rel="noopener noreferrer">Take: CV</a>
                     </li>
                 </ul>
             </div>
@@ -869,66 +715,9 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/adventure-score.js"></script>
+    <script src="js/adventure-ui.js"></script>
 
     <script>
-        // Motion toggle
-        (function() {
-            var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            var stored = localStorage.getItem('motion-preference');
-            var motionDisabled = stored !== null ? stored === 'disabled' : prefersReducedMotion;
-
-            function applyMotion() {
-                if (motionDisabled) {
-                    document.body.classList.add('motion-disabled');
-                } else {
-                    document.body.classList.remove('motion-disabled');
-                }
-                var toggle = document.getElementById('motionToggle');
-                if (toggle) {
-                    var icon = toggle.querySelector('.chaos-motion-toggle-icon');
-                    var text = toggle.querySelector('.chaos-motion-toggle-text');
-                    if (motionDisabled) {
-                        if (icon) icon.textContent = '\u25B6';
-                        if (text) text.textContent = 'PLAY';
-                    } else {
-                        if (icon) icon.textContent = '\u23F8';
-                        if (text) text.textContent = 'PAUSE';
-                    }
-                }
-            }
-
-            applyMotion();
-
-            document.addEventListener('DOMContentLoaded', function() {
-                applyMotion();
-                var toggle = document.getElementById('motionToggle');
-                if (toggle) {
-                    toggle.addEventListener('click', function() {
-                        motionDisabled = !motionDisabled;
-                        localStorage.setItem('motion-preference', motionDisabled ? 'disabled' : 'enabled');
-                        applyMotion();
-                    });
-                }
-            });
-        })();
-
-        // Click feedback
-        document.addEventListener('click', function(e) {
-            if (document.body.classList.contains('motion-disabled')) return;
-            var prompt = document.createElement('div');
-            prompt.style.cssText = 'position:fixed;font-family:"Press Start 2P",cursive;font-size:1rem;color:#55FF55;pointer-events:none;z-index:9999;animation:promptFade 0.6s ease-out forwards;';
-            prompt.textContent = '>';
-            prompt.style.left = e.clientX + 'px';
-            prompt.style.top = e.clientY + 'px';
-            document.body.appendChild(prompt);
-            setTimeout(function() { prompt.remove(); }, 600);
-        });
-
-        // Prompt fade animation
-        var fadeStyle = document.createElement('style');
-        fadeStyle.textContent = '@keyframes promptFade { 0% { opacity:1; transform:translate(-50%,-50%) scale(1); } 100% { opacity:0; transform:translate(-50%,-50%) scale(1.5); } }';
-        document.head.appendChild(fadeStyle);
-
         // ======================================
         // WISHING WELL PIXEL SCENE (p5.js)
         // ======================================
@@ -1236,14 +1025,11 @@
             p.mousePressed = function() {
                 if (!pg || typeof AdventureScore === 'undefined') { return; }
                 var b = AdventureScore.canvasToBuffer(p, pg, p.mouseX, p.mouseY, 'center');
-                var eggs = getEggs();
-                for (var i = 0; i < eggs.length; i++) {
-                    var r = eggs[i].rect;
-                    if (b.x >= r[0] && b.x <= r[0] + r[2] && b.y >= r[1] && b.y <= r[1] + r[3]) {
-                        AdventureScore.findEgg(eggs[i].id,
-                            { message: eggs[i].message, screenX: p.mouseX, screenY: p.mouseY });
-                        break;
-                    }
+                // 6px of buffer-space padding keeps small eggs finger-friendly.
+                var egg = AdventureScore.hitTest(getEggs(), b, 6);
+                if (egg) {
+                    AdventureScore.findEgg(egg.id,
+                        { message: egg.message, screenX: p.mouseX, screenY: p.mouseY });
                 }
             };
 
@@ -1271,35 +1057,8 @@
         // Wait for DOM to be ready so hero section has computed dimensions
         document.addEventListener('DOMContentLoaded', function() {
             var p5WellInstance = new p5(wellSketch);
-            (function () {
-                function registerElit() {
-                    if (typeof AdventureScore !== 'undefined') { AdventureScore.registerPage('elit'); }
-                }
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', registerElit);
-                } else {
-                    registerElit();
-                }
-            })();
-
-            // Check initial motion state
-            if (document.body.classList.contains('motion-disabled')) {
-                p5WellInstance.noLoop();
-            }
-
-            // Listen for motion toggle changes
-            var wellObserver = new MutationObserver(function(mutations) {
-                for (var i = 0; i < mutations.length; i++) {
-                    if (mutations[i].attributeName === 'class') {
-                        if (document.body.classList.contains('motion-disabled')) {
-                            p5WellInstance.noLoop();
-                        } else {
-                            p5WellInstance.loop();
-                        }
-                    }
-                }
-            });
-            wellObserver.observe(document.body, { attributes: true });
+            if (typeof AdventureScore !== 'undefined') { AdventureScore.registerPage('elit'); }
+            if (window.AdventureUI) { AdventureUI.watchMotion(p5WellInstance); }
         });
     </script>
   </body>
