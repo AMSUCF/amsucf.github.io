@@ -29,10 +29,10 @@
     <link rel="canonical" href="https://anastasiasalter.net/">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Press+Start+2P&family=Audiowide:wght@400&family=Comic+Neue:wght@300;400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -40,8 +40,12 @@
     <!-- p5.js Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
 
-    <!-- Chaos CSS (shared - overridden inline) -->
-    <link rel="stylesheet" href="css/chaos.css">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%B0%3C/text%3E%3C/svg%3E">
+
+    <!-- Shared adventure UI (contact cluster, motion toggle, game frame) -->
+    <link rel="stylesheet" href="css/adventure-ui.css">
 
     <style>
         :root {
@@ -61,20 +65,6 @@
             --ega-magenta: #FF55FF;
             --ega-yellow: #FFFF55;
             --ega-white: #FFFFFF;
-
-            /* Remap chaos variables to EGA equivalents */
-            --burn-orange: #AA5500;
-            --acid-lime: #55FF55;
-            --rust-brown: #0000AA;
-            --slate-grey: #555555;
-            --toxic-yellow: #FFFF55;
-            --blood-red: #AA0000;
-            --moss-green: #00AA00;
-            --bruise-purple: #5555FF;
-            --tar-black: #000000;
-            --bone-white: #FFFFFF;
-            --bile-green: #00AA00;
-            --clay-red: #AA0000;
         }
 
         * {
@@ -128,7 +118,7 @@
             animation: none;
         }
 
-        /* Adventure Verb Bar Navigation — high specificity to override chaos.css */
+        /* Adventure Verb Bar Navigation */
         .navbar.adventure-verb-bar,
         nav.navbar.adventure-verb-bar {
             position: fixed !important;
@@ -378,120 +368,8 @@
             color: var(--ega-bright-green);
         }
 
-        /* Inventory Panel - Contact Cluster Override */
-        .chaos-contact-cluster {
-            position: fixed !important;
-            top: auto !important;
-            bottom: 52px !important;
-            left: 8px !important;
-            right: auto !important;
-            background: var(--ega-dark-gray) !important;
-            border: 3px solid var(--ega-light-gray) !important;
-            padding: 6px !important;
-            display: flex !important;
-            flex-direction: row !important;
-            gap: 4px !important;
-            z-index: 100 !important;
-            animation: none !important;
-            transform: none !important;
-            clip-path: none !important;
-            border-radius: 0 !important;
-        }
-
-        .chaos-contact-item {
-            background: var(--ega-blue) !important;
-            border: 2px solid var(--ega-cyan) !important;
-            padding: 4px 8px !important;
-            animation: none !important;
-            transform: none !important;
-            clip-path: none !important;
-            border-radius: 0 !important;
-            float: none !important;
-        }
-
-        .chaos-contact-item:hover {
-            background: var(--ega-bright-blue) !important;
-            transform: none !important;
-        }
-
-        .chaos-contact-link {
-            font-family: 'Press Start 2P', cursive !important;
-            font-size: 0.45rem !important;
-            color: var(--ega-white) !important;
-            text-decoration: none !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 4px !important;
-        }
-
-        .chaos-contact-link:hover {
-            color: var(--ega-yellow) !important;
-        }
-
-        .chaos-contact-icon {
-            color: var(--ega-bright-cyan) !important;
-            font-size: 0.5rem !important;
-        }
-
-        .chaos-contact-text {
-            color: var(--ega-white) !important;
-        }
-
-        /* Motion Toggle Override */
-        .chaos-motion-toggle {
-            position: fixed !important;
-            top: auto !important;
-            bottom: 52px !important;
-            right: 8px !important;
-            left: auto !important;
-            background: var(--ega-dark-gray) !important;
-            border: 3px solid var(--ega-light-gray) !important;
-            padding: 6px 12px !important;
-            z-index: 100 !important;
-            animation: none !important;
-            transform: none !important;
-            clip-path: none !important;
-            border-radius: 0 !important;
-            cursor: pointer;
-        }
-
-        .chaos-motion-toggle:hover {
-            background: var(--ega-bright-blue) !important;
-            transform: none !important;
-        }
-
-        .chaos-motion-toggle-inner {
-            display: flex !important;
-            align-items: center !important;
-            gap: 6px !important;
-        }
-
-        .chaos-motion-toggle-icon {
-            font-size: 0.6rem !important;
-            color: var(--ega-bright-green) !important;
-        }
-
-        .chaos-motion-toggle-text {
-            font-family: 'Press Start 2P', cursive !important;
-            font-size: 0.45rem !important;
-            color: var(--ega-white) !important;
-        }
-
-        /* Click feedback */
-        .click-prompt {
-            position: fixed;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 1rem;
-            color: var(--ega-bright-green);
-            pointer-events: none;
-            z-index: 9999;
-            animation: promptFade 0.6s ease-out forwards;
-        }
-
-        @keyframes promptFade {
-            0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-            100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); }
-        }
+        /* Contact cluster, motion toggle, and click prompt styles are
+           shared — see css/adventure-ui.css. */
 
         /* Responsive Design */
 
@@ -513,9 +391,6 @@
             }
             .dialog-box h1 {
                 font-size: 1.2rem;
-            }
-            .chaos-contact-text {
-                display: none !important;
             }
         }
 
@@ -551,18 +426,6 @@
             .navbar-brand {
                 font-size: 0.5rem;
             }
-            .chaos-contact-cluster {
-                bottom: 44px !important;
-            }
-            .chaos-motion-toggle {
-                bottom: 44px !important;
-            }
-            .chaos-contact-text {
-                display: none !important;
-            }
-            .chaos-contact-link {
-                font-size: 0.4rem !important;
-            }
         }
 
         /* Ensure minimum 8px for Press Start 2P */
@@ -589,22 +452,6 @@
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-            }
-            .nav-link {
-                min-height: 44px;
-                display: inline-flex !important;
-                align-items: center !important;
-            }
-            .chaos-contact-item {
-                min-height: 44px !important;
-                min-width: 44px !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-            }
-            .chaos-motion-toggle {
-                min-height: 44px !important;
-                min-width: 44px !important;
             }
         }
 
@@ -691,68 +538,9 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/adventure-score.js"></script>
+    <script src="js/adventure-ui.js"></script>
 
     <script>
-        // ======================================
-        // MOTION TOGGLE (inlined from chaos-effects.js)
-        // ======================================
-        (function() {
-            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            const stored = localStorage.getItem('motion-preference');
-            let motionDisabled = stored !== null ? stored === 'disabled' : prefersReducedMotion;
-
-            function applyMotion() {
-                if (motionDisabled) {
-                    document.body.classList.add('motion-disabled');
-                } else {
-                    document.body.classList.remove('motion-disabled');
-                }
-                // Update toggle UI
-                const toggle = document.getElementById('motionToggle');
-                if (toggle) {
-                    const icon = toggle.querySelector('.chaos-motion-toggle-icon');
-                    const text = toggle.querySelector('.chaos-motion-toggle-text');
-                    if (motionDisabled) {
-                        if (icon) icon.textContent = '▶';
-                        if (text) text.textContent = 'PLAY';
-                    } else {
-                        if (icon) icon.textContent = '⏸';
-                        if (text) text.textContent = 'PAUSE';
-                    }
-                }
-            }
-
-            // Apply initial state immediately
-            applyMotion();
-
-            // Bind click handler after DOM is ready (toggle element is below this script)
-            document.addEventListener('DOMContentLoaded', function() {
-                applyMotion(); // re-apply now that element exists
-                const toggle = document.getElementById('motionToggle');
-                if (toggle) {
-                    toggle.addEventListener('click', function() {
-                        motionDisabled = !motionDisabled;
-                        localStorage.setItem('motion-preference', motionDisabled ? 'disabled' : 'enabled');
-                        applyMotion();
-                    });
-                }
-            });
-        })();
-
-        // ======================================
-        // ADVENTURE CLICK FEEDBACK
-        // ======================================
-        document.addEventListener('click', function(e) {
-            if (document.body.classList.contains('motion-disabled')) return;
-            const prompt = document.createElement('div');
-            prompt.className = 'click-prompt';
-            prompt.textContent = '>';
-            prompt.style.left = e.clientX + 'px';
-            prompt.style.top = e.clientY + 'px';
-            document.body.appendChild(prompt);
-            setTimeout(function() { prompt.remove(); }, 600);
-        });
-
         // ======================================
         // PIXEL ADVENTURE LANDSCAPE (p5.js)
         // ======================================
@@ -1076,14 +864,11 @@
             p.mousePressed = function() {
                 if (!pg || typeof AdventureScore === 'undefined') { return; }
                 var b = AdventureScore.canvasToBuffer(p, pg, p.mouseX, p.mouseY);
-                var eggs = getEggs();
-                for (var i = 0; i < eggs.length; i++) {
-                    var r = eggs[i].rect;
-                    if (b.x >= r[0] && b.x <= r[0] + r[2] && b.y >= r[1] && b.y <= r[1] + r[3]) {
-                        AdventureScore.findEgg(eggs[i].id,
-                            { message: eggs[i].message, screenX: p.mouseX, screenY: p.mouseY });
-                        break;
-                    }
+                // 6px of buffer-space padding keeps small eggs finger-friendly.
+                var egg = AdventureScore.hitTest(getEggs(), b, 6);
+                if (egg) {
+                    AdventureScore.findEgg(egg.id,
+                        { message: egg.message, screenX: p.mouseX, screenY: p.mouseY });
                 }
             };
 
@@ -1109,26 +894,8 @@
         let p5Instance = new p5(adventureSketch);
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof AdventureScore !== 'undefined') { AdventureScore.registerPage('index'); }
+            if (window.AdventureUI) { AdventureUI.watchMotion(p5Instance); }
         });
-
-        // Check initial motion state
-        if (document.body.classList.contains('motion-disabled')) {
-            p5Instance.noLoop();
-        }
-
-        // Listen for motion toggle changes
-        const observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-                if (mutation.attributeName === 'class') {
-                    if (document.body.classList.contains('motion-disabled')) {
-                        p5Instance.noLoop();
-                    } else {
-                        p5Instance.loop();
-                    }
-                }
-            });
-        });
-        observer.observe(document.body, { attributes: true });
     </script>
 
     <!-- Motion Toggle Button -->
@@ -1142,26 +909,26 @@
     <!-- Inventory Panel - Contact Cluster -->
     <div class="chaos-contact-cluster">
         <div class="chaos-contact-item contact-email">
-            <a href="mailto:anastasia@ucf.edu" class="chaos-contact-link">
-                <span class="chaos-contact-icon">@</span>
+            <a href="mailto:anastasia@ucf.edu" class="chaos-contact-link" aria-label="Email Anastasia Salter">
+                <span class="chaos-contact-icon" aria-hidden="true">@</span>
                 <span class="chaos-contact-text">EMAIL</span>
             </a>
         </div>
         <div class="chaos-contact-item">
-            <a href="https://bsky.app/profile/anasalter.bsky.social" class="chaos-contact-link" target="_blank" rel="noopener noreferrer">
-                <span class="chaos-contact-icon"><i class="fas fa-cloud"></i></span>
+            <a href="https://bsky.app/profile/anasalter.bsky.social" class="chaos-contact-link" target="_blank" rel="noopener noreferrer" aria-label="Bluesky profile">
+                <span class="chaos-contact-icon" aria-hidden="true"><i class="fa-brands fa-bluesky"></i></span>
                 <span class="chaos-contact-text">BLUESKY</span>
             </a>
         </div>
         <div class="chaos-contact-item">
-            <a href="https://www.instagram.com/anasalter/" class="chaos-contact-link" target="_blank" rel="noopener noreferrer">
-                <span class="chaos-contact-icon"><i class="fab fa-instagram"></i></span>
+            <a href="https://www.instagram.com/anasalter/" class="chaos-contact-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram profile">
+                <span class="chaos-contact-icon" aria-hidden="true"><i class="fab fa-instagram"></i></span>
                 <span class="chaos-contact-text">INSTA</span>
             </a>
         </div>
         <div class="chaos-contact-item">
-            <a href="CV.pdf" class="chaos-contact-link" target="_blank">
-                <span class="chaos-contact-icon"><i class="fas fa-file-pdf"></i></span>
+            <a href="CV.pdf" class="chaos-contact-link" target="_blank" rel="noopener noreferrer" aria-label="Curriculum vitae (PDF)">
+                <span class="chaos-contact-icon" aria-hidden="true"><i class="fas fa-file-pdf"></i></span>
                 <span class="chaos-contact-text">CV</span>
             </a>
         </div>
