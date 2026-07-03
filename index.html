@@ -331,6 +331,25 @@
             line-height: 2;
         }
 
+        /* Sierra narrator line — rotating one-liners under the verbs */
+        .narrator-line {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.45rem;
+            color: var(--ega-bright-green);
+            margin: 14px 0 0 0;
+            line-height: 1.9;
+            min-height: 2.2em;
+        }
+
+        .narrator-line.swap {
+            animation: narratorFade 0.4s steps(2);
+        }
+
+        @keyframes narratorFade {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
         /* Verb-style CTA buttons */
         .verb-buttons {
             display: flex;
@@ -528,6 +547,7 @@
                                 <a href="elit.html" class="btn-verb"><span class="verb-action">PLAY</span>&nbsp;&rarr; E-lit</a>
                                 <a href="teaching.html" class="btn-verb"><span class="verb-action">TALK</span>&nbsp;&rarr; Teaching</a>
                             </div>
+                            <p class="narrator-line" id="narratorLine" aria-hidden="true">&gt; You are standing in front of a castle.</p>
                         </div>
                     </div>
                 </div>
@@ -691,6 +711,30 @@
                 pg.fill(...EGA.lightGray);
                 pg.rect(castleX + castleW / 2 - 1, castleBase - turretH - 22, 1, 12);
 
+                // === A SUSPICIOUS PURPLE TENTACLE surveys the kingdom ===
+                // (It rises from the left turret now and then. It is
+                // definitely not planning anything.)
+                let tentCycle = (frameCount + 300) % 600;
+                if (tentCycle < 180) {
+                    let tRise = tentCycle < 24
+                        ? Math.floor((tentCycle / 24) * 10)
+                        : (tentCycle > 156 ? Math.floor(((180 - tentCycle) / 24) * 10) : 10);
+                    if (tRise > 0) {
+                        let tpx = castleX - 4 + 3;
+                        let tpy = castleBase - turretH - 4 - tRise;
+                        pg.fill(...EGA.magenta);
+                        pg.rect(tpx, tpy, 5, tRise + 2);
+                        if (tRise >= 8) {
+                            // curled tip, waving
+                            if (twoFrame === 0) {
+                                pg.rect(tpx - 3, tpy - 3, 5, 3);
+                            } else {
+                                pg.rect(tpx + 3, tpy - 3, 5, 3);
+                            }
+                        }
+                    }
+                }
+
                 // === HILLS: stepped green rectangles ===
                 let hillY = castleBase + 30;
                 pg.fill(...EGA.green);
@@ -740,6 +784,29 @@
                 pg.fill(...EGA.blue);
                 pg.rect(0, moatY, bufW, 3);
                 pg.rect(0, moatY + moatH - 3, bufW, 3);
+
+                // === MOAT SERPENT (she has tenure) ===
+                // Surfaces periodically on the left, well clear of the bridge.
+                let serpCycle = frameCount % 600;
+                if (serpCycle < 240) {
+                    let rise = serpCycle < 30
+                        ? Math.floor((serpCycle / 30) * 8)
+                        : (serpCycle > 210 ? Math.floor(((240 - serpCycle) / 30) * 8) : 8);
+                    if (rise > 0) {
+                        let sx = Math.floor(bufW * 0.1);
+                        let sy = moatY + 10 - rise;
+                        let bob = twoFrame === 0 ? 0 : 1;
+                        pg.fill(...EGA.green);
+                        pg.rect(sx, sy + bob, 8, 5);                 // hump 1
+                        pg.rect(sx + 12, sy + 1 - bob, 8, 4);        // hump 2
+                        pg.rect(sx + 24, sy - 6 + bob, 3, 10);       // neck
+                        pg.rect(sx + 23, sy - 9 + bob, 7, 4);        // head
+                        pg.fill(...EGA.white);
+                        pg.rect(sx + 27, sy - 8 + bob, 1, 1);        // eye
+                        pg.fill(...EGA.brightGreen);
+                        pg.rect(sx + 2, sy + 1 + bob, 4, 1);         // highlight
+                    }
+                }
 
                 // === STEPPING STONES with BRIDGE across moat ===
                 // Stepping stones from bottom of screen up to moat
@@ -895,6 +962,29 @@
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof AdventureScore !== 'undefined') { AdventureScore.registerPage('index'); }
             if (window.AdventureUI) { AdventureUI.watchMotion(p5Instance); }
+
+            // Rotating narrator one-liners (paused when motion is off)
+            var narratorLines = [
+                '> You are standing in front of a castle. Obvious exits are BOOKS, E-LIT, and TEACHING.',
+                '> This is the second most impressive portfolio you have ever seen.',
+                '> Behind you! A three-headed monkey! ...It headed for the Portrait Gallery.',
+                '> You cannot get ye flask. You CAN, however, get ye CV.',
+                '> The moat serpent has tenure.',
+                '> SAVE EARLY. SAVE OFTEN. CITE GENEROUSLY.',
+                '> A rubber chicken with a pulley in the middle would really tie this moat together.'
+            ];
+            var narratorIdx = 0;
+            var narratorEl = document.getElementById('narratorLine');
+            if (narratorEl) {
+                setInterval(function () {
+                    if (document.body.classList.contains('motion-disabled')) { return; }
+                    narratorIdx = (narratorIdx + 1) % narratorLines.length;
+                    narratorEl.textContent = narratorLines[narratorIdx];
+                    narratorEl.classList.remove('swap');
+                    void narratorEl.offsetWidth;
+                    narratorEl.classList.add('swap');
+                }, 7000);
+            }
         });
     </script>
 
