@@ -153,6 +153,17 @@
     background: var(--ega-black);
 }
 
+/* Large screens: let the game window breathe (~70% of the viewport),
+   still capped so the whole frame fits on screen above the verb bar.
+   Applies to the p5 heroes (.game-frame) and the books shelf
+   (.game-screen) so every page's window stays the same width. */
+@media (min-width: 1200px) {
+    .game-frame,
+    .game-screen {
+        width: min(70vw, calc((100vh - 180px) * 1.6), 100%) !important;
+    }
+}
+
 .game-frame .hero-canvas {
     aspect-ratio: 8 / 5;
     width: 100%;

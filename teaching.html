@@ -789,6 +789,33 @@
                     pg.fill(EGA.white[0], EGA.white[1], EGA.white[2]);
                     pg.rect(deskX + 46, deskY - 4, 16, 1);
 
+                    // Apple for the teacher (occupant included at no charge)
+                    var appleX = deskX + 8;
+                    pg.fill(EGA.brightRed[0], EGA.brightRed[1], EGA.brightRed[2]);
+                    pg.rect(appleX, deskY - 7, 5, 4);
+                    pg.fill(EGA.green[0], EGA.green[1], EGA.green[2]);
+                    pg.rect(appleX + 2, deskY - 8, 1, 1);        // stem
+                    // The worm peeks out to check attendance
+                    if (Math.floor(frameCount / 90) % 2 === 1) {
+                        pg.fill(EGA.brightGreen[0], EGA.brightGreen[1], EGA.brightGreen[2]);
+                        pg.rect(appleX + 5, deskY - 6, 3, 2);
+                        pg.fill(EGA.black[0], EGA.black[1], EGA.black[2]);
+                        pg.rect(appleX + 7, deskY - 6, 1, 1);    // eye
+                    }
+
+                    // === PAPER AIRPLANE (a student's peer review, in flight) ===
+                    var flightSpan = bufW + 40;
+                    var planeT = (frameCount % 480) / 480;
+                    if (planeT < 0.5) {
+                        var px2 = Math.floor(planeT * 2 * flightSpan) - 20;
+                        var py2 = Math.floor(bufH * 0.36 +
+                            Math.sin(planeT * 2 * Math.PI * 3) * 6);
+                        pg.fill(EGA.white[0], EGA.white[1], EGA.white[2]);
+                        pg.rect(px2, py2, 6, 1);                 // fuselage
+                        pg.rect(px2 + 1, py2 - 2, 3, 2);         // wing up
+                        pg.rect(px2 + 1, py2 + 1, 2, 2);         // wing down
+                    }
+
                     // Student benches (foreground)
                     for (var bench = 0; bench < 3; bench++) {
                         var bx = 20 + bench * 100;

@@ -1002,6 +1002,33 @@
                     }
                 }
 
+                // === THE FROG PRINCE (awaiting peer review) ===
+                // Sits by the well in his little crown; hops occasionally.
+                var frogX = wellCX - 56;
+                var hopCycle = frameCount % 300;
+                var hopUp = (hopCycle >= 270 && hopCycle < 285) ? 3 : 0;
+                var frogY = groundY + 12 - hopUp;
+                pg.fill(EGA.green[0], EGA.green[1], EGA.green[2]);
+                pg.rect(frogX, frogY, 7, 4);                     // body
+                pg.rect(frogX + 1, frogY - 3, 5, 3);             // head
+                pg.fill(EGA.brightGreen[0], EGA.brightGreen[1], EGA.brightGreen[2]);
+                pg.rect(frogX, frogY + 3, 2, 1);
+                pg.rect(frogX + 5, frogY + 3, 2, 1);             // feet
+                pg.fill(EGA.white[0], EGA.white[1], EGA.white[2]);
+                pg.rect(frogX + 1, frogY - 3, 1, 1);
+                pg.rect(frogX + 4, frogY - 3, 1, 1);             // eyes
+                // Tiny gold crown (he insists)
+                pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                pg.rect(frogX + 1, frogY - 5, 5, 1);
+                pg.rect(frogX + 1, frogY - 6, 1, 1);
+                pg.rect(frogX + 3, frogY - 6, 1, 1);
+                pg.rect(frogX + 5, frogY - 6, 1, 1);
+                // Throat bubble (two-frame croak)
+                if (twoFrame === 1 && hopUp === 0) {
+                    pg.fill(EGA.brightGreen[0], EGA.brightGreen[1], EGA.brightGreen[2]);
+                    pg.rect(frogX + 2, frogY, 3, 2);
+                }
+
                 // === Scale up to fill container (aspect-preserving cover, centered) ===
                 AdventureScore.drawCover(p, pg, 'center');
             };
