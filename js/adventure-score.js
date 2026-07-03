@@ -103,6 +103,37 @@
     return { x: (sx - t.offsetX) / t.scale, y: (sy - t.offsetY) / t.scale };
   }
 
+  function allEggIds() {
+    var out = [];
+    for (var k in EGGS) { if (EGGS.hasOwnProperty(k)) { out = out.concat(EGGS[k]); } }
+    return out;
+  }
+
+  // How many manifest eggs are still unfound. Unknown ids in state are ignored,
+  // so stale localStorage from removed eggs can never fake completion.
+  function remainingEggs(state) {
+    var ids = allEggIds(), n = 0;
+    for (var i = 0; i < ids.length; i++) {
+      if (state.eggs.indexOf(ids[i]) === -1) { n++; }
+    }
+    return n;
+  }
+
+  function isComplete(state) { return remainingEggs(state) === 0; }
+
+  // Point-in-rect test over an egg list, expanding each rect by `pad` buffer px
+  // on every side so small targets stay tappable on phones. Returns the first
+  // matching egg or null.
+  function hitTest(eggs, pt, pad) {
+    pad = pad || 0;
+    for (var i = 0; i < eggs.length; i++) {
+      var r = eggs[i].rect;
+      if (pt.x >= r[0] - pad && pt.x <= r[0] + r[2] + pad &&
+          pt.y >= r[1] - pad && pt.y <= r[1] + r[3] + pad) { return eggs[i]; }
+    }
+    return null;
+  }
+
   // The manifest is the single source of truth for scoring; make it read-only
   // so neither the browser glue nor page code can corrupt it at runtime.
   Object.freeze(PAGES);
@@ -118,6 +149,9 @@
     isKnownEgg: isKnownEgg,
     applyVisit: applyVisit,
     applyFindEgg: applyFindEgg,
+    remainingEggs: remainingEggs,
+    isComplete: isComplete,
+    hitTest: hitTest,
     computeCover: computeCover,
     screenToBufferXY: screenToBufferXY,
     renderScore: renderScore,

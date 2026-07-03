@@ -106,3 +106,30 @@ test('screenToBufferXY inverts the cover transform', () => {
   assert.ok(Math.abs(p.x - 160) < 0.001); // buffer center x
   assert.ok(Math.abs(p.y - 200) < 0.001); // buffer bottom y
 });
+
+test('isComplete is true only when every manifest egg is found', () => {
+  const all = Object.values(AS.EGGS).flat();
+  assert.equal(AS.isComplete({ score: 1, visited: [], eggs: [] }), false);
+  assert.equal(AS.isComplete({ score: 24, visited: [], eggs: all.slice(1) }), false);
+  assert.equal(AS.isComplete({ score: 25, visited: [], eggs: all }), true);
+  // Unknown egg ids in state must not break or inflate completion.
+  assert.equal(AS.isComplete({ score: 25, visited: [], eggs: all.concat(['bogus']) }), true);
+});
+
+test('remainingEggs counts unfound manifest eggs, ignoring unknowns', () => {
+  const all = Object.values(AS.EGGS).flat();
+  assert.equal(AS.remainingEggs({ eggs: [] }), 18);
+  assert.equal(AS.remainingEggs({ eggs: ['castle-flag', 'bogus'] }), 17);
+  assert.equal(AS.remainingEggs({ eggs: all }), 0);
+});
+
+test('hitTest honors padding and returns first hit or null', () => {
+  const eggs = [{ id: 'a', rect: [10, 10, 5, 5] }, { id: 'b', rect: [30, 10, 5, 5] }];
+  assert.equal(AS.hitTest(eggs, { x: 12, y: 12 }, 0).id, 'a');
+  assert.equal(AS.hitTest(eggs, { x: 8, y: 8 }, 0), null);
+  assert.equal(AS.hitTest(eggs, { x: 8, y: 8 }, 6).id, 'a');
+  assert.equal(AS.hitTest(eggs, { x: 33, y: 12 }, 0).id, 'b');
+  assert.equal(AS.hitTest(eggs, { x: 100, y: 100 }, 6), null);
+  // pad omitted behaves like 0
+  assert.equal(AS.hitTest(eggs, { x: 8, y: 8 }), null);
+});
