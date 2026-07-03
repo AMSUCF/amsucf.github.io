@@ -389,6 +389,39 @@
             right: -10px;
         }
 
+        /* Resident bookworm — peeks up from behind the shelf now and then */
+        .book-worm {
+            position: absolute;
+            right: 7%;
+            bottom: 16px;
+            width: 6px;
+            height: 12px;
+            background: var(--ega-bright-green);
+            border: 1px solid var(--ega-green);
+            z-index: 1;
+            animation: worm-peek 9s steps(1) infinite;
+            transform: translateY(16px);
+        }
+        .book-worm::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 1px;
+            width: 2px;
+            height: 2px;
+            background: var(--ega-black);
+        }
+        @keyframes worm-peek {
+            0%, 62%  { transform: translateY(16px); }
+            66%      { transform: translateY(8px); }
+            70%, 88% { transform: translateY(0); }
+            92%      { transform: translateY(8px); }
+            96%, 100% { transform: translateY(16px); }
+        }
+        body.motion-disabled .book-worm {
+            transform: translateY(16px);
+        }
+
         /* Drifting dust motes — quiet ambient motion for the library */
         .dust-mote {
             position: absolute;
@@ -681,6 +714,7 @@
                      data-egg-message="The flame spells out P-L-U-G-H, then sputters. A classic. +1 point."></div>
             </div>
 
+            <div class="book-worm" aria-hidden="true"></div>
             <div class="shelf-wood"></div>
         </div>
 

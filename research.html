@@ -843,12 +843,41 @@
                     pg.rect(deskX + 60, deskY - 6, 8, 4);
                     pg.fill(EGA.darkGray[0], EGA.darkGray[1], EGA.darkGray[2]);
                     pg.rect(deskX + 61, deskY - 5, 6, 2);
-                    // Quill
+                    // Ghost quill — writes by itself (the department is haunted
+                    // by an unusually productive spirit). Bobs in place so the
+                    // quill easter-egg hitbox stays put.
+                    var quillBob = twoFrame === 0 ? 0 : 2;
                     pg.fill(EGA.white[0], EGA.white[1], EGA.white[2]);
-                    pg.rect(deskX + 66, deskY - 14, 1, 10);
-                    pg.rect(deskX + 64, deskY - 14, 4, 2);
+                    pg.rect(deskX + 66, deskY - 14 + quillBob, 1, 10 - quillBob);
+                    pg.rect(deskX + 64, deskY - 14 + quillBob, 4, 2);
                     pg.fill(EGA.brightCyan[0], EGA.brightCyan[1], EGA.brightCyan[2]);
-                    pg.rect(deskX + 64, deskY - 16, 5, 3);
+                    pg.rect(deskX + 64, deskY - 16 + quillBob, 5, 3);
+                    // Fresh manuscript line, growing as the ghost writes
+                    var inkLen = Math.floor(frameCount / 10) % 26;
+                    pg.fill(EGA.black[0], EGA.black[1], EGA.black[2]);
+                    pg.rect(deskX + 16, deskY - 2, inkLen, 1);
+
+                    // === SLEEPING SCRIPTORIUM CAT (tenured, do not disturb) ===
+                    var catX = deskX + 62;
+                    var catY = floorY + 4;
+                    pg.fill(EGA.darkGray[0], EGA.darkGray[1], EGA.darkGray[2]);
+                    pg.rect(catX, catY, 13, 5);                 // curled body
+                    pg.rect(catX + 10, catY - 3, 5, 4);         // head
+                    pg.fill(EGA.lightGray[0], EGA.lightGray[1], EGA.lightGray[2]);
+                    pg.rect(catX + 10, catY - 4, 1, 1);
+                    pg.rect(catX + 13, catY - 4, 1, 1);         // ears
+                    // Tail flick
+                    pg.fill(EGA.darkGray[0], EGA.darkGray[1], EGA.darkGray[2]);
+                    if (twoFrame === 0) {
+                        pg.rect(catX - 4, catY + 2, 5, 2);
+                    } else {
+                        pg.rect(catX - 3, catY, 4, 2);
+                    }
+                    // Rising Z's
+                    var zPhase = Math.floor(frameCount / 30) % 3;
+                    pg.fill(EGA.brightCyan[0], EGA.brightCyan[1], EGA.brightCyan[2]);
+                    if (zPhase > 0) { pg.rect(catX + 14, catY - 8, 2, 2); }
+                    if (zPhase > 1) { pg.rect(catX + 17, catY - 12, 2, 2); }
 
                     // Chair
                     pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
