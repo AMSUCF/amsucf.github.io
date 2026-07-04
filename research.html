@@ -857,7 +857,9 @@
                     pg.fill(EGA.black[0], EGA.black[1], EGA.black[2]);
                     pg.rect(deskX + 16, deskY - 2, inkLen, 1);
 
-                    // === SLEEPING CHIHUAHUA (tiny, tenured, do not disturb) ===
+                    // === FIGMENT, ROYAL CHIHUAHUA OF THE SCRIPTORIUM
+                    // (tiny, tenured, do not disturb — but petting is allowed:
+                    // clicking him says hello, worth zero points) ===
                     var dogX = deskX + 62;
                     var dogY = floorY + 4;
                     // Contact shadow so the pale coat reads on the wood floor
@@ -983,6 +985,30 @@
                     if (egg) {
                         AdventureScore.findEgg(egg.id,
                             { message: egg.message, screenX: p.mouseX, screenY: p.mouseY });
+                        return;
+                    }
+                    // Petting Figment: not a scoring egg (he is beyond points),
+                    // just a hello. Same rect as the sprite, generous padding.
+                    var floorY = Math.floor(bufH * 0.68);
+                    var deskX = Math.floor(bufW / 2) - 40;
+                    if (b.x >= deskX + 55 && b.x <= deskX + 81 &&
+                        b.y >= floorY - 6 && b.y <= floorY + 14) {
+                        var existing = document.querySelector('.adv-egg-dialog');
+                        if (existing) { existing.remove(); }
+                        var box = document.createElement('div');
+                        box.className = 'adv-egg-dialog';
+                        box.setAttribute('role', 'status');
+                        var msg = document.createElement('div');
+                        msg.textContent = 'This is Figment, Royal Chihuahua of the Scriptorium. He opens one eye, approves of your scholarship, and resumes dreaming. (Worth zero points. He is beyond points.)';
+                        var dismiss = document.createElement('div');
+                        dismiss.className = 'adv-egg-dismiss';
+                        dismiss.textContent = '[ click to close ]';
+                        box.appendChild(msg);
+                        box.appendChild(dismiss);
+                        document.body.appendChild(box);
+                        var closeFig = function () { if (box.parentNode) { box.remove(); } };
+                        box.addEventListener('click', closeFig);
+                        setTimeout(closeFig, 5000);
                     }
                 };
 
