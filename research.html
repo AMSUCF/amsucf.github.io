@@ -857,27 +857,41 @@
                     pg.fill(EGA.black[0], EGA.black[1], EGA.black[2]);
                     pg.rect(deskX + 16, deskY - 2, inkLen, 1);
 
-                    // === SLEEPING SCRIPTORIUM CAT (tenured, do not disturb) ===
-                    var catX = deskX + 62;
-                    var catY = floorY + 4;
-                    pg.fill(EGA.darkGray[0], EGA.darkGray[1], EGA.darkGray[2]);
-                    pg.rect(catX, catY, 13, 5);                 // curled body
-                    pg.rect(catX + 10, catY - 3, 5, 4);         // head
-                    pg.fill(EGA.lightGray[0], EGA.lightGray[1], EGA.lightGray[2]);
-                    pg.rect(catX + 10, catY - 4, 1, 1);
-                    pg.rect(catX + 13, catY - 4, 1, 1);         // ears
-                    // Tail flick
-                    pg.fill(EGA.darkGray[0], EGA.darkGray[1], EGA.darkGray[2]);
+                    // === SLEEPING CHIHUAHUA (tiny, tenured, do not disturb) ===
+                    var dogX = deskX + 62;
+                    var dogY = floorY + 4;
+                    // Contact shadow so the pale coat reads on the wood floor
+                    pg.fill(EGA.black[0], EGA.black[1], EGA.black[2]);
+                    pg.rect(dogX - 1, dogY + 5, 15, 1);
+                    // Curled body — light yellow coat
+                    pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                    pg.rect(dogX, dogY, 11, 5);                 // body
+                    pg.rect(dogX + 8, dogY - 3, 5, 4);          // head
+                    // Orange saddle patch
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(dogX + 2, dogY, 5, 2);
+                    // Enormous pointy ears (the chihuahua signature)
+                    pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
+                    pg.rect(dogX + 8, dogY - 7, 2, 4);          // left ear
+                    pg.rect(dogX + 12, dogY - 7, 2, 4);         // right ear
+                    pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
+                    pg.rect(dogX + 9, dogY - 6, 1, 2);
+                    pg.rect(dogX + 12, dogY - 6, 1, 2);         // inner ears
+                    // Tiny nose
+                    pg.fill(EGA.black[0], EGA.black[1], EGA.black[2]);
+                    pg.rect(dogX + 13, dogY - 1, 1, 1);
+                    // Thin tail flick
+                    pg.fill(EGA.yellow[0], EGA.yellow[1], EGA.yellow[2]);
                     if (twoFrame === 0) {
-                        pg.rect(catX - 4, catY + 2, 5, 2);
+                        pg.rect(dogX - 3, dogY + 3, 4, 1);
                     } else {
-                        pg.rect(catX - 3, catY, 4, 2);
+                        pg.rect(dogX - 2, dogY + 1, 3, 1);
                     }
                     // Rising Z's
                     var zPhase = Math.floor(frameCount / 30) % 3;
                     pg.fill(EGA.brightCyan[0], EGA.brightCyan[1], EGA.brightCyan[2]);
-                    if (zPhase > 0) { pg.rect(catX + 14, catY - 8, 2, 2); }
-                    if (zPhase > 1) { pg.rect(catX + 17, catY - 12, 2, 2); }
+                    if (zPhase > 0) { pg.rect(dogX + 14, dogY - 10, 2, 2); }
+                    if (zPhase > 1) { pg.rect(dogX + 17, dogY - 14, 2, 2); }
 
                     // Chair
                     pg.fill(EGA.brown[0], EGA.brown[1], EGA.brown[2]);
