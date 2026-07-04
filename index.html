@@ -780,6 +780,14 @@
                 pg.rect(0, hillY - 10, Math.floor(bufW * 0.25), 10);
                 pg.rect(Math.floor(bufW * 0.7), hillY - 8, Math.floor(bufW * 0.3), 8);
 
+                // Sandy bank down to the moat (beachfront castle, naturally)
+                pg.fill(...EGA.yellow);
+                pg.rect(0, hillY + 8, bufW, 14);
+                pg.fill(...EGA.brown);
+                for (let sgx = 5; sgx < bufW; sgx += 21) {
+                    pg.rect(sgx, hillY + 11 + (sgx % 5), 2, 1);
+                }
+
                 // Palm trees (this kingdom is in Florida, after all)
                 let palmPositions = [20, 55, 80, 240, 265, 290];
                 for (let txp of palmPositions) {
@@ -789,17 +797,21 @@
                     pg.rect(txp, hillY + 6, 2, 8);
                     pg.rect(txp + 1, hillY + 2, 2, 5);
                     pg.rect(txp + 2, hillY - 2, 2, 5);
-                    // Fronds
-                    pg.fill(...EGA.green);
-                    pg.rect(txp - 3, hillY - 5, 6, 2);
-                    pg.rect(txp + 4, hillY - 5, 6, 2);
-                    pg.rect(txp - 1, hillY - 8, 4, 2);
-                    pg.rect(txp + 3, hillY - 8, 4, 2);
+                    // Fronds — bright on top, dark underside, so they
+                    // read against both the hills and the sky
                     pg.fill(...EGA.brightGreen);
-                    pg.rect(txp + 1, hillY - 6, 4, 2);
+                    pg.rect(txp - 4, hillY - 6, 8, 2);   // left
+                    pg.rect(txp + 3, hillY - 6, 8, 2);   // right
+                    pg.rect(txp - 2, hillY - 9, 5, 2);   // upper left
+                    pg.rect(txp + 4, hillY - 9, 5, 2);   // upper right
+                    pg.rect(txp + 1, hillY - 11, 4, 2);  // top plume
+                    pg.fill(...EGA.green);
+                    pg.rect(txp - 4, hillY - 4, 7, 1);   // underside left
+                    pg.rect(txp + 4, hillY - 4, 7, 1);   // underside right
                     // Coconuts
                     pg.fill(...EGA.brown);
-                    pg.rect(txp + 2, hillY - 3, 2, 2);
+                    pg.rect(txp + 1, hillY - 4, 2, 2);
+                    pg.rect(txp + 4, hillY - 4, 2, 2);
                 }
 
                 // === MOAT: full-width water channel ===
