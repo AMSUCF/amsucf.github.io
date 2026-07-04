@@ -646,7 +646,9 @@
 
                 // === SKY: chunky gradient bands ===
                 let skyColors = [EGA.blue, EGA.brightBlue, EGA.brightBlue, EGA.cyan, EGA.cyan, EGA.brightCyan];
-                let bandH = Math.ceil(bufH * 0.55 / skyColors.length);
+                // Sky runs all the way down to the sand line (castleBase + 38)
+                let horizonY = Math.floor(bufH * 0.38) + 38;
+                let bandH = Math.ceil(horizonY / skyColors.length);
                 for (let i = 0; i < skyColors.length; i++) {
                     pg.fill(...skyColors[i]);
                     pg.rect(0, i * bandH, bufW, bandH);
@@ -768,46 +770,47 @@
                     }
                 }
 
-                // === HILLS: stepped green rectangles ===
+                // === GROUND: open sky straight down to the beach ===
                 let hillY = castleBase + 30;
-                pg.fill(...EGA.green);
-                pg.rect(0, hillY, bufW, 8);
                 pg.fill(...EGA.brightGreen);
                 pg.rect(0, hillY + 8, bufW, bufH - hillY - 8);
 
-                // Background hill
-                pg.fill(...EGA.green);
-                pg.rect(0, hillY - 10, Math.floor(bufW * 0.25), 10);
-                pg.rect(Math.floor(bufW * 0.7), hillY - 8, Math.floor(bufW * 0.3), 8);
-
-                // Sandy bank down to the moat (beachfront castle, naturally)
-                pg.fill(...EGA.yellow);
-                pg.rect(0, hillY + 8, bufW, 14);
+                // Sandy bank down to the moat (beachfront castle,
+                // naturally) — darker sand with a sunlit crest
                 pg.fill(...EGA.brown);
+                pg.rect(0, hillY + 8, bufW, 14);
+                pg.fill(...EGA.yellow);
+                pg.rect(0, hillY + 8, bufW, 2);
                 for (let sgx = 5; sgx < bufW; sgx += 21) {
-                    pg.rect(sgx, hillY + 11 + (sgx % 5), 2, 1);
+                    pg.rect(sgx, hillY + 13 + (sgx % 5), 2, 1);
                 }
 
                 // Palm trees (this kingdom is in Florida, after all)
                 let palmPositions = [20, 55, 80, 240, 265, 290];
                 for (let txp of palmPositions) {
                     if (txp >= bufW) continue;
-                    // Curved trunk
+                    // Curved trunk (with a contact shadow so it
+                    // reads against the darker sand)
+                    pg.fill(...EGA.black);
+                    pg.rect(txp - 1, hillY + 13, 5, 1);
                     pg.fill(...EGA.brown);
                     pg.rect(txp, hillY + 6, 2, 8);
                     pg.rect(txp + 1, hillY + 2, 2, 5);
                     pg.rect(txp + 2, hillY - 2, 2, 5);
-                    // Fronds — bright on top, dark underside, so they
-                    // read against both the hills and the sky
-                    pg.fill(...EGA.brightGreen);
+                    pg.fill(...EGA.yellow);
+                    pg.rect(txp, hillY + 2, 1, 10);
+                    // Fronds — dark against the bright sky, with
+                    // sunlit highlights on top
+                    pg.fill(...EGA.green);
                     pg.rect(txp - 4, hillY - 6, 8, 2);   // left
                     pg.rect(txp + 3, hillY - 6, 8, 2);   // right
                     pg.rect(txp - 2, hillY - 9, 5, 2);   // upper left
                     pg.rect(txp + 4, hillY - 9, 5, 2);   // upper right
                     pg.rect(txp + 1, hillY - 11, 4, 2);  // top plume
-                    pg.fill(...EGA.green);
-                    pg.rect(txp - 4, hillY - 4, 7, 1);   // underside left
-                    pg.rect(txp + 4, hillY - 4, 7, 1);   // underside right
+                    pg.fill(...EGA.brightGreen);
+                    pg.rect(txp - 2, hillY - 10, 3, 1);  // highlights
+                    pg.rect(txp + 5, hillY - 10, 3, 1);
+                    pg.rect(txp + 2, hillY - 12, 2, 1);
                     // Coconuts
                     pg.fill(...EGA.brown);
                     pg.rect(txp + 1, hillY - 4, 2, 2);
