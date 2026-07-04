@@ -889,25 +889,46 @@
                     pg.noStroke();
                 }
 
-                // === IDLE CHARACTER: tiny pixel figure on path ===
+                // === IDLE CHARACTER: our hero — short spiky red hair,
+                // sunglasses, sharp navy pinstripe suit, red tie ===
                 let charX = Math.floor(bufW / 2);
-                let charY = bufH - 40;
+                let charY = bufH - 36;   // feet baseline
                 let weightShift = twoFrame === 0 ? 0 : 1;
 
-                // Body
+                // Trousers
+                pg.fill(...EGA.blue);
+                pg.rect(charX - 3 + weightShift, charY - 5, 3, 5);
+                pg.rect(charX + 1 + weightShift, charY - 5, 3, 5);
+                // Shoes
+                pg.fill(...EGA.black);
+                pg.rect(charX - 3 + weightShift, charY, 3, 1);
+                pg.rect(charX + 1 + weightShift, charY, 3, 1);
+
+                // Suit jacket
+                pg.fill(...EGA.blue);
+                pg.rect(charX - 4, charY - 13, 9, 8);
+                // Pinstripes
+                pg.fill(...EGA.brightBlue);
+                pg.rect(charX - 3, charY - 13, 1, 8);
+                pg.rect(charX + 3, charY - 13, 1, 8);
+                // Shirt + red tie
+                pg.fill(...EGA.white);
+                pg.rect(charX - 1, charY - 13, 3, 4);
                 pg.fill(...EGA.brightRed);
-                pg.rect(charX - 2, charY - 8, 4, 6); // torso
+                pg.rect(charX, charY - 13, 1, 5);
+
                 // Head
                 pg.fill(...EGA.yellow);
-                pg.rect(charX - 2, charY - 12, 4, 4); // head
-                // Legs
-                pg.fill(...EGA.blue);
-                pg.rect(charX - 2 + weightShift, charY - 2, 2, 4); // left leg
-                pg.rect(charX + weightShift, charY - 2, 2, 4); // right leg
-                // Hat/crown
-                pg.fill(...EGA.yellow);
-                pg.rect(charX - 3, charY - 14, 6, 2);
-                pg.rect(charX - 1, charY - 15, 2, 1);
+                pg.rect(charX - 2, charY - 18, 5, 5);
+                // Short spiky red hair
+                pg.fill(...EGA.red);
+                pg.rect(charX - 2, charY - 20, 5, 2);
+                pg.rect(charX - 2, charY - 21, 1, 1);
+                pg.rect(charX, charY - 21, 1, 1);
+                pg.rect(charX + 2, charY - 21, 1, 1);   // spikes
+                // Sunglasses
+                pg.fill(...EGA.black);
+                pg.rect(charX - 2, charY - 17, 5, 1);
 
                 // === Scale up to fill viewport (aspect-preserving cover) ===
                 AdventureScore.drawCover(p, pg);
@@ -927,8 +948,8 @@
                       rect: [castleX + 4, castleBase + 4, 12, 12],
                       message: 'A candle in the tower window — proof that up here, at least, you are NOT likely to be eaten by a grue. +1 point.' },
                     { id: 'castle-traveler',
-                      rect: [bufW / 2 - 5, bufH - 56, 12, 20],
-                      message: 'A tiny adventurer in a very silly hat. He is pretty sure he left the lamp on back in Daventry. +1 point.' }
+                      rect: [bufW / 2 - 6, bufH - 58, 13, 23],
+                      message: 'A dapper adventurer in a sharp blue suit and sunglasses. She is pretty sure she left the lamp on back in the Scriptorium. +1 point.' }
                 ];
             }
 

@@ -680,20 +680,28 @@
                         drawFigure(carpetX + carpetW + 16 + i * 22, floorY + 12, robes[i + 3], 'yellow');
                     }
 
-                    // The traveler: walk -> kneel -> knight -> festive
+                    // The traveler (red hair, sunglasses, blue suit — our
+                    // hero, same as the castle avatar): walk -> kneel ->
+                    // knight -> festive
                     var tx = Math.floor(bufW / 2);
                     var kneelY = daisY + 14;
                     if (phase === 'walk') {
                         travelerY -= 0.6;
                         if (travelerY <= kneelY) { travelerY = kneelY; phase = 'kneel'; }
-                        drawFigure(tx, Math.floor(travelerY), 'brightGreen', 'brown');
+                        var wy = Math.floor(travelerY);
+                        drawFigure(tx, wy, 'blue', 'red');
+                        // sunglasses + red tie over the suit
+                        fillC(EGA.black); pg.rect(tx - 2, wy - 16, 5, 1);
+                        fillC(EGA.brightRed); pg.rect(tx, wy - 13, 1, 4);
                         // walking bob
-                        if (twoFrame === 0) { fillC(EGA.black); pg.rect(tx - 4, Math.floor(travelerY) - 1, 3, 1); }
+                        if (twoFrame === 0) { fillC(EGA.black); pg.rect(tx - 4, wy - 1, 3, 1); }
                     } else {
                         // kneeling: shorter sprite
                         fillC(EGA.yellow); pg.rect(tx - 3, kneelY - 12, 6, 5);
-                        fillC(EGA.brown); pg.rect(tx - 3, kneelY - 14, 6, 2);
-                        fillC(EGA.brightGreen); pg.rect(tx - 5, kneelY - 7, 10, 7);
+                        fillC(EGA.red); pg.rect(tx - 3, kneelY - 14, 6, 2);
+                        fillC(EGA.black); pg.rect(tx - 3, kneelY - 11, 6, 1);   // sunglasses
+                        fillC(EGA.blue); pg.rect(tx - 5, kneelY - 7, 10, 7);
+                        fillC(EGA.brightRed); pg.rect(tx, kneelY - 7, 1, 3);    // tie
                         if (phase === 'kneel') {
                             if (frameCount % 90 === 0) { phase = 'knight'; }
                         }
