@@ -783,7 +783,7 @@
                     lightGray: [170,170,170], darkGray: [85,85,85],
                     brightBlue: [85,85,255], brightGreen: [85,255,85],
                     brightCyan: [85,255,255], brightRed: [255,85,85],
-                    magenta: [255,85,255], yellow: [255,255,85],
+                    magenta: [255,85,255], purple: [170,0,170], yellow: [255,255,85],
                     white: [255,255,255]
                 };
 
@@ -892,7 +892,7 @@
                     } else if (who === 'tentacle') {
                         // A suspicious purple tentacle. It wants to take
                         // over the world. Its tip waves; keep an eye on it.
-                        fillC(EGA.magenta);
+                        fillC(EGA.purple);
                         pg.rect(cx - 4, hy + 4, 8, 14);          // body
                         pg.rect(cx - 6, hy + 16, 12, 3);         // base flare
                         // Waving tip (two-frame)

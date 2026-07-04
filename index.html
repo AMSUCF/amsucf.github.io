@@ -589,6 +589,7 @@
                 brightCyan:  [85, 255, 255],
                 brightRed:   [255, 85, 85],
                 magenta:     [255, 85, 255],
+                purple:      [170, 0, 170],
                 yellow:      [255, 255, 85],
                 white:       [255, 255, 255]
             };
@@ -757,7 +758,7 @@
                     if (tRise > 0) {
                         let tpx = castleX - 4 + 3;
                         let tpy = castleBase - turretH - 4 - tRise;
-                        pg.fill(...EGA.magenta);
+                        pg.fill(...EGA.purple);
                         pg.rect(tpx, tpy, 5, tRise + 2);
                         if (tRise >= 8) {
                             // curled tip, waving
