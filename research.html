@@ -859,7 +859,7 @@
 
                     // === FIGMENT, ROYAL CHIHUAHUA OF THE SCRIPTORIUM
                     // (tiny, tenured, do not disturb — but petting is allowed:
-                    // clicking him says hello, worth zero points) ===
+                    // clicking her says hello, worth zero points) ===
                     var dogX = deskX + 62;
                     var dogY = floorY + 4;
                     // Contact shadow so the pale coat reads on the wood floor
@@ -987,7 +987,7 @@
                             { message: egg.message, screenX: p.mouseX, screenY: p.mouseY });
                         return;
                     }
-                    // Petting Figment: not a scoring egg (he is beyond points),
+                    // Petting Figment: not a scoring egg (she is beyond points),
                     // just a hello. Same rect as the sprite, generous padding.
                     var floorY = Math.floor(bufH * 0.68);
                     var deskX = Math.floor(bufW / 2) - 40;
@@ -999,7 +999,7 @@
                         box.className = 'adv-egg-dialog';
                         box.setAttribute('role', 'status');
                         var msg = document.createElement('div');
-                        msg.textContent = 'This is Figment, Royal Chihuahua of the Scriptorium. He opens one eye, approves of your scholarship, and resumes dreaming. (Worth zero points. He is beyond points.)';
+                        msg.textContent = 'This is Figment, Royal Chihuahua of the Scriptorium. She opens one eye, approves of your scholarship, and resumes dreaming. (Worth zero points. She is beyond points.)';
                         var dismiss = document.createElement('div');
                         dismiss.className = 'adv-egg-dismiss';
                         dismiss.textContent = '[ click to close ]';
