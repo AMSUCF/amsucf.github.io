@@ -19,7 +19,20 @@
       "Bash('/c/Program Files/Google/Chrome/Application/chrome.exe' --headless=new --disable-gpu --remote-debugging-port=9222 --window-size=390,844 --user-data-dir=C:/Users/anast/AppData/Local/Temp/claude/C--Users-anast-Documents-GitHub-amsucf-github-io/556d8bd0-afc6-4c4d-a9fb-78fe2d7c4d4b/scratchpad/cdp-profile about:blank)",
       "Bash(curl -s http://localhost:9222/json/version)",
       "Bash(curl -s http://localhost:9222/json)",
-      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>{let a=JSON.parse\\(d\\);a.filter\\(t=>t.type==='page'\\).forEach\\(t=>console.log\\(t.webSocketDebuggerUrl\\)\\)}\\)\")"
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>{let a=JSON.parse\\(d\\);a.filter\\(t=>t.type==='page'\\).forEach\\(t=>console.log\\(t.webSocketDebuggerUrl\\)\\)}\\)\")",
+      "Bash(git *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8123/about.html)",
+      "Bash(netstat -ano)",
+      "Bash(kill %1)",
+      "Bash(taskkill //PID 36296 //F)",
+      "PowerShell(\\(Get-Process -Id 33464\\).ProcessName; try { \\(Invoke-WebRequest -Uri \"http://127.0.0.1:8123/about.html\" -UseBasicParsing -TimeoutSec 5\\).StatusCode } catch { $_.Exception.Message })",
+      "Bash(curl -s http://127.0.0.1:8000/)",
+      "PowerShell(Get-NetTCPConnection *)",
+      "PowerShell($r = Invoke-WebRequest -Uri \"http://127.0.0.1:8787/index.html\" -UseBasicParsing -TimeoutSec 5; if \\($r.Content -match 'adventure-ui.css'\\) { \"server serves NEW content\" } else { \"server serves OLD content\" }; if \\($r.Content -match 'chaos.css'\\) { \"contains chaos.css ref\" })",
+      "PowerShell(gh run *)",
+      "PowerShell($runs = Invoke-RestMethod -Uri \"https://api.github.com/repos/AMSUCF/amsucf.github.io/actions/runs?per_page=3\" -TimeoutSec 15; $runs.workflow_runs | ForEach-Object { \"$\\($_.head_sha.Substring\\(0,7\\)\\) | $\\($_.status\\) | $\\($_.conclusion\\)\" })",
+      "PowerShell($i = Invoke-WebRequest -Uri \"https://anastasiasalter.net/index.html\" -UseBasicParsing -TimeoutSec 15; \"Florida scene live: $\\($i.Content -match 'spireBases'\\)\"; \"purple tentacle live: $\\($i.Content -match 'EGA.purple'\\)\")",
+      "PowerShell($r = Invoke-WebRequest -Uri \"https://anastasiasalter.net/research.html\" -UseBasicParsing -TimeoutSec 15; \"Figment live: $\\($r.Content -match 'Figment, Royal Chihuahua'\\)\"; \"she/her live: $\\($r.Content -match 'She opens one eye'\\)\")"
     ],
     "deny": [],
     "ask": []
